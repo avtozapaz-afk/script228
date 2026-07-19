@@ -614,7 +614,7 @@
 | EL-012 | Dönmə işığı qolu (kombi keçirici) |
 | EL-066 | LCM (işıq idarəetmə bloku) |
 | EL-024 | Salon plafonu |
-| EL-025 | Lampa (fara və ya stop üçün) |
+| EL-025 | Lampa |
 | EL-063 | Rozjiq bloku (ksenon) |
 | EL-055 | Lampa patronu |
 | EL-047 | Duman fara düyməsi |

@@ -75,7 +75,7 @@
       MU-009  Картер (маслосборник)  |  Karter  [side:false|position:false]
       MU-010  Балансировочный вал  |  Balans valı  [side:false|position:false]
       MU-068  Заглушка блока цилиндров  |  Blok tıxacı (çopik)  [side:false|position:false]
-      MU-070  Блок цилиндров (отдельно от двигателя в сборе)  |  Silindr bloku  [side:false|position:false]
+      MU-070  Блок цилиндров  |  Silindr bloku  [side:false|position:false]
       MU-071  Упорные шайбы коленвала  |  Kalenvalın upor şaybaları  [side:false|position:false]
       MU-074  Крышка двигателя (декоративная)  |  Mühərrik qapağı (dekorativ)  [side:false|position:false]
       MU-076  Полулунная шпонка (шкива/коленвала)  |  Aypara şayba (şponka)  [side:false|position:false]
@@ -154,7 +154,7 @@
       TR-017  Фрикционные диски (пакет АКПП)  |  Friksion (paket disk)  [side:false|position:false]
       TR-027  Пыльник (защита) снизу коробки передач  |  Sürət qutusunun alt pılniki  [side:false|position:false]
       TR-028  Клапан контура охлаждения коробки передач  |  Karopkanın soyutma klapanı  [side:false|position:false]
-      TR-015  Селектор (рычаг переключения передач)  |  Rıçaq (sellektor)  [side:true|position:true]
+      TR-015  Селектор (рычаг переключения передач)  |  Rıçaq (sellektor)  [side:false|position:false]
       TR-016  Трос переключения передач  |  Skorus/sürət trosu  [side:false|position:false]
       TR-019  Шестерня КПП  |  Sürət qutusunun şestərnası  [side:false|position:false]
       TR-029  Гидротрансформатор (торкон)  |  Hidrotransformator (torkon)  [side:false|position:false]
@@ -242,8 +242,8 @@
   ▸ Radiator / borular / Радиатор/патрубки  [cooling-radiator]  (5 дет)
       SO-026  Интеркулер  |  İnterkuler  [side:false|position:false]
       SO-027  Патрубок интеркулера (наддув)  |  İnterkuler şlanqı (nadduv borusu)  [side:false|position:false]
-      SO-001  Радиатор охлаждения  |  Su radiatoru  [side:false|position:true]
-      SO-015  Масляный радиатор (маслоохладитель)  |  Yağ soyuducusu (radiatoru)  [side:false|position:true]
+      SO-001  Радиатор охлаждения  |  Su radiatoru  [side:false|position:false]
+      SO-015  Масляный радиатор (маслоохладитель)  |  Yağ soyuducusu (radiatoru)  [side:false|position:false]
       SO-009  Патрубок системы охлаждения  |  Su/antifriz şlanqı  [side:false|position:true]
       синонимы: antifriz slanki, antifriz şlanqı, intercooler, interkuler, interkuler borusu, interkuller, interkuller slanqi, patrubok (interkuler), radiator, radiatoru, samavar, su radiatoru, su raditaru, su şlankı, yağ radiatoru, yağ soyuducusu, интеркулер, маслоохладитель, радиатор, patrubok turbinası, турбина патрубок
 
@@ -304,7 +304,7 @@
 ########## Выхлопная система ##########
 
   ▸ Katalizator / Катализатор  [exhaust-catalyst]  (1 дет)
-      EG-001  Катализатор  |  Katalizator  [side:true|position:true]
+      EG-001  Катализатор  |  Katalizator  [side:true|position:false]
       синонимы: katalizator, katalizator sistemi, катализатор
 
   ▸ Lambda / datçik / Лямбда/датчик  [exhaust-lambda]  (1 дет)
@@ -322,7 +322,7 @@
 
   ▸ Egzoz (tam) / Выхлоп целиком  [exhaust-full]  (3 дет)
       EG-005  Выпускной коллектор / даунпайп  |  Egzoz kollektoru (downpipe)  [side:false|position:false]
-      EG-010  Приёмная труба (отдельно от коллектора)  |  Qəbul borusu (priyomnaya truba)  [side:false|position:false]
+      EG-010  Приёмная труба  |  Qəbul borusu (priyomnaya truba)  [side:false|position:false]
       EG-011  Гофра выхлопной системы (гибкий виброкомпенсатор)  |  Egzoz gofrası  [side:false|position:false]
       синонимы: downpipe, egzoz kollektoru, turbo kollektoru
 
@@ -333,7 +333,7 @@
       SU-004  Рулевая колонка  |  Rulavoy kalonka  [side:false|position:false]
       SU-006  Рулевая рейка  |  Rulevoy reyka (dişli qutusu)  [side:false|position:false]
       SU-008  Крестовина рулевого вала  |  Rulevoy krestovina  [side:false|position:false]
-      SU-012  Пыльник рулевой рейки  |  Rul reykasının pılniki  [side:false|position:true]
+      SU-012  Пыльник рулевой рейки  |  Rul reykasının pılniki  [side:true|position:false]
       SU-015  Рулевой амортизатор (внедорожники/пикапы)  |  Rulevoy amortizator  [side:false|position:false]
       SU-016  Ремкомплект рулевой рейки (сальники)  |  Rul reykası remkomplekti (salnikler)  [side:false|position:false]
       синонимы: krestavin, krestovina, kristavina, reyka, reyka (rul), rlaboy kalonka, rlavoy, rulavoy kalonka, rulavoy reykası, rulevoy reykası, rulovoy kalonka, рулевая колонка, рулевая рейка
@@ -347,10 +347,10 @@
       синонимы: gidra suluteri, gidravlikanın nasosu, gidro usilitel, gidrousilitel, gidrousilitel nasosu, gidrousinlitel, gidrouslitel, gidrusditil, hidroguclendirici, hidrousilitel, rlavoyun matorçiki, rulavoyun matoru, rulavoyun teyziq slanki, rulevoy baçoku, rulevoy teyziq şlanqı, rulevoy usilitel, rulevoyun motoru, rulovoy baçoku, rulun elektro nasos, sükan gücləndiricisi
 
   ▸ Ucluqlar / dartqılar / Наконечники/тяги  [steering-tie-rods]  (4 дет)
-      SU-001  Наконечник рулевой тяги  |  Nakonechnik (rulevoy)  [side:false|position:true]
-      SU-002  Рулевая тяга  |  Tyaqa (rulevoy)  [side:false|position:true]
+      SU-001  Наконечник рулевой тяги  |  Nakonechnik (rulevoy)  [side:true|position:false]
+      SU-002  Рулевая тяга  |  Tyaqa (rulevoy)  [side:true|position:false]
       SU-003  Шаровой палец тяги  |  Almacıq (tyaqanın)  [side:true|position:false]
-      SU-017  Пыльник наконечника (отдельно от пыльника рейки)  |  Nakonechnik pılniki  [side:false|position:true]
+      SU-017  Пыльник наконечника  |  Nakonechnik pılniki  [side:true|position:false]
       синонимы: almacıq, almacıqlar, nakanecnik, nakanesnik, nakaneşnik, nakonechnik, nakonecnik, nakoneçnik, rulevoy nakoneçnikləri, tiyaqa, tyaqa, рулевой наконечник
 
   ▸ Sükan / şleyf (SRS) / Руль/шлейф (SRS)  [steering-wheel-srs]  (2 дет)
@@ -368,7 +368,7 @@
       AS-005  Отбойник хода сжатия  |  Otboynik  [side:false|position:true]
       AS-024  Пыльник амортизатора  |  Amortizator pılniki  [side:true|position:true]
       AS-021  Пневмоподушка  |  Pnevmopodveska (hava balonu)  [side:false|position:true]
-      AS-022  Компрессор пневмоподвески  |  Pnevma kompressoru  [side:false|position:true]
+      AS-022  Компрессор пневмоподвески  |  Pnevma kompressoru  [side:false|position:false]
       AS-031  Плата/блок управления пневмоподушки  |  Pnevmoasqının platası (idarəetmə bloku)  [side:false|position:false]
       TY-006  Койловеры (спортивная подвеска)  |  Coilover (sport asma dəsti)  [side:false|position:true]
       TY-013  Спортивная пружина/койловер  |  Sport yay/koilover  [side:true|position:true]
@@ -448,7 +448,7 @@
       синонимы: abs, abs akumlyatoru, abs blok, abs bloku, abs daciki, abs datçiki, abs modulu, abs sensoru, блок abs, датчик abs
 
   ▸ Əl əyləci / Ручник  [brakes-handbrake]  (2 дет)
-      EY-012  Трос ручного тормоза  |  Ruçnoy tormuz trosu  [side:false|position:true]
+      EY-012  Трос ручного тормоза  |  Ruçnoy tormuz trosu  [side:true|position:false]
       EY-013  Блок/кнопка электронного ручника  |  Ruçnoy bloku/düyməsi (elektron əl əyləci)  [side:false|position:false]
       синонимы: elektron rucnoy, rucnoy tormuzun trosu, ruçnoy bloku, ruçnoy tormuzun trosu, ruçnoy trosu, ruçnoy turosu, ruçnoyun trosu, əl tormuzu düyməsi, əl əyləc trosu, əl əyləci trosu, трос ручника
 
@@ -458,7 +458,7 @@
   ▸ Farlar / Фары  [body-headlights]  (5 дет)
       KZ-005  Фара головного света  |  Fara (baş fara)  [side:true|position:false]
       KZ-010  Стекло фары  |  Fara şüşəsi  [side:true|position:false]
-      KZ-044  Дневной ходовой огонь  |  Gündüz işığı (DRL)  [side:false|position:true]
+      KZ-044  Дневной ходовой огонь  |  Gündüz işığı (DRL)  [side:true|position:false]
       KZ-059  Верхняя пластиковая накладка/рамка фары  |  Faranın üst plasması  [side:true|position:false]
       KZ-066  Линза фары (проекторный модуль)  |  Fara linzası  [side:true|position:false]
       синонимы: drl, fara, fara linzası, fara şüşəsi, faralar, faranin, faranin susesi, faranın, faranın üst plasması, faranın şüşəsi, farasi, farası, gündüz işığı, headlights, lupaya led işığ, üst plasma, накладка фары верхняя, стекла фары, стекло фары, фара, фары
@@ -466,7 +466,7 @@
   ▸ Arxa fanarlar / Задние фонари  [body-taillights]  (5 дет)
       KZ-007  Задний фонарь  |  Stop (arxa fənər)  [side:true|position:false]
       KZ-009  Катафот/отражатель  |  Reflektor  [side:true|position:false]
-      KZ-048  Стекло заднего фонаря  |  Stop şüşəsi  [side:false|position:true]
+      KZ-048  Стекло заднего фонаря  |  Stop şüşəsi  [side:true|position:false]
       KZ-049  Дополнительный (третий) стоп-сигнал  |  Əlavə stop (üçüncü stop)  [side:false|position:false]
       KZ-063  Плата (светодиодов) заднего фонаря  |  Arxa fənərin platası (LED)  [side:true|position:false]
       синонимы: arxa işıq platası, arxa stop, arxa top, orta işıq, otrajatel, otrajateli, reflector, reflektor, sağ top, stop, stoplar, stopun, tail light, zadniy işıq, üçüncü stop, задний фонарь, стоп, стоп фара
@@ -525,7 +525,7 @@
       KZ-012  Заднее стекло  |  Arxa şüşə  [side:false|position:false]
       KZ-013  Стекло двери  |  Qapı şüşəsi  [side:true|position:true]
       KZ-014  Стекло люка  |  Lyuk şüşəsi  [side:false|position:false]
-      KZ-053  Водосток лобового стекла (жабо)  |  Ön şüşə su axarı (jabo)  [side:false|position:true]
+      KZ-053  Водосток лобового стекла (жабо)  |  Ön şüşə su axarı (jabo)  [side:false|position:false]
       KZ-035  Люк (механизм)  |  Lyuk mexanizmi  [side:false|position:false]
       KZ-056  Уплотнитель (резинка) люка  |  Lyuk rezini  [side:false|position:false]
       синонимы: alın şüşəsi, arxa suse, arxa şüşə, dam susesi, luk, luk şüşəsi, lyuk, lyuk rezini, lyuk şüşəsi, panoramik lyuk rezini, patpres, patpress, podpres, qapi susesi, qapı şüşəsi, ön şüşə, лобовое, лобовое стекло, стекло двери
@@ -558,11 +558,11 @@
       EL-012  Подрулевой переключатель света/поворотников  |  Dönmə işığı qolu (kombi keçirici)  [side:false|position:false]
       EL-066  Блок управления светом (LCM)  |  LCM (işıq idarəetmə bloku)  [side:false|position:false]
       EL-024  Плафон освещения салона  |  Salon plafonu  [side:false|position:false]
-      EL-025  Лампа (для фары или стопа)  |  Lampa (fara və ya stop üçün)  [side:false|position:false]
+      EL-025  Лампа  |  Lampa  [side:false|position:false]
       EL-063  Блок розжига (балласт ксенона)  |  Rozjiq bloku (ksenon)  [side:true|position:false]
       EL-055  Патрон лампы (цоколь)  |  Lampa patronu  [side:true|position:true]
       EL-047  Кнопка противотуманных фар  |  Duman fara düyməsi  [side:false|position:false]
-      синонимы: ampul, dönmə işığı qolu, dönmə işığını yandırıb söndürmə qolu, fara lampası, işıqları idarə edən qol, kombi keçirici, lcm işıq bloku, plafon, rozjiq bloku, salon plafinu, salon plafonu, stop lampası, лампа, лампочка, лампы
+      синонимы: ampul, dönmə işığı qolu, dönmə işığını yandırıb söndürmə qolu, işıqları idarə edən qol, kombi keçirici, lcm işıq bloku, plafon, rozjiq bloku, salon plafinu, salon plafonu, лампа, лампочка, лампы
 
   ▸ Starter / generator / Стартер/генератор  [electrical-starter-alternator]  (3 дет)
       MU-047  Генератор  |  Dinamo (generator)  [side:false|position:false]
@@ -608,7 +608,7 @@
       EL-042  Моторчик замка капота  |  Kapot kilid mühərriyi  [side:false|position:false]
       EL-043  Моторчик/привод замка руля (электронный)  |  Sükan kilid motoru  [side:false|position:false]
       EL-054  Моторчик омывателя стёкол  |  Yuyucu motoru (omıvatel)  [side:false|position:false]
-      EL-072  Моторчик стеклоочистителя (дворников)  |  Şüşə silənin motoru (dvornik motoru)  [side:true|position:false]
+      EL-072  Моторчик стеклоочистителя (дворников)  |  Şüşə silənin motoru (dvornik motoru)  [side:false|position:false]
       EL-057  Бачок омывателя стекла  |  Yuyucu su baçoku  [side:false|position:false]
       EL-071  Форсунка омывателя (жиклёр)  |  Yuyucu forsunkası (jikler)  [side:true|position:false]
       EL-058  Мотор складывания бокового зеркала  |  Güzgü qatlama motoru  [side:true|position:false]
@@ -618,7 +618,7 @@
   ▸ ADAS / ADAS  [electrical-adas]  (10 дет)
       EL-029  Модуль круиз-контроля  |  Distronik/Cruise control modulu  [side:false|position:false]
       EL-013  Датчик парктроника  |  Park radar sensoru (şunuru)  [side:false|position:true]
-      EL-014  Блок парктроника  |  Park radar bloku  [side:false|position:true]
+      EL-014  Блок парктроника  |  Park radar bloku  [side:false|position:false]
       EL-015  Датчик слепых зон  |  Kor zona sensoru/detektoru (BSM)  [side:false|position:false]
       EL-016  Камера контроля полосы движения  |  Zolaq tanıma kamerası  [side:false|position:false]
       EL-035  Камера (задняя/передняя/кругового обзора)  |  Kamera (arxa/ön/360)  [side:false|position:false]
@@ -727,7 +727,7 @@
   ▸ Obves / body kit / Обвесы/body kit  [tuning-body-kit]  (4 дет)
       TY-003  Обвес кузова (body kit)  |  Body kit (tam tyuning dəsti)  [side:false|position:false]
       TY-005  Губа бампера (lip)  |  Lip (bufer alt dodağı)  [side:true|position:false]
-      TY-009  Реснички на фары (накладки-«брови»)  |  Rəsniçka (fara üstü naklatka)  [side:false|position:true]
+      TY-009  Реснички на фары (накладки-«брови»)  |  Rəsniçka (fara üstü naklatka)  [side:true|position:false]
       TY-010  Ангельские глазки (LED-кольца в фару)  |  Angel eyes (LED halqası)  [side:false|position:false]
       синонимы: body kit, buferin lipi, dumanlı led qaşlıdır, lip, tuning aksesuarlari
 
