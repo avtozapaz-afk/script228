@@ -22,7 +22,7 @@ client text when the part declares those flags, or reports which of them still
 ```bash
 # normalized phrase in, JSON out
 python cli.py "Turbo (nadduv) datçiki"
-python cli.py "yan güzgü" --raw "sol qabaq güzgü"
+python cli.py "yan güzgü" --raw "sol güzgü"
 python cli.py "traves"
 python cli.py "radator ekranı" --fuzzy      # advisory suggestions on no_match
 ```
@@ -73,10 +73,16 @@ Output shape:
    * group of 2+ parts → honest `ambiguous` (semantic ambiguity).
 3. Otherwise → `no_match`.
 
-**Step 2 — attributes** (only for `single_match`): if a flag is `false`, skip
-it; if `true`, search the raw text for side (`sol/sağ/left/лево…`) and position
-(`ön/arxa/qabaq/перед/зад…`) tokens. Found → fill; not found → add to
-`needs_clarification`.
+**Step 2 — attributes** (only for `single_match`): each part carries a `side`
+(left/right) and a `position` (front/rear) flag. **Only flags that are `true`
+are ever considered** — if a flag is `false` we neither search for it nor ask
+about it. For a `true` flag, search the raw text for side (`sol/sağ/left/лево…`)
+or position (`ön/arxa/qabaq/перед/зад…`) tokens; found → fill; not found → add
+to `needs_clarification` (the caller asks the client that one question).
+
+Example: a side mirror (`KZ-020`, `side:true position:false`) is asked only "which
+side?" — never "front or rear?" — while a wheel bearing (`AS-007`,
+`side:true position:true`) can be asked both.
 
 **Step 3 — category / subcategory** come straight from the dictionary structure
 (the `########## Category ##########` section header and the `▸ leaf [code]`
@@ -128,6 +134,21 @@ tests. If the full reference files are provided, drop them into `tests/` and a
 small harness can replay every `input → expected JSON` pair against
 `Matcher.match`.
 
+## Offline browser tester (`matcher_tool.html`)
+
+For hand-checking without a Python environment, `matcher_tool.html` is a single
+self-contained file — the whole dictionary and a JavaScript port of the matcher
+are inlined, so it runs offline in any browser (just open it). It shows the JSON
+result plus the explicit clarifying question when a part needs `side`/`position`.
+
+Rebuild it after editing the dictionary:
+
+```bash
+python build_html.py
+```
+
+Its output is verified byte-identical to `slovar_matcher` across the test cases.
+
 ## Layout
 
 ```
@@ -139,5 +160,7 @@ slovar_matcher/
 data/
   SLOVAR_FINAL.txt   source of truth
 cli.py            command-line entry point
+build_html.py     regenerates the offline matcher_tool.html
+matcher_tool.html self-contained offline browser tester
 tests/            pytest regression suite
 ```

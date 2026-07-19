@@ -35,11 +35,12 @@ def test_radiator_ekran_is_no_match(matcher):
     assert r.candidates == []
 
 
-def test_yan_guzgu_is_single_match_needs_side_and_position(matcher):
+def test_yan_guzgu_is_single_match_needs_side_only(matcher):
+    # KZ-020 has side:true but position:false -> only "side" is asked.
     r = matcher.match("yan güzgü")
     assert r.status == "single_match"
     assert r.part_id == "KZ-020"
-    assert r.needs_clarification == ["side", "position"]
+    assert r.needs_clarification == ["side"]
     assert r.attributes == {"side": None, "position": None}
     assert r.category == "Кузов и оптика"
 
@@ -83,8 +84,17 @@ def test_side_filled_position_still_needed(matcher):
     assert r.needs_clarification == ["position"]
 
 
-def test_side_and_position_from_raw(matcher):
+def test_side_extracted_position_not_asked_when_flag_false(matcher):
+    # KZ-020 position flag is false -> "qabaq" is ignored, position not asked.
     r = matcher.match("yan güzgü", raw_text="sol qabaq güzgü")
+    assert r.status == "single_match"
+    assert r.attributes == {"side": "sol", "position": None}
+    assert r.needs_clarification == []
+
+
+def test_side_and_position_when_both_flags_true(matcher):
+    # AS-007 has side:true and position:true -> both extracted from raw.
+    r = matcher.match("Stupitsa podşipniki", raw_text="sol qabaq")
     assert r.status == "single_match"
     assert r.attributes == {"side": "sol", "position": "ön"}
     assert r.needs_clarification == []

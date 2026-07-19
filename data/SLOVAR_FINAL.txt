@@ -456,7 +456,7 @@
 ########## Кузов и оптика ##########
 
   ▸ Farlar / Фары  [body-headlights]  (5 дет)
-      KZ-005  Фара головного света  |  Fara (baş fara)  [side:true|position:true]
+      KZ-005  Фара головного света  |  Fara (baş fara)  [side:true|position:false]
       KZ-010  Стекло фары  |  Fara şüşəsi  [side:true|position:false]
       KZ-044  Дневной ходовой огонь  |  Gündüz işığı (DRL)  [side:false|position:true]
       KZ-059  Верхняя пластиковая накладка/рамка фары  |  Faranın üst plasması  [side:true|position:false]
@@ -464,7 +464,7 @@
       синонимы: drl, fara, fara linzası, fara şüşəsi, faralar, faranin, faranin susesi, faranın, faranın üst plasması, faranın şüşəsi, farasi, farası, gündüz işığı, headlights, lupaya led işığ, üst plasma, накладка фары верхняя, стекла фары, стекло фары, фара, фары
 
   ▸ Arxa fanarlar / Задние фонари  [body-taillights]  (5 дет)
-      KZ-007  Задний фонарь  |  Stop (arxa fənər)  [side:true|position:true]
+      KZ-007  Задний фонарь  |  Stop (arxa fənər)  [side:true|position:false]
       KZ-009  Катафот/отражатель  |  Reflektor  [side:true|position:false]
       KZ-048  Стекло заднего фонаря  |  Stop şüşəsi  [side:false|position:true]
       KZ-049  Дополнительный (третий) стоп-сигнал  |  Əlavə stop (üçüncü stop)  [side:false|position:false]
@@ -531,15 +531,15 @@
       синонимы: alın şüşəsi, arxa suse, arxa şüşə, dam susesi, luk, luk şüşəsi, lyuk, lyuk rezini, lyuk şüşəsi, panoramik lyuk rezini, patpres, patpress, podpres, qapi susesi, qapı şüşəsi, ön şüşə, лобовое, лобовое стекло, стекло двери
 
   ▸ Güzgülər / Зеркала  [body-mirrors]  (5 дет)
-      KZ-020  Боковое зеркало  |  Güzgü (yan güzgü)  [side:true|position:true]
-      KZ-021  Стекло зеркала  |  Güzgü şüşəsi  [side:true|position:true]
-      KZ-022  Корпус/крышка зеркала  |  Güzgü korpusu/qapağı  [side:true|position:true]
+      KZ-020  Боковое зеркало  |  Güzgü (yan güzgü)  [side:true|position:false]
+      KZ-021  Стекло зеркала  |  Güzgü şüşəsi  [side:true|position:false]
+      KZ-022  Корпус/крышка зеркала  |  Güzgü korpusu/qapağı  [side:true|position:false]
       KZ-054  Зеркало заднего вида салонное  |  Salon güzgüsü  [side:false|position:false]
       KZ-069  Повторитель поворотника в зеркале  |  Güzgüdə povorotnik (təkrarlayıcı)  [side:true|position:false]
       синонимы: abadoku, aynası, guzgu, guzgu susesi, güzgü, güzgü arxası pavarotniki, güzgü povorotniki, güzgü qapağı, güzgü şüşəsi, içəri güzgü, kolpaklar, salon guzgusu, salon güzgüsü, yan güzgü, зеркало
 
   ▸ Kuzov panelləri / Кузовные панели  [body-panels] 🆕  (10 дет)
-      KZ-030  Порог  |  Şveller (porog)  [side:true|position:true]
+      KZ-030  Порог  |  Şveller (porog)  [side:true|position:false]
       KZ-031  Лонжерон  |  Lanjron  [side:true|position:true]
       KZ-032  Панель кузова  |  Arxa/ön panel  [side:true|position:true]
       KZ-046  Панель пола (перед/зад/центр/багажник)  |  Döşəmə paneli  [side:false|position:true]
@@ -611,7 +611,7 @@
       EL-072  Моторчик стеклоочистителя (дворников)  |  Şüşə silənin motoru (dvornik motoru)  [side:true|position:false]
       EL-057  Бачок омывателя стекла  |  Yuyucu su baçoku  [side:false|position:false]
       EL-071  Форсунка омывателя (жиклёр)  |  Yuyucu forsunkası (jikler)  [side:true|position:false]
-      EL-058  Мотор складывания бокового зеркала  |  Güzgü qatlama motoru  [side:false|position:true]
+      EL-058  Мотор складывания бокового зеркала  |  Güzgü qatlama motoru  [side:true|position:false]
       EL-048  Кнопка регулировки зеркал  |  Güzgü tənzimləmə düyməsi  [side:false|position:false]
       синонимы: baqaj aktuatoru, baqajı açan knopka, baqajın açılıb bağlanan matoru, güzgü matoru, güzgü qatlama motoru, güzgünün matoru, kapot kilid motoru, kapot kilid mühərriyi, luk matoru, lyukun matoru, pencere padyomniki, pencerenin duymesi, prisos (baqaj), prisos (qapı açan), qapı kilid motoru, qapı kilid mühərriyi, qapı kilid sistemi, qapı zamoku aktuatoru, qapının vakuumu, qatlanan güzgünün motoru, suse qaldiran, suse qaldiran mator, sükan kilid, sükan kilid motoru, sürücü qapisinin aktivatoru, zaryatka yerinin qapağının aktuatoru, şüşü qaldıran, şüşə idarə etmə paneli, şüşə qaldıran, şüşə qaldıran blok, şüşə qaldıran knopka, şüşə qaldıran matoru, şüşə qaldıranın matoru, şüşəqaldıran, şüşəqaldıran düyməsi, şüşəqaldıran kompekt, şüşəqaldıran mexanizm plastiki, şüşəqaldıran mexanizmi, şüşəqaldıran motoru, şüşəqaldıran zbor, şüşəqaldırıcı mator, дверной замок мотор, привод замка двери, стеклоподъемник, стеклоподъёмник, forsunka omıvatel, yuyucu forsunkası, форсунка омывателя, жиклёр омывателя, şüşə silənin matoru, dvornik motoru, мотор дворников, мотор стеклоочистителя
 
