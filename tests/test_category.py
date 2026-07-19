@@ -26,6 +26,7 @@ def test_radiator_category_resolved_no_question(cat):
     r = cat.resolve("radiator")
     assert r["status"] == "category_resolved"
     assert r["category"] == "Система охлаждения"
+    assert r["raw_text_passthrough"] == "radiator"
 
 
 def test_fara_category_resolved(cat):
@@ -39,12 +40,23 @@ def test_emblema_category_ambiguous(cat):
     assert r["status"] == "category_ambiguous"
     assert set(r["candidates"]) == {"Кузов и оптика", "Салон и аксессуары"}
     assert r["question"]
+    assert r["raw_text_passthrough"] == "emblema"
 
 
 def test_unknown_word_is_category_unknown(cat):
     r = cat.resolve("qwertyuiop", raw_text="qwertyuiop lazımdır")
     assert r["status"] == "category_unknown"
-    assert r["raw_text"] == "qwertyuiop lazımdır"
+    assert r["raw_text_passthrough"] == "qwertyuiop lazımdır"
+
+
+def test_passthrough_present_and_verbatim_in_all_statuses(cat):
+    # raw_text is forwarded untouched in every branch (resolved/ambiguous/unknown).
+    raw = "sol qabaq üçün 2 ədəd radiator lazımdır"
+    for word in ("radiator", "emblema", "zzzznotaword"):
+        r = cat.resolve(word, raw_text=raw)
+        assert r["raw_text_passthrough"] == raw          # verbatim, unchanged
+    # and it defaults to the word itself when no raw text is supplied
+    assert cat.resolve("radiator")["raw_text_passthrough"] == "radiator"
 
 
 def test_category_typo_near_match(cat):

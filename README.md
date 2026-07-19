@@ -117,10 +117,21 @@ matcher and narrows to one of the 15 top categories, using
 * nothing (and no near-match ≥ threshold) → `category_unknown`.
 
 Layer 1 never guesses — it only reports in how many categories the word
-physically appears. Once the category is known, the detail matcher is called
-with `restrict_category=<cat>` (a `match()` parameter) so it only considers
-parts in that category. The funnel therefore narrows **category → detail →
-attributes**, and at each step it is either sure or asks exactly one question.
+physically appears. Every result also carries **`raw_text_passthrough`**: the
+whole normalized request text, forwarded to Layer 2 **verbatim** (Layer 1 never
+parses or references it). Once the category is known, the detail matcher is
+called with `restrict_category=<cat>` (a `match()` parameter) so it only
+considers parts in that category. The funnel therefore narrows **category →
+detail → attributes**, and at each step it is either sure or asks exactly one
+question.
+
+```json
+{ "status": "category_resolved", "category": "Система охлаждения",
+  "raw_text_passthrough": "<normalized request text, unchanged>" }
+{ "status": "category_ambiguous", "candidates": ["…", "…"], "question": "…",
+  "raw_text_passthrough": "…" }
+{ "status": "category_unknown", "raw_text_passthrough": "…" }
+```
 
 ```python
 from slovar_matcher import CategoryMatcher, Matcher

@@ -256,19 +256,21 @@ function ambiguous(ids,score){return{status:"ambiguous",part_id:null,name_ru:nul
 /* ---- Layer 1: category resolver (mirrors slovar_matcher/category.py) ---- */
 function resolveCategory(word,raw,threshold){
   if(threshold==null)threshold=DEFAULT_THRESHOLD;
+  const passthrough=(raw!=null&&raw!=="")?raw:word;  // forwarded verbatim to Layer 2
   const key=normalize(word);
   let cats=CATIDX.index[key],score=1.0;
   if(!cats){
     let best=0;const hits=[];
     for(const k in CATIDX.index){const s=similarity(key,k);if(s>=threshold){hits.push([s,k]);if(s>best)best=s;}}
-    if(!hits.length)return{status:"category_unknown",raw_text:raw!=null&&raw!==""?raw:word};
+    if(!hits.length)return{status:"category_unknown",raw_text_passthrough:passthrough};
     const cs=[];for(const [s,k] of hits) if(Math.abs(s-best)<EPS)
       for(const c of CATIDX.index[k]) if(!cs.includes(c)) cs.push(c);
     cats=cs.sort(); score=round3(best);
   }
-  if(cats.length===1)return{status:"category_resolved",category:cats[0],match_score:score};
+  if(cats.length===1)return{status:"category_resolved",category:cats[0],
+    raw_text_passthrough:passthrough,match_score:score};
   return{status:"category_ambiguous",candidates:cats.slice(),
-    question:"К какой категории относится деталь?",match_score:score};
+    question:"К какой категории относится деталь?",raw_text_passthrough:passthrough,match_score:score};
 }
 
 /* ---- UI ---- */

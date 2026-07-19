@@ -10,6 +10,10 @@ across the dictionary (`category_index.json`). No statistics, no probabilities:
 
 Near-match (default 0.90, same as the detail matcher) tolerates typos; if the best
 near-match spans several categories, that is ``category_ambiguous`` too.
+
+Every result carries ``raw_text_passthrough`` — the whole normalized request text,
+forwarded to Layer 2 **verbatim**. Layer 1 does not parse, analyse, or reference
+it; it only decides the category and attaches the text unchanged.
 """
 
 from __future__ import annotations
@@ -41,6 +45,9 @@ class CategoryMatcher:
 
     def resolve(self, word: str, raw_text: str | None = None,
                 threshold: float = 0.90) -> dict[str, Any]:
+        # The whole normalized request text is forwarded verbatim to Layer 2.
+        # Layer 1 never touches it — it only decides the category.
+        passthrough = raw_text if raw_text else word
         key = normalize(word)
 
         cats = self.index.get(key)
@@ -50,15 +57,21 @@ class CategoryMatcher:
             if cats is None:
                 return {
                     "status": "category_unknown",
-                    "raw_text": raw_text if raw_text else word,
+                    "raw_text_passthrough": passthrough,
                 }
 
         if len(cats) == 1:
-            return {"status": "category_resolved", "category": cats[0], "match_score": score}
+            return {
+                "status": "category_resolved",
+                "category": cats[0],
+                "raw_text_passthrough": passthrough,
+                "match_score": score,
+            }
         return {
             "status": "category_ambiguous",
             "candidates": list(cats),
             "question": _QUESTION,
+            "raw_text_passthrough": passthrough,
             "match_score": score,
         }
 
