@@ -72,6 +72,9 @@ Output shape:
 
 1. **Exact name** — the normalized phrase equals a canonical name variant of a
    part (`name_ru` or `name_az`). Highest priority; typically a single part.
+   *Collision guard:* if that same word is also a synonym of a **different** leaf
+   group, the name is not an unambiguous identifier — the result is `ambiguous`
+   between the named part(s) and that other group, never a silent name win.
 2. **Exact synonym** — the phrase equals one of a leaf group's shared synonyms.
    Since synonyms are shared across the whole group, **all** part_ids of that
    group are returned as candidates:
@@ -126,9 +129,29 @@ This is the behaviour required by the spec's flagship cases.
   close the hit was, so low-confidence matches can be confirmed with the client.
   Set `--threshold 1.0` for strict exact-only behaviour.
 * **Never collapse `ambiguous` to one.** A synonym shared by several parts always
-  returns every candidate.
+  returns every candidate; a name colliding with another group's synonym does too.
 * One phrase is matched per call; splitting a request into multiple parts is the
   caller's (Seller's) responsibility.
+
+## Dictionary integrity (single source of truth)
+
+`data/SLOVAR_FINAL.txt` is the only hand-maintained file. Two guards keep it
+honest and its derivatives in sync — both run in the test suite:
+
+* **Collision check** — `python scripts/check_collisions.py` fails if any exact
+  name is also a synonym of a *different* group (the class of bug where a common
+  word like `karopka` / `mühərrik` / `fara` silently matched the wrong part).
+  The matcher's collision guard makes such words `ambiguous` at runtime; this
+  script makes them visible so the wording can be fixed at the source.
+* **Canonical names** — `python scripts/generate_canonical_names.py` regenerates
+  `data/canonical_names.md` (the trimmed `ID + AZ name` list the normalizer LLM
+  needs). It is generated from the library, so the two can never drift; run with
+  `--check` in CI. This replaces the hand-kept docx (which was missing `YA-025`).
+
+Architecturally: the LLM passes the algorithm **both** its normalized-name guess
+*and* the raw client text; the final single/ambiguous/no-match decision is always
+the algorithm's, searching the full synonym set — it never blindly trusts the
+LLM's pick.
 
 ## Tests
 
@@ -137,11 +160,13 @@ pip install pytest
 python -m pytest tests/ -q
 ```
 
-`tests/test_matcher.py` covers the four spec-mandated cases (Traves, Radiator
-ekran, Yan güzgü, Turbo (nadduv) datçiki) plus name/synonym/attribute coverage,
-near-match behaviour (typo → single, tie → ambiguous, below-threshold →
-no_match, `--threshold 1.0` → exact-only) and structural sanity of the parse
-(15 categories, 86 leaves, 438 parts).
+* `tests/test_matcher.py` — the four spec-mandated cases (Traves, Radiator ekran,
+  Yan güzgü, Turbo (nadduv) datçiki), name/synonym/attribute coverage, near-match
+  behaviour (typo → single, tie → ambiguous, below-threshold → no_match,
+  `--threshold 1.0` → exact-only) and the bug regressions (numeral "on" ≠ front,
+  "fara" ≠ silent bulb, cross-group collision → ambiguous).
+* `tests/test_integrity.py` — no name/synonym collisions, and the canonical-names
+  list stays generated from `SLOVAR_FINAL.txt`.
 
 ### A note on the reference test files
 
@@ -176,7 +201,11 @@ slovar_matcher/
   attributes.py   side / position keyword extraction
   matcher.py      Matcher + MatchResult (the 3-state algorithm)
 data/
-  SLOVAR_FINAL.txt   source of truth
+  SLOVAR_FINAL.txt    source of truth (hand-maintained)
+  canonical_names.md  generated ID + AZ-name list for the LLM
+scripts/
+  check_collisions.py          name/other-group-synonym collision guard
+  generate_canonical_names.py  regenerates canonical_names.md from the library
 cli.py            command-line entry point
 build_html.py     regenerates the offline matcher_tool.html
 matcher_tool.html self-contained offline browser tester

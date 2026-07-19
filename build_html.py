@@ -177,7 +177,7 @@ function tokens(s){return azLower(s).match(TOKEN_RE)||[];}
 /* ---- attribute keyword sets (mirrors slovar_matcher/attributes.py) ---- */
 const SIDE_LEFT=new Set(["sol","sola","soldan","soldakı","soldaki","left","lh","лево","левый","левая","левое","левых","левого","слева"]);
 const SIDE_RIGHT=new Set(["sağ","sag","sağa","sağdan","sagdan","sağdakı","sagdaki","right","rh","право","правый","правая","правое","правых","правого","справа"]);
-const POS_FRONT=new Set(["ön","on","öndeki","öndəki","önki","qabaq","qabağ","qabaqdakı","qabaqdaki","qabağdakı","front","fr","перед","передний","передняя","переднее","передних","переднего","спереди","speredi"]);
+const POS_FRONT=new Set(["ön","öndeki","öndəki","önki","qabaq","qabağ","qabaqdakı","qabaqdaki","qabağdakı","front","fr","перед","передний","передняя","переднее","передних","переднего","спереди","speredi"]);
 const POS_REAR=new Set(["arxa","arxadakı","arxadaki","arxadan","arxadaku","rear","back","зад","задний","задняя","заднее","задних","заднего","сзади"]);
 function detect(text,L,R,lv,rv){const t=new Set(tokens(text));let l=false,r=false;
   for(const x of t){if(L.has(x))l=true;if(R.has(x))r=true;}
@@ -207,7 +207,13 @@ function fuzzyRefs(key,index,threshold){let best=0;const hits=[];
 function match(phrase,raw,threshold){
   if(threshold==null)threshold=DEFAULT_THRESHOLD;
   const key=normalize(phrase);
-  if(DATA.name_index[key])return build(DATA.name_index[key],phrase,raw,1.0);
+  const nameHit=DATA.name_index[key];
+  if(nameHit){const ids=nameHit.slice();
+    const synHit=DATA.synonym_index[key];  // collision guard: name == other group's synonym
+    if(synHit){const owner=new Set(nameHit.map(p=>DATA.parts[p].leaf_code));
+      const extra=synHit.filter(c=>!owner.has(c));
+      for(const pid of groupIds(extra)) if(!ids.includes(pid)) ids.push(pid);}
+    return build(ids,phrase,raw,1.0);}
   if(DATA.synonym_index[key])return build(groupIds(DATA.synonym_index[key]),phrase,raw,1.0);
   const [ns,pids]=fuzzyRefs(key,DATA.name_index,threshold);
   if(pids.length)return build(pids,phrase,raw,round3(ns));

@@ -160,6 +160,59 @@ def test_no_silent_guess_on_ambiguous(matcher):
     assert len(r.candidates) >= 2
 
 
+# ── Bug 1: numeral "on" (10) must not be read as position "ön" ────────────────
+def test_numeral_on_is_not_position_front(matcher):
+    r = matcher.match(
+        "Stupitsa podşipniki",
+        raw_text="mənə sol tərəf üçün on ədəd stupitsa podşipniki lazımdır",
+    )
+    assert r.status == "single_match"
+    assert r.attributes["side"] == "sol"
+    assert r.attributes["position"] is None            # not invented
+    assert "position" in r.needs_clarification          # still asked
+
+
+def test_real_front_word_still_detected(matcher):
+    r = matcher.match("Stupitsa podşipniki", raw_text="sol ön tərəf")
+    assert r.attributes["position"] == "ön"
+
+
+# ── Bug 2: "fara" must not silently match the bulb (EL-025) ───────────────────
+def test_fara_not_silently_the_bulb(matcher):
+    r = matcher.match("fara")
+    assert r.status in ("single_match", "ambiguous")
+    if r.status == "single_match":
+        assert r.part_id == "KZ-005"          # the real headlight
+    else:
+        assert "KZ-005" in {c["part_id"] for c in r.candidates}
+    # in no case is it a silent single match on the lamp
+    assert not (r.status == "single_match" and r.part_id == "EL-025")
+
+
+# ── Bug 3: name that collides with another group's synonym -> ambiguous ───────
+def test_cross_group_collision_is_ambiguous():
+    from slovar_matcher.matcher import Matcher
+    from slovar_matcher.parser import parse_text
+
+    text = (
+        "════════ ДЕТАЛИЗАЦИЯ ════════\n"
+        "########## TestCat ##########\n"
+        "  ▸ Qrup A / Группа А  [grp-a]  (1 дет)\n"
+        "      XX-001  Альфа  |  Alfa (widget)  [side:false|position:false]\n"
+        "      синонимы: alfa\n"
+        "  ▸ Qrup B / Группа Б  [grp-b]  (2 дет)\n"
+        "      XX-002  Бета  |  Beta  [side:false|position:false]\n"
+        "      XX-003  Гамма  |  Gamma  [side:false|position:false]\n"
+        "      синонимы: widget, beta syn\n"
+    )
+    m = Matcher(parse_text(text))
+    # "widget" is XX-001's parenthetical name AND a synonym of the other group.
+    r = m.match("widget")
+    assert r.status == "ambiguous"
+    ids = {c["part_id"] for c in r.candidates}
+    assert ids == {"XX-001", "XX-002", "XX-003"}
+
+
 # ── structural sanity of the parsed dictionary ───────────────────────────────
 def test_dictionary_shape(matcher):
     assert len(matcher.dict.groups) == 86

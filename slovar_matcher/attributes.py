@@ -10,6 +10,17 @@ from __future__ import annotations
 from .normalize import tokens
 
 # Canonical values are Azerbaijani: sol / sağ, ön / arxa.
+#
+# Homonym audit (all four sets were reviewed word-by-word for short Azerbaijani
+# tokens that collide with common everyday words or numbers — see Bug 1):
+#   * REMOVED "on" from _POS_FRONT — it is the Azerbaijani numeral "10", not a
+#     short form of "ön"; "on ədəd" ("10 pieces") was being read as "front".
+#   * "sağ" is kept although it doubles as "sağ ol" (thanks) / "alive": it is the
+#     only word for "right", so it must stay; higher-order phrase disambiguation
+#     is out of scope here.
+#   * Everything else is an unambiguous directional word or a diacritic/latin
+#     spelling variant of one. Whole-token matching (see `_detect`) prevents
+#     substring false positives.
 _SIDE_LEFT = {
     "sol", "sola", "soldan", "soldakı", "soldaki",
     "left", "lh",
@@ -21,7 +32,7 @@ _SIDE_RIGHT = {
     "право", "правый", "правая", "правое", "правых", "правого", "справа",
 }
 _POS_FRONT = {
-    "ön", "on", "öndeki", "öndəki", "önki",
+    "ön", "öndeki", "öndəki", "önki",
     "qabaq", "qabağ", "qabaqdakı", "qabaqdaki", "qabağdakı",
     "front", "fr",
     "перед", "передний", "передняя", "переднее", "передних", "переднего",

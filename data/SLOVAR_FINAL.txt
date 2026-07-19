@@ -108,7 +108,7 @@
       MU-015  Клапан (впускной/выпускной)  |  Klapan  [side:false|position:false]
       MU-050  Соленоид VANOS/VVT  |  Vanos (VVT solenoidi)  [side:false|position:false]
       MU-051  Мембрана PCV-клапана (маслоотделитель)  |  Membran (PCV klapanı)  [side:false|position:false]
-      MU-063  Фиксатор (сухарики) клапана  |  Klapan suxariki (fiksator)  [side:false|position:false]
+      MU-063  Фиксатор (сухарики) клапана  |  Klapan suxariki (klapan fiksatoru)  [side:false|position:false]
       MU-064  Пружина клапана  |  Klapan yayı  [side:false|position:false]
       MU-065  Коромысло/рокер ГРМ  |  Koromislo (rokker)  [side:false|position:false]
       синонимы: klapan, klapan qapağı, maslootdelitel, membran, muherrik basligi, mühərrik başlığı, pcv valve, qalofka, qalovka, seloneid vvt, vanos, vanus, üst kriska, üst kriwka, üst krişka, üst krışka, üst qapaq, üst örtük qapağı, галовка, гбц, головка, головка блока, клапан
@@ -151,7 +151,7 @@
   ▸ Sürət qutusu (yığma) / КПП в сборе  [transmission-gearbox]  (9 дет)
       TR-001  Коробка передач в сборе  |  Sürətlər qutusu (bütöv)  [side:false|position:false]
       TR-014  Сальник коробки/полуоси  |  Karopka salniki (val salniki)  [side:false|position:false]
-      TR-017  Фрикционные диски (пакет АКПП)  |  Friksion (paket/disk)  [side:false|position:false]
+      TR-017  Фрикционные диски (пакет АКПП)  |  Friksion (paket disk)  [side:false|position:false]
       TR-027  Пыльник (защита) снизу коробки передач  |  Sürət qutusunun alt pılniki  [side:false|position:false]
       TR-028  Клапан контура охлаждения коробки передач  |  Karopkanın soyutma klapanı  [side:false|position:false]
       TR-015  Селектор (рычаг переключения передач)  |  Rıçaq (sellektor)  [side:true|position:true]
@@ -177,15 +177,15 @@
       EL-065  Блок управления АКПП  |  AKPP bloku (sürət qutusunun beyni)  [side:false|position:false]
       TR-004  Блок управления коробкой (TCU/гидроблок)  |  Karopka beyni (TCU/gidro bloku)  [side:false|position:false]
       TR-005  Датчик коробки (давления/скорости)  |  Karopka datçiki (təzyiq/sürət)  [side:false|position:false]
-      TR-018  Соленоид коробки передач  |  Solenoid (karopka)  [side:false|position:false]
+      TR-018  Соленоид коробки передач  |  Solenoid (karopka klapanı)  [side:false|position:false]
       синонимы: akpp bloku, gidro bloku, haldex bloku, hidrobeyin, karobka platasının davleniya daççiki, karobkanın datçiki, karopka beyni, karopkanın bloku, mozq karopka, mozq karopkasi, siptometr dacikki, solenoid, suretler qutusunun beyni, sürət daçiki, tam ötürücü mufta bloku, мозг каропки, мозг коробки
 
   ▸ Kardan / SQ dayaqları / Кардан/опоры КПП  [transmission-driveline]  (5 дет)
       TR-011  Фланец (карданный/приводной)  |  Bublik (flanets)  [side:false|position:false]
-      TR-012  Карданный вал  |  Kardan (ötürücü val)  [side:false|position:false]
+      TR-012  Карданный вал  |  Kardan (ötürücü kardan valı)  [side:false|position:false]
       TR-013  Эластичная муфта (гибкая связь карданного вала)  |  Elastik mufta  [side:false|position:false]
       TR-021  Крестовина карданного вала  |  Kardan krestovinası  [side:false|position:false]
-      TR-022  Подвесной подшипник карданного вала  |  Kardan valının yastığı (podvesnoy)  [side:false|position:false]
+      TR-022  Подвесной подшипник карданного вала  |  Kardan valının yastığı (podvesnoy yastıq)  [side:false|position:false]
       синонимы: aralığ kardan, arxa kardan, bublik, elastik mufta, kardan, kardan valı, kardan valının yastığı, opornının pativniki, opornının podşipniki, opornıy podşipnik, padvisnoy, padvisnoy podşipnik, ön kardan
 
 
@@ -212,7 +212,7 @@
       YA-008  Поплавок топливного бака  |  Paplavok (yanacaq səviyyə üzgəci)  [side:false|position:false]
       YA-023  Внутренняя крышка топливного бака (горловины)  |  Yanacaq çəninin iç qapağı  [side:false|position:false]
       YA-006  Датчик уровня топлива  |  Yanacaq datçiki (səviyyə)  [side:false|position:false]
-      YA-025  Датчик давления топливного бака (EVAP)  |  Yanacaq çəni təzyiq sensoru (EVAP)  [side:false|position:false]
+      YA-025  Датчик давления топливного бака (система EVAP)  |  Yanacaq çəni təzyiq sensoru (EVAP təzyiqi)  [side:false|position:false]
       синонимы: benzin bakı, benzin bakı qapağı, benzin bakın zamoku, benzin bakının, benzin daciki, benzin datçiki, benzin çəni, paplavok, yanacaq datçiki, yanacaq daççiki, yanacaq nasosunun datciki, yanacaq çəni iç qapaq, evap təzyiq sensoru, yanacaq çəni təzyiq sensoru, fuel tank pressure sensor, ftp sensoru
 
   ▸ EVAP / drossel / EVAP/дроссель  [fuel-throttle]  (5 дет)
@@ -367,7 +367,7 @@
       AS-003  Подшипник опоры амортизатора  |  Amortizator pılniki/podşipniki  [side:true|position:true]
       AS-005  Отбойник хода сжатия  |  Otboynik  [side:false|position:true]
       AS-024  Пыльник амортизатора  |  Amortizator pılniki  [side:true|position:true]
-      AS-021  Пневмоподушка  |  Pnevmopodveska (hava yastığı)  [side:false|position:true]
+      AS-021  Пневмоподушка  |  Pnevmopodveska (hava balonu)  [side:false|position:true]
       AS-022  Компрессор пневмоподвески  |  Pnevma kompressoru  [side:false|position:true]
       AS-031  Плата/блок управления пневмоподушки  |  Pnevmoasqının platası (idarəetmə bloku)  [side:false|position:false]
       TY-006  Койловеры (спортивная подвеска)  |  Coilover (sport asma dəsti)  [side:false|position:true]
@@ -510,7 +510,7 @@
       KZ-033  Крышка багажника  |  Baqaj qapısı  [side:false|position:false]
       KZ-034  Пластик обшивки багажника  |  Baqaj daxili plastikləri  [side:false|position:false]
       KZ-042  Амортизатор/упор багажника  |  Baqaj amortizatoru  [side:false|position:false]
-      KZ-050  Замок багажника  |  Baqaj kilidi  [side:false|position:false]
+      KZ-050  Замок крышки багажника  |  Baqaj kilidi  [side:false|position:false]
       KZ-051  Петля крышки багажника  |  Baqaj qapağı menteşəsi  [side:false|position:true]
       KZ-070  Шторка/жалюзи багажника  |  Baqaj jaluzu (pərdəsi)  [side:false|position:false]
       синонимы: amortizator baqaj, baqaj, baqaj amortizatoru, baqaj ici plasmas, baqaj kilidi, baqaj plasması, baqaj qapisi, baqaj qapısı, baqaj zamok, baqaj zamoku, baqajnik qapagi, baqajın zamoku, gövdənin qapağı, baqaj jaluzu, baqaj pərdəsi, жалюзи багажника, шторка багажника
@@ -558,7 +558,7 @@
       EL-012  Подрулевой переключатель света/поворотников  |  Dönmə işığı qolu (kombi keçirici)  [side:false|position:false]
       EL-066  Блок управления светом (LCM)  |  LCM (işıq idarəetmə bloku)  [side:false|position:false]
       EL-024  Плафон освещения салона  |  Salon plafonu  [side:false|position:false]
-      EL-025  Лампа (для фары/стопа)  |  Lampa (fara/stop üçün)  [side:false|position:false]
+      EL-025  Лампа (для фары или стопа)  |  Lampa (fara və ya stop üçün)  [side:false|position:false]
       EL-063  Блок розжига (балласт ксенона)  |  Rozjiq bloku (ksenon)  [side:true|position:false]
       EL-055  Патрон лампы (цоколь)  |  Lampa patronu  [side:true|position:true]
       EL-047  Кнопка противотуманных фар  |  Duman fara düyməsi  [side:false|position:false]
@@ -671,7 +671,7 @@
       TK-002  Диск колеса  |  Disk (təkər diski)  [side:false|position:false]
       TK-006  Проставка колеса (spacer)  |  Spacer (təkər araqatı)  [side:false|position:false]
       TK-007  Болт/гайка колеса  |  Təkər boltu/qaykası  [side:false|position:false]
-      TK-009  Секретки для колёс (секретные болты/гайки)  |  Sekretka (təkər)  [side:false|position:false]
+      TK-009  Секретки для колёс (секретные болты и гайки)  |  Sekretka (təkər boltu)  [side:false|position:false]
       синонимы: disk, diski, diskin, disqi, spacer, teker boltu, teker qaykasi, təkər boltu, təkər qaykası, диски колесные, колесный диск, литые диски
 
   ▸ Ehtiyat təkər / Запаска/докатка  [tires-spare]  (3 дет)
@@ -697,8 +697,8 @@
       синонимы: 10w-40, 10w40, 5w-30, 5w-40, 5w30, 5w40, amsoil, castrol, dynamic oil, eneos, gastrol, mator yagi, mator yağı, meguin, mitanol, motor yağı, mühərrik yagi, mühərrik yağı, petro canada, ravinol yagi
 
   ▸ Filtrlər / Фильтры  [consumables-filters]  (5 дет)
-      SR-002  Масляный фильтр (двигателя)  |  Yağ filtri (mühərrik)  [side:false|position:false]
-      SR-003  Воздушный фильтр (двигателя)  |  Hava filtri (mühərrik)  [side:false|position:false]
+      SR-002  Масляный фильтр (двигателя)  |  Yağ filtri (mühərrik üçün)  [side:false|position:false]
+      SR-003  Воздушный фильтр (двигателя)  |  Hava filtri (mühərrik üçün)  [side:false|position:false]
       SR-004  Салонный фильтр  |  Salon filtri (kondisioner filtri)  [side:false|position:false]
       SR-006  Фильтр коробки передач  |  Karopka filtri  [side:false|position:false]
       SR-010  Топливный фильтр  |  Benzin/Yanacaq filtri  [side:false|position:false]

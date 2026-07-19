@@ -84,8 +84,20 @@ class Matcher:
         key = normalize(phrase)
 
         # Step 1a — exact name match (highest priority).
-        if key in self.dict.name_index:
-            return self._build(self.dict.name_index[key], phrase, raw_text, 1.0)
+        name_hit = self.dict.name_index.get(key)
+        if name_hit is not None:
+            ids = list(name_hit)
+            # Collision guard: if this exact name is *also* a synonym of some
+            # OTHER group, it is not an unambiguous identifier — surface both
+            # sides as ``ambiguous`` instead of letting the name win silently.
+            syn_hit = self.dict.synonym_index.get(key)
+            if syn_hit is not None:
+                owner = {self.dict.parts[p].leaf_code for p in name_hit}
+                extra = [code for code in syn_hit if code not in owner]
+                for pid in self._group_ids(extra):
+                    if pid not in ids:
+                        ids.append(pid)
+            return self._build(ids, phrase, raw_text, 1.0)
 
         # Step 1b — exact synonym match -> whole leaf group.
         if key in self.dict.synonym_index:
