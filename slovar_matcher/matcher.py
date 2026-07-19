@@ -80,6 +80,7 @@ class Matcher:
         phrase: str,
         raw_text: str | None = None,
         threshold: float = DEFAULT_THRESHOLD,
+        restrict_category: str | None = None,
     ) -> MatchResult:
         key = normalize(phrase)
 
@@ -97,22 +98,23 @@ class Matcher:
                 for pid in self._group_ids(extra):
                     if pid not in ids:
                         ids.append(pid)
-            return self._build(ids, phrase, raw_text, 1.0)
+            return self._build(ids, phrase, raw_text, 1.0, restrict_category)
 
         # Step 1b — exact synonym match -> whole leaf group.
         if key in self.dict.synonym_index:
             return self._build(self._group_ids(self.dict.synonym_index[key]),
-                               phrase, raw_text, 1.0)
+                               phrase, raw_text, 1.0, restrict_category)
 
         # Step 2a — near-match on names (≥ threshold), best score wins.
         score, pids = self._fuzzy_refs(key, self.dict.name_index, threshold)
         if pids:
-            return self._build(pids, phrase, raw_text, round(score, 3))
+            return self._build(pids, phrase, raw_text, round(score, 3), restrict_category)
 
         # Step 2b — near-match on synonyms -> whole leaf group(s).
         score, codes = self._fuzzy_refs(key, self.dict.synonym_index, threshold)
         if codes:
-            return self._build(self._group_ids(codes), phrase, raw_text, round(score, 3))
+            return self._build(self._group_ids(codes), phrase, raw_text,
+                               round(score, 3), restrict_category)
 
         return MatchResult(status="no_match")
 
@@ -151,7 +153,13 @@ class Matcher:
         return best, refs
 
     def _build(self, ids: list[str], phrase: str, raw_text: str | None,
-               score: float) -> MatchResult:
+               score: float, restrict_category: str | None = None) -> MatchResult:
+        if restrict_category is not None:
+            # Layer-2 funnel: once the category is known, keep only candidates
+            # in that category (see Part 2 of the spec).
+            ids = [i for i in ids if self.dict.parts[i].category == restrict_category]
+            if not ids:
+                return MatchResult(status="no_match")
         if len(ids) == 1:
             return self._single(ids[0], phrase, raw_text, score)
         return self._ambiguous(ids, score)

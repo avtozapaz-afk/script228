@@ -106,6 +106,30 @@ side?" — never "front or rear?" — while a wheel bearing (`AS-007`,
 (the `########## Category ##########` section header and the `▸ leaf [code]`
 line), so no external mapping is required.
 
+### Two-layer funnel (category → detail → attributes)
+
+A thin **Layer 1** (`slovar_matcher/category.py`) runs *before* the detail
+matcher and narrows to one of the 15 top categories, using
+`data/category_index.json` (word → category, generated from the library):
+
+* one category → `category_resolved`;
+* two or more → `category_ambiguous` (ask, with the candidate categories);
+* nothing (and no near-match ≥ threshold) → `category_unknown`.
+
+Layer 1 never guesses — it only reports in how many categories the word
+physically appears. Once the category is known, the detail matcher is called
+with `restrict_category=<cat>` (a `match()` parameter) so it only considers
+parts in that category. The funnel therefore narrows **category → detail →
+attributes**, and at each step it is either sure or asks exactly one question.
+
+```python
+from slovar_matcher import CategoryMatcher, Matcher
+
+cat = CategoryMatcher.from_file().resolve("emblema")   # -> category_ambiguous
+# after the user picks a category:
+part = Matcher.from_file().match("emblema", restrict_category="Кузов и оптика")
+```
+
 ### Why "traves" is ambiguous but "yan güzgü" / "nadduv" are single
 
 Names may carry a parenthetical alternative, e.g. `Turbo (nadduv) datçiki`,
@@ -165,8 +189,12 @@ python -m pytest tests/ -q
   behaviour (typo → single, tie → ambiguous, below-threshold → no_match,
   `--threshold 1.0` → exact-only) and the bug regressions (numeral "on" ≠ front,
   "fara" ≠ silent bulb, cross-group collision → ambiguous).
-* `tests/test_integrity.py` — no name/synonym collisions, and the canonical-names
-  list stays generated from `SLOVAR_FINAL.txt`.
+* `tests/test_category.py` — Layer 1 (radiator → resolved, fara → resolved,
+  emblema → ambiguous, typo near-match, unknown) and the `restrict_category`
+  funnel.
+* `tests/test_integrity.py` — no name/synonym collisions, and both generated
+  derivatives (`canonical_names.md`, `category_index.json`) stay in sync with
+  `SLOVAR_FINAL.txt`.
 
 ### A note on the reference test files
 
@@ -180,9 +208,15 @@ small harness can replay every `input → expected JSON` pair against
 ## Offline browser tester (`matcher_tool.html`)
 
 For hand-checking without a Python environment, `matcher_tool.html` is a single
-self-contained file — the whole dictionary and a JavaScript port of the matcher
-are inlined, so it runs offline in any browser (just open it). It shows the JSON
-result plus the explicit clarifying question when a part needs `side`/`position`.
+self-contained file — the whole dictionary, the category index, and a JavaScript
+port of both layers are inlined, so it runs offline in any browser (just open it).
+
+It is a fully **interactive funnel**: type a request, then answer with **clickable
+chip buttons** — category (when ambiguous), which detail (when several match), and
+side/position (`Sol / Sağ / Hər ikisi`, `Ön / Arxa`). There is always a
+`Başqa / Другое` fallback, and the free-text field stays available. The dialog
+runs entirely client-side and ends on a final screen showing the assembled part
+(category, subcategory, RU/AZ name, filled attributes) plus its JSON.
 
 Rebuild it after editing the dictionary:
 
@@ -190,7 +224,8 @@ Rebuild it after editing the dictionary:
 python build_html.py
 ```
 
-Its output is verified byte-identical to `slovar_matcher` across the test cases.
+Its logic is verified byte-identical to `slovar_matcher` (both layers) across the
+test cases.
 
 ## Layout
 
@@ -199,15 +234,18 @@ slovar_matcher/
   normalize.py    Azerbaijani/Russian-aware lowercasing, tokenizing, similarity
   parser.py       SLOVAR_FINAL.txt -> parts, groups, name/synonym indices
   attributes.py   side / position keyword extraction
-  matcher.py      Matcher + MatchResult (the 3-state algorithm)
+  category.py     Layer 1 — category resolution (category_index.json)
+  matcher.py      Matcher + MatchResult (3-state algorithm, restrict_category)
 data/
   SLOVAR_FINAL.txt    source of truth (hand-maintained)
   canonical_names.md  generated ID + AZ-name list for the LLM
+  category_index.json generated word -> category index (Layer 1)
 scripts/
-  check_collisions.py          name/other-group-synonym collision guard
-  generate_canonical_names.py  regenerates canonical_names.md from the library
+  check_collisions.py           name/other-group-synonym collision guard
+  generate_canonical_names.py   regenerates canonical_names.md
+  generate_category_index.py    regenerates category_index.json
 cli.py            command-line entry point
-build_html.py     regenerates the offline matcher_tool.html
-matcher_tool.html self-contained offline browser tester
+build_html.py     regenerates the offline interactive matcher_tool.html
+matcher_tool.html self-contained offline interactive funnel demo
 tests/            pytest regression suite
 ```

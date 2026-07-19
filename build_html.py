@@ -103,6 +103,19 @@ TEMPLATE = r'''<!doctype html>
   .ask .opt{display:inline-block;background:var(--panel);border:1px solid var(--line);
     border-radius:999px;padding:4px 12px;margin:2px 6px 2px 0;font-size:13px;font-weight:700}
   .done{color:var(--ok);font-weight:600;margin-top:14px}
+  .pid{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent);font-weight:700}
+  .tline{padding:7px 2px;border-bottom:1px solid var(--line);font-size:14px}
+  .tline:first-child{padding-top:0}
+  .qblock{margin-top:14px}
+  .qblock .q{font-weight:600;margin-bottom:10px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chips.col{flex-direction:column;align-items:stretch}
+  .chip{background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:999px;
+    padding:10px 15px;font-size:13.5px;font-weight:600;cursor:pointer;text-align:left;transition:border-color .12s}
+  .chip:hover{border-color:var(--accent)}
+  .chip.col{border-radius:12px}
+  .final{margin-top:8px}
+  .final h3{margin:0 0 12px;color:var(--ok);font-size:16px}
   pre{background:var(--code);color:var(--code-ink);border-radius:12px;padding:14px;overflow-x:auto;
     font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;margin:14px 0 0}
   .muted{color:var(--muted)}
@@ -115,47 +128,44 @@ TEMPLATE = r'''<!doctype html>
 <div class="wrap">
   <header>
     <div>
-      <h1>Детерминированный матчер деталей</h1>
-      <p class="sub">Точный поиск по словарю AVTOZAP · без LLM · 15 категорий · 86 листьев · 438 деталей</p>
+      <h1>AVTOZAP — воронка подбора детали</h1>
+      <p class="sub">Категория → деталь → атрибуты · без LLM · каждый шаг: уверен или ОДИН вопрос кнопками</p>
     </div>
     <button class="toggle" id="theme">◐ тема</button>
   </header>
 
   <div class="card">
-    <label for="phrase">Нормализованная фраза <span class="hint">(вход от Seller-модели)</span></label>
-    <input type="text" id="phrase" placeholder="напр. yan güzgü" autocomplete="off">
+    <label for="phrase">Запрос клиента <span class="hint">(нормализованная фраза от Seller-модели)</span></label>
+    <input type="text" id="phrase" placeholder="напр. emblema" autocomplete="off">
     <div class="examples" id="examples"></div>
 
     <div style="margin-top:16px">
-      <label for="raw">Сырой текст клиента <span class="hint">(необязательно — для side/position)</span></label>
-      <input type="text" id="raw" placeholder="напр. sol güzgü" autocomplete="off">
+      <label for="raw">Сырой текст клиента <span class="hint">(необязательно — для стороны/позиции)</span></label>
+      <input type="text" id="raw" placeholder="напр. sol qabaq" autocomplete="off">
     </div>
 
     <div class="row">
-      <button class="go" id="run">Найти деталь</button>
-      <label class="chk">порог совпадения:
-        <input type="text" id="threshold" value="0.90" style="width:64px;padding:6px 8px" autocomplete="off">
-        <span class="hint">(1.0 = только точное; 0.90 = допускает 1–2 лишние буквы)</span></label>
+      <button class="go" id="run">Начать подбор</button>
+      <label class="chk">порог:
+        <input type="text" id="threshold" value="0.90" style="width:58px;padding:6px 8px" autocomplete="off">
+        <span class="hint">(1.0 = только точное; 0.90 = терпит опечатки)</span></label>
     </div>
   </div>
 
-  <div class="card" id="result" style="display:none"></div>
+  <div class="card" id="dialog" style="display:none"></div>
 
   <details class="card">
     <summary>Как это работает</summary>
     <p class="muted" style="font-size:13.5px">
-      <b>Шаг 1.</b> Сначала точное совпадение с именем детали (name_ru / name_az или альтернатива в скобках) —
-      высший приоритет. Иначе — точное совпадение с синонимом группы: синонимы общие на весь лист,
-      поэтому возвращаются <i>все</i> ID листа (1 ID → single_match; 2+ → честный ambiguous).
-      Если точного нет — <b>приблизительное совпадение ≥ порога</b> (по умолчанию 90%): допускает
-      одну-две лишние/ошибочные буквы. Побеждает лучший балл; при равенстве нескольких разных деталей —
-      честный ambiguous, без угадывания. Ниже порога — no_match.<br><br>
-      <b>Шаг 2 — уточнение.</b> Только для single_match. У каждой детали есть флаги
-      <code>side</code> (сторона: лево/право) и <code>position</code> (позиция: перёд/зад).
-      Программа спрашивает <b>только те</b>, что у детали <code>true</code> и не найдены в тексте.
-      Если у детали флаг <code>false</code> — про этот атрибут <b>не спрашиваем</b> и не заполняем.<br><br>
-      <b>Шаг 3.</b> Категория и подкатегория берутся прямо из структуры словаря.<br><br>
-      Никакого угадывания: ambiguous никогда не сворачивается в один вариант.
+      <b>Слой 1 — категория.</b> По словарю смотрим, в скольких из 15 категорий слово вообще встречается:
+      в одной → категория определена; в двух+ → <b>вопрос кнопками</b>; нигде (и near-match &lt; порога) →
+      «не определено». Никаких вероятностей — только факт присутствия по словарю.<br><br>
+      <b>Слой 2 — деталь.</b> Как категория известна, матчер ищет деталь <b>только внутри неё</b>
+      (точное имя → синоним группы → near-match ≥ порога). Одна деталь → дальше; несколько →
+      <b>вопрос кнопками</b>; ничего → «не найдено».<br><br>
+      <b>Атрибуты.</b> У детали спрашиваются <b>только</b> те флаги (сторона / позиция), что у неё
+      <code>true</code> и не найдены в тексте — тоже кнопками. Если флаг <code>false</code> — не спрашиваем.<br><br>
+      Никакого угадывания: на каждом шаге либо уверенность, либо ровно один вопрос.
     </p>
   </details>
 
@@ -164,6 +174,9 @@ TEMPLATE = r'''<!doctype html>
 
 <script>
 const DATA = __DATA__;
+</script>
+<script>
+const CATIDX = __CATIDX__;
 </script>
 <script>
 /* ---- normalization (mirrors slovar_matcher/normalize.py) ---- */
@@ -204,7 +217,9 @@ function fuzzyRefs(key,index,threshold){let best=0;const hits=[];
   for(const [s,k] of hits) if(Math.abs(s-best)<EPS)
     for(const r of index[k]) if(!refs.includes(r)) refs.push(r);
   return[best,refs];}
-function match(phrase,raw,threshold){
+function noMatch(){return{status:"no_match",part_id:null,name_ru:null,name_az:null,category:null,
+  subcategory:null,attributes:{side:null,position:null},needs_clarification:[],candidates:[]};}
+function match(phrase,raw,threshold,restrict){
   if(threshold==null)threshold=DEFAULT_THRESHOLD;
   const key=normalize(phrase);
   const nameHit=DATA.name_index[key];
@@ -213,16 +228,17 @@ function match(phrase,raw,threshold){
     if(synHit){const owner=new Set(nameHit.map(p=>DATA.parts[p].leaf_code));
       const extra=synHit.filter(c=>!owner.has(c));
       for(const pid of groupIds(extra)) if(!ids.includes(pid)) ids.push(pid);}
-    return build(ids,phrase,raw,1.0);}
-  if(DATA.synonym_index[key])return build(groupIds(DATA.synonym_index[key]),phrase,raw,1.0);
+    return build(ids,phrase,raw,1.0,restrict);}
+  if(DATA.synonym_index[key])return build(groupIds(DATA.synonym_index[key]),phrase,raw,1.0,restrict);
   const [ns,pids]=fuzzyRefs(key,DATA.name_index,threshold);
-  if(pids.length)return build(pids,phrase,raw,round3(ns));
+  if(pids.length)return build(pids,phrase,raw,round3(ns),restrict);
   const [ss,codes]=fuzzyRefs(key,DATA.synonym_index,threshold);
-  if(codes.length)return build(groupIds(codes),phrase,raw,round3(ss));
-  return{status:"no_match",part_id:null,name_ru:null,name_az:null,category:null,
-    subcategory:null,attributes:{side:null,position:null},needs_clarification:[],candidates:[]};
+  if(codes.length)return build(groupIds(codes),phrase,raw,round3(ss),restrict);
+  return noMatch();
 }
-function build(ids,phrase,raw,score){return ids.length===1?single(ids[0],phrase,raw,score):ambiguous(ids,score);}
+function build(ids,phrase,raw,score,restrict){
+  if(restrict!=null){ids=ids.filter(i=>DATA.parts[i].category===restrict); if(!ids.length)return noMatch();}
+  return ids.length===1?single(ids[0],phrase,raw,score):ambiguous(ids,score);}
 function single(pid,phrase,raw,score){const p=DATA.parts[pid];
   const space=[phrase,raw].filter(Boolean).join(" ");
   const attributes={side:null,position:null};const needs=[];
@@ -237,75 +253,165 @@ function ambiguous(ids,score){return{status:"ambiguous",part_id:null,name_ru:nul
   candidates:ids.map(i=>({part_id:i,name_ru:DATA.parts[i].name_ru,name_az:DATA.parts[i].name_az})),
   match_score:score};}
 
+/* ---- Layer 1: category resolver (mirrors slovar_matcher/category.py) ---- */
+function resolveCategory(word,raw,threshold){
+  if(threshold==null)threshold=DEFAULT_THRESHOLD;
+  const key=normalize(word);
+  let cats=CATIDX.index[key],score=1.0;
+  if(!cats){
+    let best=0;const hits=[];
+    for(const k in CATIDX.index){const s=similarity(key,k);if(s>=threshold){hits.push([s,k]);if(s>best)best=s;}}
+    if(!hits.length)return{status:"category_unknown",raw_text:raw!=null&&raw!==""?raw:word};
+    const cs=[];for(const [s,k] of hits) if(Math.abs(s-best)<EPS)
+      for(const c of CATIDX.index[k]) if(!cs.includes(c)) cs.push(c);
+    cats=cs.sort(); score=round3(best);
+  }
+  if(cats.length===1)return{status:"category_resolved",category:cats[0],match_score:score};
+  return{status:"category_ambiguous",candidates:cats.slice(),
+    question:"К какой категории относится деталь?",match_score:score};
+}
+
 /* ---- UI ---- */
 const $=s=>document.querySelector(s);
-const EXAMPLES=[["yan güzgü","sol güzgü"],["stupitsa podsipniki",""],
-  ["mad sensoru",""],["Turbo (nadduv) datçiki",""],
-  ["traves",""],["radiator ekran",""]];
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+const pct=s=>Math.round(s*100)+"%";
+
+const EXAMPLES=[["emblema",""],["fara",""],["radiator",""],
+  ["yan güzgü","sol"],["traves",""],["stupitsa podsipniki",""]];
 const exBox=$("#examples");
 EXAMPLES.forEach(([ph,rw])=>{const b=document.createElement("button");
   b.className="ex";b.textContent=rw?(ph+" + «"+rw+"»"):ph;
-  b.onclick=()=>{$("#phrase").value=ph;$("#raw").value=rw;run();};exBox.appendChild(b);});
+  b.onclick=()=>{$("#phrase").value=ph;$("#raw").value=rw;start();};exBox.appendChild(b);});
 
-function esc(s){return String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
-function scoreLabel(s){if(s==null)return'<span class=muted>—</span>';
-  const pct=Math.round(s*100);
-  return s>=0.9999?('<b>100%</b> <span class=muted>(точное)</span>'):
-    ('<b>'+pct+'%</b> <span class=muted>(≈ приблизительное — есть опечатка/лишние буквы)</span>');}
-const Q={side:{q:"С какой стороны?",opts:["левая — sol","правая — sağ"]},
-  position:{q:"Какая позиция?",opts:["перёд — ön","зад — arxa"]}};
-function askBlock(needs){
-  let h='<div class="ask"><h3>❓ Нужно уточнить у клиента:</h3>';
-  needs.forEach(n=>{const q=Q[n];h+='<div class="q">'+esc(q.q)+'</div><div>'+
-    q.opts.map(o=>'<span class="opt">'+esc(o)+'</span>').join('')+'</div>';});
-  h+='</div>';return h;}
+/* ---- funnel state machine ---- */
+let S=null;
+function draw(){const d=$("#dialog");d.innerHTML=S.transcript.join("")+(S.current||"");d.style.display="block";}
+function line(html){S.transcript.push('<div class="tline">'+html+'</div>');}
+function chip(act,val,label){return '<button class="chip" data-act="'+act+'" data-val="'+esc(val)+'">'+label+'</button>';}
 
-function render(r){
-  const cls={single_match:"s-single",ambiguous:"s-amb",no_match:"s-no"}[r.status];
-  let h='<span class="status-badge '+cls+'">'+r.status+'</span>';
-  if(r.status==="single_match"){
-    h+='<dl class="kv">'+
-      '<dt>part_id</dt><dd class="cand"><span class="pid">'+esc(r.part_id)+'</span></dd>'+
-      '<dt>name_ru</dt><dd>'+esc(r.name_ru)+'</dd>'+
-      '<dt>name_az</dt><dd>'+esc(r.name_az)+'</dd>'+
-      '<dt>category</dt><dd>'+esc(r.category)+'</dd>'+
-      '<dt>subcategory</dt><dd>'+esc(r.subcategory)+'</dd>'+
-      '<dt>attributes</dt><dd>side: '+(r.attributes.side?esc(r.attributes.side):'<span class=muted>—</span>')+
-        ' &nbsp;·&nbsp; position: '+(r.attributes.position?esc(r.attributes.position):'<span class=muted>—</span>')+'</dd>'+
-      '<dt>match_score</dt><dd>'+scoreLabel(r.match_score)+'</dd>'+
-      '</dl>';
-    if(r.needs_clarification.length) h+=askBlock(r.needs_clarification);
-    else h+='<p class="done">✔ Атрибуты не требуются — вопросов нет.</p>';
-  } else if(r.status==="ambiguous"){
-    h+='<p class="summary muted">Неоднозначно — '+r.candidates.length+
-      ' кандидат(ов), совпадение '+scoreLabel(r.match_score)+'. Программа НЕ выбирает один, отдаёт всех:</p>';
-    r.candidates.forEach(c=>{h+='<div class="cand"><span class="pid">'+esc(c.part_id)+'</span> — '+
-      esc(c.name_ru)+' &nbsp;<span class="muted">| '+esc(c.name_az)+'</span></div>';});
-  } else {
-    h+='<p class="summary muted">Такой детали в словаре нет (совпадение ниже порога).</p>';
-  }
-  h+='<pre>'+esc(JSON.stringify(r,null,2))+'</pre>';
-  const box=$("#result");box.innerHTML=h;box.style.display="block";
+function start(){
+  const phrase=$("#phrase").value.trim(); if(!phrase)return;
+  let th=parseFloat($("#threshold").value); if(isNaN(th))th=0.90;
+  S={phrase,raw:$("#raw").value.trim(),threshold:th,category:null,part:null,
+     attributes:{side:null,position:null},pendingNeeds:[],transcript:[],current:null};
+  line('🔎 Запрос: <b>'+esc(phrase)+'</b>'+(S.raw?' <span class=muted>· сырой текст: «'+esc(S.raw)+'»</span>':''));
+  stepCategory();
 }
-function run(){const ph=$("#phrase").value;if(!ph.trim())return;
-  let th=parseFloat($("#threshold").value);if(isNaN(th))th=0.90;
-  render(match(ph,$("#raw").value,th));}
-$("#run").onclick=run;
-$("#phrase").addEventListener("keydown",e=>{if(e.key==="Enter")run();});
-$("#raw").addEventListener("keydown",e=>{if(e.key==="Enter")run();});
+
+function stepCategory(){
+  const r=resolveCategory(S.phrase,S.raw,S.threshold);
+  if(r.status==="category_resolved"){
+    S.category=r.category;
+    line('① Категория: <b>'+esc(r.category)+'</b>'+(r.match_score<0.9999?' <span class=muted>(≈ '+pct(r.match_score)+')</span>':''));
+    S.current=null; stepDetail();
+  } else if(r.status==="category_ambiguous"){
+    let h='<div class="qblock"><div class="q">① '+esc(r.question)+
+      ' <span class=muted>('+r.candidates.length+' варианта)</span></div><div class="chips">';
+    r.candidates.forEach(c=>h+=chip("cat",c,esc(c)));
+    h+=chip("cat-other","","Başqa / Другое")+'</div></div>';
+    S.current=h; draw();
+  } else {
+    line('① Категория <b>не определена</b> — ищу деталь без ограничения по категории.');
+    S.category=null; S.current=null; stepDetail();
+  }
+}
+
+function stepDetail(){
+  const r=match(S.phrase,S.raw,S.threshold,S.category);
+  if(r.status==="single_match"){ selectPart(r.part_id,r.match_score); }
+  else if(r.status==="ambiguous"){
+    let h='<div class="qblock"><div class="q">② Уточните деталь <span class=muted>('+
+      r.candidates.length+' вариантов, совпадение '+pct(r.match_score)+')</span></div><div class="chips col">';
+    r.candidates.forEach(c=>h+='<button class="chip" data-act="part" data-val="'+esc(c.part_id)+'">'+
+      '<b>'+esc(c.part_id)+'</b> — '+esc(c.name_ru)+' <span class=muted>| '+esc(c.name_az)+'</span></button>');
+    h+=chip("part-other","","Başqa / Другое")+'</div></div>';
+    S.current=h; draw();
+  } else {
+    line('② Деталь <b>не найдена</b>'+(S.category?' в категории «'+esc(S.category)+'»':'')+'.');
+    S.current='<div class="qblock"><div class="chips">'+chip("restart","","↻ Заново")+'</div></div>'; draw();
+  }
+}
+
+function selectPart(pid,score){
+  const res=single(pid,S.phrase,S.raw,score==null?1.0:score);
+  S.part=res; S.attributes={side:res.attributes.side,position:res.attributes.position};
+  S.pendingNeeds=res.needs_clarification.slice();
+  line('② Деталь: <span class="pid">'+esc(res.part_id)+'</span> — <b>'+esc(res.name_ru)+'</b>'+
+    (res.match_score<0.9999?' <span class=muted>(≈ '+pct(res.match_score)+')</span>':''));
+  // auto-filled attributes (found in raw text) reported as facts, not questions
+  ["side","position"].forEach(k=>{ if(S.attributes[k]) line('③ '+attrLabel(k)+' найдено в тексте: <b>'+esc(S.attributes[k])+'</b>'); });
+  S.current=null; askNext();
+}
+
+const attrLabel=k=>k==="side"?"Сторона":"Позиция";
+function askNext(){
+  if(!S.pendingNeeds.length){ renderFinal(); return; }
+  const need=S.pendingNeeds[0];
+  let h='<div class="qblock"><div class="q">③ ❓ '+(need==="side"?"С какой стороны?":"Перёд или зад?")+'</div><div class="chips">';
+  if(need==="side"){ h+=chip("side","sol","Sol (лев.)")+chip("side","sağ","Sağ (прав.)")+chip("side","sol,sağ","Hər ikisi (обе)"); }
+  else { h+=chip("pos","ön","Ön (перёд)")+chip("pos","arxa","Arxa (зад)"); }
+  h+='</div></div>'; S.current=h; draw();
+}
+function answerAttr(kind,val){
+  S.attributes[kind]=val; S.pendingNeeds=S.pendingNeeds.filter(n=>n!==kind);
+  line('③ '+attrLabel(kind)+': <b>'+esc(val)+'</b> <span class=muted>(выбор кнопкой)</span>');
+  S.current=null; askNext();
+}
+
+function renderFinal(){
+  const p=S.part, a=S.attributes;
+  const final={category:p.category,subcategory:p.subcategory,part_id:p.part_id,
+    name_ru:p.name_ru,name_az:p.name_az,attributes:a,match_score:p.match_score};
+  let h='<div class="final"><h3>✔ Деталь собрана</h3><dl class="kv">'+
+    '<dt>Категория</dt><dd>'+esc(p.category)+'</dd>'+
+    '<dt>Подкатегория</dt><dd>'+esc(p.subcategory)+'</dd>'+
+    '<dt>part_id</dt><dd><span class="pid">'+esc(p.part_id)+'</span></dd>'+
+    '<dt>Название (RU)</dt><dd>'+esc(p.name_ru)+'</dd>'+
+    '<dt>Название (AZ)</dt><dd>'+esc(p.name_az)+'</dd>'+
+    '<dt>Сторона</dt><dd>'+(a.side?esc(a.side):'<span class=muted>— (не требуется)</span>')+'</dd>'+
+    '<dt>Позиция</dt><dd>'+(a.position?esc(a.position):'<span class=muted>— (не требуется)</span>')+'</dd>'+
+    '</dl><details><summary>JSON</summary><pre>'+esc(JSON.stringify(final,null,2))+'</pre></details>'+
+    '<div class="chips" style="margin-top:12px">'+chip("restart","","↻ Новый подбор")+'</div></div>';
+  S.current=h; draw();
+}
+
+/* ---- click delegation for all chips ---- */
+$("#dialog").addEventListener("click",e=>{
+  const b=e.target.closest("button[data-act]"); if(!b)return;
+  const act=b.dataset.act, val=b.dataset.val;
+  if(act==="cat"){ S.category=val; line('① Категория выбрана: <b>'+esc(val)+'</b>'); S.current=null; stepDetail(); }
+  else if(act==="cat-other"){ line('① Категория: <b>другое</b> → без ограничения.'); S.category=null; S.current=null; stepDetail(); }
+  else if(act==="part"){ S.current=null; selectPart(val,1.0); }
+  else if(act==="part-other"){ line('② Другое — уточните название в поле выше и нажмите «Начать».');
+    S.current='<div class="qblock"><div class="chips">'+chip("restart","","↻ Заново")+'</div></div>'; draw(); $("#phrase").focus(); }
+  else if(act==="side"){ answerAttr("side",val); }
+  else if(act==="pos"){ answerAttr("position",val); }
+  else if(act==="restart"){ S=null; $("#dialog").style.display="none"; $("#phrase").focus(); }
+});
+
+$("#run").onclick=start;
+$("#phrase").addEventListener("keydown",e=>{if(e.key==="Enter")start();});
+$("#raw").addEventListener("keydown",e=>{if(e.key==="Enter")start();});
 $("#theme").onclick=()=>{const r=document.documentElement;
   const cur=r.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
   r.setAttribute("data-theme",cur==="dark"?"light":"dark");};
-$("#foot").textContent="Автономный офлайн-инструмент. Логика и весь словарь встроены в этот файл — "+
-  Object.keys(DATA.parts).length+" деталей, "+Object.keys(DATA.groups).length+
-  " листьев. Идентичен Python-программе (slovar_matcher).";
+$("#foot").textContent="Автономный офлайн-инструмент. Слой 1 (категория) + Слой 2 (деталь) и весь словарь встроены в файл — "+
+  Object.keys(DATA.parts).length+" деталей, "+Object.keys(DATA.groups).length+" листьев, "+
+  Object.keys(CATIDX.index).length+" слов индекса. Идентичен Python-библиотеке (slovar_matcher).";
 </script>
 </body>
 </html>'''
 
 
+def export_category_index() -> str:
+    with open(os.path.join(HERE, "data", "category_index.json"), encoding="utf-8") as fh:
+        return fh.read()
+
+
 def main() -> None:
-    out = TEMPLATE.replace("__DATA__", export_data())
+    out = (TEMPLATE
+           .replace("__DATA__", export_data())
+           .replace("__CATIDX__", export_category_index()))
     path = os.path.join(HERE, "matcher_tool.html")
     with open(path, "w", encoding="utf-8") as f:
         f.write(out)
