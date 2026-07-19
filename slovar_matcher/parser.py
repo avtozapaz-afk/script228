@@ -198,9 +198,11 @@ def parse_text(text: str) -> Dictionary:
             )
             parts[pid] = part
             current.part_ids.append(pid)
-            for variant in name_variants(part.name_ru):
+            # sorted() so index (and the generated matcher_tool.html) is
+            # reproducible regardless of PYTHONHASHSEED / set iteration order.
+            for variant in sorted(name_variants(part.name_ru)):
                 add_name(variant, pid)
-            for variant in name_variants(part.name_az):
+            for variant in sorted(name_variants(part.name_az)):
                 add_name(variant, pid)
             continue
 
