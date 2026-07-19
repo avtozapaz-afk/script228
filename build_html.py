@@ -133,7 +133,9 @@ TEMPLATE = r'''<!doctype html>
 
     <div class="row">
       <button class="go" id="run">Найти деталь</button>
-      <label class="chk"><input type="checkbox" id="fuzzy"> fuzzy-подсказки при no_match (только предложения, не выбор)</label>
+      <label class="chk">порог совпадения:
+        <input type="text" id="threshold" value="0.90" style="width:64px;padding:6px 8px" autocomplete="off">
+        <span class="hint">(1.0 = только точное; 0.90 = допускает 1–2 лишние буквы)</span></label>
     </div>
   </div>
 
@@ -142,9 +144,12 @@ TEMPLATE = r'''<!doctype html>
   <details class="card">
     <summary>Как это работает</summary>
     <p class="muted" style="font-size:13.5px">
-      <b>Шаг 1.</b> Точное совпадение с именем детали (name_ru / name_az или альтернатива в скобках) —
-      высший приоритет, один кандидат. Иначе — совпадение с синонимом группы: синонимы общие на весь лист,
-      поэтому возвращаются <i>все</i> ID листа (1 ID → single_match; 2+ → честный ambiguous). Иначе — no_match.<br><br>
+      <b>Шаг 1.</b> Сначала точное совпадение с именем детали (name_ru / name_az или альтернатива в скобках) —
+      высший приоритет. Иначе — точное совпадение с синонимом группы: синонимы общие на весь лист,
+      поэтому возвращаются <i>все</i> ID листа (1 ID → single_match; 2+ → честный ambiguous).
+      Если точного нет — <b>приблизительное совпадение ≥ порога</b> (по умолчанию 90%): допускает
+      одну-две лишние/ошибочные буквы. Побеждает лучший балл; при равенстве нескольких разных деталей —
+      честный ambiguous, без угадывания. Ниже порога — no_match.<br><br>
       <b>Шаг 2 — уточнение.</b> Только для single_match. У каждой детали есть флаги
       <code>side</code> (сторона: лево/право) и <code>position</code> (позиция: перёд/зад).
       Программа спрашивает <b>только те</b>, что у детали <code>true</code> и не найдены в тексте.
@@ -180,54 +185,56 @@ function detect(text,L,R,lv,rv){const t=new Set(tokens(text));let l=false,r=fals
 const detectSide=t=>detect(t,SIDE_LEFT,SIDE_RIGHT,"sol","sağ");
 const detectPosition=t=>detect(t,POS_FRONT,POS_REAR,"ön","arxa");
 
-/* ---- fuzzy (approx difflib) ---- */
+/* ---- similarity (mirrors slovar_matcher/normalize.py) ---- */
 function lev(a,b){const m=a.length,n=b.length;if(!m)return n;if(!n)return m;
   let prev=Array.from({length:n+1},(_,i)=>i);
   for(let i=1;i<=m;i++){let cur=[i];for(let j=1;j<=n;j++){
     cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));}prev=cur;}
   return prev[n];}
-function ratio(a,b){const M=Math.max(a.length,b.length);return M?1-lev(a,b)/M:1;}
+function similarity(a,b){const M=Math.max(a.length,b.length);return M?1-lev(a,b)/M:1;}
 
 /* ---- matcher (mirrors slovar_matcher/matcher.py) ---- */
-function match(phrase,raw,fuzzy){
+const DEFAULT_THRESHOLD=0.90,EPS=1e-9;
+const round3=x=>Math.round(x*1000)/1000;
+function groupIds(codes){const ids=[];for(const c of codes)
+  for(const pid of DATA.groups[c].part_ids) if(!ids.includes(pid)) ids.push(pid);return ids;}
+function fuzzyRefs(key,index,threshold){let best=0;const hits=[];
+  for(const k in index){const s=similarity(key,k);if(s>=threshold){hits.push([s,k]);if(s>best)best=s;}}
+  if(!hits.length)return[0,[]];const refs=[];
+  for(const [s,k] of hits) if(Math.abs(s-best)<EPS)
+    for(const r of index[k]) if(!refs.includes(r)) refs.push(r);
+  return[best,refs];}
+function match(phrase,raw,threshold){
+  if(threshold==null)threshold=DEFAULT_THRESHOLD;
   const key=normalize(phrase);
-  let ids=null;
-  if(DATA.name_index[key])ids=DATA.name_index[key].slice();
-  else if(DATA.synonym_index[key]){ids=[];
-    for(const code of DATA.synonym_index[key])
-      for(const pid of DATA.groups[code].part_ids) if(!ids.includes(pid)) ids.push(pid);}
-  if(ids){return ids.length===1?single(ids[0],phrase,raw):ambiguous(ids);}
-  const res={status:"no_match",part_id:null,name_ru:null,name_az:null,category:null,
+  if(DATA.name_index[key])return build(DATA.name_index[key],phrase,raw,1.0);
+  if(DATA.synonym_index[key])return build(groupIds(DATA.synonym_index[key]),phrase,raw,1.0);
+  const [ns,pids]=fuzzyRefs(key,DATA.name_index,threshold);
+  if(pids.length)return build(pids,phrase,raw,round3(ns));
+  const [ss,codes]=fuzzyRefs(key,DATA.synonym_index,threshold);
+  if(codes.length)return build(groupIds(codes),phrase,raw,round3(ss));
+  return{status:"no_match",part_id:null,name_ru:null,name_az:null,category:null,
     subcategory:null,attributes:{side:null,position:null},needs_clarification:[],candidates:[]};
-  if(fuzzy)res.fuzzy_suggestions=fuzzySuggest(key);
-  return res;
 }
-function single(pid,phrase,raw){const p=DATA.parts[pid];
+function build(ids,phrase,raw,score){return ids.length===1?single(ids[0],phrase,raw,score):ambiguous(ids,score);}
+function single(pid,phrase,raw,score){const p=DATA.parts[pid];
   const space=[phrase,raw].filter(Boolean).join(" ");
   const attributes={side:null,position:null};const needs=[];
   if(p.side){const s=detectSide(space);s?attributes.side=s:needs.push("side");}
   if(p.position){const s=detectPosition(space);s?attributes.position=s:needs.push("position");}
   return{status:"single_match",part_id:pid,name_ru:p.name_ru,name_az:p.name_az,
-    category:p.category,subcategory:p.subcategory,attributes,needs_clarification:needs,candidates:[]};
+    category:p.category,subcategory:p.subcategory,attributes,needs_clarification:needs,
+    candidates:[],match_score:score};
 }
-function ambiguous(ids){return{status:"ambiguous",part_id:null,name_ru:null,name_az:null,
+function ambiguous(ids,score){return{status:"ambiguous",part_id:null,name_ru:null,name_az:null,
   category:null,subcategory:null,attributes:{side:null,position:null},needs_clarification:[],
-  candidates:ids.map(i=>({part_id:i,name_ru:DATA.parts[i].name_ru,name_az:DATA.parts[i].name_az}))};}
-function fuzzySuggest(key){const pool={};
-  for(const k in DATA.name_index)(pool[k]=pool[k]||[]).push(...DATA.name_index[k]);
-  for(const k in DATA.synonym_index)for(const c of DATA.synonym_index[k])
-    (pool[k]=pool[k]||[]).push(...DATA.groups[c].part_ids);
-  const scored=Object.keys(pool).map(k=>[k,ratio(key,k)]).filter(x=>x[1]>=0.82)
-    .sort((a,b)=>b[1]-a[1]).slice(0,5);
-  const seen=new Set();const out=[];
-  for(const [k] of scored)for(const pid of pool[k]){if(seen.has(pid))continue;seen.add(pid);
-    const p=DATA.parts[pid];out.push({part_id:pid,name_ru:p.name_ru,name_az:p.name_az,matched_on:k});}
-  return out;}
+  candidates:ids.map(i=>({part_id:i,name_ru:DATA.parts[i].name_ru,name_az:DATA.parts[i].name_az})),
+  match_score:score};}
 
 /* ---- UI ---- */
 const $=s=>document.querySelector(s);
-const EXAMPLES=[["yan güzgü",""],["yan güzgü","sol güzgü"],
-  ["Stupitsa podşipniki","sol qabaq"],["Turbo (nadduv) datçiki",""],
+const EXAMPLES=[["yan güzgü","sol güzgü"],["stupitsa podsipniki",""],
+  ["mad sensoru",""],["Turbo (nadduv) datçiki",""],
   ["traves",""],["radiator ekran",""]];
 const exBox=$("#examples");
 EXAMPLES.forEach(([ph,rw])=>{const b=document.createElement("button");
@@ -235,6 +242,10 @@ EXAMPLES.forEach(([ph,rw])=>{const b=document.createElement("button");
   b.onclick=()=>{$("#phrase").value=ph;$("#raw").value=rw;run();};exBox.appendChild(b);});
 
 function esc(s){return String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
+function scoreLabel(s){if(s==null)return'<span class=muted>—</span>';
+  const pct=Math.round(s*100);
+  return s>=0.9999?('<b>100%</b> <span class=muted>(точное)</span>'):
+    ('<b>'+pct+'%</b> <span class=muted>(≈ приблизительное — есть опечатка/лишние буквы)</span>');}
 const Q={side:{q:"С какой стороны?",opts:["левая — sol","правая — sağ"]},
   position:{q:"Какая позиция?",opts:["перёд — ön","зад — arxa"]}};
 function askBlock(needs){
@@ -255,28 +266,24 @@ function render(r){
       '<dt>subcategory</dt><dd>'+esc(r.subcategory)+'</dd>'+
       '<dt>attributes</dt><dd>side: '+(r.attributes.side?esc(r.attributes.side):'<span class=muted>—</span>')+
         ' &nbsp;·&nbsp; position: '+(r.attributes.position?esc(r.attributes.position):'<span class=muted>—</span>')+'</dd>'+
+      '<dt>match_score</dt><dd>'+scoreLabel(r.match_score)+'</dd>'+
       '</dl>';
     if(r.needs_clarification.length) h+=askBlock(r.needs_clarification);
     else h+='<p class="done">✔ Атрибуты не требуются — вопросов нет.</p>';
   } else if(r.status==="ambiguous"){
-    h+='<p class="summary muted">Неоднозначно — '+r.candidates.length+' кандидат(ов). Программа НЕ выбирает один, отдаёт всех:</p>';
+    h+='<p class="summary muted">Неоднозначно — '+r.candidates.length+
+      ' кандидат(ов), совпадение '+scoreLabel(r.match_score)+'. Программа НЕ выбирает один, отдаёт всех:</p>';
     r.candidates.forEach(c=>{h+='<div class="cand"><span class="pid">'+esc(c.part_id)+'</span> — '+
       esc(c.name_ru)+' &nbsp;<span class="muted">| '+esc(c.name_az)+'</span></div>';});
   } else {
-    h+='<p class="summary muted">Такой детали в словаре нет (ни в именах, ни в синонимах).</p>';
-    if(r.fuzzy_suggestions&&r.fuzzy_suggestions.length){
-      h+='<p class="summary muted" style="margin-top:14px">Похожее (только подсказка, не выбор):</p>';
-      r.fuzzy_suggestions.forEach(c=>{h+='<div class="cand"><span class="pid">'+esc(c.part_id)+'</span> — '+
-        esc(c.name_ru)+' <span class="muted">| '+esc(c.name_az)+' · ≈ «'+esc(c.matched_on)+'»</span></div>';});
-    } else if(r.hasOwnProperty("fuzzy_suggestions")){
-      h+='<p class="muted" style="font-size:13px">Похожих вариантов не найдено.</p>';
-    }
+    h+='<p class="summary muted">Такой детали в словаре нет (совпадение ниже порога).</p>';
   }
   h+='<pre>'+esc(JSON.stringify(r,null,2))+'</pre>';
   const box=$("#result");box.innerHTML=h;box.style.display="block";
 }
 function run(){const ph=$("#phrase").value;if(!ph.trim())return;
-  render(match(ph,$("#raw").value,$("#fuzzy").checked));}
+  let th=parseFloat($("#threshold").value);if(isNaN(th))th=0.90;
+  render(match(ph,$("#raw").value,th));}
 $("#run").onclick=run;
 $("#phrase").addEventListener("keydown",e=>{if(e.key==="Enter")run();});
 $("#raw").addEventListener("keydown",e=>{if(e.key==="Enter")run();});

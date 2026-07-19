@@ -7,25 +7,33 @@ exactly one of three honest outcomes:
 * ``ambiguous``     – 2+ candidates (never pick one silently);
 * ``no_match``      – nothing found in names or synonyms.
 
+Matching is **exact-first, then a near-match (≥ threshold) fallback** so that a
+couple of extra/typo'd letters still resolve, without ever loosening into a
+guess: name matches take priority over synonym matches, and when the best
+near-match maps to several distinct parts the result stays ``ambiguous``.
+
 Only for ``single_match`` are side/position attributes extracted, and only for
 the flags the part actually declares.
 """
 
 from __future__ import annotations
 
-import difflib
 import os
 from dataclasses import dataclass, field
 from typing import Any
 
 from .attributes import detect_position, detect_side
-from .normalize import normalize
+from .normalize import normalize, similarity
 from .parser import Dictionary, parse_file
 
 _DEFAULT_PATH = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
     "data", "SLOVAR_FINAL.txt",
 )
+
+#: Default near-match threshold. Anything below this is not considered a match.
+DEFAULT_THRESHOLD = 0.90
+_EPS = 1e-9
 
 
 @dataclass
@@ -39,7 +47,7 @@ class MatchResult:
     attributes: dict[str, Any] = field(default_factory=lambda: {"side": None, "position": None})
     needs_clarification: list[str] = field(default_factory=list)
     candidates: list[dict[str, str]] = field(default_factory=list)
-    fuzzy_suggestions: list[dict[str, str]] = field(default_factory=list)
+    match_score: float | None = None              # 1.0 exact, <1.0 near-match
 
     def to_dict(self) -> dict[str, Any]:
         d: dict[str, Any] = {
@@ -53,8 +61,8 @@ class MatchResult:
             "needs_clarification": self.needs_clarification,
             "candidates": self.candidates,
         }
-        if self.fuzzy_suggestions:
-            d["fuzzy_suggestions"] = self.fuzzy_suggestions
+        if self.match_score is not None:
+            d["match_score"] = self.match_score
         return d
 
 
@@ -71,38 +79,73 @@ class Matcher:
         self,
         phrase: str,
         raw_text: str | None = None,
-        fuzzy: bool = False,
-        fuzzy_cutoff: float = 0.82,
+        threshold: float = DEFAULT_THRESHOLD,
     ) -> MatchResult:
         key = normalize(phrase)
 
-        # Step 1a — exact match on a canonical name variant (highest priority).
+        # Step 1a — exact name match (highest priority).
         if key in self.dict.name_index:
-            ids = self.dict.name_index[key]
-            return self._build(ids, phrase, raw_text)
+            return self._build(self.dict.name_index[key], phrase, raw_text, 1.0)
 
-        # Step 1b — synonym hit -> the whole leaf group (all its part_ids).
+        # Step 1b — exact synonym match -> whole leaf group.
         if key in self.dict.synonym_index:
-            ids: list[str] = []
-            for leaf_code in self.dict.synonym_index[key]:
-                for pid in self.dict.groups[leaf_code].part_ids:
-                    if pid not in ids:
-                        ids.append(pid)
-            return self._build(ids, phrase, raw_text)
+            return self._build(self._group_ids(self.dict.synonym_index[key]),
+                               phrase, raw_text, 1.0)
 
-        # No match — optionally *suggest* (never auto-select) via fuzzy search.
-        result = MatchResult(status="no_match")
-        if fuzzy:
-            result.fuzzy_suggestions = self._fuzzy_suggest(key, fuzzy_cutoff)
-        return result
+        # Step 2a — near-match on names (≥ threshold), best score wins.
+        score, pids = self._fuzzy_refs(key, self.dict.name_index, threshold)
+        if pids:
+            return self._build(pids, phrase, raw_text, round(score, 3))
+
+        # Step 2b — near-match on synonyms -> whole leaf group(s).
+        score, codes = self._fuzzy_refs(key, self.dict.synonym_index, threshold)
+        if codes:
+            return self._build(self._group_ids(codes), phrase, raw_text, round(score, 3))
+
+        return MatchResult(status="no_match")
 
     # ── internals ────────────────────────────────────────────────────────────
-    def _build(self, ids: list[str], phrase: str, raw_text: str | None) -> MatchResult:
-        if len(ids) == 1:
-            return self._single(ids[0], phrase, raw_text)
-        return self._ambiguous(ids)
+    def _group_ids(self, leaf_codes: list[str]) -> list[str]:
+        ids: list[str] = []
+        for code in leaf_codes:
+            for pid in self.dict.groups[code].part_ids:
+                if pid not in ids:
+                    ids.append(pid)
+        return ids
 
-    def _single(self, part_id: str, phrase: str, raw_text: str | None) -> MatchResult:
+    def _fuzzy_refs(self, key: str, index: dict[str, list[str]],
+                    threshold: float) -> tuple[float, list[str]]:
+        """Return (best_score, refs) for index keys at the best score ≥ threshold.
+
+        Only the top-scoring keys contribute, so a clear typo resolves to one
+        part, while a genuine tie between distinct parts stays ambiguous.
+        """
+        best = 0.0
+        hits: list[tuple[float, str]] = []
+        for index_key in index:
+            score = similarity(key, index_key)
+            if score >= threshold:
+                hits.append((score, index_key))
+                if score > best:
+                    best = score
+        if not hits:
+            return 0.0, []
+        refs: list[str] = []
+        for score, index_key in hits:
+            if abs(score - best) < _EPS:
+                for ref in index[index_key]:
+                    if ref not in refs:
+                        refs.append(ref)
+        return best, refs
+
+    def _build(self, ids: list[str], phrase: str, raw_text: str | None,
+               score: float) -> MatchResult:
+        if len(ids) == 1:
+            return self._single(ids[0], phrase, raw_text, score)
+        return self._ambiguous(ids, score)
+
+    def _single(self, part_id: str, phrase: str, raw_text: str | None,
+                score: float) -> MatchResult:
         part = self.dict.parts[part_id]
         search_space = " ".join(x for x in (phrase, raw_text) if x)
 
@@ -132,9 +175,10 @@ class Matcher:
             subcategory=part.subcategory,
             attributes=attributes,
             needs_clarification=needs,
+            match_score=score,
         )
 
-    def _ambiguous(self, ids: list[str]) -> MatchResult:
+    def _ambiguous(self, ids: list[str], score: float) -> MatchResult:
         candidates = [
             {
                 "part_id": p.part_id,
@@ -143,35 +187,10 @@ class Matcher:
             }
             for p in (self.dict.parts[i] for i in ids)
         ]
-        return MatchResult(status="ambiguous", candidates=candidates)
-
-    def _fuzzy_suggest(self, key: str, cutoff: float) -> list[dict[str, str]]:
-        """Nearest names/synonyms — advisory only, status stays ``no_match``."""
-        pool: dict[str, list[str]] = {}
-        for name_key, pids in self.dict.name_index.items():
-            pool.setdefault(name_key, []).extend(pids)
-        for syn_key, codes in self.dict.synonym_index.items():
-            for code in codes:
-                pool.setdefault(syn_key, []).extend(self.dict.groups[code].part_ids)
-
-        close = difflib.get_close_matches(key, list(pool), n=5, cutoff=cutoff)
-        seen: set[str] = set()
-        suggestions: list[dict[str, str]] = []
-        for matched_key in close:
-            for pid in pool[matched_key]:
-                if pid in seen:
-                    continue
-                seen.add(pid)
-                part = self.dict.parts[pid]
-                suggestions.append({
-                    "part_id": part.part_id,
-                    "name_ru": part.name_ru,
-                    "name_az": part.name_az,
-                    "matched_on": matched_key,
-                })
-        return suggestions
+        return MatchResult(status="ambiguous", candidates=candidates, match_score=score)
 
 
-def match(phrase: str, raw_text: str | None = None, fuzzy: bool = False) -> dict[str, Any]:
+def match(phrase: str, raw_text: str | None = None,
+          threshold: float = DEFAULT_THRESHOLD) -> dict[str, Any]:
     """Convenience one-shot: build the default matcher and match a phrase."""
-    return Matcher.from_file().match(phrase, raw_text=raw_text, fuzzy=fuzzy).to_dict()
+    return Matcher.from_file().match(phrase, raw_text=raw_text, threshold=threshold).to_dict()

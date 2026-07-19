@@ -114,18 +114,44 @@ def test_flags_false_never_ask(matcher):
     assert r.attributes == {"side": None, "position": None}
 
 
-# ── no-match & fuzzy (advisory only) ─────────────────────────────────────────
+# ── near-match (>=90%) & no-match ────────────────────────────────────────────
 def test_plain_no_match(matcher):
     r = matcher.match("qwertyuiop")
     assert r.status == "no_match"
+    assert r.match_score is None
 
 
-def test_fuzzy_suggests_but_does_not_select(matcher):
-    r = matcher.match("radator ekranı", fuzzy=True)
-    assert r.status == "no_match"          # never auto-selected
-    assert r.part_id is None
-    # a typo of "radiator" should surface *some* suggestion
-    assert isinstance(r.fuzzy_suggestions, list)
+def test_typo_near_matches_single(matcher):
+    # one dropped letter (ş) -> still resolves to AS-007 as a >=90% near-match.
+    r = matcher.match("stupitsa podsipniki")
+    assert r.status == "single_match"
+    assert r.part_id == "AS-007"
+    assert 0.90 <= r.match_score < 1.0
+
+
+def test_exact_match_scores_one(matcher):
+    r = matcher.match("Turbo (nadduv) datçiki")
+    assert r.status == "single_match"
+    assert r.match_score == 1.0
+
+
+def test_near_match_tie_stays_ambiguous(matcher):
+    # "mad sensoru" is equidistant from MAP and MAF sensors -> no silent guess.
+    r = matcher.match("mad sensoru")
+    assert r.status == "ambiguous"
+    ids = {c["part_id"] for c in r.candidates}
+    assert ids == {"MU-033", "MU-045"}
+
+
+def test_radiator_ekran_still_no_match_under_fuzzy(matcher):
+    # nearest key is ~0.71 — well below 0.90, so it must not be pulled in.
+    r = matcher.match("radiator ekran")
+    assert r.status == "no_match"
+
+
+def test_threshold_one_disables_near_match(matcher):
+    r = matcher.match("stupitsa podsipniki", threshold=1.0)
+    assert r.status == "no_match"
 
 
 def test_no_silent_guess_on_ambiguous(matcher):

@@ -1,8 +1,10 @@
 # Deterministic parts matcher (AVTOZAP)
 
 A small, **LLM-free** Python program that replaces neural-network "guessing" of
-car parts with an exact algorithmic lookup against the dictionary
-(`SLOVAR_FINAL.txt`).
+car parts with an algorithmic lookup against the dictionary (`SLOVAR_FINAL.txt`).
+
+Lookup is **exact-first, then a near-match (≥ 90 %) fallback** — so a couple of
+extra or mistyped letters still resolve, without ever loosening into a guess.
 
 It takes a normalized phrase (already cleaned up by the Seller model) and
 returns **one of three honest outcomes** — never a silent guess:
@@ -23,8 +25,9 @@ client text when the part declares those flags, or reports which of them still
 # normalized phrase in, JSON out
 python cli.py "Turbo (nadduv) datçiki"
 python cli.py "yan güzgü" --raw "sol güzgü"
+python cli.py "stupitsa podsipniki"          # typo -> near-match (>=90%)
 python cli.py "traves"
-python cli.py "radator ekranı" --fuzzy      # advisory suggestions on no_match
+python cli.py "map sensoru" --threshold 1.0  # 1.0 = exact-only (disable near-match)
 ```
 
 Programmatic:
@@ -49,7 +52,8 @@ Output shape:
   "subcategory": "Stupisa (toplar) / podşipniklər",
   "attributes": { "side": "sol", "position": null },
   "needs_clarification": ["position"],
-  "candidates": []
+  "candidates": [],
+  "match_score": 1.0
 }
 ```
 
@@ -57,8 +61,10 @@ Output shape:
   `{part_id, name_ru, name_az}` for every real candidate.
 * `needs_clarification` — subset of `["side", "position"]`, only flags that are
   `true` for the part and were not found in the text.
-* `fuzzy_suggestions` — present only with `--fuzzy` on a `no_match`; these are
-  advisory and **never** auto-selected (status stays `no_match`).
+* `match_score` — similarity of the match in `[0, 1]`: `1.0` for an exact match,
+  `< 1.0` for a near-match (e.g. `0.947` for a one-letter typo). Present for
+  `single_match` / `ambiguous`; absent on `no_match`. Lets the caller flag
+  low-confidence hits for a quick "вы имели в виду …?" confirmation.
 
 ## Algorithm
 
@@ -66,12 +72,21 @@ Output shape:
 
 1. **Exact name** — the normalized phrase equals a canonical name variant of a
    part (`name_ru` or `name_az`). Highest priority; typically a single part.
-2. **Synonym** — the phrase equals one of a leaf group's shared synonyms. Since
-   synonyms are shared across the whole group, **all** part_ids of that group
-   are returned as candidates:
+2. **Exact synonym** — the phrase equals one of a leaf group's shared synonyms.
+   Since synonyms are shared across the whole group, **all** part_ids of that
+   group are returned as candidates:
    * group of 1 part → automatic `single_match`;
    * group of 2+ parts → honest `ambiguous` (semantic ambiguity).
-3. Otherwise → `no_match`.
+3. **Near-match on names** (only if no exact hit) — the highest-scoring name
+   variants with `similarity ≥ threshold` (default `0.90`). A clear typo maps to
+   one part → `single_match`; a genuine tie between distinct parts → `ambiguous`.
+4. **Near-match on synonyms** — same, resolving to the group(s), same as step 2.
+5. Otherwise → `no_match`.
+
+Similarity is `1 − levenshtein(a, b) / max(len)`. Because it's length-normalized,
+a couple of extra letters on a long phrase stay ≥ 0.90, while a short word needs
+a near-exact match to clear the bar — typos are tolerated, loose guessing isn't.
+`--threshold 1.0` turns off the near-match steps entirely (exact-only).
 
 **Step 2 — attributes** (only for `single_match`): each part carries a `side`
 (left/right) and a `position` (front/rear) flag. **Only flags that are `true`
@@ -105,9 +120,11 @@ This is the behaviour required by the spec's flagship cases.
 
 ## Guarantees / non-goals
 
-* **No fuzzy auto-selection.** Only exact/explicit matches are ever selected.
-  Levenshtein-style fuzzy search exists solely behind the optional `--fuzzy`
-  flag, and only to *suggest* candidates on `no_match`.
+* **Near-match is bounded, never a guess.** Below the threshold there is no
+  match at all; at or above it, only the *best-scoring* keys count, and any tie
+  between distinct parts stays `ambiguous`. `match_score` always reports how
+  close the hit was, so low-confidence matches can be confirmed with the client.
+  Set `--threshold 1.0` for strict exact-only behaviour.
 * **Never collapse `ambiguous` to one.** A synonym shared by several parts always
   returns every candidate.
 * One phrase is matched per call; splitting a request into multiple parts is the
@@ -121,9 +138,10 @@ python -m pytest tests/ -q
 ```
 
 `tests/test_matcher.py` covers the four spec-mandated cases (Traves, Radiator
-ekran, Yan güzgü, Turbo (nadduv) datçiki) plus name/synonym/attribute/fuzzy
-coverage and structural sanity of the parse (15 categories, 86 leaves, 438
-parts).
+ekran, Yan güzgü, Turbo (nadduv) datçiki) plus name/synonym/attribute coverage,
+near-match behaviour (typo → single, tie → ambiguous, below-threshold →
+no_match, `--threshold 1.0` → exact-only) and structural sanity of the parse
+(15 categories, 86 leaves, 438 parts).
 
 ### A note on the reference test files
 
@@ -153,7 +171,7 @@ Its output is verified byte-identical to `slovar_matcher` across the test cases.
 
 ```
 slovar_matcher/
-  normalize.py    Azerbaijani/Russian-aware lowercasing + tokenizing
+  normalize.py    Azerbaijani/Russian-aware lowercasing, tokenizing, similarity
   parser.py       SLOVAR_FINAL.txt -> parts, groups, name/synonym indices
   attributes.py   side / position keyword extraction
   matcher.py      Matcher + MatchResult (the 3-state algorithm)
