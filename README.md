@@ -160,6 +160,14 @@ de-parenthesised stem. Consequently:
 
 This is the behaviour required by the spec's flagship cases.
 
+A name may also list slash-separated alternatives that share a word, e.g.
+`Güzgü korpusu/qapağı` or `Корпус/крышка зеркала`. Those are expanded into their
+shared-context variants (`güzgü korpusu` **and** `güzgü qapağı`; `корпус зеркала`
+**and** `крышка зеркала`), so a client who types just one gets an exact match
+instead of a ~65 % near-match. A name that is *entirely* `A/B` with no shared
+word (e.g. `Emblema/logo`) is deliberately **not** expanded — bare generic words
+stay on the synonym/ambiguity path rather than being promoted to a single match.
+
 ## Guarantees / non-goals
 
 * **Near-match is bounded, never a guess.** Below the threshold there is no

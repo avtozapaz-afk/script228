@@ -215,6 +215,31 @@ def test_full_name_matches_without_parentheses(matcher):
     assert r.part_id == "MU-075"
 
 
+# ── slash-alternative names expand into exact variants ───────────────────────
+def test_slash_alternative_name_is_exact(matcher):
+    # KZ-022 "Güzgü korpusu/qapağı" — each alternative is an exact 100% match,
+    # not a ~65% near-match that needed the threshold dropped to 0.5.
+    for q in ("güzgü korpusu", "güzgü qapağı", "крышка зеркала", "корпус зеркала"):
+        r = matcher.match(q)
+        assert r.status == "single_match", q
+        assert r.part_id == "KZ-022", q
+        assert r.match_score == 1.0, q
+
+
+def test_slash_alternatives_across_the_catalogue(matcher):
+    # a few more "/"-alternative names resolve to their single part exactly
+    assert matcher.match("benzin bakı zamoku").part_id == "YA-005"
+    assert matcher.match("amortizator podşipniki").part_id == "AS-003"
+
+
+def test_bare_slash_word_not_over_promoted(matcher):
+    # a name that is entirely "A/B" (KZ-039 Emblema/logo) must NOT turn a bare
+    # generic word into a single match — it stays a group-synonym ambiguity.
+    r = matcher.match("emblema")
+    assert r.status == "ambiguous"
+    assert "KZ-039" in {c["part_id"] for c in r.candidates}
+
+
 def test_cross_group_collision_is_ambiguous():
     from slovar_matcher.matcher import Matcher
     from slovar_matcher.parser import parse_text

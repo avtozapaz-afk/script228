@@ -15,6 +15,7 @@ the matcher: a bare synonym hit is a *group* hit, not a single-part hit.
 
 from __future__ import annotations
 
+import itertools
 import re
 from dataclasses import dataclass, field
 
@@ -99,7 +100,38 @@ def name_variants(name: str) -> set[str]:
             alt = alt.strip()
             if alt:
                 variants.add(alt)
+    variants |= _expand_slashes(name)
     return {v for v in variants if v}
+
+
+def _expand_slashes(name: str) -> set[str]:
+    """Expand a top-level ``A/B`` inside a name into its shared-context variants.
+
+    ``"Güzgü korpusu/qapağı"`` -> ``{"Güzgü korpusu", "Güzgü qapağı"}`` and
+    ``"Корпус/крышка зеркала"`` -> ``{"Корпус зеркала", "крышка зеркала"}`` — the
+    slash lists alternative names that share the surrounding word(s), so a client
+    who types just one of them still gets an exact match. Parenthetical groups
+    are dropped here (their slashes are handled above); combos are capped so a
+    pathological name can't explode the index.
+    """
+    base = re.sub(r"\s*/\s*", "/", _PAREN_RE.sub(" ", name))
+    options: list[list[str]] = []
+    has_slash = False
+    combos = 1
+    for tok in base.split():
+        parts = [p for p in tok.split("/") if p]
+        if "/" in tok and len(parts) > 1:
+            has_slash = True
+            options.append(parts)
+            combos *= len(parts)
+        else:
+            options.append([parts[0] if parts else tok])
+    # Require a shared context word (>= 2 token positions): expanding a bare
+    # "A/B" name into single generic words ("emblema", "logo") would collide
+    # with other groups' synonyms and over-match. Those stay on the synonym path.
+    if not has_slash or combos > 16 or len(options) < 2:
+        return set()
+    return {" ".join(combo) for combo in itertools.product(*options)}
 
 
 def parse_file(path: str) -> Dictionary:
