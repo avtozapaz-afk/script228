@@ -1,6 +1,6 @@
 {
  "index": {
-  "10w-40": [
+  "10w 40": [
    "Расходники и масла"
   ],
   "10w40": [
@@ -15,10 +15,10 @@
   "360 kamera": [
    "Электрика и электроника"
   ],
-  "5w-30": [
+  "5w 30": [
    "Расходники и масла"
   ],
-  "5w-40": [
+  "5w 40": [
    "Расходники и масла"
   ],
   "5w30": [
@@ -87,10 +87,10 @@
   "adblue": [
    "Расходники и масла"
   ],
-  "adblue (dizel egzoz mayesi)": [
+  "adblue dizel egzoz mayesi": [
    "Расходники и масла"
   ],
-  "adblue (жидкость для очистки выхлопа дизеля)": [
+  "adblue жидкость для очистки выхлопа дизеля": [
    "Расходники и масла"
   ],
   "agm 70lik": [
@@ -99,13 +99,13 @@
   "airbag": [
    "Электрика и электроника"
   ],
-  "airbag (yastıq)": [
-   "Электрика и электроника"
-  ],
   "airbag bloku": [
    "Электрика и электроника"
   ],
   "airbag pərdəsi": [
+   "Электрика и электроника"
+  ],
+  "airbag yastıq": [
    "Электрика и электроника"
   ],
   "airbox": [
@@ -114,10 +114,10 @@
   "akkumulyator": [
    "Электрика и электроника"
   ],
-  "akkumulyator (batareya)": [
+  "akkumulyator batareya": [
    "Электрика и электроника"
   ],
-  "akkumulyator bərkitmə skobası (planka)": [
+  "akkumulyator bərkitmə skobası planka": [
    "Электрика и электроника"
   ],
   "akkumulyator kleması": [
@@ -126,7 +126,7 @@
   "akkumulyator qoruyucusu": [
    "Электрика и электроника"
   ],
-  "akkumulyator qoruyucusu (əsas sigorta)": [
+  "akkumulyator qoruyucusu əsas sigorta": [
    "Электрика и электроника"
   ],
   "akkumulyatorun klemasi": [
@@ -138,13 +138,13 @@
   "akpp bloku": [
    "Трансмиссия"
   ],
-  "akpp bloku (sürət qutusunun beyni)": [
+  "akpp bloku sürət qutusunun beyni": [
    "Трансмиссия"
   ],
   "akselerator trosu": [
    "Топливная система"
   ],
-  "akula (antena)": [
+  "akula antena": [
    "Электрика и электроника"
   ],
   "akumlyator": [
@@ -153,7 +153,7 @@
   "almacıq": [
    "Рулевая система"
   ],
-  "almacıq (tyaqanın)": [
+  "almacıq tyaqanın": [
    "Рулевая система"
   ],
   "almacıqlar": [
@@ -180,7 +180,7 @@
   "alışdırma şamı": [
    "Расходники и масла"
   ],
-  "alışdırma şamı (sveça)": [
+  "alışdırma şamı sveça": [
    "Расходники и масла"
   ],
   "alıştırma samı": [
@@ -246,7 +246,7 @@
   "amortizator dayaq yastığı": [
    "Подвеска"
   ],
-  "amortizator dayaq yastığı (opora)": [
+  "amortizator dayaq yastığı opora": [
    "Подвеска"
   ],
   "amortizator paduşkası": [
@@ -258,7 +258,7 @@
   "amortizator pılniki": [
    "Подвеска"
   ],
-  "amortizator pılniki/podşipniki": [
+  "amortizator pılniki podşipniki": [
    "Подвеска"
   ],
   "amortizator pılnikleri": [
@@ -306,7 +306,7 @@
   "android monitor": [
    "Электрика и электроника"
   ],
-  "angel eyes (led halqası)": [
+  "angel eyes led halqası": [
    "Тюнинг"
   ],
   "antena": [
@@ -315,7 +315,7 @@
   "antenna": [
    "Электрика и электроника"
   ],
-  "antenna (avtomobil)": [
+  "antenna avtomobil": [
    "Электрика и электроника"
   ],
   "antifiliz": [
@@ -333,7 +333,7 @@
   "antifriz baçoku": [
    "Система охлаждения"
   ],
-  "antifriz baçoku (genişlənmə çəni)": [
+  "antifriz baçoku genişlənmə çəni": [
    "Система охлаждения"
   ],
   "antifriz baçokunun qapağı": [
@@ -354,10 +354,10 @@
   "apornu": [
    "Тормозная система"
   ],
-  "apornu (əyləc diski)": [
+  "apornu ayna toz qoruyucusu": [
    "Тормозная система"
   ],
-  "apornu ayna toz qoruyucusu": [
+  "apornu əyləc diski": [
    "Тормозная система"
   ],
   "apornular": [
@@ -388,7 +388,7 @@
   "arxa fənər": [
    "Кузов и оптика"
   ],
-  "arxa fənərin platası (led)": [
+  "arxa fənərin platası led": [
    "Кузов и оптика"
   ],
   "arxa görüş kamerası": [
@@ -424,14 +424,14 @@
   "arxa top": [
    "Кузов и оптика"
   ],
+  "arxa ön 360": [
+   "Электрика и электроника"
+  ],
+  "arxa ön panel": [
+   "Кузов и оптика"
+  ],
   "arxa şüşə": [
    "Кузов и оптика"
-  ],
-  "arxa/ön panel": [
-   "Кузов и оптика"
-  ],
-  "arxa/ön/360": [
-   "Электрика и электроника"
   ],
   "aux çıxışı": [
    "Электрика и электроника"
@@ -463,7 +463,7 @@
   "ayaqaltı": [
    "Салон и аксессуары"
   ],
-  "ayaqaltı (kovrik)": [
+  "ayaqaltı kovrik": [
    "Салон и аксессуары"
   ],
   "ayna": [
@@ -475,13 +475,13 @@
   "aypara şayba": [
    "Двигатель"
   ],
-  "aypara şayba (şponka)": [
+  "aypara şayba şponka": [
    "Двигатель"
   ],
   "açki qabı": [
    "Салон и аксессуары"
   ],
-  "açılıb-yığılan": [
+  "açılıb yığılan": [
    "Тюнинг"
   ],
   "açıq qapı datçiki": [
@@ -490,7 +490,7 @@
   "babin": [
    "Двигатель"
   ],
-  "babin (bobin)": [
+  "babin bobin": [
    "Двигатель"
   ],
   "babin modul": [
@@ -511,7 +511,7 @@
   "balka": [
    "Подвеска"
   ],
-  "balka (arxa)": [
+  "balka arxa": [
    "Подвеска"
   ],
   "balka silentbloku": [
@@ -544,7 +544,7 @@
   "baqaj jaluzu": [
    "Кузов и оптика"
   ],
-  "baqaj jaluzu (pərdəsi)": [
+  "baqaj jaluzu pərdəsi": [
    "Кузов и оптика"
   ],
   "baqaj keçesi": [
@@ -571,20 +571,20 @@
   "baqaj xalçası": [
    "Салон и аксессуары"
   ],
-  "baqaj xalçası/keçəsi": [
+  "baqaj xalçası keçəsi": [
    "Салон и аксессуары"
+  ],
+  "baqaj yanacaq açma düyməsi": [
+   "Электрика и электроника"
+  ],
+  "baqaj yanacaq qapağı aktuatoru prisos": [
+   "Электрика и электроника"
   ],
   "baqaj zamok": [
    "Кузов и оптика"
   ],
   "baqaj zamoku": [
    "Кузов и оптика"
-  ],
-  "baqaj/yanacaq açma düyməsi": [
-   "Электрика и электроника"
-  ],
-  "baqaj/yanacaq qapağı aktuatoru (prisos)": [
-   "Электрика и электроника"
   ],
   "baqajnik qapagi": [
    "Кузов и оптика"
@@ -616,26 +616,23 @@
   "barsetka": [
    "Салон и аксессуары"
   ],
-  "barsetka (mərkəzi konsol qutusu)": [
+  "barsetka mərkəzi konsol qutusu": [
    "Салон и аксессуары"
   ],
   "basofka": [
    "Электрика и электроника"
   ],
-  "basofka (subvufer)": [
+  "basofka subvufer": [
    "Электрика и электроника"
   ],
   "batareya": [
    "Электрика и электроника"
   ],
-  "batareyka (hibrid)": [
+  "batareyka hibrid": [
    "Электрика и электроника"
   ],
-  "baçokdan abs-ə gedən trupka": [
+  "baçokdan abs ə gedən trupka": [
    "Тормозная система"
-  ],
-  "baş (silindr blokunun başı)": [
-   "Двигатель"
   ],
   "baş fara": [
    "Кузов и оптика"
@@ -643,10 +640,13 @@
   "baş qurğu": [
    "Электрика и электроника"
   ],
+  "baş silindr blokunun başı": [
+   "Двигатель"
+  ],
   "baş silindr proklatkası": [
    "Двигатель"
   ],
-  "baş silindr proklatkası (gbt)": [
+  "baş silindr proklatkası gbt": [
    "Двигатель"
   ],
   "başmaq": [
@@ -655,7 +655,7 @@
   "bcm": [
    "Электрика и электроника"
   ],
-  "bcm (kuzov idarəetmə bloku)": [
+  "bcm kuzov idarəetmə bloku": [
    "Электрика и электроника"
   ],
   "benza nasosun": [
@@ -670,7 +670,7 @@
   "benzin bakı qapağı": [
    "Топливная система"
   ],
-  "benzin bakı qapağı/zamoku": [
+  "benzin bakı qapağı zamoku": [
    "Топливная система"
   ],
   "benzin bakın zamoku": [
@@ -700,20 +700,20 @@
   "benzin nasosu": [
    "Топливная система"
   ],
-  "benzin nasosu (yanacaq nasosu)": [
-   "Топливная система"
-  ],
   "benzin nasosu relesi": [
    "Электрика и электроника"
+  ],
+  "benzin nasosu yanacaq nasosu": [
+   "Топливная система"
   ],
   "benzin requlyatoru": [
    "Топливная система"
   ],
+  "benzin yanacaq filtri": [
+   "Расходники и масла"
+  ],
   "benzin çəni": [
    "Топливная система"
-  ],
-  "benzin/yanacaq filtri": [
-   "Расходники и масла"
   ],
   "benzinasos": [
    "Топливная система"
@@ -727,7 +727,7 @@
   "bezin nasos": [
    "Топливная система"
   ],
-  "blok tıxacı (çopik)": [
+  "blok tıxacı çopik": [
    "Двигатель"
   ],
   "bobin": [
@@ -742,7 +742,7 @@
   "body kit": [
    "Тюнинг"
   ],
-  "body kit (tam tyuning dəsti)": [
+  "body kit tam tyuning dəsti": [
    "Тюнинг"
   ],
   "bort kompyuter": [
@@ -754,7 +754,7 @@
   "boğaz klapanı": [
    "Топливная система"
   ],
-  "boğaz rezini (zaslonkanın)": [
+  "boğaz rezini zaslonkanın": [
    "Топливная система"
   ],
   "bqrzavik": [
@@ -766,7 +766,7 @@
   "brizqavik": [
    "Кузов и оптика"
   ],
-  "brizqavik (palçıqqoruyucu)": [
+  "brizqavik palçıqqoruyucu": [
    "Кузов и оптика"
   ],
   "bronepravod": [
@@ -778,7 +778,7 @@
   "bublik": [
    "Трансмиссия"
   ],
-  "bublik (flanets)": [
+  "bublik flanets": [
    "Трансмиссия"
   ],
   "bufer": [
@@ -787,16 +787,16 @@
   "bufer alt dodağı": [
    "Тюнинг"
   ],
-  "bufer daxili köpük (absorber)": [
+  "bufer daxili köpük absorber": [
    "Кузов и оптика"
   ],
   "bufer gücləndiricisi": [
    "Кузов и оптика"
   ],
-  "bufer gücləndiricisi (arma)": [
+  "bufer gücləndiricisi arma": [
    "Кузов и оптика"
   ],
-  "bufer kronşteyni (salaska)": [
+  "bufer kronşteyni salaska": [
    "Кузов и оптика"
   ],
   "bufer toru": [
@@ -805,7 +805,7 @@
   "bufer zbor": [
    "Кузов и оптика"
   ],
-  "bufer üzlüyü (abrisofka)": [
+  "bufer üzlüyü abrisofka": [
    "Кузов и оптика"
   ],
   "buferin": [
@@ -832,7 +832,7 @@
   "böyük": [
    "Подвеска"
   ],
-  "böyük/balaca": [
+  "böyük balaca": [
    "Подвеска"
   ],
   "bütöv": [
@@ -860,7 +860,7 @@
   "cihazlar paneli": [
    "Электрика и электроника"
   ],
-  "cihazlar paneli (şit)": [
+  "cihazlar paneli şit": [
    "Электрика и электроника"
   ],
   "climate control": [
@@ -872,7 +872,7 @@
   "coilover": [
    "Подвеска"
   ],
-  "coilover (sport asma dəsti)": [
+  "coilover sport asma dəsti": [
    "Подвеска"
   ],
   "col remen": [
@@ -914,7 +914,7 @@
   "deflektor": [
    "Салон и аксессуары"
   ],
-  "deflektor (vetrovik)": [
+  "deflektor vetrovik": [
    "Салон и аксессуары"
   ],
   "dekor": [
@@ -941,7 +941,7 @@
   "diffuzor": [
    "Тюнинг"
   ],
-  "diffuzor (arxa bufer)": [
+  "diffuzor arxa bufer": [
    "Тюнинг"
   ],
   "difuzor": [
@@ -962,9 +962,6 @@
   "dinamo": [
    "Электрика и электроника"
   ],
-  "dinamo (generator)": [
-   "Электрика и электроника"
-  ],
   "dinamo generator": [
    "Электрика и электроника"
   ],
@@ -980,10 +977,10 @@
   "disk": [
    "Шины и диски"
   ],
-  "disk (təkər diski)": [
+  "disk kalpağı": [
    "Шины и диски"
   ],
-  "disk kalpağı": [
+  "disk təkər diski": [
    "Шины и диски"
   ],
   "diski": [
@@ -1007,13 +1004,13 @@
   "distronic kabeli": [
    "Электрика и электроника"
   ],
-  "distronic kabeli (adaptiv kruiz sensoru kabeli)": [
+  "distronic kabeli adaptiv kruiz sensoru kabeli": [
    "Электрика и электроника"
   ],
   "distronik": [
    "Электрика и электроника"
   ],
-  "distronik/cruise control modulu": [
+  "distronik cruise control modulu": [
    "Электрика и электроника"
   ],
   "dizel": [
@@ -1055,7 +1052,7 @@
   "domkrat": [
    "Шины и диски"
   ],
-  "dot-4 jitkis": [
+  "dot 4 jitkis": [
    "Расходники и масла"
   ],
   "dot4": [
@@ -1124,7 +1121,7 @@
   "duqa": [
    "Тюнинг"
   ],
-  "duqa (kенгурятник)": [
+  "duqa kенгурятник": [
    "Тюнинг"
   ],
   "dvornik motoru": [
@@ -1136,19 +1133,22 @@
   "dönmə": [
    "Рулевая система"
   ],
+  "dönmə işıq qolu": [
+   "Рулевая система"
+  ],
   "dönmə işıqları": [
    "Кузов и оптика"
   ],
   "dönmə işığı": [
    "Кузов и оптика"
   ],
-  "dönmə işığı (povorotnik)": [
+  "dönmə işığı povorotnik": [
    "Кузов и оптика"
   ],
   "dönmə işığı qolu": [
    "Электрика и электроника"
   ],
-  "dönmə işığı qolu (kombi keçirici)": [
+  "dönmə işığı qolu kombi keçirici": [
    "Электрика и электроника"
   ],
   "dönmə işığını yandırıb söndürmə qolu": [
@@ -1157,13 +1157,10 @@
   "dönmə qolu": [
    "Рулевая система"
   ],
-  "dönmə/işıq qolu": [
-   "Рулевая система"
-  ],
   "döşəmə paneli": [
    "Кузов и оптика"
   ],
-  "döşəmə probkası (drenaj)": [
+  "döşəmə probkası drenaj": [
    "Кузов и оптика"
   ],
   "döşəmə örtüyü": [
@@ -1202,13 +1199,13 @@
   "egzoz kollektoru": [
    "Выхлопная система"
   ],
-  "egzoz kollektoru (downpipe)": [
+  "egzoz kollektoru downpipe": [
    "Выхлопная система"
   ],
   "ehtiyat təkər": [
    "Шины и диски"
   ],
-  "ehtiyat təkər (zapaska)": [
+  "ehtiyat təkər zapaska": [
    "Шины и диски"
   ],
   "ehtiyyat təkər": [
@@ -1226,7 +1223,7 @@
   "elektrik padnoşka": [
    "Тюнинг"
   ],
-  "elektrik padnoşka (açılıb-yığılan)": [
+  "elektrik padnoşka açılıb yığılan": [
    "Тюнинг"
   ],
   "elektrik pəri": [
@@ -1255,7 +1252,7 @@
    "Кузов и оптика",
    "Салон и аксессуары"
   ],
-  "emblema/logo": [
+  "emblema logo": [
    "Кузов и оптика"
   ],
   "eneos": [
@@ -1273,7 +1270,7 @@
   "evap sistemi": [
    "Топливная система"
   ],
-  "evap sistemi/klapanı (yanacaq kömürü)": [
+  "evap sistemi klapanı yanacaq kömürü": [
    "Топливная система"
   ],
   "evap təzyiq sensoru": [
@@ -1297,19 +1294,19 @@
   "eylecin esas silindiri": [
    "Тормозная система"
   ],
-  "eynək qutusu (açki qabı)": [
+  "eynək qutusu açki qabı": [
    "Салон и аксессуары"
   ],
   "fan motoru": [
    "Кондиционер / климат"
   ],
-  "fan motoru (salon/peç)": [
+  "fan motoru salon peç": [
    "Кондиционер / климат"
   ],
   "fara": [
    "Кузов и оптика"
   ],
-  "fara (baş fara)": [
+  "fara baş fara": [
    "Кузов и оптика"
   ],
   "fara korrektoru": [
@@ -1345,7 +1342,7 @@
   "faranın korrektoru": [
    "Электрика и электроника"
   ],
-  "faranın korrektoru (tənzimləyici motoru)": [
+  "faranın korrektoru tənzimləyici motoru": [
    "Электрика и электроника"
   ],
   "faranın üst plasması": [
@@ -1366,7 +1363,7 @@
   "farsunka": [
    "Топливная система"
   ],
-  "farsunka (forsunka)": [
+  "farsunka forsunka": [
    "Топливная система"
   ],
   "ferdo": [
@@ -1375,10 +1372,10 @@
   "feredo": [
    "Трансмиссия"
   ],
-  "feredo (mufta diski)": [
+  "feredo caska": [
    "Трансмиссия"
   ],
-  "feredo caska": [
+  "feredo mufta diski": [
    "Трансмиссия"
   ],
   "ferodo": [
@@ -1411,7 +1408,7 @@
   "friksion": [
    "Трансмиссия"
   ],
-  "friksion (paket disk)": [
+  "friksion paket disk": [
    "Трансмиссия"
   ],
   "friksional dəst": [
@@ -1450,7 +1447,7 @@
   "generator tənzimləyici": [
    "Электрика и электроника"
   ],
-  "generator tənzimləyici (reле)": [
+  "generator tənzimləyici reле": [
    "Электрика и электроника"
   ],
   "genişlənmə çəni": [
@@ -1459,7 +1456,7 @@
   "geri qaytarma klapanı": [
    "Топливная система"
   ],
-  "geri qaytarma klapanı (obratka)": [
+  "geri qaytarma klapanı obratka": [
    "Топливная система"
   ],
   "gida nasos": [
@@ -1525,7 +1522,7 @@
   "gündüz işığı": [
    "Кузов и оптика"
   ],
-  "gündüz işığı (drl)": [
+  "gündüz işığı drl": [
    "Кузов и оптика"
   ],
   "günlük": [
@@ -1534,25 +1531,22 @@
   "günəşlik": [
    "Салон и аксессуары"
   ],
-  "günəşlik (günlük)": [
+  "günəşlik günlük": [
    "Салон и аксессуары"
   ],
   "güzgü": [
    "Кузов и оптика"
   ],
-  "güzgü (yan güzgü)": [
-   "Кузов и оптика"
-  ],
   "güzgü arxası pavarotniki": [
    "Кузов и оптика"
   ],
-  "güzgü korpusu/qapağı": [
+  "güzgü korpusu qapağı": [
    "Кузов и оптика"
   ],
   "güzgü matoru": [
    "Электрика и электроника"
   ],
-  "güzgü matoru (tənzimləyici/qatlanan)": [
+  "güzgü matoru tənzimləyici qatlanan": [
    "Электрика и электроника"
   ],
   "güzgü povorotniki": [
@@ -1567,10 +1561,13 @@
   "güzgü tənzimləmə düyməsi": [
    "Электрика и электроника"
   ],
+  "güzgü yan güzgü": [
+   "Кузов и оптика"
+  ],
   "güzgü şüşəsi": [
    "Кузов и оптика"
   ],
-  "güzgüdə povorotnik (təkrarlayıcı)": [
+  "güzgüdə povorotnik təkrarlayıcı": [
    "Кузов и оптика"
   ],
   "güzgünün matoru": [
@@ -1612,13 +1609,13 @@
   "hava filtri": [
    "Расходники и масла"
   ],
-  "hava filtri (mühərrik üçün)": [
+  "hava filtri mühərrik üçün": [
    "Расходники и масла"
   ],
   "hava filtri qutusu": [
    "Двигатель"
   ],
-  "hava filtri qutusu (korpus)": [
+  "hava filtri qutusu korpus": [
    "Двигатель"
   ],
   "hava kollektoru": [
@@ -1660,7 +1657,7 @@
   "hidrotransformator": [
    "Трансмиссия"
   ],
-  "hidrotransformator (torkon)": [
+  "hidrotransformator torkon": [
    "Трансмиссия"
   ],
   "hidrousilitel": [
@@ -1681,7 +1678,7 @@
   "interkuler borusu": [
    "Система охлаждения"
   ],
-  "interkuler şlanqı (nadduv borusu)": [
+  "interkuler şlanqı nadduv borusu": [
    "Система охлаждения"
   ],
   "interkuller": [
@@ -1693,7 +1690,7 @@
   "isitmə": [
    "Кондиционер / климат"
   ],
-  "isitmə/ventilyasiya": [
+  "isitmə ventilyasiya": [
    "Кондиционер / климат"
   ],
   "iç qranat": [
@@ -1702,7 +1699,7 @@
   "iç remen": [
    "Двигатель"
   ],
-  "iç remen (dişli qayış)": [
+  "iç remen dişli qayış": [
    "Двигатель"
   ],
   "iç remeni": [
@@ -1732,7 +1729,7 @@
   "joystic": [
    "Салон и аксессуары"
   ],
-  "joystic (sürət qutusu dekoru)": [
+  "joystic sürət qutusu dekoru": [
    "Салон и аксессуары"
   ],
   "jyostkaya": [
@@ -1762,7 +1759,7 @@
   "kalonka": [
    "Электрика и электроника"
   ],
-  "kalonka (dinamik)": [
+  "kalonka dinamik": [
    "Электрика и электроника"
   ],
   "kalotka": [
@@ -1774,7 +1771,7 @@
   "kalyan": [
    "Двигатель"
   ],
-  "kalyan (bobin başlığı)": [
+  "kalyan bobin başlığı": [
    "Двигатель"
   ],
   "kama teker": [
@@ -1783,7 +1780,7 @@
   "kamera": [
    "Электрика и электроника"
   ],
-  "kamera (arxa/ön/360)": [
+  "kamera arxa ön 360": [
    "Электрика и электроника"
   ],
   "kancaner": [
@@ -1804,7 +1801,7 @@
   "kant": [
    "Салон и аксессуары"
   ],
-  "kant (xrom kant)": [
+  "kant xrom kant": [
    "Салон и аксессуары"
   ],
   "kanti": [
@@ -1817,6 +1814,9 @@
    "Кузов и оптика"
   ],
   "kapot amortizatoru": [
+   "Кузов и оптика"
+  ],
+  "kapot baqaj açma trosu": [
    "Кузов и оптика"
   ],
   "kapot kilid motoru": [
@@ -1832,9 +1832,6 @@
    "Кузов и оптика"
   ],
   "kapot zamoku": [
-   "Кузов и оптика"
-  ],
-  "kapot/baqaj açma trosu": [
    "Кузов и оптика"
   ],
   "kapotun amartizatoru": [
@@ -1858,16 +1855,13 @@
   "karbon salon üzlüyü": [
    "Салон и аксессуары"
   ],
-  "karbon salon üzlüyü (dekor)": [
+  "karbon salon üzlüyü dekor": [
    "Салон и аксессуары"
   ],
   "karbürator": [
    "Топливная система"
   ],
   "kardan": [
-   "Трансмиссия"
-  ],
-  "kardan (ötürücü kardan valı)": [
    "Трансмиссия"
   ],
   "kardan krestovinası": [
@@ -1879,7 +1873,10 @@
   "kardan valının yastığı": [
    "Трансмиссия"
   ],
-  "kardan valının yastığı (podvesnoy yastıq)": [
+  "kardan valının yastığı podvesnoy yastıq": [
+   "Трансмиссия"
+  ],
+  "kardan ötürücü kardan valı": [
    "Трансмиссия"
   ],
   "karinval": [
@@ -1924,10 +1921,10 @@
   "karopka beyni": [
    "Трансмиссия"
   ],
-  "karopka beyni (tcu/gidro bloku)": [
+  "karopka beyni tcu gidro bloku": [
    "Трансмиссия"
   ],
-  "karopka datçiki (təzyiq/sürət)": [
+  "karopka datçiki təzyiq sürət": [
    "Трансмиссия"
   ],
   "karopka filtri": [
@@ -1942,7 +1939,7 @@
   "karopka salniki": [
    "Трансмиссия"
   ],
-  "karopka salniki (val salniki)": [
+  "karopka salniki val salniki": [
    "Трансмиссия"
   ],
   "karopka yagi": [
@@ -1951,7 +1948,7 @@
   "karopka yastığı": [
    "Двигатель"
   ],
-  "karopka yağı (mexanika/avtomat)": [
+  "karopka yağı mexanika avtomat": [
    "Расходники и масла"
   ],
   "karopkanin padushkasi": [
@@ -1996,13 +1993,13 @@
   "katalizator daççiki": [
    "Выхлопная система"
   ],
+  "katalizator oksigen datçiki lambda zond": [
+   "Выхлопная система"
+  ],
   "katalizator sensor": [
    "Выхлопная система"
   ],
   "katalizator sistemi": [
-   "Выхлопная система"
-  ],
-  "katalizator/oksigen datçiki (lambda zond)": [
    "Выхлопная система"
   ],
   "katalizatorun arxa datçiki": [
@@ -2038,7 +2035,7 @@
   "kladiş": [
    "Двигатель"
   ],
-  "kladiş (porşen barmağı)": [
+  "kladiş porşen barmağı": [
    "Двигатель"
   ],
   "klapan": [
@@ -2065,7 +2062,7 @@
   "klapan salniyi": [
    "Двигатель"
   ],
-  "klapan suxariki (klapan fiksatoru)": [
+  "klapan suxariki klapan fiksatoru": [
    "Двигатель"
   ],
   "klapan yayı": [
@@ -2080,7 +2077,7 @@
   "koilover": [
    "Подвеска"
   ],
-  "kojiki (karopka)": [
+  "kojiki karopka": [
    "Трансмиссия"
   ],
   "kolektirin rezinleri": [
@@ -2095,7 +2092,7 @@
   "kollektor": [
    "Двигатель"
   ],
-  "kollektor rezinləri (forsunka altlığı)": [
+  "kollektor rezinləri forsunka altlığı": [
    "Двигатель"
   ],
   "kolonka": [
@@ -2131,7 +2128,7 @@
   "kondisioner datçiki": [
    "Кондиционер / климат"
   ],
-  "kondisioner datçiki/aktuatoru": [
+  "kondisioner datçiki aktuatoru": [
    "Кондиционер / климат"
   ],
   "kondisioner filteri": [
@@ -2143,7 +2140,7 @@
   "kondisioner idarəetmə bloku": [
    "Кондиционер / климат"
   ],
-  "kondisioner idarəetmə bloku (klimat kontrol)": [
+  "kondisioner idarəetmə bloku klimat kontrol": [
    "Кондиционер / климат"
   ],
   "kondisioner kompressoru": [
@@ -2167,7 +2164,7 @@
   "kondisioner və peçi ayıran klapan": [
    "Кондиционер / климат"
   ],
-  "kondisioner zolotniki (doldurma klapanı)": [
+  "kondisioner zolotniki doldurma klapanı": [
    "Кондиционер / климат"
   ],
   "kondisionerin buxarlandırıcısı": [
@@ -2209,7 +2206,7 @@
   "kor zona sensoru": [
    "Электрика и электроника"
   ],
-  "kor zona sensoru/detektoru (bsm)": [
+  "kor zona sensoru detektoru bsm": [
    "Электрика и электроника"
   ],
   "kor zonası sensoru": [
@@ -2221,7 +2218,7 @@
   "korobka": [
    "Трансмиссия"
   ],
-  "koromislo (rokker)": [
+  "koromislo rokker": [
    "Двигатель"
   ],
   "korpus": [
@@ -2269,7 +2266,7 @@
   "krılo": [
    "Кузов и оптика"
   ],
-  "krılo (qanad)": [
+  "krılo qanad": [
    "Кузов и оптика"
   ],
   "ksenon": [
@@ -2293,7 +2290,7 @@
   "körpü": [
    "Подвеска"
   ],
-  "körpü / zbor": [
+  "körpü zbor": [
    "Подвеска"
   ],
   "kırlo": [
@@ -2305,7 +2302,7 @@
   "lambda zond": [
    "Выхлопная система"
   ],
-  "lampa (fara və ya stop üçün)": [
+  "lampa fara və ya stop üçün": [
    "Электрика и электроника"
   ],
   "lampa patronu": [
@@ -2323,10 +2320,10 @@
   "lcm": [
    "Электрика и электроника"
   ],
-  "lcm (işıq idarəetmə bloku)": [
+  "lcm işıq bloku": [
    "Электрика и электроника"
   ],
-  "lcm işıq bloku": [
+  "lcm işıq idarəetmə bloku": [
    "Электрика и электроника"
   ],
   "led": [
@@ -2335,13 +2332,13 @@
   "led halqası": [
    "Тюнинг"
   ],
-  "led-кольца в фару": [
+  "led кольца в фару": [
    "Тюнинг"
   ],
   "ling": [
    "Подвеска"
   ],
-  "ling/qol (əyri/düz/banan)": [
+  "ling qol əyri düz banan": [
    "Подвеска"
   ],
   "link": [
@@ -2353,7 +2350,7 @@
   "lip": [
    "Тюнинг"
   ],
-  "lip (bufer alt dodağı)": [
+  "lip bufer alt dodağı": [
    "Тюнинг"
   ],
   "logo": [
@@ -2423,7 +2420,7 @@
   "manitor": [
    "Электрика и электроника"
   ],
-  "manitor (multimedia ekranı)": [
+  "manitor multimedia ekranı": [
    "Электрика и электроника"
   ],
   "manitor yerlesdirmeye cercive": [
@@ -2432,7 +2429,7 @@
   "manitorun cercivesi": [
    "Электрика и электроника"
   ],
-  "manitorun çərçivəsi (montaj)": [
+  "manitorun çərçivəsi montaj": [
    "Электрика и электроника"
   ],
   "manjet": [
@@ -2444,7 +2441,7 @@
   "map sensoru": [
    "Двигатель"
   ],
-  "map-датчик (давления во впуске)": [
+  "map датчик давления во впуске": [
    "Двигатель"
   ],
   "maqinatafon": [
@@ -2462,7 +2459,7 @@
   "maqnitafon": [
    "Электрика и электроника"
   ],
-  "maqnitafon (baş qurğu)": [
+  "maqnitafon baş qurğu": [
    "Электрика и электроника"
   ],
   "maqnitofon": [
@@ -2525,7 +2522,7 @@
   "maye dövrü klapanı": [
    "Трансмиссия"
   ],
-  "maşın plonkası (folya)": [
+  "maşın plonkası folya": [
    "Салон и аксессуары"
   ],
   "meguin": [
@@ -2534,7 +2531,7 @@
   "membran": [
    "Двигатель"
   ],
-  "membran (pcv klapanı)": [
+  "membran pcv klapanı": [
    "Двигатель"
   ],
   "mexanik karopka": [
@@ -2543,10 +2540,10 @@
   "mexanika": [
    "Расходники и масла"
   ],
-  "mexanika karopka yagi": [
+  "mexanika avtomat": [
    "Расходники и масла"
   ],
-  "mexanika/avtomat": [
+  "mexanika karopka yagi": [
    "Расходники и масла"
   ],
   "mexaniki sürətlər qutusu": [
@@ -2555,7 +2552,7 @@
   "midbass": [
    "Электрика и электроника"
   ],
-  "midbass (dinamik növü)": [
+  "midbass dinamik növü": [
    "Электрика и электроника"
   ],
   "mitanol": [
@@ -2579,7 +2576,7 @@
   "most": [
    "Подвеска"
   ],
-  "most (körpü / zbor)": [
+  "most körpü zbor": [
    "Подвеска"
   ],
   "most zbor": [
@@ -2606,7 +2603,7 @@
   "mufta diski": [
    "Трансмиссия"
   ],
-  "mufta hidravlik şlanqı (gidrositel borusu)": [
+  "mufta hidravlik şlanqı gidrositel borusu": [
    "Трансмиссия"
   ],
   "mufta qlavni silindiri": [
@@ -2657,25 +2654,25 @@
   "mühərrik": [
    "Двигатель"
   ],
-  "mühərrik (bütöv)": [
-   "Двигатель"
-  ],
   "mühərrik alt qoruyucusu": [
    "Кузов и оптика"
   ],
   "mühərrik başlığı": [
    "Двигатель"
   ],
+  "mühərrik bütöv": [
+   "Двигатель"
+  ],
   "mühərrik idarəetmə bloku": [
    "Электрика и электроника"
   ],
-  "mühərrik idarəetmə bloku (ecu)": [
+  "mühərrik idarəetmə bloku ecu": [
    "Электрика и электроника"
   ],
   "mühərrik qapağı": [
    "Двигатель"
   ],
-  "mühərrik qapağı (dekorativ)": [
+  "mühərrik qapağı dekorativ": [
    "Двигатель"
   ],
   "mühərrik qoruyucusu": [
@@ -2744,7 +2741,7 @@
   "naklatka": [
    "Тормозная система"
   ],
-  "naklatka (əyləc bəndi)": [
+  "naklatka əyləc bəndi": [
    "Тормозная система"
   ],
   "naklatma": [
@@ -2756,10 +2753,10 @@
   "nakonechnik": [
    "Рулевая система"
   ],
-  "nakonechnik (rulevoy)": [
+  "nakonechnik pılniki": [
    "Рулевая система"
   ],
-  "nakonechnik pılniki": [
+  "nakonechnik rulevoy": [
    "Рулевая система"
   ],
   "nakonecnik": [
@@ -2768,13 +2765,13 @@
   "nakoneçnik": [
    "Рулевая система"
   ],
-  "nal (tormuz)": [
+  "nal tormuz": [
    "Тормозная система"
   ],
   "naqillər": [
    "Электрика и электроника"
   ],
-  "naqillər/ştekerlər (proводка)": [
+  "naqillər ştekerlər proводка": [
    "Электрика и электроника"
   ],
   "natajitel": [
@@ -2786,7 +2783,7 @@
   "natijitel": [
    "Двигатель"
   ],
-  "natijitel (gərginləşdirici)": [
+  "natijitel gərginləşdirici": [
    "Двигатель"
   ],
   "natlatka": [
@@ -2819,7 +2816,7 @@
   "nömrə altlığı": [
    "Салон и аксессуары"
   ],
-  "nömrə altlığı/kantı": [
+  "nömrə altlığı kantı": [
    "Салон и аксессуары"
   ],
   "nömrə üstü kant": [
@@ -2897,17 +2894,17 @@
   "oturacaq soyuducu bloku": [
    "Кондиционер / климат"
   ],
+  "oturacaq sükan qızdırıcı soyuducu bloku": [
+   "Кондиционер / климат"
+  ],
   "oturacaq çexolu": [
    "Салон и аксессуары"
   ],
   "oturacaq üzlüyü": [
    "Салон и аксессуары"
   ],
-  "oturacaq üzlüyü (çexol)": [
+  "oturacaq üzlüyü çexol": [
    "Салон и аксессуары"
-  ],
-  "oturacaq/sükan qızdırıcı-soyuducu bloku": [
-   "Кондиционер / климат"
   ],
   "oturacaqlar": [
    "Салон и аксессуары"
@@ -2933,10 +2930,10 @@
   "padnoşka": [
    "Тюнинг"
   ],
-  "padnoşka (pilləkən)": [
+  "padnoşka elektiron": [
    "Тюнинг"
   ],
-  "padnoşka elektiron": [
+  "padnoşka pilləkən": [
    "Тюнинг"
   ],
   "padoshka": [
@@ -2984,19 +2981,19 @@
   "panoramik lyuk rezini": [
    "Кузов и оптика"
   ],
-  "papiros yandırıcı (prikurivatel)": [
+  "papiros yandırıcı prikurivatel": [
    "Салон и аксессуары"
   ],
   "paplavok": [
    "Топливная система"
   ],
-  "paplavok (yanacaq səviyyə üzgəci)": [
+  "paplavok yanacaq səviyyə üzgəci": [
    "Топливная система"
   ],
   "park datçikləri": [
    "Электрика и электроника"
   ],
-  "park datçikləri (dəst)": [
+  "park datçikləri dəst": [
    "Электрика и электроника"
   ],
   "park kamerası": [
@@ -3008,7 +3005,7 @@
   "park radar sensoru": [
    "Электрика и электроника"
   ],
-  "park radar sensoru (şunuru)": [
+  "park radar sensoru şunuru": [
    "Электрика и электроника"
   ],
   "park radar şunuru": [
@@ -3035,7 +3032,7 @@
   "patpress": [
    "Кузов и оптика"
   ],
-  "patrubok (interkuler)": [
+  "patrubok interkuler": [
    "Система охлаждения"
   ],
   "patrubok turbinası": [
@@ -3083,13 +3080,13 @@
   "peçin barmaqlıqları": [
    "Салон и аксессуары"
   ],
-  "peçin barmaqlıqları (ventilyasiya barmaqlığı)": [
+  "peçin barmaqlıqları ventilyasiya barmaqlığı": [
    "Салон и аксессуары"
   ],
   "peçin radiatoru": [
    "Кондиционер / климат"
   ],
-  "peçin radiatoru (salon isitmə radiatoru)": [
+  "peçin radiatoru salon isitmə radiatoru": [
    "Кондиционер / климат"
   ],
   "peçin vakum paylayıcı": [
@@ -3107,7 +3104,7 @@
   "peçka motoru": [
    "Кондиционер / климат"
   ],
-  "peçka motoru (ventilyator)": [
+  "peçka motoru ventilyator": [
    "Кондиционер / климат"
   ],
   "peçka ventilyatoru": [
@@ -3116,7 +3113,7 @@
   "peçka zaslonkası": [
    "Кондиционер / климат"
   ],
-  "peçka zaslonkası (isitmə/ventilyasiya)": [
+  "peçka zaslonkası isitmə ventilyasiya": [
    "Кондиционер / климат"
   ],
   "pilləkən": [
@@ -3146,13 +3143,13 @@
   "pnevmanın platası": [
    "Подвеска"
   ],
-  "pnevmoasqının platası (idarəetmə bloku)": [
+  "pnevmoasqının platası idarəetmə bloku": [
    "Подвеска"
   ],
   "pnevmopodveska": [
    "Подвеска"
   ],
-  "pnevmopodveska (hava balonu)": [
+  "pnevmopodveska hava balonu": [
    "Подвеска"
   ],
   "podklibik": [
@@ -3242,7 +3239,7 @@
   "predaxranitel bloku": [
    "Электрика и электроника"
   ],
-  "predaxranitel bloku (qoruyucular)": [
+  "predaxranitel bloku qoruyucular": [
    "Электрика и электроника"
   ],
   "predaxranitelin yerinin qapağı": [
@@ -3257,10 +3254,10 @@
   "prisos": [
    "Электрика и электроника"
   ],
-  "prisos (baqaj)": [
+  "prisos baqaj": [
    "Электрика и электроника"
   ],
-  "prisos (qapı açan)": [
+  "prisos qapı açan": [
    "Электрика и электроника"
   ],
   "priyomnaya truba": [
@@ -3287,10 +3284,10 @@
   "purjun": [
    "Подвеска"
   ],
-  "purjun (prujin)": [
+  "purjun alt çaşkası": [
    "Подвеска"
   ],
-  "purjun alt çaşkası": [
+  "purjun prujin": [
    "Подвеска"
   ],
   "pərdə": [
@@ -3332,7 +3329,7 @@
   "qanad": [
    "Кузов и оптика"
   ],
-  "qanad genişləndiricisi (arka)": [
+  "qanad genişləndiricisi arka": [
    "Кузов и оптика"
   ],
   "qanaq": [
@@ -3348,9 +3345,6 @@
    "Кузов и оптика"
   ],
   "qapı": [
-   "Кузов и оптика"
-  ],
-  "qapı (polotno)": [
    "Кузов и оптика"
   ],
   "qapı dəstəyi": [
@@ -3374,10 +3368,13 @@
   "qapı kilid sistemi": [
    "Электрика и электроника"
   ],
-  "qapı konsevigi (açıq qapı datçiki)": [
+  "qapı konsevigi açıq qapı datçiki": [
    "Электрика и электроника"
   ],
   "qapı menteşəsi": [
+   "Кузов и оптика"
+  ],
+  "qapı polotno": [
    "Кузов и оптика"
   ],
   "qapı rezini": [
@@ -3392,7 +3389,7 @@
   "qapı zamoku aktuatoru": [
    "Электрика и электроника"
   ],
-  "qapı zamoku aktuatoru (mərkəzi kilid)": [
+  "qapı zamoku aktuatoru mərkəzi kilid": [
    "Электрика и электроника"
   ],
   "qapı şüşəsi": [
@@ -3422,10 +3419,13 @@
   "qaz balonu": [
    "Топливная система"
   ],
+  "qaz benzin": [
+   "Топливная система"
+  ],
   "qaz doldurma qurğusu": [
    "Топливная система"
   ],
-  "qaz filtri (qba)": [
+  "qaz filtri qba": [
    "Топливная система"
   ],
   "qaz forsunkaları": [
@@ -3434,10 +3434,10 @@
   "qaz forsunkası": [
    "Топливная система"
   ],
-  "qaz forsunkası (qba)": [
+  "qaz forsunkası qba": [
    "Топливная система"
   ],
-  "qaz magistralı (yüksək təzyiq borusu)": [
+  "qaz magistralı yüksək təzyiq borusu": [
    "Топливная система"
   ],
   "qaz pedalı": [
@@ -3446,25 +3446,22 @@
   "qaz reduktoru": [
    "Топливная система"
   ],
-  "qaz reduktoru (buxarlandırıcı)": [
+  "qaz reduktoru buxarlandırıcı": [
    "Топливная система"
   ],
   "qaz trosu": [
    "Топливная система"
   ],
-  "qaz trosu (akselerator trosu)": [
+  "qaz trosu akselerator trosu": [
    "Топливная система"
   ],
   "qaz trosu zaslonkaya": [
    "Топливная система"
   ],
-  "qaz/benzin": [
-   "Топливная система"
-  ],
   "qazan": [
    "Выхлопная система"
   ],
-  "qazan (rezonator)": [
+  "qazan rezonator": [
    "Выхлопная система"
   ],
   "qazpaylayıcı val": [
@@ -3494,13 +3491,13 @@
   "qluşitel": [
    "Выхлопная система"
   ],
-  "qluşitel (susdurucu)": [
+  "qluşitel egzoz asqısı podvesnoy rezini": [
    "Выхлопная система"
   ],
   "qluşitel praklatkası": [
    "Выхлопная система"
   ],
-  "qluşitel/egzoz asqısı (podvesnoy rezini)": [
+  "qluşitel susdurucu": [
    "Выхлопная система"
   ],
   "qluşitelin rezini": [
@@ -3536,13 +3533,13 @@
   "qranat": [
    "Подвеска"
   ],
-  "qranat (шрус)": [
-   "Подвеска"
-  ],
   "qranat pılniki": [
    "Подвеска"
   ],
-  "qranat pılniki (çexol)": [
+  "qranat pılniki çexol": [
+   "Подвеска"
+  ],
+  "qranat шрус": [
    "Подвеска"
   ],
   "qranatın pulniki": [
@@ -3569,13 +3566,13 @@
   "qızdırıcı şam": [
    "Двигатель"
   ],
-  "qızdırıcı şam (dizel)": [
+  "qızdırıcı şam dizel": [
    "Двигатель"
   ],
   "qızdırıcı şam relesi": [
    "Электрика и электроника"
   ],
-  "qəbul borusu (priyomnaya truba)": [
+  "qəbul borusu priyomnaya truba": [
    "Выхлопная система"
   ],
   "raboci silindir": [
@@ -3602,7 +3599,7 @@
   "radiator difuzoru": [
    "Система охлаждения"
   ],
-  "radiator difuzoru (ventilyator korpusu)": [
+  "radiator difuzoru ventilyator korpusu": [
    "Система охлаждения"
   ],
   "radiator paneli": [
@@ -3617,7 +3614,7 @@
   "radiator ventilyatoru": [
    "Система охлаждения"
   ],
-  "radiator ventilyatoru (elektroventilyator)": [
+  "radiator ventilyatoru elektroventilyator": [
    "Система охлаждения"
   ],
   "radiatoru": [
@@ -3629,7 +3626,7 @@
   "radio panel": [
    "Электрика и электроника"
   ],
-  "radio panel (çərçivə)": [
+  "radio panel çərçivə": [
    "Электрика и электроника"
   ],
   "radio çərçivəsi": [
@@ -3677,7 +3674,7 @@
   "razvalni vtulka": [
    "Подвеска"
   ],
-  "razvalni vtulka (böyük/balaca)": [
+  "razvalni vtulka böyük balaca": [
    "Подвеска"
   ],
   "razvalnı": [
@@ -3701,7 +3698,7 @@
   "rele generator": [
    "Электрика и электроника"
   ],
-  "remen (xarici)": [
+  "remen xarici": [
    "Двигатель"
   ],
   "remontnu aypara": [
@@ -3713,13 +3710,13 @@
   "reyka": [
    "Рулевая система"
   ],
-  "reyka (rul)": [
+  "reyka rul": [
    "Рулевая система"
   ],
   "reylinq": [
    "Салон и аксессуары"
   ],
-  "reylinq (dam üstü baqaj)": [
+  "reylinq dam üstü baqaj": [
    "Салон и аксессуары"
   ],
   "rezenator": [
@@ -3770,7 +3767,7 @@
   "rozjiq bloku": [
    "Электрика и электроника"
   ],
-  "rozjiq bloku (ksenon)": [
+  "rozjiq bloku ksenon": [
    "Электрика и электроника"
   ],
   "ruckasi": [
@@ -3782,31 +3779,31 @@
   "rul": [
    "Рулевая система"
   ],
-  "rul (sükan çarxı)": [
-   "Рулевая система"
-  ],
   "rul altı keçirici": [
    "Рулевая система"
   ],
-  "rul altı keçirici (dönmə/işıq qolu)": [
+  "rul altı keçirici dönmə işıq qolu": [
    "Рулевая система"
   ],
   "rul lenti": [
    "Электрика и электроника"
   ],
-  "rul lenti (saat yayı)": [
+  "rul lenti saat yayı": [
    "Электрика и электроника"
   ],
   "rul mayesi": [
    "Расходники и масла"
   ],
-  "rul reykası remkomplekti (salnikler)": [
+  "rul reykası remkomplekti salnikler": [
    "Рулевая система"
   ],
   "rul reykasının pılniki": [
    "Рулевая система"
   ],
-  "rul üzlüyü (oplyotka)": [
+  "rul sükan çarxı": [
+   "Рулевая система"
+  ],
+  "rul üzlüyü oplyotka": [
    "Салон и аксессуары"
   ],
   "rulavoy kalonka": [
@@ -3815,7 +3812,7 @@
   "rulavoy mayesi": [
    "Расходники и масла"
   ],
-  "rulavoy mayesi (psf)": [
+  "rulavoy mayesi psf": [
    "Расходники и масла"
   ],
   "rulavoy reykası": [
@@ -3836,19 +3833,19 @@
   "rulevoy baçoku": [
    "Рулевая система"
   ],
-  "rulevoy baçoku (qur)": [
+  "rulevoy baçoku qur": [
    "Рулевая система"
   ],
   "rulevoy krestovina": [
    "Рулевая система"
   ],
-  "rulevoy motoru (elektrik gücləndirici)": [
+  "rulevoy motoru elektrik gücləndirici": [
    "Рулевая система"
   ],
   "rulevoy nakoneçnikləri": [
    "Рулевая система"
   ],
-  "rulevoy reyka (dişli qutusu)": [
+  "rulevoy reyka dişli qutusu": [
    "Рулевая система"
   ],
   "rulevoy reykası": [
@@ -3860,10 +3857,10 @@
   "rulevoy usilitel": [
    "Рулевая система"
   ],
-  "rulevoy usilitel (gidrousilitel)": [
+  "rulevoy usilitel gidrousilitel": [
    "Рулевая система"
   ],
-  "rulevoy şlanqı (qur)": [
+  "rulevoy şlanqı qur": [
    "Рулевая система"
   ],
   "rulevoyun motoru": [
@@ -3899,7 +3896,7 @@
   "ruçnoy bloku": [
    "Тормозная система"
   ],
-  "ruçnoy bloku/düyməsi (elektron əl əyləci)": [
+  "ruçnoy bloku düyməsi elektron əl əyləci": [
    "Тормозная система"
   ],
   "ruçnoy tormuz trosu": [
@@ -3923,13 +3920,13 @@
   "rıcaqlar": [
    "Подвеска"
   ],
-  "rıçaq (karopka)": [
+  "rıçaq karopka": [
    "Трансмиссия"
   ],
-  "rıçaq (sellektor)": [
+  "rıçaq sellektor": [
    "Трансмиссия"
   ],
-  "rəsniçka (fara üstü naklatka)": [
+  "rəsniçka fara üstü naklatka": [
    "Тюнинг"
   ],
   "saat yayı": [
@@ -3974,7 +3971,7 @@
   "salon filtri": [
    "Расходники и масла"
   ],
-  "salon filtri (kondisioner filtri)": [
+  "salon filtri kondisioner filtri": [
    "Расходники и масла"
   ],
   "salon guzgusu": [
@@ -3989,8 +3986,11 @@
   "salon isitmə radiatoru": [
    "Кондиционер / климат"
   ],
-  "salon kovrolini (döşəmə örtüyü)": [
+  "salon kovrolini döşəmə örtüyü": [
    "Салон и аксессуары"
+  ],
+  "salon peç": [
+   "Кондиционер / климат"
   ],
   "salon plafinu": [
    "Электрика и электроника"
@@ -4004,7 +4004,7 @@
   "salon tavanı": [
    "Салон и аксессуары"
   ],
-  "salon tavanı (dam örtüyü)": [
+  "salon tavanı dam örtüyü": [
    "Салон и аксессуары"
   ],
   "salon şiti": [
@@ -4013,16 +4013,13 @@
   "salon şitosu": [
    "Салон и аксессуары"
   ],
-  "salon/peç": [
-   "Кондиционер / климат"
-  ],
   "samavar": [
    "Система охлаждения"
   ],
   "sapfa": [
    "Подвеска"
   ],
-  "sapfa (povorotnı kulak)": [
+  "sapfa povorotnı kulak": [
    "Подвеска"
   ],
   "saravoy": [
@@ -4040,7 +4037,7 @@
   "scepleniya jidkost": [
    "Расходники и масла"
   ],
-  "sekretka (təkər boltu)": [
+  "sekretka təkər boltu": [
    "Шины и диски"
   ],
   "sellektor": [
@@ -4088,7 +4085,7 @@
   "silentblok": [
    "Подвеска"
   ],
-  "silentblok (qolun)": [
+  "silentblok qolun": [
    "Подвеска"
   ],
   "silindr bloku": [
@@ -4106,7 +4103,7 @@
   "siqnal": [
    "Электрика и электроника"
   ],
-  "siqnal (qudok)": [
+  "siqnal qudok": [
    "Электрика и электроника"
   ],
   "siqnalın lenti": [
@@ -4118,16 +4115,16 @@
   "sirqa": [
    "Подвеска"
   ],
-  "sit (üzlük)": [
+  "sit üzlük": [
    "Салон и аксессуары"
   ],
   "skorus altdığu": [
    "Трансмиссия"
   ],
-  "skorus trosu": [
+  "skorus sürət trosu": [
    "Трансмиссия"
   ],
-  "skorus/sürət trosu": [
+  "skorus trosu": [
    "Трансмиссия"
   ],
   "snorkel": [
@@ -4136,19 +4133,19 @@
   "solenoid": [
    "Трансмиссия"
   ],
-  "solenoid (karopka klapanı)": [
+  "solenoid karopka klapanı": [
    "Трансмиссия"
   ],
   "sound sistemi": [
    "Электрика и электроника"
   ],
-  "soyutma klapanı (karopka)": [
+  "soyutma klapanı karopka": [
    "Трансмиссия"
   ],
   "spacer": [
    "Шины и диски"
   ],
-  "spacer (təkər araqatı)": [
+  "spacer təkər araqatı": [
    "Шины и диски"
   ],
   "spidometr": [
@@ -4175,7 +4172,7 @@
   "sport yay": [
    "Подвеска"
   ],
-  "sport yay/koilover": [
+  "sport yay koilover": [
    "Подвеска"
   ],
   "spoyler": [
@@ -4184,10 +4181,10 @@
   "srs": [
    "Электрика и электроника"
   ],
-  "srs bloku": [
+  "srs airbag bloku": [
    "Электрика и электроника"
   ],
-  "srs/airbag bloku": [
+  "srs bloku": [
    "Электрика и электроника"
   ],
   "stabilizator lingi": [
@@ -4223,7 +4220,7 @@
   "stop": [
    "Кузов и оптика"
   ],
-  "stop (arxa fənər)": [
+  "stop arxa fənər": [
    "Кузов и оптика"
   ],
   "stop datçiki": [
@@ -4232,7 +4229,7 @@
   "stop lampası": [
    "Электрика и электроника"
   ],
-  "stop siqnal açarı (laqruşka)": [
+  "stop siqnal açarı laqruşka": [
    "Электрика и электроника"
   ],
   "stop şüşəsi": [
@@ -4256,13 +4253,13 @@
   "stupitsa": [
    "Подвеска"
   ],
-  "stupitsa (təkər topu)": [
-   "Подвеска"
-  ],
   "stupitsa pavcemniki": [
    "Подвеска"
   ],
   "stupitsa podşipniki": [
+   "Подвеска"
+  ],
+  "stupitsa təkər topu": [
    "Подвеска"
   ],
   "stupitsanin podshibniki": [
@@ -4289,6 +4286,9 @@
   "stəkan tutacağı": [
    "Салон и аксессуары"
   ],
+  "su antifriz şlanqı": [
+   "Система охлаждения"
+  ],
   "su nasosu": [
    "Система охлаждения"
   ],
@@ -4313,9 +4313,6 @@
   "su şlankı": [
    "Система охлаждения"
   ],
-  "su/antifriz şlanqı": [
-   "Система охлаждения"
-  ],
   "subvufer": [
    "Электрика и электроника"
   ],
@@ -4337,16 +4334,16 @@
   "support": [
    "Тормозная система"
   ],
-  "support (suport)": [
+  "support remkomplekt": [
    "Тормозная система"
   ],
-  "support remkomplekt": [
+  "support suport": [
    "Тормозная система"
   ],
   "support toz qoruyucusu": [
    "Тормозная система"
   ],
-  "support təmir dəsti (toz qoruyucusu/manjet)": [
+  "support təmir dəsti toz qoruyucusu manjet": [
    "Тормозная система"
   ],
   "supportu": [
@@ -4454,19 +4451,19 @@
   "sürət sensoru": [
    "Электрика и электроника"
   ],
-  "sürət sensoru (spidometr)": [
+  "sürət sensoru spidometr": [
    "Электрика и электроника"
   ],
   "sürətlər qutusu": [
    "Трансмиссия"
   ],
-  "sürətlər qutusu (bütöv)": [
+  "sürətlər qutusu bütöv": [
    "Трансмиссия"
   ],
   "sırğa": [
    "Подвеска"
   ],
-  "sırğa (stabilizator lingi)": [
+  "sırğa stabilizator lingi": [
    "Подвеска"
   ],
   "sırğalar": [
@@ -4475,7 +4472,7 @@
   "sıxıcı disk": [
    "Трансмиссия"
   ],
-  "sıxıcı disk/korzin": [
+  "sıxıcı disk korzin": [
    "Трансмиссия"
   ],
   "sığorta qutusu": [
@@ -4484,7 +4481,7 @@
   "səs gücləndirici": [
    "Электрика и электроника"
   ],
-  "səsboğucu ucluğu (müştük)": [
+  "səsboğucu ucluğu müştük": [
    "Выхлопная система"
   ],
   "səviyyə": [
@@ -4508,10 +4505,10 @@
   "tcu": [
    "Трансмиссия"
   ],
-  "tcu/gidro bloku": [
+  "tcu gidro bloku": [
    "Трансмиссия"
   ],
-  "tcu/гидроблок": [
+  "tcu гидроблок": [
    "Трансмиссия"
   ],
   "teker": [
@@ -4541,7 +4538,7 @@
   "termostatın": [
    "Система охлаждения"
   ],
-  "termostatın korpusu/qapağı": [
+  "termostatın korpusu qapağı": [
    "Система охлаждения"
   ],
   "termostatın qapağı": [
@@ -4562,7 +4559,7 @@
   "tnvd": [
    "Топливная система"
   ],
-  "tnvd (yüksək təzyiqli nasos)": [
+  "tnvd yüksək təzyiqli nasos": [
    "Топливная система"
   ],
   "torkon": [
@@ -4571,7 +4568,7 @@
   "tormoz borusu": [
    "Тормозная система"
   ],
-  "tormoz borusu (jyostkaya)": [
+  "tormoz borusu jyostkaya": [
    "Тормозная система"
   ],
   "tormoz gücləndiricisi": [
@@ -4586,11 +4583,11 @@
   "tormoz mayesi datçiki": [
    "Тормозная система"
   ],
+  "tormoz mayesi dot4": [
+   "Расходники и масла"
+  ],
   "tormoz mayesi səviyyə datçiki": [
    "Тормозная система"
-  ],
-  "tormoz mayesi/dot4": [
-   "Расходники и масла"
   ],
   "tormoz slanq": [
    "Тормозная система"
@@ -4613,7 +4610,7 @@
   "torpeda": [
    "Салон и аксессуары"
   ],
-  "torpeda (panel)": [
+  "torpeda panel": [
    "Салон и аксессуары"
   ],
   "torpedo": [
@@ -4622,10 +4619,10 @@
   "toz qoruyucusu": [
    "Тормозная система"
   ],
-  "toz qoruyucusu (ayna)": [
+  "toz qoruyucusu ayna": [
    "Тормозная система"
   ],
-  "toz qoruyucusu/manjet": [
+  "toz qoruyucusu manjet": [
    "Тормозная система"
   ],
   "tpms": [
@@ -4634,7 +4631,7 @@
   "tpms sensor": [
    "Шины и диски"
   ],
-  "tpms sensoru (təkər hava sensoru)": [
+  "tpms sensoru təkər hava sensoru": [
    "Шины и диски"
   ],
   "tpms təkər datçik": [
@@ -4643,7 +4640,7 @@
   "trambler": [
    "Двигатель"
   ],
-  "trambler (alışdırma paylayıcısı)": [
+  "trambler alışdırma paylayıcısı": [
    "Двигатель"
   ],
   "tramvyor": [
@@ -4655,7 +4652,7 @@
   "traves": [
    "Подвеска"
   ],
-  "traves (podramnik)": [
+  "traves podramnik": [
    "Подвеска"
   ],
   "trip knopkası": [
@@ -4676,9 +4673,6 @@
   "turbo": [
    "Двигатель"
   ],
-  "turbo (nadduv) datçiki": [
-   "Двигатель"
-  ],
   "turbo aktuator": [
    "Двигатель"
   ],
@@ -4691,13 +4685,16 @@
   "turbo kollektoru": [
    "Выхлопная система"
   ],
+  "turbo nadduv datçiki": [
+   "Двигатель"
+  ],
   "turbocharger wastegate": [
    "Двигатель"
   ],
   "turbonun qoruyucusu": [
    "Двигатель"
   ],
-  "turbonun qoruyucusu (zaşitniki)": [
+  "turbonun qoruyucusu zaşitniki": [
    "Двигатель"
   ],
   "tutacagi": [
@@ -4709,7 +4706,7 @@
   "tyaqa": [
    "Рулевая система"
   ],
-  "tyaqa (rulevoy)": [
+  "tyaqa rulevoy": [
    "Рулевая система"
   ],
   "tyaqanın": [
@@ -4733,7 +4730,7 @@
   "təkər boltu": [
    "Шины и диски"
   ],
-  "təkər boltu/qaykası": [
+  "təkər boltu qaykası": [
    "Шины и диски"
   ],
   "təkər diski": [
@@ -4766,35 +4763,35 @@
   "tənzimləyici motoru": [
    "Электрика и электроника"
   ],
-  "tənzimləyici/qatlanan": [
+  "tənzimləyici qatlanan": [
    "Электрика и электроника"
   ],
   "təzyiq": [
    "Трансмиссия"
   ],
-  "təzyiq/sürət": [
+  "təzyiq sürət": [
    "Трансмиссия"
   ],
   "usaq oturacagi": [
    "Салон и аксессуары"
   ],
+  "usb carplay modulu port": [
+   "Электрика и электроника"
+  ],
   "usb port carplay": [
    "Электрика и электроника"
   ],
-  "usb-порт / модуль carplay": [
-   "Электрика и электроника"
-  ],
-  "usb/carplay modulu (port)": [
+  "usb порт модуль carplay": [
    "Электрика и электроника"
   ],
   "usilitel": [
    "Электрика и электроника"
   ],
-  "usilitel (sesgücləndirici)": [
-   "Электрика и электроника"
-  ],
   "usilitel bufer": [
    "Кузов и оптика"
+  ],
+  "usilitel sesgücləndirici": [
+   "Электрика и электроника"
   ],
   "ust kriwka prokladkasi": [
    "Двигатель"
@@ -4817,9 +4814,6 @@
   "vakum": [
    "Тормозная система"
   ],
-  "vakum (tormoz gücləndiricisi)": [
-   "Тормозная система"
-  ],
   "vakum nasosu": [
    "Тормозная система"
   ],
@@ -4827,6 +4821,9 @@
    "Кондиционер / климат"
   ],
   "vakum sozdatel": [
+   "Тормозная система"
+  ],
+  "vakum tormoz gücləndiricisi": [
    "Тормозная система"
   ],
   "vakumsazdatel": [
@@ -4853,10 +4850,10 @@
   "vanos": [
    "Двигатель"
   ],
-  "vanos (vvt solenoidi)": [
+  "vanos a gedən yağ şlanqı": [
    "Двигатель"
   ],
-  "vanos-a gedən yağ şlanqı": [
+  "vanos vvt solenoidi": [
    "Двигатель"
   ],
   "vanus": [
@@ -4871,7 +4868,7 @@
   "vaxtlama zənciri": [
    "Двигатель"
   ],
-  "ventil (nippel)": [
+  "ventil nippel": [
    "Шины и диски"
   ],
   "ventilyasiya": [
@@ -4920,7 +4917,7 @@
   "viskomufta": [
    "Система охлаждения"
   ],
-  "viskomufta (ventilyator)": [
+  "viskomufta ventilyator": [
    "Система охлаждения"
   ],
   "vjimnoy": [
@@ -4932,7 +4929,7 @@
   "vozduxamer": [
    "Двигатель"
   ],
-  "vozduxamer (maf sensoru)": [
+  "vozduxamer maf sensoru": [
    "Двигатель"
   ],
   "vozduxamerin dachiki": [
@@ -4944,13 +4941,13 @@
   "vvt solenoidi": [
    "Двигатель"
   ],
-  "vzu (qaz doldurma qurğusu)": [
+  "vzu qaz doldurma qurğusu": [
    "Топливная система"
   ],
   "vıjımnoy": [
    "Трансмиссия"
   ],
-  "vıjımnoy (buraxıcı podşipnik)": [
+  "vıjımnoy buraxıcı podşipnik": [
    "Трансмиссия"
   ],
   "waravoy": [
@@ -5010,7 +5007,7 @@
   "yanacaq datçiki": [
    "Топливная система"
   ],
-  "yanacaq datçiki (səviyyə)": [
+  "yanacaq datçiki səviyyə": [
    "Топливная система"
   ],
   "yanacaq daççiki": [
@@ -5037,7 +5034,7 @@
   "yanacaq nasosunun datciki": [
    "Топливная система"
   ],
-  "yanacaq növü keçid düyməsi (qaz/benzin)": [
+  "yanacaq növü keçid düyməsi qaz benzin": [
    "Топливная система"
   ],
   "yanacaq requlyatoru": [
@@ -5058,7 +5055,7 @@
   "yanacaq çəni təzyiq sensoru": [
    "Топливная система"
   ],
-  "yanacaq çəni təzyiq sensoru (evap təzyiqi)": [
+  "yanacaq çəni təzyiq sensoru evap təzyiqi": [
    "Топливная система"
   ],
   "yanacaq çəninin iç qapağı": [
@@ -5088,11 +5085,11 @@
   "yağ filtri": [
    "Расходники и масла"
   ],
-  "yağ filtri (mühərrik üçün)": [
-   "Расходники и масла"
-  ],
-  "yağ filtri korpusu (kitabça)": [
+  "yağ filtri korpusu kitabça": [
    "Двигатель"
+  ],
+  "yağ filtri mühərrik üçün": [
+   "Расходники и масла"
   ],
   "yağ kitapçası": [
    "Двигатель"
@@ -5103,13 +5100,13 @@
   "yağ nasosu": [
    "Двигатель"
   ],
-  "yağ nasosu sorucu borusu (setka)": [
+  "yağ nasosu sorucu borusu setka": [
    "Двигатель"
   ],
   "yağ qapağı": [
    "Двигатель"
   ],
-  "yağ qapağı (maslozalivnaya qapaq)": [
+  "yağ qapağı maslozalivnaya qapaq": [
    "Двигатель"
   ],
   "yağ radiatoru": [
@@ -5118,7 +5115,7 @@
   "yağ soyuducusu": [
    "Система охлаждения"
   ],
-  "yağ soyuducusu (radiatoru)": [
+  "yağ soyuducusu radiatoru": [
    "Система охлаждения"
   ],
   "yağ təzyiqi sensoru": [
@@ -5133,7 +5130,7 @@
   "yuyucu forsunkası": [
    "Электрика и электроника"
   ],
-  "yuyucu forsunkası (jikler)": [
+  "yuyucu forsunkası jikler": [
    "Электрика и электроника"
   ],
   "yuyucu mayesi datçiki": [
@@ -5142,7 +5139,7 @@
   "yuyucu mayesi səviyyə datçiki": [
    "Электрика и электроника"
   ],
-  "yuyucu motoru (omıvatel)": [
+  "yuyucu motoru omıvatel": [
    "Электрика и электроника"
   ],
   "yuyucu su baçoku": [
@@ -5208,7 +5205,7 @@
   "zaşitnik": [
    "Кузов и оптика"
   ],
-  "zaşitnik/qoruyucu": [
+  "zaşitnik qoruyucu": [
    "Кузов и оптика"
   ],
   "zaşitniki": [
@@ -5233,13 +5230,10 @@
   "zəncir": [
    "Двигатель"
   ],
-  "zəncir (vaxtlama zənciri)": [
-   "Двигатель"
-  ],
   "zəncir başmağı": [
    "Двигатель"
   ],
-  "zəncir başmağı (sep başmağı)": [
+  "zəncir başmağı sep başmağı": [
    "Двигатель"
   ],
   "zəncir dişli çarxı": [
@@ -5251,6 +5245,9 @@
   "zəncir komplekti": [
    "Двигатель"
   ],
+  "zəncir vaxtlama zənciri": [
+   "Двигатель"
+  ],
   "çaşka": [
    "Трансмиссия"
   ],
@@ -5260,10 +5257,10 @@
   "çaşqa": [
    "Трансмиссия"
   ],
-  "çaşqa (sıxıcı disk/korzin)": [
+  "çaşqa feredo": [
    "Трансмиссия"
   ],
-  "çaşqa feredo": [
+  "çaşqa sıxıcı disk korzin": [
    "Трансмиссия"
   ],
   "çexol": [
@@ -5300,16 +5297,16 @@
   "ön shit": [
    "Салон и аксессуары"
   ],
-  "ön stoyka üzlüyü (daxili)": [
+  "ön stoyka üzlüyü daxili": [
    "Салон и аксессуары"
   ],
   "ön şüşə": [
    "Кузов и оптика"
   ],
-  "ön şüşə (patpres)": [
+  "ön şüşə patpres": [
    "Кузов и оптика"
   ],
-  "ön şüşə su axarı (jabo)": [
+  "ön şüşə su axarı jabo": [
    "Кузов и оптика"
   ],
   "ötürücü kardan valı": [
@@ -5318,7 +5315,7 @@
   "ötürücü val": [
    "Подвеска"
   ],
-  "ötürücü val (yarımox)": [
+  "ötürücü val yarımox": [
    "Подвеска"
   ],
   "üst kriska": [
@@ -5330,7 +5327,7 @@
   "üst krişka": [
    "Двигатель"
   ],
-  "üst krişka (klapan qapağı)": [
+  "üst krişka klapan qapağı": [
    "Двигатель"
   ],
   "üst krişka praklatkası": [
@@ -5372,13 +5369,13 @@
   "şam naqili": [
    "Двигатель"
   ],
-  "şam naqili (yüksək gərginlik naqili)": [
+  "şam naqili yüksək gərginlik naqili": [
    "Двигатель"
   ],
   "şaravoy": [
    "Подвеска"
   ],
-  "şaravoy (kula opora)": [
+  "şaravoy kula opora": [
    "Подвеска"
   ],
   "şaton vkladış": [
@@ -5408,7 +5405,7 @@
   "şin": [
    "Шины и диски"
   ],
-  "şin (təkərin rezini)": [
+  "şin təkərin rezini": [
    "Шины и диски"
   ],
   "şinlər": [
@@ -5450,7 +5447,7 @@
   "şveller": [
    "Кузов и оптика"
   ],
-  "şveller (porog)": [
+  "şveller porog": [
    "Кузов и оптика"
   ],
   "şüşü qaldıran": [
@@ -5477,31 +5474,31 @@
   "şüşə qaldıranın matoru": [
    "Электрика и электроника"
   ],
-  "şüşə silən (əl)": [
-   "Салон и аксессуары"
-  ],
-  "şüşə silən (əl/pərdə)": [
-   "Салон и аксессуары"
-  ],
   "şüşə silən setka": [
+   "Салон и аксессуары"
+  ],
+  "şüşə silən əl": [
+   "Салон и аксессуары"
+  ],
+  "şüşə silən əl pərdə": [
    "Салон и аксессуары"
   ],
   "şüşə silənin matoru": [
    "Электрика и электроника"
   ],
-  "şüşə silənin motoru (dvornik motoru)": [
+  "şüşə silənin motoru dvornik motoru": [
    "Электрика и электроника"
   ],
   "şüşəqaldıran": [
    "Электрика и электроника"
   ],
-  "şüşəqaldıran cerviyakı (val)": [
+  "şüşəqaldıran cerviyakı val": [
    "Кузов и оптика"
   ],
   "şüşəqaldıran düyməsi": [
    "Электрика и электроника"
   ],
-  "şüşəqaldıran düyməsi/blok": [
+  "şüşəqaldıran düyməsi blok": [
    "Электрика и электроника"
   ],
   "şüşəqaldıran kompekt": [
@@ -5516,7 +5513,7 @@
   "şüşəqaldıran mexanizmi": [
    "Электрика и электроника"
   ],
-  "şüşəqaldıran mexanizmi (zbor)": [
+  "şüşəqaldıran mexanizmi zbor": [
    "Электрика и электроника"
   ],
   "şüşəqaldıran motoru": [
@@ -5531,10 +5528,13 @@
   "şüşəqaldırıcı mator": [
    "Электрика и электроника"
   ],
-  "şüşəyuyan maye (nezamerzayka)": [
+  "şüşəyuyan maye nezamerzayka": [
    "Расходники и масла"
   ],
   "əl": [
+   "Салон и аксессуары"
+  ],
+  "əl pərdə": [
    "Салон и аксессуары"
   ],
   "əl tormuzu düyməsi": [
@@ -5546,10 +5546,7 @@
   "əl əyləci trosu": [
    "Тормозная система"
   ],
-  "əl/pərdə": [
-   "Салон и аксессуары"
-  ],
-  "əlavə stop (üçüncü stop)": [
+  "əlavə stop üçüncü stop": [
    "Кузов и оптика"
   ],
   "əsas sigorta": [
@@ -5564,13 +5561,13 @@
   "əyləc diski": [
    "Тормозная система"
   ],
-  "əyləc diskinin toz qoruyucusu (ayna)": [
+  "əyləc diskinin toz qoruyucusu ayna": [
    "Тормозная система"
   ],
   "əyləc mayesi": [
    "Расходники и масла"
   ],
-  "əyləc mayesi (tormoz mayesi/dot4)": [
+  "əyləc mayesi tormoz mayesi dot4": [
    "Расходники и масла"
   ],
   "əyləc naklatka": [
@@ -5594,10 +5591,10 @@
   "əyri": [
    "Подвеска"
   ],
-  "əyri qol": [
+  "əyri düz banan": [
    "Подвеска"
   ],
-  "əyri/düz/banan": [
+  "əyri qol": [
    "Подвеска"
   ],
   "абсорбер бампера": [
@@ -5618,40 +5615,40 @@
   "акселератора": [
    "Топливная система"
   ],
-  "активатор замка (центральный замок)": [
+  "активатор замка центральный замок": [
    "Электрика и электроника"
   ],
-  "актуатор багажника/лючка бензобака": [
+  "актуатор багажника лючка бензобака": [
    "Электрика и электроника"
   ],
   "актуатор заслонок печки": [
    "Кондиционер / климат"
   ],
-  "актуатор муфты полного привода (мотор)": [
+  "актуатор муфты полного привода мотор": [
    "Подвеска"
   ],
-  "актюатор турбины (вестгейт)": [
+  "актюатор турбины вестгейт": [
    "Двигатель"
   ],
   "амортизатор": [
    "Подвеска"
   ],
-  "амортизатор/упор багажника": [
+  "амортизатор упор багажника": [
    "Кузов и оптика"
   ],
-  "амортизатор/упор капота": [
+  "амортизатор упор капота": [
    "Кузов и оптика"
   ],
   "амортизатыр": [
    "Подвеска"
   ],
-  "ангельские глазки (led-кольца в фару)": [
+  "ангельские глазки led кольца в фару": [
    "Тюнинг"
   ],
   "антенна": [
    "Электрика и электроника"
   ],
-  "антифриз (охлаждающая жидкость)": [
+  "антифриз охлаждающая жидкость": [
    "Расходники и масла"
   ],
   "бабин": [
@@ -5684,16 +5681,16 @@
   "бардачок": [
    "Салон и аксессуары"
   ],
-  "бардачок (перчаточный ящик)": [
+  "бардачок замок": [
    "Салон и аксессуары"
   ],
-  "бардачок замок": [
+  "бардачок перчаточный ящик": [
    "Салон и аксессуары"
   ],
   "барсетка": [
    "Салон и аксессуары"
   ],
-  "барсетка/подлокотник-бокс": [
+  "барсетка подлокотник бокс": [
    "Салон и аксессуары"
   ],
   "бачок гур": [
@@ -5705,10 +5702,10 @@
   "бачок тормозной жидкости": [
    "Тормозная система"
   ],
-  "башмак цепи": [
+  "башмак успокоитель цепи грм": [
    "Двигатель"
   ],
-  "башмак/успокоитель цепи грм": [
+  "башмак цепи": [
    "Двигатель"
   ],
   "бензин": [
@@ -5720,10 +5717,13 @@
   "блок abs": [
    "Тормозная система"
   ],
-  "блок abs (гидроблок с насосом)": [
+  "блок abs гидроблок с насосом": [
    "Тормозная система"
   ],
-  "блок обогрева/охлаждения сидений и руля": [
+  "блок кнопка электронного ручника": [
+   "Тормозная система"
+  ],
+  "блок обогрева охлаждения сидений и руля": [
    "Кондиционер / климат"
   ],
   "блок памяти сидений": [
@@ -5735,38 +5735,35 @@
   "блок предохранителей": [
    "Электрика и электроника"
   ],
-  "блок розжига (балласт ксенона)": [
+  "блок розжига балласт ксенона": [
    "Электрика и электроника"
   ],
-  "блок управления airbag (srs)": [
+  "блок управления airbag srs": [
    "Электрика и электроника"
   ],
   "блок управления акпп": [
    "Трансмиссия"
   ],
-  "блок управления двигателем (ecu)": [
+  "блок управления двигателем ecu": [
    "Электрика и электроника"
   ],
-  "блок управления климат-контролем": [
+  "блок управления климат контролем": [
    "Кондиционер / климат"
   ],
-  "блок управления коробкой (tcu/гидроблок)": [
+  "блок управления коробкой tcu гидроблок": [
    "Трансмиссия"
   ],
-  "блок управления кузовом (bcm)": [
+  "блок управления кузовом bcm": [
    "Электрика и электроника"
   ],
   "блок управления муфтой полного привода": [
    "Трансмиссия"
   ],
-  "блок управления светом (lcm)": [
+  "блок управления светом lcm": [
    "Электрика и электроника"
   ],
-  "блок цилиндров (отдельно от двигателя в сборе)": [
+  "блок цилиндров отдельно от двигателя в сборе": [
    "Двигатель"
-  ],
-  "блок/кнопка электронного ручника": [
-   "Тормозная система"
   ],
   "боковая подушка": [
    "Электрика и электроника"
@@ -5774,7 +5771,7 @@
   "боковое зеркало": [
    "Кузов и оптика"
   ],
-  "болт/гайка колеса": [
+  "болт гайка колеса": [
    "Шины и диски"
   ],
   "бортовой компьютер": [
@@ -5798,19 +5795,19 @@
   "вакуумный насос": [
    "Тормозная система"
   ],
-  "вакуумный распределитель (актуатор заслонок печки)": [
+  "вакуумный распределитель актуатор заслонок печки": [
    "Кондиционер / климат"
   ],
   "вакуумный усилитель тормозов": [
    "Тормозная система"
   ],
-  "венец маховика (зубчатка стартера)": [
+  "венец маховика зубчатка стартера": [
    "Трансмиссия"
   ],
-  "вентиль/ниппель для шины": [
+  "вентиль ниппель для шины": [
    "Шины и диски"
   ],
-  "вентилятор радиатора (электровентилятор)": [
+  "вентилятор радиатора электровентилятор": [
    "Система охлаждения"
   ],
   "вентиляции": [
@@ -5819,7 +5816,7 @@
   "верхняя": [
    "Подвеска"
   ],
-  "верхняя пластиковая накладка/рамка фары": [
+  "верхняя пластиковая накладка рамка фары": [
    "Кузов и оптика"
   ],
   "вестгейт": [
@@ -5828,7 +5825,7 @@
   "ветровик": [
    "Салон и аксессуары"
   ],
-  "взу (заправочное устройство газа)": [
+  "взу заправочное устройство газа": [
    "Топливная система"
   ],
   "видеорегистратор": [
@@ -5852,22 +5849,22 @@
   "внедорожники": [
    "Рулевая система"
   ],
-  "внедорожники/пикапы": [
+  "внедорожники пикапы": [
    "Рулевая система"
   ],
   "внутренний": [
    "Подвеска"
   ],
-  "внутренний/наружный": [
+  "внутренний наружный": [
    "Подвеска"
   ],
   "внутренняя": [
    "Салон и аксессуары"
   ],
-  "внутренняя крышка топливного бака (горловины)": [
+  "внутренняя крышка топливного бака горловины": [
    "Топливная система"
   ],
-  "водосток лобового стекла (жабо)": [
+  "водосток лобового стекла жабо": [
    "Кузов и оптика"
   ],
   "водяная помпа": [
@@ -5882,19 +5879,19 @@
   "воздушный фильтр": [
    "Расходники и масла"
   ],
-  "воздушный фильтр (двигателя)": [
+  "воздушный фильтр двигателя": [
    "Расходники и масла"
   ],
   "впускной": [
    "Двигатель"
   ],
+  "впускной выпускной": [
+   "Двигатель"
+  ],
   "впускной коллектор": [
    "Двигатель"
   ],
-  "впускной/выпускной": [
-   "Двигатель"
-  ],
-  "втулка развала (сайлентблок рычага)": [
+  "втулка развала сайлентблок рычага": [
    "Подвеска"
   ],
   "втулка рессоры": [
@@ -5906,7 +5903,7 @@
   "выдвижная": [
    "Тюнинг"
   ],
-  "выдвижная/складывающаяся": [
+  "выдвижная складывающаяся": [
    "Тюнинг"
   ],
   "выживной": [
@@ -5915,25 +5912,25 @@
   "выжимной подшипник": [
    "Трансмиссия"
   ],
-  "выключатель стоп-сигнала (лягушка)": [
+  "выключатель стоп сигнала лягушка": [
    "Электрика и электроника"
   ],
   "выпускной": [
    "Двигатель"
   ],
-  "выпускной коллектор / даунпайп": [
+  "выпускной коллектор даунпайп": [
    "Выхлопная система"
   ],
-  "высоковольтный провод (бронепровод)": [
+  "высоковольтный провод бронепровод": [
    "Двигатель"
   ],
   "газ": [
    "Топливная система"
   ],
-  "газ/бензин": [
+  "газ бензин": [
    "Топливная система"
   ],
-  "газовая магистраль (трубка высокого давления)": [
+  "газовая магистраль трубка высокого давления": [
    "Топливная система"
   ],
   "газовая форсунка гбо": [
@@ -5942,7 +5939,7 @@
   "газовый баллон": [
    "Топливная система"
   ],
-  "газовый редуктор (испаритель) гбо": [
+  "газовый редуктор испаритель гбо": [
    "Топливная система"
   ],
   "газовый фильтр гбо": [
@@ -5993,7 +5990,7 @@
   "гидротрансформатор": [
    "Трансмиссия"
   ],
-  "гидротрансформатор (торкон)": [
+  "гидротрансформатор торкон": [
    "Трансмиссия"
   ],
   "гидроусилитель руля": [
@@ -6017,7 +6014,7 @@
   "головка блока": [
    "Двигатель"
   ],
-  "головка блока цилиндров (гбц)": [
+  "головка блока цилиндров гбц": [
    "Двигатель"
   ],
   "головки блока прокладка": [
@@ -6032,13 +6029,13 @@
   "горловины": [
    "Топливная система"
   ],
-  "гофра выхлопной системы (гибкий виброкомпенсатор)": [
+  "гофра выхлопной системы гибкий виброкомпенсатор": [
    "Выхлопная система"
   ],
   "граната": [
    "Подвеска"
   ],
-  "губа бампера (lip)": [
+  "губа бампера lip": [
    "Тюнинг"
   ],
   "гудок": [
@@ -6050,13 +6047,16 @@
   "давления во впуске": [
    "Двигатель"
   ],
-  "давления/скорости": [
+  "давления скорости": [
    "Трансмиссия"
   ],
   "датчик abs": [
    "Тормозная система"
   ],
-  "датчик давления в шине (tpms)": [
+  "датчик актуатор кондиционера": [
+   "Кондиционер / климат"
+  ],
+  "датчик давления в шине tpms": [
    "Шины и диски"
   ],
   "датчик давления масла": [
@@ -6065,7 +6065,7 @@
   "датчик давления наддува турбины": [
    "Двигатель"
   ],
-  "датчик давления топливного бака (система evap)": [
+  "датчик давления топливного бака система evap": [
    "Топливная система"
   ],
   "датчик детонации": [
@@ -6077,7 +6077,7 @@
   "датчик катализатора": [
    "Выхлопная система"
   ],
-  "датчик катализатора / кислородный датчик (лямбда-зонд)": [
+  "датчик катализатора кислородный датчик лямбда зонд": [
    "Выхлопная система"
   ],
   "датчик католизатора": [
@@ -6086,7 +6086,7 @@
   "датчик коленвала": [
    "Двигатель"
   ],
-  "датчик коробки (давления/скорости)": [
+  "датчик коробки давления скорости": [
    "Трансмиссия"
   ],
   "датчик открытой двери": [
@@ -6098,7 +6098,7 @@
   "датчик распредвала": [
    "Двигатель"
   ],
-  "датчик расхода воздуха (дмрв)": [
+  "датчик расхода воздуха дмрв": [
    "Двигатель"
   ],
   "датчик расхода воздуха кондиционера": [
@@ -6127,9 +6127,6 @@
   ],
   "датчик уровня тормозной жидкости": [
    "Тормозная система"
-  ],
-  "датчик/актуатор кондиционера": [
-   "Кондиционер / климат"
   ],
   "дверная ручка": [
    "Кузов и оптика"
@@ -6173,13 +6170,13 @@
   "дефлектор": [
    "Салон и аксессуары"
   ],
+  "дефлектор ветровик": [
+   "Салон и аксессуары"
+  ],
   "дефлектор панели": [
    "Салон и аксессуары"
   ],
-  "дефлектор/ветровик": [
-   "Салон и аксессуары"
-  ],
-  "джойстик/декор селектора кпп": [
+  "джойстик декор селектора кпп": [
    "Салон и аксессуары"
   ],
   "дизель": [
@@ -6207,7 +6204,7 @@
   "диффузор заднего бампера": [
    "Тюнинг"
   ],
-  "диффузор радиатора (кожух вентилятора)": [
+  "диффузор радиатора кожух вентилятора": [
    "Система охлаждения"
   ],
   "для фары или стопа": [
@@ -6222,7 +6219,7 @@
   "домкрат": [
    "Шины и диски"
   ],
-  "дополнительный (третий) стоп-сигнал": [
+  "дополнительный третий стоп сигнал": [
    "Кузов и оптика"
   ],
   "дренаж": [
@@ -6231,7 +6228,7 @@
   "дроссельная заслонка": [
    "Топливная система"
   ],
-  "дуга (кенгурятник/силовой бампер)": [
+  "дуга кенгурятник силовой бампер": [
    "Тюнинг"
   ],
   "жабо": [
@@ -6246,7 +6243,7 @@
   "жидкость для очистки выхлопа дизеля": [
    "Расходники и масла"
   ],
-  "жидкость омывателя стекла (незамерзайка)": [
+  "жидкость омывателя стекла незамерзайка": [
    "Расходники и масла"
   ],
   "жиклёр": [
@@ -6276,13 +6273,13 @@
   "задняя банка": [
    "Выхлопная система"
   ],
-  "задняя/передняя/кругового обзора": [
+  "задняя передняя кругового обзора": [
    "Электрика и электроника"
   ],
   "замок багажника": [
    "Кузов и оптика"
   ],
-  "замок бардачка (механизм)": [
+  "замок бардачка механизм": [
    "Салон и аксессуары"
   ],
   "замок двери": [
@@ -6300,19 +6297,16 @@
   "заправочное устройство газа": [
    "Топливная система"
   ],
-  "заслонка печки (отопления/вентиляции)": [
+  "заслонка печки отопления вентиляции": [
    "Кондиционер / климат"
   ],
   "защита": [
    "Трансмиссия"
   ],
-  "защита (двигателя/порогов)": [
+  "защита двигателя": [
    "Кузов и оптика"
   ],
-  "защита (кожух) турбины": [
-   "Двигатель"
-  ],
-  "защита двигателя": [
+  "защита двигателя порогов": [
    "Кузов и оптика"
   ],
   "защита кабеля свечи": [
@@ -6321,13 +6315,16 @@
   "защита картера двигателя": [
    "Кузов и оптика"
   ],
+  "защита кожух турбины": [
+   "Двигатель"
+  ],
   "защита турбины": [
    "Двигатель"
   ],
   "звуковой сигнал": [
    "Электрика и электроника"
   ],
-  "звуковой сигнал (гудок)": [
+  "звуковой сигнал гудок": [
    "Электрика и электроника"
   ],
   "зеркало": [
@@ -6336,7 +6333,7 @@
   "зеркало заднего вида салонное": [
    "Кузов и оптика"
   ],
-  "золотник (клапан заправки) кондиционера": [
+  "золотник клапан заправки кондиционера": [
    "Кондиционер / климат"
   ],
   "зубчатка стартера": [
@@ -6351,13 +6348,13 @@
   "испаритель кондиционера": [
    "Кондиционер / климат"
   ],
-  "кабель адаптивного круиз-контроля (distronic)": [
-   "Электрика и электроника"
-  ],
-  "камера (задняя/передняя/кругового обзора)": [
+  "кабель адаптивного круиз контроля distronic": [
    "Электрика и электроника"
   ],
   "камера заднего вида": [
+   "Электрика и электроника"
+  ],
+  "камера задняя передняя кругового обзора": [
    "Электрика и электроника"
   ],
   "камера контроля полосы движения": [
@@ -6369,7 +6366,7 @@
   "карбоновые накладки": [
    "Салон и аксессуары"
   ],
-  "карбоновые накладки в салон (декор)": [
+  "карбоновые накладки в салон декор": [
    "Салон и аксессуары"
   ],
   "карбюратор": [
@@ -6381,7 +6378,7 @@
   "карданный вал": [
    "Трансмиссия"
   ],
-  "карданный/приводной": [
+  "карданный приводной": [
    "Трансмиссия"
   ],
   "карлсон": [
@@ -6390,13 +6387,13 @@
   "карта": [
    "Кузов и оптика"
   ],
-  "картер (маслосборник)": [
+  "картер маслосборник": [
    "Двигатель"
   ],
   "катализатор": [
    "Выхлопная система"
   ],
-  "катафот/отражатель": [
+  "катафот отражатель": [
    "Кузов и оптика"
   ],
   "катушка зажигания": [
@@ -6405,17 +6402,17 @@
   "кенгурятник": [
    "Тюнинг"
   ],
-  "кенгурятник/силовой бампер": [
+  "кенгурятник силовой бампер": [
    "Тюнинг"
   ],
   "клапан": [
    "Двигатель"
   ],
-  "клапан (впускной/выпускной)": [
-   "Двигатель"
-  ],
   "клапан egr": [
    "Топливная система"
+  ],
+  "клапан впускной выпускной": [
+   "Двигатель"
   ],
   "клапан заправки": [
    "Кондиционер / климат"
@@ -6435,7 +6432,10 @@
   "кнопка аварийной сигнализации": [
    "Электрика и электроника"
   ],
-  "кнопка открытия багажника/лючка": [
+  "кнопка блок стеклоподъёмника": [
+   "Электрика и электроника"
+  ],
+  "кнопка открытия багажника лючка": [
    "Электрика и электроника"
   ],
   "кнопка противотуманных фар": [
@@ -6444,19 +6444,16 @@
   "кнопка регулировки зеркал": [
    "Электрика и электроника"
   ],
-  "кнопка/блок стеклоподъёмника": [
-   "Электрика и электроника"
-  ],
   "кнопки на руле": [
    "Электрика и электроника"
+  ],
+  "коврик подстилка багажника": [
+   "Салон и аксессуары"
   ],
   "коврик салона": [
    "Салон и аксессуары"
   ],
-  "коврик/подстилка багажника": [
-   "Салон и аксессуары"
-  ],
-  "ковролин салона (напольное покрытие)": [
+  "ковролин салона напольное покрытие": [
    "Салон и аксессуары"
   ],
   "кожух": [
@@ -6468,7 +6465,7 @@
   "козырёк солнцезащитный": [
    "Салон и аксессуары"
   ],
-  "койловеры (спортивная подвеска)": [
+  "койловеры спортивная подвеска": [
    "Подвеска"
   ],
   "коленвал": [
@@ -6486,13 +6483,13 @@
   "колодки": [
    "Тормозная система"
   ],
-  "колонка/динамик": [
+  "колонка динамик": [
    "Электрика и электроника"
   ],
   "колпак диска": [
    "Шины и диски"
   ],
-  "колпак колёсный (декоративный)": [
+  "колпак колёсный декоративный": [
    "Шины и диски"
   ],
   "кольца": [
@@ -6513,23 +6510,29 @@
   "конденсер": [
    "Кондиционер / климат"
   ],
-  "концевик двери (датчик открытой двери)": [
+  "концевик двери датчик открытой двери": [
    "Электрика и электроника"
   ],
-  "корзина сцепления (нажимной диск)": [
+  "корзина сцепления нажимной диск": [
    "Трансмиссия"
   ],
   "коробка передач в сборе": [
    "Трансмиссия"
   ],
-  "коромысло/рокер грм": [
+  "коромысло рокер грм": [
    "Двигатель"
   ],
-  "корпус воздушного фильтра (airbox)": [
+  "корпус воздушного фильтра airbox": [
    "Двигатель"
   ],
-  "корпус дизельного топливного насоса (тнвд)": [
+  "корпус дизельного топливного насоса тнвд": [
    "Топливная система"
+  ],
+  "корпус крышка зеркала": [
+   "Кузов и оптика"
+  ],
+  "корпус крышка термостата": [
+   "Система охлаждения"
   ],
   "корпус масляного фильтра": [
    "Двигатель"
@@ -6540,25 +6543,19 @@
   "корпус термостата": [
    "Система охлаждения"
   ],
-  "корпус/крышка зеркала": [
-   "Кузов и оптика"
-  ],
-  "корпус/крышка термостата": [
-   "Система охлаждения"
-  ],
   "корректор": [
    "Электрика и электроника"
   ],
   "корректор фары": [
    "Электрика и электроника"
   ],
-  "корректор фары (моторчик регулировки)": [
+  "корректор фары моторчик регулировки": [
    "Электрика и электроника"
   ],
   "кран печки": [
    "Кондиционер / климат"
   ],
-  "крепление аккумулятора (планка/скоба)": [
+  "крепление аккумулятора планка скоба": [
    "Электрика и электроника"
   ],
   "крестовина карданного вала": [
@@ -6582,19 +6579,19 @@
   "крышка багажника": [
    "Кузов и оптика"
   ],
-  "крышка двигателя (декоративная)": [
+  "крышка двигателя декоративная": [
    "Двигатель"
+  ],
+  "крышка замок топливного бака": [
+   "Топливная система"
   ],
   "крышка маслозаливной горловины": [
    "Двигатель"
   ],
-  "крышка/замок топливного бака": [
-   "Топливная система"
-  ],
   "лампа": [
    "Электрика и электроника"
   ],
-  "лампа (для фары или стопа)": [
+  "лампа для фары или стопа": [
    "Электрика и электроника"
   ],
   "лампочка": [
@@ -6606,7 +6603,7 @@
   "ланжерон": [
    "Кузов и оптика"
   ],
-  "линза фары (проекторный модуль)": [
+  "линза фары проекторный модуль": [
    "Кузов и оптика"
   ],
   "линк": [
@@ -6627,7 +6624,7 @@
   "лонжерон": [
    "Кузов и оптика"
   ],
-  "люк (механизм)": [
+  "люк механизм": [
    "Кузов и оптика"
   ],
   "лягушка": [
@@ -6642,13 +6639,10 @@
   "лямбда зонд": [
    "Выхлопная система"
   ],
-  "лямбда-зонд": [
-   "Выхлопная система"
-  ],
   "магнитола": [
    "Электрика и электроника"
   ],
-  "магнитола (головное устройство)": [
+  "магнитола головное устройство": [
    "Электрика и электроника"
   ],
   "магнитофон": [
@@ -6684,10 +6678,10 @@
   "масляный насос": [
    "Двигатель"
   ],
-  "масляный радиатор (маслоохладитель)": [
+  "масляный радиатор маслоохладитель": [
    "Система охлаждения"
   ],
-  "масляный фильтр (двигателя)": [
+  "масляный фильтр двигателя": [
    "Расходники и масла"
   ],
   "масляный шланг к vanos": [
@@ -6699,17 +6693,17 @@
   "маховик": [
    "Трансмиссия"
   ],
-  "мембрана pcv-клапана (маслоотделитель)": [
+  "мембрана pcv клапана маслоотделитель": [
    "Двигатель"
   ],
   "механизм": [
    "Кузов и оптика",
    "Салон и аксессуары"
   ],
-  "мидбас (тип динамика)": [
+  "мидбас тип динамика": [
    "Электрика и электроника"
   ],
-  "модуль круиз-контроля": [
+  "модуль круиз контроля": [
    "Электрика и электроника"
   ],
   "мозг каропки": [
@@ -6724,13 +6718,13 @@
   "мотор": [
    "Подвеска"
   ],
-  "мотор вентилятора отопителя/салона": [
+  "мотор вентилятора отопителя салона": [
    "Кондиционер / климат"
   ],
   "мотор дворников": [
    "Электрика и электроника"
   ],
-  "мотор зеркала (регулировка/складывание)": [
+  "мотор зеркала регулировка складывание": [
    "Электрика и электроника"
   ],
   "мотор люка": [
@@ -6745,13 +6739,16 @@
   "мотор стеклоподъёмника": [
    "Электрика и электроника"
   ],
-  "мотор электроусилителя руля (eps)": [
+  "мотор электроусилителя руля eps": [
    "Рулевая система"
   ],
   "моторное масло": [
    "Расходники и масла"
   ],
-  "моторчик замка двери (привод цз)": [
+  "моторчик вентилятор печки отопителя": [
+   "Кондиционер / климат"
+  ],
+  "моторчик замка двери привод цз": [
    "Электрика и электроника"
   ],
   "моторчик замка капота": [
@@ -6760,16 +6757,13 @@
   "моторчик омывателя стёкол": [
    "Электрика и электроника"
   ],
+  "моторчик привод замка руля электронный": [
+   "Электрика и электроника"
+  ],
   "моторчик регулировки": [
    "Электрика и электроника"
   ],
-  "моторчик стеклоочистителя (дворников)": [
-   "Электрика и электроника"
-  ],
-  "моторчик/вентилятор печки (отопителя)": [
-   "Кондиционер / климат"
-  ],
-  "моторчик/привод замка руля (электронный)": [
+  "моторчик стеклоочистителя дворников": [
    "Электрика и электроника"
   ],
   "мультиклапан": [
@@ -6784,16 +6778,16 @@
   "нажимной диск": [
    "Трансмиссия"
   ],
+  "накладка рамка под магнитолу монитор": [
+   "Электрика и электроника"
+  ],
   "накладка фары верхняя": [
    "Кузов и оптика"
   ],
-  "накладка/рамка под магнитолу-монитор": [
-   "Электрика и электроника"
-  ],
-  "накладки-«брови»": [
+  "накладки брови": [
    "Тюнинг"
   ],
-  "наконечник катушки/колпачок свечи": [
+  "наконечник катушки колпачок свечи": [
    "Двигатель"
   ],
   "наконечник рулевой тяги": [
@@ -6814,7 +6808,7 @@
   "насос высокого давления": [
    "Топливная система"
   ],
-  "насос высокого давления / дизель": [
+  "насос высокого давления дизель": [
    "Топливная система"
   ],
   "насос гидроусилителя руля": [
@@ -6838,13 +6832,13 @@
   "нижняя опорная чашка пружины амортизатора": [
    "Подвеска"
   ],
-  "обвес кузова (body kit)": [
+  "обвес кузова body kit": [
    "Тюнинг"
   ],
   "обводной": [
    "Двигатель"
   ],
-  "обводной/натяжной": [
+  "обводной натяжной": [
    "Двигатель"
   ],
   "обклейка кузова": [
@@ -6853,23 +6847,20 @@
   "облицовка бампера": [
    "Кузов и оптика"
   ],
-  "облицовка/накладка бампера": [
+  "облицовка накладка бампера": [
    "Кузов и оптика"
   ],
   "обратный клапан топлива": [
    "Топливная система"
   ],
-  "обшивка двери (карта)": [
+  "обшивка двери карта": [
    "Кузов и оптика"
   ],
-  "обшивка передней стойки (внутренняя)": [
+  "обшивка передней стойки внутренняя": [
    "Салон и аксессуары"
   ],
-  "обшивка потолка салона (потолок)": [
+  "обшивка потолка салона потолок": [
    "Салон и аксессуары"
-  ],
-  "ограничитель (фиксатор) двери": [
-   "Кузов и оптика"
   ],
   "ограничитель двери": [
    "Кузов и оптика"
@@ -6877,10 +6868,13 @@
   "ограничитель передней двери": [
    "Кузов и оптика"
   ],
+  "ограничитель фиксатор двери": [
+   "Кузов и оптика"
+  ],
   "оплётка на руль": [
    "Салон и аксессуары"
   ],
-  "опора амортизатора (верхняя)": [
+  "опора амортизатора верхняя": [
    "Подвеска"
   ],
   "отбойник хода сжатия": [
@@ -6904,7 +6898,7 @@
   "отопления": [
    "Кондиционер / климат"
   ],
-  "отопления/вентиляции": [
+  "отопления вентиляции": [
    "Кондиционер / климат"
   ],
   "охлаждающая жидкость": [
@@ -6919,28 +6913,28 @@
   "панель кузова": [
    "Кузов и оптика"
   ],
-  "панель пола (перед/зад/центр/багажник)": [
+  "панель пола перед зад центр багажник": [
    "Кузов и оптика"
   ],
   "панель приборов": [
    "Электрика и электроника"
   ],
-  "панель приборов (щиток)": [
+  "панель приборов щиток": [
    "Электрика и электроника"
   ],
   "парковочные датчики": [
    "Электрика и электроника"
   ],
-  "парковочные датчики (комплект)": [
+  "парковочные датчики комплект": [
    "Электрика и электроника"
   ],
-  "патрон лампы (цоколь)": [
+  "патрон лампы цоколь": [
    "Электрика и электроника"
   ],
   "патрубок впуска": [
    "Топливная система"
   ],
-  "патрубок интеркулера (наддув)": [
+  "патрубок интеркулера наддув": [
    "Система охлаждения"
   ],
   "патрубок системы охлаждения": [
@@ -6949,7 +6943,7 @@
   "перед": [
    "Кузов и оптика"
   ],
-  "перед/зад/центр/багажник": [
+  "перед зад центр багажник": [
    "Кузов и оптика"
   ],
   "передняя": [
@@ -6958,7 +6952,7 @@
   "передняя панель": [
    "Салон и аксессуары"
   ],
-  "переключатель вида топлива (газ/бензин)": [
+  "переключатель вида топлива газ бензин": [
    "Топливная система"
   ],
   "перчаточный ящик": [
@@ -6979,7 +6973,7 @@
   "планка": [
    "Электрика и электроника"
   ],
-  "планка/скоба": [
+  "планка скоба": [
    "Электрика и электроника"
   ],
   "пластик обшивки багажника": [
@@ -6988,16 +6982,16 @@
   "пластиковая обшивка горловины бака": [
    "Кузов и оптика"
   ],
-  "плата (светодиодов) заднего фонаря": [
-   "Кузов и оптика"
-  ],
-  "плата/блок управления пневмоподушки": [
+  "плата блок управления пневмоподушки": [
    "Подвеска"
+  ],
+  "плата светодиодов заднего фонаря": [
+   "Кузов и оптика"
   ],
   "плафон освещения салона": [
    "Электрика и электроника"
   ],
-  "плёнка (обклейка кузова)": [
+  "плёнка обклейка кузова": [
    "Салон и аксессуары"
   ],
   "пневмоподушка": [
@@ -7012,7 +7006,7 @@
   "поворотники": [
    "Кузов и оптика"
   ],
-  "поворотный кулак (цапфа)": [
+  "поворотный кулак цапфа": [
    "Подвеска"
   ],
   "повторитель поворота": [
@@ -7021,7 +7015,7 @@
   "повторитель поворотника в зеркале": [
    "Кузов и оптика"
   ],
-  "подвеска глушителя (резиновая подушка)": [
+  "подвеска глушителя резиновая подушка": [
    "Выхлопная система"
   ],
   "подвесной подшипник карданного вала": [
@@ -7030,10 +7024,10 @@
   "подкрылок": [
    "Кузов и оптика"
   ],
-  "подкрылок (локер)": [
+  "подкрылок локер": [
    "Кузов и оптика"
   ],
-  "подлокотник-бокс": [
+  "подлокотник бокс": [
    "Салон и аксессуары"
   ],
   "подрамник": [
@@ -7042,7 +7036,7 @@
   "подрулевой переключатель": [
    "Рулевая система"
   ],
-  "подрулевой переключатель света/поворотников": [
+  "подрулевой переключатель света поворотников": [
    "Электрика и электроника"
   ],
   "подстаканник": [
@@ -7069,10 +7063,10 @@
   "покрышка": [
    "Шины и диски"
   ],
-  "полка/чашка для очков": [
+  "полка чашка для очков": [
    "Салон и аксессуары"
   ],
-  "полулунная шпонка (шкива/коленвала)": [
+  "полулунная шпонка шкива коленвала": [
    "Двигатель"
   ],
   "полуось": [
@@ -7087,7 +7081,7 @@
   "порог": [
    "Кузов и оптика"
   ],
-  "порог-подножка (running board)": [
+  "порог подножка running board": [
    "Тюнинг"
   ],
   "поршень": [
@@ -7108,7 +7102,7 @@
   "потолок салона": [
    "Салон и аксессуары"
   ],
-  "предохранитель акб (силовой)": [
+  "предохранитель акб силовой": [
    "Электрика и электроника"
   ],
   "прерыватель": [
@@ -7132,16 +7126,16 @@
   "приводной": [
    "Трансмиссия"
   ],
-  "приводной (генераторный) ремень": [
-   "Двигатель"
-  ],
-  "приводной вал (полуось)": [
+  "приводной вал полуось": [
    "Подвеска"
   ],
-  "приёмная труба (отдельно от коллектора)": [
+  "приводной генераторный ремень": [
+   "Двигатель"
+  ],
+  "приёмная труба отдельно от коллектора": [
    "Выхлопная система"
   ],
-  "проводка/разъёмы": [
+  "проводка разъёмы": [
    "Электрика и электроника"
   ],
   "проекторный модуль": [
@@ -7150,7 +7144,7 @@
   "прокладка гбц": [
    "Двигатель"
   ],
-  "прокладка гбц (головки блока цилиндров)": [
+  "прокладка гбц головки блока цилиндров": [
    "Двигатель"
   ],
   "прокладка глушителя": [
@@ -7159,7 +7153,7 @@
   "прокладка клапанной крышки": [
    "Двигатель"
   ],
-  "проставка колеса (spacer)": [
+  "проставка колеса spacer": [
    "Шины и диски"
   ],
   "противотуманка": [
@@ -7183,13 +7177,13 @@
   "птф": [
    "Кузов и оптика"
   ],
-  "пыльник (защита) снизу коробки передач": [
-   "Трансмиссия"
-  ],
   "пыльник амортизатора": [
    "Подвеска"
   ],
-  "пыльник наконечника (отдельно от пыльника рейки)": [
+  "пыльник защита снизу коробки передач": [
+   "Трансмиссия"
+  ],
+  "пыльник наконечника отдельно от пыльника рейки": [
    "Рулевая система"
   ],
   "пыльник рулевой рейки": [
@@ -7201,13 +7195,13 @@
   "пыльник шруса": [
    "Подвеска"
   ],
-  "пыльник/щиток тормозного диска (ayna)": [
+  "пыльник щиток тормозного диска ayna": [
    "Тормозная система"
   ],
   "пыльники": [
    "Тормозная система"
   ],
-  "пыльники/манжеты": [
+  "пыльники манжеты": [
    "Тормозная система"
   ],
   "рабочий цилиндр сцепления": [
@@ -7219,13 +7213,13 @@
   "радиатор кондиционера": [
    "Кондиционер / климат"
   ],
-  "радиатор кондиционера (конденсер)": [
+  "радиатор кондиционера конденсер": [
    "Кондиционер / климат"
   ],
   "радиатор охлаждения": [
    "Система охлаждения"
   ],
-  "радиатор печки (отопителя салона)": [
+  "радиатор печки отопителя салона": [
    "Кондиционер / климат"
   ],
   "развальные втулки": [
@@ -7252,7 +7246,7 @@
   "распределитель зажигания": [
    "Двигатель"
   ],
-  "расширитель арки / накладка бокового обвеса": [
+  "расширитель арки накладка бокового обвеса": [
    "Кузов и оптика"
   ],
   "расширительный бачок антифриза": [
@@ -7261,7 +7255,7 @@
   "регулировка": [
    "Электрика и электроника"
   ],
-  "регулировка/складывание": [
+  "регулировка складывание": [
    "Электрика и электроника"
   ],
   "регулятор давления топлива": [
@@ -7273,22 +7267,22 @@
   "резина": [
    "Шины и диски"
   ],
-  "резина дроссельного узла (патрубок впуска)": [
+  "резина дроссельного узла патрубок впуска": [
    "Топливная система"
   ],
   "резинка": [
    "Кузов и оптика"
   ],
-  "резинки впускного коллектора (посадочные форсунок)": [
+  "резинки впускного коллектора посадочные форсунок": [
    "Двигатель"
   ],
   "резиновая подушка": [
    "Выхлопная система"
   ],
-  "резонатор (средняя/задняя банка)": [
+  "резонатор средняя задняя банка": [
    "Выхлопная система"
   ],
-  "рейлинги (багажник на крышу)": [
+  "рейлинги багажник на крышу": [
    "Салон и аксессуары"
   ],
   "реле бензонасоса": [
@@ -7306,16 +7300,16 @@
   "реле кондиционера": [
    "Электрика и электроника"
   ],
-  "реле поворотов (прерыватель)": [
+  "реле поворотов прерыватель": [
+   "Электрика и электроника"
+  ],
+  "реле регулятор": [
+   "Электрика и электроника"
+  ],
+  "реле регулятор генератора": [
    "Электрика и электроника"
   ],
   "реле свечей накала": [
-   "Электрика и электроника"
-  ],
-  "реле-регулятор": [
-   "Электрика и электроника"
-  ],
-  "реле-регулятор генератора": [
    "Электрика и электроника"
   ],
   "ремень безопасности": [
@@ -7324,22 +7318,22 @@
   "ремень грм": [
    "Двигатель"
   ],
-  "ремкомплект рулевой рейки (сальники)": [
+  "ремкомплект рулевой рейки сальники": [
    "Рулевая система"
   ],
-  "ремкомплект суппорта (пыльники/манжеты)": [
+  "ремкомплект суппорта пыльники манжеты": [
    "Тормозная система"
   ],
-  "реснички на фары (накладки-«брови»)": [
+  "реснички на фары накладки брови": [
    "Тюнинг"
   ],
-  "решётка воздуховода (дефлектор панели)": [
+  "решётка воздуховода дефлектор панели": [
    "Салон и аксессуары"
   ],
   "решётка радиатора": [
    "Кузов и оптика"
   ],
-  "ролик (обводной/натяжной)": [
+  "ролик обводной натяжной": [
    "Двигатель"
   ],
   "рулевая колонка": [
@@ -7354,13 +7348,13 @@
   "рулевое колесо": [
    "Рулевая система"
   ],
-  "рулевой амортизатор (внедорожники/пикапы)": [
+  "рулевой амортизатор внедорожники пикапы": [
    "Рулевая система"
   ],
   "рулевой наконечник": [
    "Рулевая система"
   ],
-  "руль (рулевое колесо)": [
+  "руль рулевое колесо": [
    "Рулевая система"
   ],
   "ручка двери": [
@@ -7378,7 +7372,7 @@
   "сабвуфер": [
    "Электрика и электроника"
   ],
-  "сажевый фильтр (dpf)": [
+  "сажевый фильтр dpf": [
    "Выхлопная система"
   ],
   "сайлентблок задней балки": [
@@ -7390,7 +7384,7 @@
   "салонный фильтр": [
    "Расходники и масла"
   ],
-  "сальник коробки/полуоси": [
+  "сальник коробки полуоси": [
    "Трансмиссия"
   ],
   "сальники": [
@@ -7408,19 +7402,19 @@
   "свеча накала": [
    "Двигатель"
   ],
-  "свеча накала (дизель)": [
+  "свеча накала дизель": [
    "Двигатель"
   ],
   "свечи": [
    "Расходники и масла"
   ],
-  "секретки для колёс (секретные болты и гайки)": [
+  "секретки для колёс секретные болты и гайки": [
    "Шины и диски"
   ],
   "секретные болты и гайки": [
    "Шины и диски"
   ],
-  "селектор (рычаг переключения передач)": [
+  "селектор рычаг переключения передач": [
    "Трансмиссия"
   ],
   "сиденье": [
@@ -7441,7 +7435,7 @@
   "система evap": [
    "Топливная система"
   ],
-  "система evap (адсорбер)": [
+  "система evap адсорбер": [
    "Топливная система"
   ],
   "складывание": [
@@ -7456,10 +7450,10 @@
   "скорости": [
    "Трансмиссия"
   ],
-  "сливная пробка пола (дренаж)": [
+  "сливная пробка пола дренаж": [
    "Кузов и оптика"
   ],
-  "соленоид vanos/vvt": [
+  "соленоид vanos vvt": [
    "Двигатель"
   ],
   "соленоид коробки передач": [
@@ -7471,13 +7465,13 @@
   "спортивная подвеска": [
    "Подвеска"
   ],
-  "спортивная пружина/койловер": [
+  "спортивная пружина койловер": [
    "Подвеска"
   ],
   "средняя": [
    "Выхлопная система"
   ],
-  "средняя/задняя банка": [
+  "средняя задняя банка": [
    "Выхлопная система"
   ],
   "стартер": [
@@ -7507,11 +7501,11 @@
   "стеклоподъёмник": [
    "Электрика и электроника"
   ],
-  "стеклоподъёмник (механизм)": [
-   "Кузов и оптика"
-  ],
   "стеклоподъёмник в сборе": [
    "Электрика и электроника"
+  ],
+  "стеклоподъёмник механизм": [
+   "Кузов и оптика"
   ],
   "стойка амортизатора": [
    "Подвеска"
@@ -7555,7 +7549,7 @@
   "тнвд": [
    "Топливная система"
   ],
-  "тнвд (насос высокого давления / дизель)": [
+  "тнвд насос высокого давления дизель": [
    "Топливная система"
   ],
   "топливная рампа": [
@@ -7570,7 +7564,7 @@
   "топливный фильтр": [
    "Расходники и масла"
   ],
-  "топливный шланг (гибкий)": [
+  "топливный шланг гибкий": [
    "Топливная система"
   ],
   "торкон": [
@@ -7585,7 +7579,7 @@
   "тормозная накладка": [
    "Тормозная система"
   ],
-  "тормозная трубка (жёсткая)": [
+  "тормозная трубка жёсткая": [
    "Тормозная система"
   ],
   "тормозной барабан": [
@@ -7606,13 +7600,13 @@
   "тормозные накладки": [
    "Тормозная система"
   ],
-  "торпедо (передняя панель)": [
+  "торпедо передняя панель": [
    "Салон и аксессуары"
   ],
   "трамблер": [
    "Двигатель"
   ],
-  "трамблёр (распределитель зажигания)": [
+  "трамблёр распределитель зажигания": [
    "Двигатель"
   ],
   "трансмиссионное масло": [
@@ -7621,7 +7615,7 @@
   "третий": [
    "Кузов и оптика"
   ],
-  "трос газа (акселератора)": [
+  "трос газа акселератора": [
    "Топливная система"
   ],
   "трос переключения передач": [
@@ -7633,7 +7627,7 @@
   "трос ручного тормоза": [
    "Тормозная система"
   ],
-  "тросик открывания капота/багажника": [
+  "тросик открывания капота багажника": [
    "Кузов и оптика"
   ],
   "трубка высокого давления": [
@@ -7642,7 +7636,7 @@
   "трубка кондиционера": [
    "Кондиционер / климат"
   ],
-  "трубка/шланг кондиционера": [
+  "трубка шланг кондиционера": [
    "Кондиционер / климат"
   ],
   "туманка": [
@@ -7654,16 +7648,16 @@
   "турбина патрубок": [
    "Система охлаждения"
   ],
-  "уплотнитель (резинка) люка": [
+  "уплотнитель двери": [
    "Кузов и оптика"
   ],
-  "уплотнитель двери": [
+  "уплотнитель резинка люка": [
    "Кузов и оптика"
   ],
   "упорные шайбы коленвала": [
    "Двигатель"
   ],
-  "усилитель бампера (силовая балка)": [
+  "усилитель бампера силовая балка": [
    "Кузов и оптика"
   ],
   "усилитель звука": [
@@ -7681,7 +7675,7 @@
   "фаркоп": [
    "Тюнинг"
   ],
-  "фаркоп / сцепное устройство": [
+  "фаркоп сцепное устройство": [
    "Тюнинг"
   ],
   "фары": [
@@ -7690,7 +7684,7 @@
   "фиксатор": [
    "Кузов и оптика"
   ],
-  "фиксатор (сухарики) клапана": [
+  "фиксатор сухарики клапана": [
    "Двигатель"
   ],
   "фильтр воздушный": [
@@ -7699,7 +7693,7 @@
   "фильтр коробки передач": [
    "Расходники и масла"
   ],
-  "фланец (карданный/приводной)": [
+  "фланец карданный приводной": [
    "Трансмиссия"
   ],
   "форсунка": [
@@ -7708,13 +7702,13 @@
   "форсунка омывателя": [
    "Электрика и электроника"
   ],
-  "форсунка омывателя (жиклёр)": [
+  "форсунка омывателя жиклёр": [
    "Электрика и электроника"
   ],
-  "фрикционные диски (пакет акпп)": [
+  "фрикционные диски пакет акпп": [
    "Трансмиссия"
   ],
-  "хром-кант/окантовка": [
+  "хром кант окантовка": [
    "Салон и аксессуары"
   ],
   "цапфа": [
@@ -7723,7 +7717,7 @@
   "центр": [
    "Кузов и оптика"
   ],
-  "центральный бокс (барсетка/подлокотник-бокс)": [
+  "центральный бокс барсетка подлокотник бокс": [
    "Салон и аксессуары"
   ],
   "центральный замок": [
@@ -7771,7 +7765,7 @@
   "шина": [
    "Шины и диски"
   ],
-  "шина (покрышка)": [
+  "шина покрышка": [
    "Шины и диски"
   ],
   "шины": [
@@ -7783,13 +7777,13 @@
   "шкива": [
    "Двигатель"
   ],
-  "шкива/коленвала": [
+  "шкива коленвала": [
    "Двигатель"
   ],
-  "шланг гур (гидравлика)": [
+  "шланг гур гидравлика": [
    "Рулевая система"
   ],
-  "шлейф руля (clock spring)": [
+  "шлейф руля clock spring": [
    "Электрика и электроника"
   ],
   "шноркель": [
@@ -7801,16 +7795,16 @@
   "шрус": [
    "Подвеска"
   ],
-  "шрус (внутренний/наружный)": [
+  "шрус внутренний наружный": [
    "Подвеска"
   ],
   "шторка багажника": [
    "Кузов и оптика"
   ],
-  "шторка безопасности (боковая подушка)": [
+  "шторка безопасности боковая подушка": [
    "Электрика и электроника"
   ],
-  "шторка/жалюзи багажника": [
+  "шторка жалюзи багажника": [
    "Кузов и оптика"
   ],
   "щетка": [
@@ -7831,7 +7825,7 @@
   "эбу": [
    "Топливная система"
   ],
-  "эластичная муфта (гибкая связь карданного вала)": [
+  "эластичная муфта гибкая связь карданного вала": [
    "Трансмиссия"
   ],
   "электровентилятор": [
@@ -7846,13 +7840,13 @@
   "электронный": [
    "Электрика и электроника"
   ],
-  "электронный блок управления гбо (эбу)": [
+  "электронный блок управления гбо эбу": [
    "Топливная система"
   ],
-  "электроподножка (выдвижная/складывающаяся)": [
+  "электроподножка выдвижная складывающаяся": [
    "Тюнинг"
   ],
-  "эмблема/логотип": [
+  "эмблема логотип": [
    "Кузов и оптика"
   ]
  },
@@ -7899,7 +7893,7 @@
   ]
  },
  "meta": {
-  "total_words": 2615,
+  "total_words": 2613,
   "ambiguous_count": 10,
   "categories": [
    "Выхлопная система",

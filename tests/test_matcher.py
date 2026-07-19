@@ -190,6 +190,31 @@ def test_fara_not_silently_the_bulb(matcher):
 
 
 # ── Bug 3: name that collides with another group's synonym -> ambiguous ───────
+# ── punctuation / stray symbols in the query are ignored ─────────────────────
+def test_punctuation_is_stripped(matcher):
+    from slovar_matcher.normalize import normalize
+    assert normalize("Radiator.") == "radiator"
+    assert normalize("(fara)") == "fara"
+    assert normalize("Turbo (nadduv) datçiki") == "turbo nadduv datçiki"
+    assert normalize("sol/sağ, ön!") == "sol sağ ön"
+
+
+def test_query_with_punctuation_matches_same_as_clean(matcher):
+    for dirty, clean in [("fara.", "fara"), ("(fara)", "fara"),
+                         ("yan güzgü,", "yan güzgü"), ("traves.", "traves")]:
+        rd, rc = matcher.match(dirty), matcher.match(clean)
+        assert rd.status == rc.status
+        assert rd.part_id == rc.part_id
+        assert [c["part_id"] for c in rd.candidates] == [c["part_id"] for c in rc.candidates]
+
+
+def test_full_name_matches_without_parentheses(matcher):
+    # the de-parenthesised full name now also matches (punctuation-insensitive)
+    r = matcher.match("turbo nadduv datçiki")
+    assert r.status == "single_match"
+    assert r.part_id == "MU-075"
+
+
 def test_cross_group_collision_is_ambiguous():
     from slovar_matcher.matcher import Matcher
     from slovar_matcher.parser import parse_text

@@ -163,6 +163,10 @@ This is the behaviour required by the spec's flagship cases.
   between distinct parts stays `ambiguous`. `match_score` always reports how
   close the hit was, so low-confidence matches can be confirmed with the client.
   Set `--threshold 1.0` for strict exact-only behaviour.
+* **Punctuation-insensitive.** `normalize()` keeps only word characters (letters
+  and digits), so a query arriving with brackets, dots or slashes — `"radiator."`,
+  `"(fara)"`, `"Turbo (nadduv) datçiki"` — matches the same as its clean form. The
+  same normalisation is applied to every dictionary key, so both sides stay aligned.
 * **Never collapse `ambiguous` to one.** A synonym shared by several parts always
   returns every candidate; a name colliding with another group's synonym does too.
 * One phrase is matched per call; splitting a request into multiple parts is the

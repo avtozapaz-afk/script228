@@ -183,9 +183,9 @@ const CATIDX = __CATIDX__;
 const AZ_MAP={'İ':'i','I':'ı','Ə':'ə','Ç':'ç',
   'Ş':'ş','Ğ':'ğ','Ö':'ö','Ü':'ü'};
 function azLower(s){let o='';for(const ch of s)o+=(AZ_MAP[ch]||ch);return o.toLowerCase();}
-function normalize(s){return azLower(s).trim().replace(/\s+/g,' ');}
 const TOKEN_RE=/[0-9a-zçğıəöüşЀ-ӿ]+/g;
 function tokens(s){return azLower(s).match(TOKEN_RE)||[];}
+function normalize(s){return tokens(s).join(' ');}  // drops punctuation/symbols
 
 /* ---- attribute keyword sets (mirrors slovar_matcher/attributes.py) ---- */
 const SIDE_LEFT=new Set(["sol","sola","soldan","soldakı","soldaki","left","lh","лево","левый","левая","левое","левых","левого","слева"]);

@@ -30,14 +30,21 @@ def az_lower(text: str) -> str:
     return text.translate(_AZ_UPPER_MAP).lower()
 
 
-def normalize(text: str) -> str:
-    """Lowercase and collapse whitespace — the canonical key form."""
-    return re.sub(r"\s+", " ", az_lower(text).strip())
-
-
 def tokens(text: str) -> list[str]:
     """Return the lowercased word tokens of ``text`` (for attribute search)."""
     return [az_lower(m) for m in _TOKEN_RE.findall(text)]
+
+
+def normalize(text: str) -> str:
+    """Canonical key form: lowercase word tokens, punctuation/symbols dropped.
+
+    Only word characters (letters + digits) survive; brackets, dots, slashes and
+    any other stray symbols are reduced to token boundaries. The SAME
+    normalisation is applied to every dictionary name/synonym key, so a query
+    like ``"radiator."``, ``"(fara)"`` or ``"Turbo (nadduv) datçiki"`` matches
+    regardless of the punctuation it arrives with.
+    """
+    return " ".join(tokens(text))
 
 
 def _levenshtein(a: str, b: str) -> int:
