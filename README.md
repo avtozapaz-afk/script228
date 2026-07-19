@@ -117,7 +117,11 @@ matcher and narrows to one of the 15 top categories, using
 * nothing (and no near-match ≥ threshold) → `category_unknown`.
 
 Layer 1 never guesses — it only reports in how many categories the word
-physically appears. Every result also carries **`raw_text_passthrough`**: the
+physically appears. If nothing matches at the threshold (no exact key, no
+near-match ≥ 0.90), instead of dead-ending at `category_unknown` it falls back to
+a **containment** search — every category where the word appears as a substring
+of any entry — and asks across all of them (`matched_by: "containment"`). Only a
+word present *nowhere* stays `category_unknown`. Every result also carries **`raw_text_passthrough`**: the
 whole normalized request text, forwarded to Layer 2 **verbatim** (Layer 1 never
 parses or references it). Once the category is known, the detail matcher is
 called with `restrict_category=<cat>` (a `match()` parameter) so it only

@@ -254,6 +254,13 @@ function ambiguous(ids,score){return{status:"ambiguous",part_id:null,name_ru:nul
   match_score:score};}
 
 /* ---- Layer 1: category resolver (mirrors slovar_matcher/category.py) ---- */
+function containmentCategories(key){
+  if(key.length<3)return[];
+  const cats=[];
+  for(const k in CATIDX.index) if(k.indexOf(key)>=0)
+    for(const c of CATIDX.index[k]) if(!cats.includes(c)) cats.push(c);
+  return cats.sort();
+}
 function resolveCategory(word,raw,threshold){
   if(threshold==null)threshold=DEFAULT_THRESHOLD;
   const passthrough=(raw!=null&&raw!=="")?raw:word;  // forwarded verbatim to Layer 2
@@ -262,7 +269,12 @@ function resolveCategory(word,raw,threshold){
   if(!cats){
     let best=0;const hits=[];
     for(const k in CATIDX.index){const s=similarity(key,k);if(s>=threshold){hits.push([s,k]);if(s>best)best=s;}}
-    if(!hits.length)return{status:"category_unknown",raw_text_passthrough:passthrough};
+    if(!hits.length){
+      const fb=containmentCategories(key);   // last resort: every category the word appears in
+      if(!fb.length)return{status:"category_unknown",raw_text_passthrough:passthrough};
+      return{status:"category_ambiguous",candidates:fb,
+        question:"К какой категории относится деталь?",raw_text_passthrough:passthrough,matched_by:"containment"};
+    }
     const cs=[];for(const [s,k] of hits) if(Math.abs(s-best)<EPS)
       for(const c of CATIDX.index[k]) if(!cs.includes(c)) cs.push(c);
     cats=cs.sort(); score=round3(best);

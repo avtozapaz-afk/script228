@@ -55,9 +55,22 @@ class CategoryMatcher:
         if cats is None:
             score, cats = self._near_match(key, threshold)
             if cats is None:
+                # Nothing matched at the given precision. Last resort: gather
+                # every category where this word physically appears (as a
+                # substring of any dictionary entry) and ask across all of them
+                # — never silently give up if the word is present somewhere.
+                fallback = self._containment_categories(key)
+                if not fallback:
+                    return {
+                        "status": "category_unknown",
+                        "raw_text_passthrough": passthrough,
+                    }
                 return {
-                    "status": "category_unknown",
+                    "status": "category_ambiguous",
+                    "candidates": fallback,
+                    "question": _QUESTION,
                     "raw_text_passthrough": passthrough,
+                    "matched_by": "containment",
                 }
 
         if len(cats) == 1:
@@ -74,6 +87,23 @@ class CategoryMatcher:
             "raw_text_passthrough": passthrough,
             "match_score": score,
         }
+
+    def _containment_categories(self, key: str) -> list[str]:
+        """Every category whose entries contain ``key`` as a substring.
+
+        Precision-independent fallback for when neither an exact nor a near-match
+        hit at the configured threshold. Guarded to keys of length ≥ 3 so a very
+        short fragment cannot drag in half the catalogue.
+        """
+        if len(key) < 3:
+            return []
+        cats: list[str] = []
+        for index_key, kcats in self.index.items():
+            if key in index_key:
+                for cat in kcats:
+                    if cat not in cats:
+                        cats.append(cat)
+        return sorted(cats)
 
     def _near_match(self, key: str, threshold: float) -> tuple[float, list[str] | None]:
         best = 0.0

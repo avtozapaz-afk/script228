@@ -49,6 +49,29 @@ def test_unknown_word_is_category_unknown(cat):
     assert r["raw_text_passthrough"] == "qwertyuiop lazımdır"
 
 
+def test_containment_fallback_asks_all_categories(cat):
+    # "kabel" is neither an exact key nor a >=90% near-match, but it appears as a
+    # substring in entries of two categories -> ask across all of them.
+    r = cat.resolve("kabel")
+    assert r["status"] == "category_ambiguous"
+    assert r.get("matched_by") == "containment"
+    assert set(r["candidates"]) == {"Двигатель", "Электрика и электроника"}
+    assert r["raw_text_passthrough"] == "kabel"
+
+
+def test_containment_fallback_lists_every_matching_category(cat):
+    # a very common fragment surfaces every category it physically appears in.
+    r = cat.resolve("sensor")
+    assert r["status"] == "category_ambiguous"
+    assert r.get("matched_by") == "containment"
+    assert len(r["candidates"]) >= 3
+
+
+def test_true_garbage_still_unknown(cat):
+    r = cat.resolve("qwertyuiop")
+    assert r["status"] == "category_unknown"
+
+
 def test_passthrough_present_and_verbatim_in_all_statuses(cat):
     # raw_text is forwarded untouched in every branch (resolved/ambiguous/unknown).
     raw = "sol qabaq üçün 2 ədəd radiator lazımdır"
