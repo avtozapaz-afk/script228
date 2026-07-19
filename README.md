@@ -15,9 +15,9 @@ returns **one of three honest outcomes** — never a silent guess:
 | `ambiguous` | 2+ real candidates (returned in full, never narrowed by guessing) |
 | `no_match` | nothing found in names or synonyms |
 
-For a `single_match` it additionally extracts `side` / `position` from the raw
-client text when the part declares those flags, or reports which of them still
-`needs_clarification`.
+For a `single_match` it additionally extracts `side` / `direction` / `location`
+from the raw client text when the part declares those flags, or reports which of
+them still `needs_clarification`.
 
 ## Usage
 
@@ -45,13 +45,13 @@ Output shape:
 ```json
 {
   "status": "single_match",
-  "part_id": "AS-007",
-  "name_ru": "Подшипник ступицы",
-  "name_az": "Stupitsa podşipniki",
+  "part_id": "AS-008",
+  "name_ru": "ШРУС (внутренний/наружный)",
+  "name_az": "Qranat (ШРУС)",
   "category": "Подвеска",
-  "subcategory": "Stupisa (toplar) / podşipniklər",
-  "attributes": { "side": "sol", "position": null },
-  "needs_clarification": ["position"],
+  "subcategory": "Ötürücülər / ŞRUS",
+  "attributes": { "side": "sol", "direction": null, "location": "daxili" },
+  "needs_clarification": ["direction"],
   "candidates": [],
   "match_score": 1.0
 }
@@ -59,8 +59,8 @@ Output shape:
 
 * `candidates` — filled **only** when `status == "ambiguous"`, as
   `{part_id, name_ru, name_az}` for every real candidate.
-* `needs_clarification` — subset of `["side", "position"]`, only flags that are
-  `true` for the part and were not found in the text.
+* `needs_clarification` — subset of `["side", "direction", "location"]`, only
+  flags that are `true` for the part and were not found in the text.
 * `match_score` — similarity of the match in `[0, 1]`: `1.0` for an exact match,
   `< 1.0` for a near-match (e.g. `0.947` for a one-letter typo). Present for
   `single_match` / `ambiguous`; absent on `no_match`. Lets the caller flag
@@ -91,16 +91,21 @@ a couple of extra letters on a long phrase stay ≥ 0.90, while a short word nee
 a near-exact match to clear the bar — typos are tolerated, loose guessing isn't.
 `--threshold 1.0` turns off the near-match steps entirely (exact-only).
 
-**Step 2 — attributes** (only for `single_match`): each part carries a `side`
-(left/right) and a `position` (front/rear) flag. **Only flags that are `true`
-are ever considered** — if a flag is `false` we neither search for it nor ask
-about it. For a `true` flag, search the raw text for side (`sol/sağ/left/лево…`)
-or position (`ön/arxa/qabaq/перед/зад…`) tokens; found → fill; not found → add
-to `needs_clarification` (the caller asks the client that one question).
+**Step 2 — attributes** (only for `single_match`): each part carries three flags —
+a `side` (left/right), a `direction` (front/rear) and a `location`
+(inner/outer). **Only flags that are `true` are ever considered** — if a flag is
+`false` we neither search for it nor ask about it. For a `true` flag, search the
+raw text for side (`sol/sağ/left/лево…`), direction (`ön/arxa/qabaq/перед/зад…`)
+or location (`daxili/xarici/iç/çöl/внутр/наруж…`, plus `до/после` for the lambda
+sensor) tokens; found → fill; not found → add to `needs_clarification` (the caller
+asks the client that one question). Canonical values are Azerbaijani: `sol/sağ`,
+`ön/arxa`, `daxili/xarici`.
 
-Example: a side mirror (`KZ-020`, `side:true position:false`) is asked only "which
-side?" — never "front or rear?" — while a wheel bearing (`AS-007`,
-`side:true position:true`) can be asked both.
+Example: a side mirror (`KZ-020`, `side:true direction:false location:false`) is
+asked only "which side?" — never "front or rear?" — while a CV joint (`AS-008`,
+`side:true direction:true location:true`) can be asked all three. The `location`
+flag is what distinguishes an inner from an outer CV joint, an engine mount from
+a gearbox mount, and the lambda sensor before vs. after the catalyst.
 
 **Step 3 — category / subcategory** come straight from the dictionary structure
 (the `########## Category ##########` section header and the `▸ leaf [code]`
@@ -240,7 +245,8 @@ port of both layers are inlined, so it runs offline in any browser (just open it
 
 It is a fully **interactive funnel**: type a request, then answer with **clickable
 chip buttons** — category (when ambiguous), which detail (when several match), and
-side/position (`Sol / Sağ / Hər ikisi`, `Ön / Arxa`). There is always a
+side/direction/location (`Sol / Sağ / Hər ikisi`, `Ön / Arxa`, `Daxili / Xarici`).
+There is always a
 `Başqa / Другое` fallback, and the free-text field stays available. The dialog
 runs entirely client-side and ends on a final screen showing the assembled part
 (category, subcategory, RU/AZ name, filled attributes) plus its JSON.
@@ -260,7 +266,7 @@ test cases.
 slovar_matcher/
   normalize.py    Azerbaijani/Russian-aware lowercasing, tokenizing, similarity
   parser.py       SLOVAR_FINAL.txt -> parts, groups, name/synonym indices
-  attributes.py   side / position keyword extraction
+  attributes.py   side / direction / location keyword extraction
   category.py     Layer 1 — category resolution (category_index.json)
   matcher.py      Matcher + MatchResult (3-state algorithm, restrict_category)
 data/

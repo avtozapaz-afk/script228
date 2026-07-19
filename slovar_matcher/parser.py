@@ -5,7 +5,7 @@ File layout (detail section)::
     ########## Двигатель ##########                         <- top category (RU)
 
       ▸ Turbina / Турбина  [engine-turbo]  (4 дет)          <- leaf / subcategory
-          MU-037  Турбина  |  Turbo  [side:false|position:false]   <- part
+          MU-037  Турбина  |  Turbo  [side:false|direction:false|location:false]  <- part
           ...
           синонимы: turbo, turbina, ...                     <- synonyms (whole leaf)
 
@@ -26,7 +26,9 @@ _CATEGORY_RE = re.compile(r"^#{6,}\s*(.+?)\s*#{6,}\s*$")
 _LEAF_RE = re.compile(r"^\s*▸\s*(?P<name>.+?)\s*\[(?P<code>[a-z0-9-]+)\]")
 _PART_RE = re.compile(
     r"^\s*(?P<id>[A-Z]{2,3}-\d+)\s+(?P<ru>.+?)\s+\|\s+(?P<az>.+?)\s+"
-    r"\[side:(?P<side>true|false)\|position:(?P<pos>true|false)\]\s*$"
+    r"\[side:(?P<side>true|false)"
+    r"\|direction:(?P<direction>true|false)"
+    r"\|location:(?P<location>true|false)\]\s*$"
 )
 _SYN_RE = re.compile(r"^\s*синонимы:\s*(?P<syns>.+)$")
 
@@ -42,8 +44,9 @@ class Part:
     category: str            # top category, RU (e.g. "Подвеска")
     subcategory: str         # leaf name, AZ portion (e.g. "Turbina")
     leaf_code: str           # e.g. "engine-turbo"
-    side_flag: bool
-    position_flag: bool
+    side_flag: bool          # sol / sağ
+    direction_flag: bool     # ön / arxa
+    location_flag: bool      # daxili / xarici (ŞRUS, lambda, engine mounts)
     group_id: str            # == leaf_code
 
 
@@ -193,7 +196,8 @@ def parse_text(text: str) -> Dictionary:
                 subcategory=current.subcategory,
                 leaf_code=current.leaf_code,
                 side_flag=m.group("side") == "true",
-                position_flag=m.group("pos") == "true",
+                direction_flag=m.group("direction") == "true",
+                location_flag=m.group("location") == "true",
                 group_id=current.leaf_code,
             )
             parts[pid] = part

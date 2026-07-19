@@ -1,8 +1,18 @@
-"""Side / position attribute extraction from free client text.
+"""Side / direction / location attribute extraction from free client text.
 
 Only consulted for a ``single_match`` whose part carries the relevant flag.
 Matching is token-based (whole words) to avoid false positives from
 substrings like "on" inside unrelated words.
+
+Three independent flags, each with a two-valued Azerbaijani canonical output:
+  * side      → sol / sağ        (left / right)
+  * direction → ön / arxa        (front / rear)
+  * location  → daxili / xarici  (inner / outer — ŞRUS, lambda, engine mounts)
+
+For the lambda sensor (EG-002) the "location" distinction is *before / after*
+the catalyst; до / əvvəl / before are folded onto ``daxili`` (upstream) and
+после / sonra / after onto ``xarici`` (downstream), so the one location flag
+covers both the inner/outer and the up/down-stream cases.
 """
 
 from __future__ import annotations
@@ -31,17 +41,38 @@ _SIDE_RIGHT = {
     "right", "rh",
     "право", "правый", "правая", "правое", "правых", "правого", "справа",
 }
-_POS_FRONT = {
+_DIR_FRONT = {
     "ön", "öndeki", "öndəki", "önki",
     "qabaq", "qabağ", "qabaqdakı", "qabaqdaki", "qabağdakı",
     "front", "fr",
     "перед", "передний", "передняя", "переднее", "передних", "переднего",
     "спереди", "speredi",
 }
-_POS_REAR = {
+_DIR_REAR = {
     "arxa", "arxadakı", "arxadaki", "arxadan", "arxadaku",
     "rear", "back",
     "зад", "задний", "задняя", "заднее", "задних", "заднего", "сзади",
+}
+
+# location = inner / outer. ``iç`` / ``çöl`` are the everyday AZ terms used in the
+# CV-joint synonyms ("iç qranat" / "çöl qranat"); ``daxili`` / ``xarici`` are the
+# canonical forms. до / после (and əvvəl / sonra / before / after) are the
+# lambda-sensor "before/after catalyst" wording, folded onto the same flag.
+_LOC_INNER = {
+    "daxili", "daxildəki", "daxildaki", "daxil",
+    "iç", "içəri", "icheri", "içdəki", "icdeki",
+    "inner", "internal",
+    "внутренний", "внутренняя", "внутреннее", "внутренних", "внутреннего",
+    "внутри", "vnutrenniy",
+    "до", "before", "əvvəl", "əvvəlki", "evvel", "öncə", "once",
+}
+_LOC_OUTER = {
+    "xarici", "xaricdəki", "xaricdaki", "xaric",
+    "çöl", "cöl", "col", "çöldəki", "coldeki",
+    "outer", "external", "outside",
+    "наружный", "наружная", "наружное", "наружных", "наружного",
+    "снаружи", "naruzhnyy",
+    "после", "after", "sonra", "sonrakı", "sonraki",
 }
 
 
@@ -64,6 +95,11 @@ def detect_side(text: str) -> str | None:
     return _detect(text, _SIDE_LEFT, _SIDE_RIGHT, "sol", "sağ")
 
 
-def detect_position(text: str) -> str | None:
+def detect_direction(text: str) -> str | None:
     """Return 'ön', 'arxa', 'ön,arxa' or None."""
-    return _detect(text, _POS_FRONT, _POS_REAR, "ön", "arxa")
+    return _detect(text, _DIR_FRONT, _DIR_REAR, "ön", "arxa")
+
+
+def detect_location(text: str) -> str | None:
+    """Return 'daxili', 'xarici', 'daxili,xarici' or None."""
+    return _detect(text, _LOC_INNER, _LOC_OUTER, "daxili", "xarici")

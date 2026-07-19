@@ -12,8 +12,8 @@ couple of extra/typo'd letters still resolve, without ever loosening into a
 guess: name matches take priority over synonym matches, and when the best
 near-match maps to several distinct parts the result stays ``ambiguous``.
 
-Only for ``single_match`` are side/position attributes extracted, and only for
-the flags the part actually declares.
+Only for ``single_match`` are side/direction/location attributes extracted, and
+only for the flags the part actually declares.
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ import os
 from dataclasses import dataclass, field
 from typing import Any
 
-from .attributes import detect_position, detect_side
+from .attributes import detect_direction, detect_location, detect_side
 from .normalize import normalize, similarity
 from .parser import Dictionary, parse_file
 
@@ -44,7 +44,8 @@ class MatchResult:
     name_az: str | None = None
     category: str | None = None
     subcategory: str | None = None
-    attributes: dict[str, Any] = field(default_factory=lambda: {"side": None, "position": None})
+    attributes: dict[str, Any] = field(
+        default_factory=lambda: {"side": None, "direction": None, "location": None})
     needs_clarification: list[str] = field(default_factory=list)
     candidates: list[dict[str, str]] = field(default_factory=list)
     match_score: float | None = None              # 1.0 exact, <1.0 near-match
@@ -169,7 +170,7 @@ class Matcher:
         part = self.dict.parts[part_id]
         search_space = " ".join(x for x in (phrase, raw_text) if x)
 
-        attributes: dict[str, Any] = {"side": None, "position": None}
+        attributes: dict[str, Any] = {"side": None, "direction": None, "location": None}
         needs: list[str] = []
 
         if part.side_flag:
@@ -179,12 +180,19 @@ class Matcher:
             else:
                 needs.append("side")
 
-        if part.position_flag:
-            position = detect_position(search_space)
-            if position:
-                attributes["position"] = position
+        if part.direction_flag:
+            direction = detect_direction(search_space)
+            if direction:
+                attributes["direction"] = direction
             else:
-                needs.append("position")
+                needs.append("direction")
+
+        if part.location_flag:
+            location = detect_location(search_space)
+            if location:
+                attributes["location"] = location
+            else:
+                needs.append("location")
 
         return MatchResult(
             status="single_match",

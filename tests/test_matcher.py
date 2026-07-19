@@ -36,12 +36,12 @@ def test_radiator_ekran_is_no_match(matcher):
 
 
 def test_yan_guzgu_is_single_match_needs_side_only(matcher):
-    # KZ-020 has side:true but position:false -> only "side" is asked.
+    # KZ-020 has side:true but direction/location:false -> only "side" is asked.
     r = matcher.match("yan güzgü")
     assert r.status == "single_match"
     assert r.part_id == "KZ-020"
     assert r.needs_clarification == ["side"]
-    assert r.attributes == {"side": None, "position": None}
+    assert r.attributes == {"side": None, "direction": None, "location": None}
     assert r.category == "Кузов и оптика"
 
 
@@ -50,7 +50,7 @@ def test_turbo_nadduv_datciki_single_match_no_questions(matcher):
     assert r.status == "single_match"
     assert r.part_id == "MU-075"
     assert r.needs_clarification == []
-    assert r.attributes == {"side": None, "position": None}
+    assert r.attributes == {"side": None, "direction": None, "location": None}
 
 
 # ── names, synonyms, categories ──────────────────────────────────────────────
@@ -76,27 +76,29 @@ def test_stupitsa_podsipniki_category_and_subcategory(matcher):
 
 
 # ── attribute extraction from raw text ───────────────────────────────────────
-def test_side_filled_position_still_needed(matcher):
+def test_side_filled_direction_still_needed(matcher):
+    # AS-007 has side:true and direction:true (location:false) -> side is filled
+    # from the raw text, direction stays an open question.
     r = matcher.match("Stupitsa podşipniki", raw_text="sol tərəf podşipnik")
     assert r.status == "single_match"
     assert r.attributes["side"] == "sol"
-    assert r.attributes["position"] is None
-    assert r.needs_clarification == ["position"]
+    assert r.attributes["direction"] is None
+    assert r.needs_clarification == ["direction"]
 
 
-def test_side_extracted_position_not_asked_when_flag_false(matcher):
-    # KZ-020 position flag is false -> "qabaq" is ignored, position not asked.
+def test_side_extracted_direction_not_asked_when_flag_false(matcher):
+    # KZ-020 direction flag is false -> "qabaq" is ignored, direction not asked.
     r = matcher.match("yan güzgü", raw_text="sol qabaq güzgü")
     assert r.status == "single_match"
-    assert r.attributes == {"side": "sol", "position": None}
+    assert r.attributes == {"side": "sol", "direction": None, "location": None}
     assert r.needs_clarification == []
 
 
-def test_side_and_position_when_both_flags_true(matcher):
-    # AS-007 has side:true and position:true -> both extracted from raw.
+def test_side_and_direction_when_both_flags_true(matcher):
+    # AS-007 has side:true and direction:true -> both extracted from raw.
     r = matcher.match("Stupitsa podşipniki", raw_text="sol qabaq")
     assert r.status == "single_match"
-    assert r.attributes == {"side": "sol", "position": "ön"}
+    assert r.attributes == {"side": "sol", "direction": "ön", "location": None}
     assert r.needs_clarification == []
 
 
@@ -105,13 +107,54 @@ def test_both_sides_detected(matcher):
     assert r.attributes["side"] == "sol,sağ"
 
 
+# ── location flag (three-flag migration) ─────────────────────────────────────
+def test_shrus_needs_location_clarification(matcher):
+    # AS-008 ШРУС has side/direction/location all true; with no attribute words
+    # in the text, "location" is among the open questions.
+    r = matcher.match("ШРУС")
+    assert r.status == "single_match"
+    assert r.part_id == "AS-008"
+    assert "location" in r.needs_clarification
+
+
+def test_shrus_location_filled_from_text(matcher):
+    # side + inner given (matches the HANDOFF example) -> only direction stays open.
+    r = matcher.match("ШРУС", raw_text="sol daxili")
+    assert r.status == "single_match"
+    assert r.part_id == "AS-008"
+    assert r.attributes == {"side": "sol", "direction": None, "location": "daxili"}
+    assert r.needs_clarification == ["direction"]
+
+
+def test_brake_pad_needs_direction_not_location(matcher):
+    # EY-001 колодка has side:true, direction:true, location:false -> "direction"
+    # is asked but "location" never is.
+    r = matcher.match("Тормозная колодка")
+    assert r.status == "single_match"
+    assert r.part_id == "EY-001"
+    assert "direction" in r.needs_clarification
+    assert "location" not in r.needs_clarification
+
+
+def test_location_outer_word_detected(matcher):
+    r = matcher.match("ШРУС", raw_text="çöl qranat")
+    assert r.attributes["location"] == "xarici"
+
+
+def test_lambda_location_before_after_words(matcher):
+    from slovar_matcher.attributes import detect_location
+    # lambda's "before/after the catalyst" wording folds onto the location flag.
+    assert detect_location("до катализатора") == "daxili"
+    assert detect_location("после катализатора") == "xarici"
+
+
 def test_flags_false_never_ask(matcher):
-    # MU-037 Turbo: side/position both false.
+    # MU-037 Turbo: side/direction/location all false.
     r = matcher.match("Turbo", raw_text="sol ön turbo")
     assert r.status == "single_match"
     assert r.part_id == "MU-037"
     assert r.needs_clarification == []
-    assert r.attributes == {"side": None, "position": None}
+    assert r.attributes == {"side": None, "direction": None, "location": None}
 
 
 # ── near-match (>=90%) & no-match ────────────────────────────────────────────
@@ -160,21 +203,21 @@ def test_no_silent_guess_on_ambiguous(matcher):
     assert len(r.candidates) >= 2
 
 
-# ── Bug 1: numeral "on" (10) must not be read as position "ön" ────────────────
-def test_numeral_on_is_not_position_front(matcher):
+# ── Bug 1: numeral "on" (10) must not be read as direction "ön" ───────────────
+def test_numeral_on_is_not_direction_front(matcher):
     r = matcher.match(
         "Stupitsa podşipniki",
         raw_text="mənə sol tərəf üçün on ədəd stupitsa podşipniki lazımdır",
     )
     assert r.status == "single_match"
     assert r.attributes["side"] == "sol"
-    assert r.attributes["position"] is None            # not invented
-    assert "position" in r.needs_clarification          # still asked
+    assert r.attributes["direction"] is None           # not invented
+    assert "direction" in r.needs_clarification         # still asked
 
 
 def test_real_front_word_still_detected(matcher):
     r = matcher.match("Stupitsa podşipniki", raw_text="sol ön tərəf")
-    assert r.attributes["position"] == "ön"
+    assert r.attributes["direction"] == "ön"
 
 
 # ── Bug 2: "fara" must not silently match the bulb (EL-025) ───────────────────
@@ -248,11 +291,11 @@ def test_cross_group_collision_is_ambiguous():
         "════════ ДЕТАЛИЗАЦИЯ ════════\n"
         "########## TestCat ##########\n"
         "  ▸ Qrup A / Группа А  [grp-a]  (1 дет)\n"
-        "      XX-001  Альфа  |  Alfa (widget)  [side:false|position:false]\n"
+        "      XX-001  Альфа  |  Alfa (widget)  [side:false|direction:false|location:false]\n"
         "      синонимы: alfa\n"
         "  ▸ Qrup B / Группа Б  [grp-b]  (2 дет)\n"
-        "      XX-002  Бета  |  Beta  [side:false|position:false]\n"
-        "      XX-003  Гамма  |  Gamma  [side:false|position:false]\n"
+        "      XX-002  Бета  |  Beta  [side:false|direction:false|location:false]\n"
+        "      XX-003  Гамма  |  Gamma  [side:false|direction:false|location:false]\n"
         "      синонимы: widget, beta syn\n"
     )
     m = Matcher(parse_text(text))

@@ -2,7 +2,7 @@
 """Generate the LLM canonical-names list from the single source of truth.
 
 The Seller/normalizer LLM only needs ``ID + canonical Azerbaijani name`` (no
-synonyms, no side/position flags). Keeping that list by hand alongside the full
+synonyms, no side/direction/location flags). Keeping that list by hand alongside the full
 ``SLOVAR_FINAL.txt`` drifts (e.g. YA-025 was missing from the manual docx).
 Generating it from the library makes drift impossible: one source, two
 derivatives (the full library for the algorithm, this trimmed list for the LLM).

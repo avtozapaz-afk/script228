@@ -24,7 +24,7 @@ def main(argv: list[str] | None = None) -> int:
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("phrase", help="Normalized phrase from the Seller model")
     parser.add_argument("--raw", default=None,
-                        help="Original raw client text (for side/position search)")
+                        help="Original raw client text (for side/direction/location search)")
     parser.add_argument("--threshold", type=float, default=DEFAULT_THRESHOLD,
                         help=f"Near-match cutoff in [0,1] (default {DEFAULT_THRESHOLD}; "
                              "use 1.0 for exact-only)")

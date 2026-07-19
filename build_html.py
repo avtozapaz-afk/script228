@@ -21,7 +21,8 @@ def export_data() -> str:
     parts = {pid: {
         "name_ru": p.name_ru, "name_az": p.name_az,
         "category": p.category, "subcategory": p.subcategory,
-        "leaf_code": p.leaf_code, "side": p.side_flag, "position": p.position_flag,
+        "leaf_code": p.leaf_code, "side": p.side_flag,
+        "direction": p.direction_flag, "location": p.location_flag,
     } for pid, p in d.parts.items()}
     groups = {c: {"part_ids": g.part_ids} for c, g in d.groups.items()}
     data = {"parts": parts, "groups": groups,
@@ -190,13 +191,16 @@ function normalize(s){return tokens(s).join(' ');}  // drops punctuation/symbols
 /* ---- attribute keyword sets (mirrors slovar_matcher/attributes.py) ---- */
 const SIDE_LEFT=new Set(["sol","sola","soldan","soldakı","soldaki","left","lh","лево","левый","левая","левое","левых","левого","слева"]);
 const SIDE_RIGHT=new Set(["sağ","sag","sağa","sağdan","sagdan","sağdakı","sagdaki","right","rh","право","правый","правая","правое","правых","правого","справа"]);
-const POS_FRONT=new Set(["ön","öndeki","öndəki","önki","qabaq","qabağ","qabaqdakı","qabaqdaki","qabağdakı","front","fr","перед","передний","передняя","переднее","передних","переднего","спереди","speredi"]);
-const POS_REAR=new Set(["arxa","arxadakı","arxadaki","arxadan","arxadaku","rear","back","зад","задний","задняя","заднее","задних","заднего","сзади"]);
+const DIR_FRONT=new Set(["ön","öndeki","öndəki","önki","qabaq","qabağ","qabaqdakı","qabaqdaki","qabağdakı","front","fr","перед","передний","передняя","переднее","передних","переднего","спереди","speredi"]);
+const DIR_REAR=new Set(["arxa","arxadakı","arxadaki","arxadan","arxadaku","rear","back","зад","задний","задняя","заднее","задних","заднего","сзади"]);
+const LOC_INNER=new Set(["daxili","daxildəki","daxildaki","daxil","iç","içəri","icheri","içdəki","icdeki","inner","internal","внутренний","внутренняя","внутреннее","внутренних","внутреннего","внутри","vnutrenniy","до","before","əvvəl","əvvəlki","evvel","öncə","once"]);
+const LOC_OUTER=new Set(["xarici","xaricdəki","xaricdaki","xaric","çöl","cöl","col","çöldəki","coldeki","outer","external","outside","наружный","наружная","наружное","наружных","наружного","снаружи","naruzhnyy","после","after","sonra","sonrakı","sonraki"]);
 function detect(text,L,R,lv,rv){const t=new Set(tokens(text));let l=false,r=false;
   for(const x of t){if(L.has(x))l=true;if(R.has(x))r=true;}
   if(l&&r)return lv+","+rv;if(l)return lv;if(r)return rv;return null;}
 const detectSide=t=>detect(t,SIDE_LEFT,SIDE_RIGHT,"sol","sağ");
-const detectPosition=t=>detect(t,POS_FRONT,POS_REAR,"ön","arxa");
+const detectDirection=t=>detect(t,DIR_FRONT,DIR_REAR,"ön","arxa");
+const detectLocation=t=>detect(t,LOC_INNER,LOC_OUTER,"daxili","xarici");
 
 /* ---- similarity (mirrors slovar_matcher/normalize.py) ---- */
 function lev(a,b){const m=a.length,n=b.length;if(!m)return n;if(!n)return m;
@@ -218,7 +222,7 @@ function fuzzyRefs(key,index,threshold){let best=0;const hits=[];
     for(const r of index[k]) if(!refs.includes(r)) refs.push(r);
   return[best,refs];}
 function noMatch(){return{status:"no_match",part_id:null,name_ru:null,name_az:null,category:null,
-  subcategory:null,attributes:{side:null,position:null},needs_clarification:[],candidates:[]};}
+  subcategory:null,attributes:{side:null,direction:null,location:null},needs_clarification:[],candidates:[]};}
 function match(phrase,raw,threshold,restrict){
   if(threshold==null)threshold=DEFAULT_THRESHOLD;
   const key=normalize(phrase);
@@ -241,15 +245,16 @@ function build(ids,phrase,raw,score,restrict){
   return ids.length===1?single(ids[0],phrase,raw,score):ambiguous(ids,score);}
 function single(pid,phrase,raw,score){const p=DATA.parts[pid];
   const space=[phrase,raw].filter(Boolean).join(" ");
-  const attributes={side:null,position:null};const needs=[];
+  const attributes={side:null,direction:null,location:null};const needs=[];
   if(p.side){const s=detectSide(space);s?attributes.side=s:needs.push("side");}
-  if(p.position){const s=detectPosition(space);s?attributes.position=s:needs.push("position");}
+  if(p.direction){const s=detectDirection(space);s?attributes.direction=s:needs.push("direction");}
+  if(p.location){const s=detectLocation(space);s?attributes.location=s:needs.push("location");}
   return{status:"single_match",part_id:pid,name_ru:p.name_ru,name_az:p.name_az,
     category:p.category,subcategory:p.subcategory,attributes,needs_clarification:needs,
     candidates:[],match_score:score};
 }
 function ambiguous(ids,score){return{status:"ambiguous",part_id:null,name_ru:null,name_az:null,
-  category:null,subcategory:null,attributes:{side:null,position:null},needs_clarification:[],
+  category:null,subcategory:null,attributes:{side:null,direction:null,location:null},needs_clarification:[],
   candidates:ids.map(i=>({part_id:i,name_ru:DATA.parts[i].name_ru,name_az:DATA.parts[i].name_az})),
   match_score:score};}
 
@@ -307,7 +312,7 @@ function start(){
   const phrase=$("#phrase").value.trim(); if(!phrase)return;
   let th=parseFloat($("#threshold").value); if(isNaN(th))th=0.90;
   S={phrase,raw:$("#raw").value.trim(),threshold:th,category:null,part:null,
-     attributes:{side:null,position:null},pendingNeeds:[],transcript:[],current:null};
+     attributes:{side:null,direction:null,location:null},pendingNeeds:[],transcript:[],current:null};
   line('🔎 Запрос: <b>'+esc(phrase)+'</b>'+(S.raw?' <span class=muted>· сырой текст: «'+esc(S.raw)+'»</span>':''));
   stepCategory();
 }
@@ -348,22 +353,24 @@ function stepDetail(){
 
 function selectPart(pid,score){
   const res=single(pid,S.phrase,S.raw,score==null?1.0:score);
-  S.part=res; S.attributes={side:res.attributes.side,position:res.attributes.position};
+  S.part=res; S.attributes={side:res.attributes.side,direction:res.attributes.direction,location:res.attributes.location};
   S.pendingNeeds=res.needs_clarification.slice();
   line('② Деталь: <span class="pid">'+esc(res.part_id)+'</span> — <b>'+esc(res.name_ru)+'</b>'+
     (res.match_score<0.9999?' <span class=muted>(≈ '+pct(res.match_score)+')</span>':''));
   // auto-filled attributes (found in raw text) reported as facts, not questions
-  ["side","position"].forEach(k=>{ if(S.attributes[k]) line('③ '+attrLabel(k)+' найдено в тексте: <b>'+esc(S.attributes[k])+'</b>'); });
+  ["side","direction","location"].forEach(k=>{ if(S.attributes[k]) line('③ '+attrLabel(k)+' найдено в тексте: <b>'+esc(S.attributes[k])+'</b>'); });
   S.current=null; askNext();
 }
 
-const attrLabel=k=>k==="side"?"Сторона":"Позиция";
+const attrLabel=k=>k==="side"?"Сторона":k==="direction"?"Позиция":"Расположение";
+const attrQuestion=k=>k==="side"?"С какой стороны?":k==="direction"?"Перёд или зад?":"Внутренний или наружный?";
 function askNext(){
   if(!S.pendingNeeds.length){ renderFinal(); return; }
   const need=S.pendingNeeds[0];
-  let h='<div class="qblock"><div class="q">③ ❓ '+(need==="side"?"С какой стороны?":"Перёд или зад?")+'</div><div class="chips">';
+  let h='<div class="qblock"><div class="q">③ ❓ '+attrQuestion(need)+'</div><div class="chips">';
   if(need==="side"){ h+=chip("side","sol","Sol (лев.)")+chip("side","sağ","Sağ (прав.)")+chip("side","sol,sağ","Hər ikisi (обе)"); }
-  else { h+=chip("pos","ön","Ön (перёд)")+chip("pos","arxa","Arxa (зад)"); }
+  else if(need==="direction"){ h+=chip("dir","ön","Ön (перёд)")+chip("dir","arxa","Arxa (зад)"); }
+  else { h+=chip("loc","daxili","Daxili (внутр.)")+chip("loc","xarici","Xarici (наружн.)"); }
   h+='</div></div>'; S.current=h; draw();
 }
 function answerAttr(kind,val){
@@ -383,7 +390,8 @@ function renderFinal(){
     '<dt>Название (RU)</dt><dd>'+esc(p.name_ru)+'</dd>'+
     '<dt>Название (AZ)</dt><dd>'+esc(p.name_az)+'</dd>'+
     '<dt>Сторона</dt><dd>'+(a.side?esc(a.side):'<span class=muted>— (не требуется)</span>')+'</dd>'+
-    '<dt>Позиция</dt><dd>'+(a.position?esc(a.position):'<span class=muted>— (не требуется)</span>')+'</dd>'+
+    '<dt>Позиция</dt><dd>'+(a.direction?esc(a.direction):'<span class=muted>— (не требуется)</span>')+'</dd>'+
+    '<dt>Расположение</dt><dd>'+(a.location?esc(a.location):'<span class=muted>— (не требуется)</span>')+'</dd>'+
     '</dl><details><summary>JSON</summary><pre>'+esc(JSON.stringify(final,null,2))+'</pre></details>'+
     '<div class="chips" style="margin-top:12px">'+chip("restart","","↻ Новый подбор")+'</div></div>';
   S.current=h; draw();
@@ -399,7 +407,8 @@ $("#dialog").addEventListener("click",e=>{
   else if(act==="part-other"){ line('② Другое — уточните название в поле выше и нажмите «Начать».');
     S.current='<div class="qblock"><div class="chips">'+chip("restart","","↻ Заново")+'</div></div>'; draw(); $("#phrase").focus(); }
   else if(act==="side"){ answerAttr("side",val); }
-  else if(act==="pos"){ answerAttr("position",val); }
+  else if(act==="dir"){ answerAttr("direction",val); }
+  else if(act==="loc"){ answerAttr("location",val); }
   else if(act==="restart"){ S=null; $("#dialog").style.display="none"; $("#phrase").focus(); }
 });
 
