@@ -1,0 +1,25 @@
+{
+  "_comment": "Head-part layer: core words that map to a whole optics group and would otherwise be `ambiguous`. When such a word is matched and `raw` carries no qualifier, the matcher returns `default`; when `raw` carries a qualifier keyword, it resolves to that qualifier's part_id. Editable by hand — add entries / words / qualifiers freely. `words` are normalized on load (lowercased, AZ-aware); qualifier keywords are matched as substrings against the tokens of the raw+phrase text; the first matching qualifier wins, else `default`.",
+  "head_parts": [
+    {
+      "words": ["fara", "faralar", "фара", "фары"],
+      "default": "KZ-005",
+      "qualifiers": [
+        { "keywords": ["şüşə", "suse", "стекло", "стекла", "steklo"], "part_id": "KZ-010" },
+        { "keywords": ["linza", "линза", "проектор", "proyektor", "projektor", "lupa"], "part_id": "KZ-066" },
+        { "keywords": ["plasma", "plasması", "накладка", "рамка", "ramka"], "part_id": "KZ-059" },
+        { "keywords": ["drl", "gündüz", "gunduz", "дхо", "дневной", "ходовой"], "part_id": "KZ-044" }
+      ]
+    },
+    {
+      "words": ["stop", "stoplar", "стоп"],
+      "default": "KZ-007",
+      "qualifiers": [
+        { "keywords": ["şüşə", "suse", "стекло", "стекла", "steklo"], "part_id": "KZ-048" },
+        { "keywords": ["plata", "platası", "плата", "светодиод", "led"], "part_id": "KZ-063" },
+        { "keywords": ["reflektor", "reflector", "otrajatel", "otrajateli", "катафот", "отражатель"], "part_id": "KZ-009" },
+        { "keywords": ["üçüncü", "ucuncu", "əlavə", "elave", "третий", "дополнительный"], "part_id": "KZ-049" }
+      ]
+    }
+  ]
+}

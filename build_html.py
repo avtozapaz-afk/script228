@@ -11,6 +11,7 @@ to ``data/SLOVAR_FINAL.txt``::
 import json
 import os
 
+from slovar_matcher.head_parts import HeadParts
 from slovar_matcher.parser import parse_file
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -28,6 +29,12 @@ def export_data() -> str:
     data = {"parts": parts, "groups": groups,
             "name_index": d.name_index, "synonym_index": d.synonym_index}
     return json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+
+
+def export_head_parts() -> str:
+    # rules are already normalized (keys + qualifier keywords) on load.
+    rules = HeadParts.from_file().rules
+    return json.dumps(rules, ensure_ascii=False, separators=(",", ":"))
 
 
 TEMPLATE = r'''<!doctype html>
@@ -181,6 +188,9 @@ const DATA = __DATA__;
 const CATIDX = __CATIDX__;
 </script>
 <script>
+const HEADPARTS = __HEADPARTS__;
+</script>
+<script>
 /* ---- normalization (mirrors slovar_matcher/normalize.py) ---- */
 const AZ_MAP={'İ':'i','I':'ı','Ə':'ə','Ç':'ç',
   'Ş':'ş','Ğ':'ğ','Ö':'ö','Ü':'ü'};
@@ -225,6 +235,25 @@ function fuzzyRefs(key,index,threshold){let best=0;const hits=[];
 function noMatch(){return{status:"no_match",part_id:null,name_ru:null,name_az:null,category:null,
   subcategory:null,attributes:{side:null,direction:null,location:null},needs_clarification:[],candidates:[]};}
 function match(phrase,raw,threshold,restrict){
+  const r=matchCore(phrase,raw,threshold,restrict);
+  // Head-part layer: refine an ambiguous group hit into its default/qualifier part.
+  if(r.status==="ambiguous"){const h=resolveHeadPart(phrase,raw,restrict);if(h)return h;}
+  return r;
+}
+function resolveHeadPart(phrase,raw,restrict){
+  const key=normalize(phrase);const rule=HEADPARTS[key];if(!rule)return null;
+  const toks=tokens([phrase,raw].filter(Boolean).join(" "));
+  let target=null;
+  for(const q of rule.qualifiers){
+    for(const kw of q.keywords){ if(toks.some(t=>t.indexOf(kw)>=0)){target=q.part_id;break;} }
+    if(target!==null)break;
+  }
+  if(target===null)target=rule.default;
+  const p=DATA.parts[target];if(!p)return null;
+  if(restrict!=null&&p.category!==restrict)return null;
+  return single(target,phrase,raw,1.0);
+}
+function matchCore(phrase,raw,threshold,restrict){
   if(threshold==null)threshold=DEFAULT_THRESHOLD;
   const key=normalize(phrase);
   const nameHit=DATA.name_index[key];
@@ -440,7 +469,8 @@ def export_category_index() -> str:
 def main() -> None:
     out = (TEMPLATE
            .replace("__DATA__", export_data())
-           .replace("__CATIDX__", export_category_index()))
+           .replace("__CATIDX__", export_category_index())
+           .replace("__HEADPARTS__", export_head_parts()))
     path = os.path.join(HERE, "matcher_tool.html")
     with open(path, "w", encoding="utf-8") as f:
         f.write(out)

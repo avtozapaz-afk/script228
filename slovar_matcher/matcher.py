@@ -23,6 +23,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from .attributes import detect_direction, detect_location, detect_side
+from .head_parts import HeadParts
 from .normalize import normalize, similarity
 from .parser import Dictionary, parse_file
 
@@ -68,12 +69,16 @@ class MatchResult:
 
 
 class Matcher:
-    def __init__(self, dictionary: Dictionary):
+    def __init__(self, dictionary: Dictionary, head_parts: HeadParts | None = None):
         self.dict = dictionary
+        # No config by default so a synthetic Matcher(parse_text(...)) stays pure;
+        # Matcher.from_file() loads the real head-part table.
+        self.head_parts = head_parts if head_parts is not None else HeadParts.empty()
 
     @classmethod
-    def from_file(cls, path: str = _DEFAULT_PATH) -> "Matcher":
-        return cls(parse_file(path))
+    def from_file(cls, path: str = _DEFAULT_PATH,
+                  head_parts: HeadParts | None = None) -> "Matcher":
+        return cls(parse_file(path), head_parts or HeadParts.from_file())
 
     # ── public API ───────────────────────────────────────────────────────────
     def match(
@@ -82,6 +87,22 @@ class Matcher:
         raw_text: str | None = None,
         threshold: float = DEFAULT_THRESHOLD,
         restrict_category: str | None = None,
+    ) -> MatchResult:
+        result = self._match_core(phrase, raw_text, threshold, restrict_category)
+        # Head-part layer: only ever refines an ``ambiguous`` group hit into a
+        # concrete part; ``single_match`` / ``no_match`` are returned untouched.
+        if result.status == "ambiguous":
+            head = self._resolve_head_part(phrase, raw_text, restrict_category)
+            if head is not None:
+                return head
+        return result
+
+    def _match_core(
+        self,
+        phrase: str,
+        raw_text: str | None,
+        threshold: float,
+        restrict_category: str | None,
     ) -> MatchResult:
         key = normalize(phrase)
 
@@ -120,6 +141,27 @@ class Matcher:
         return MatchResult(status="no_match")
 
     # ── internals ────────────────────────────────────────────────────────────
+    def _resolve_head_part(self, phrase: str, raw_text: str | None,
+                           restrict_category: str | None) -> MatchResult | None:
+        """Refine an ambiguous head word into its default / qualifier part.
+
+        Returns ``None`` (keep the ambiguous result) when the phrase is not a
+        head word, the target part is unknown, or a category restriction is in
+        force and the target lies outside it.
+        """
+        key = normalize(phrase)
+        search = " ".join(x for x in (phrase, raw_text) if x)
+        target = self.head_parts.resolve(key, search)
+        if target is None:
+            return None
+        part = self.dict.parts.get(target)
+        if part is None:
+            return None
+        if restrict_category is not None and part.category != restrict_category:
+            return None
+        # Deterministic exact resolution -> score 1.0, attributes from raw.
+        return self._single(target, phrase, raw_text, 1.0)
+
     def _group_ids(self, leaf_codes: list[str]) -> list[str]:
         ids: list[str] = []
         for code in leaf_codes:

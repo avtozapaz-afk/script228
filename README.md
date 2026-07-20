@@ -187,6 +187,36 @@ answers the chip questions, and the final screen shows the filled **reference
 object** (same schema) without anyone pasting or editing JSON. The JSON-object
 API itself is a pipeline interface — use it from Python / the `--json` CLI.
 
+### Head-part layer (core-word defaults)
+
+Some words are shared synonyms of a whole optics group, so the base matcher
+honestly returns `ambiguous` — `fara` covers the headlight *and* its glass, lens,
+DRL and frame; `stop` covers the tail light *and* its glass, reflector, LED board
+and third-brake-light. But a shop that just says "fara" almost always means *the
+headlight itself*. The head-part layer encodes that:
+
+* a head word with **no qualifier** in `raw` → the configured **default** part
+  (`fara` → `KZ-005`, `stop` → `KZ-007`);
+* a head word **with a qualifier** in `raw` → the qualifier's part
+  (`fara` + `şüşə` → `KZ-010` glass, `stop` + `plata/led` → `KZ-063` board,
+  `fara` + `linza` → `KZ-066` lens …);
+* everything else stays exactly as before — the layer is consulted **only** when
+  the base result is `ambiguous`, so no `single_match` or `no_match` is ever
+  changed, and a non-head ambiguity (`traves`) stays `ambiguous`.
+
+It is a hand-editable table, **`data/head_parts.json`** — each entry lists the
+head `words`, a `default` part_id and `qualifiers` (`keywords → part_id`). No
+network, no statistics: normalize the phrase, look it up, substring-test the
+qualifiers against `raw`. Add words or qualifiers by editing that file (then
+`python build_html.py` to refresh the offline tester).
+
+```python
+from slovar_matcher import Matcher, HeadParts
+
+Matcher.from_file().match("fara")                       # -> single_match KZ-005
+Matcher.from_file().match("fara", raw_text="fara şüşəsi")  # -> single_match KZ-010
+```
+
 ### Why "traves" is ambiguous but "yan güzgü" / "nadduv" are single
 
 Names may carry a parenthetical alternative, e.g. `Turbo (nadduv) datçiki`,
@@ -267,6 +297,9 @@ python -m pytest tests/ -q
 * `tests/test_integrity.py` — no name/synonym collisions, and both generated
   derivatives (`canonical_names.md`, `category_index.json`) stay in sync with
   `SLOVAR_FINAL.txt`.
+* `tests/test_head_parts.py` — the head-part layer: `fara`/`stop` defaults,
+  glass/lens/board/Russian qualifiers, attributes still extracted, non-head
+  ambiguity untouched, `restrict_category` guard, and an editable custom config.
 
 ### A note on the reference test files
 
@@ -309,9 +342,11 @@ slovar_matcher/
   attributes.py   side / direction / location keyword extraction
   category.py     Layer 1 — category resolution (category_index.json)
   matcher.py      Matcher + MatchResult (3-state algorithm, restrict_category)
+  head_parts.py   Head-part layer — core-word default/qualifier resolution
   json_api.py     JsonMatcher — reference-JSON in / filled JSON out (funnel)
 data/
   SLOVAR_FINAL.txt    source of truth (hand-maintained)
+  head_parts.json     head-part table (hand-maintained: word -> default + qualifiers)
   canonical_names.md  generated ID + AZ-name list for the LLM
   category_index.json generated word -> category index (Layer 1)
 scripts/
