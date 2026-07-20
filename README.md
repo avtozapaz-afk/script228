@@ -150,6 +150,41 @@ cat = CategoryMatcher.from_file().resolve("emblema")   # -> category_ambiguous
 part = Matcher.from_file().match("emblema", restrict_category="Кузов и оптика")
 ```
 
+### JSON object interface (reference schema)
+
+For pipeline use the funnel also accepts the **full reference object** the Seller
+model emits and returns the *same object* with only the fields it can decide
+deterministically filled in — everything else is passed through untouched
+(`shop`, `brand`, prices, `oem_code`, …):
+
+```python
+from slovar_matcher import JsonMatcher, match_json
+
+match_json({                       # module-level convenience
+    "part_name": "Amortizator",
+    "raw": "sol qabaq amortizator",
+    # … the rest of the reference schema, all null …
+})
+# -> same object with:
+#   "part_id": "AS-001", "category": "Подвеска",
+#   "subcategory": "Amortizatorlar / dayaqlar",
+#   "side": "sol", "direction": "ön", "location": null
+```
+
+Only `part_id`, `category`, `subcategory`, `side`, `direction`, `location` are
+ever written. `side` / `direction` / `location` come from `raw`. When
+`part_name` is `null` the detail matcher has nothing to match, so a **containment
+fallback over `raw`** fills `category` if it resolves to exactly one category and
+leaves `part_id` / `subcategory` `null`. The input dict is never mutated.
+
+```bash
+python cli.py --json '{"part_name": "Amortizator", "raw": "sol qabaq amortizator"}'
+echo '{ … }' | python cli.py --json -        # read the object from stdin
+```
+
+`matcher_tool.html` exposes the same JSON in/out at the top of the page (paste the
+reference object, get it back filled), alongside the interactive funnel.
+
 ### Why "traves" is ambiguous but "yan güzgü" / "nadduv" are single
 
 Names may carry a parenthetical alternative, e.g. `Turbo (nadduv) datçiki`,
@@ -224,6 +259,9 @@ python -m pytest tests/ -q
 * `tests/test_category.py` — Layer 1 (radiator → resolved, fara → resolved,
   emblema → ambiguous, typo near-match, unknown) and the `restrict_category`
   funnel.
+* `tests/test_json_api.py` — the reference-JSON in / filled-JSON out funnel: the
+  spec example (Amortizator), untouched-passthrough fields, input not mutated,
+  `location` flow, and the `part_name: null` → containment-over-`raw` fallback.
 * `tests/test_integrity.py` — no name/synonym collisions, and both generated
   derivatives (`canonical_names.md`, `category_index.json`) stay in sync with
   `SLOVAR_FINAL.txt`.
@@ -269,6 +307,7 @@ slovar_matcher/
   attributes.py   side / direction / location keyword extraction
   category.py     Layer 1 — category resolution (category_index.json)
   matcher.py      Matcher + MatchResult (3-state algorithm, restrict_category)
+  json_api.py     JsonMatcher — reference-JSON in / filled JSON out (funnel)
 data/
   SLOVAR_FINAL.txt    source of truth (hand-maintained)
   canonical_names.md  generated ID + AZ-name list for the LLM

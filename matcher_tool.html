@@ -104,7 +104,18 @@
   </header>
 
   <div class="card">
-    <label for="phrase">Запрос клиента <span class="hint">(нормализованная фраза от Seller-модели)</span></label>
+    <label for="jsonin">Эталонный JSON <span class="hint">(полный объект от Seller-модели — матчер заполнит part_id / category / subcategory / side / direction / location, остальное не трогает)</span></label>
+    <textarea id="jsonin" rows="10" spellcheck="false"
+      style="width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace"></textarea>
+    <div class="row">
+      <button class="go" id="runjson">Заполнить JSON</button>
+      <span class="hint">part_name = null → определяется только категория по полю raw (containment)</span>
+    </div>
+    <pre id="jsonout" style="display:none"></pre>
+  </div>
+
+  <div class="card">
+    <label for="phrase">Интерактивный режим · запрос клиента <span class="hint">(нормализованная фраза от Seller-модели)</span></label>
     <input type="text" id="phrase" placeholder="напр. emblema" autocomplete="off">
     <div class="examples" id="examples"></div>
 
@@ -8456,6 +8467,36 @@ function resolveCategory(word,raw,threshold){
     question:"К какой категории относится деталь?",raw_text_passthrough:passthrough,match_score:score};
 }
 
+/* ---- JSON funnel (mirrors slovar_matcher/json_api.py) ---- */
+function categoriesInText(text){
+  const cats=[];const toks=tokens(text||"");
+  for(const t of toks) for(const c of (CATIDX.index[t]||[])) if(!cats.includes(c)) cats.push(c);
+  if(cats.length) return cats.sort();
+  for(const t of toks){ if(t.length<3) continue;
+    for(const k in CATIDX.index) if(k.indexOf(t)>=0)
+      for(const c of CATIDX.index[k]) if(!cats.includes(c)) cats.push(c); }
+  return cats.sort();
+}
+function matchJson(obj,threshold){
+  if(threshold==null)threshold=DEFAULT_THRESHOLD;
+  const out=Object.assign({},obj);
+  const pn=out.part_name,raw=out.raw;
+  if(pn&&normalize(pn)){
+    const d=match(pn,raw,threshold,null);
+    if(d.status==="single_match"){
+      out.part_id=d.part_id;out.category=d.category;out.subcategory=d.subcategory;
+      out.side=d.attributes.side;out.direction=d.attributes.direction;out.location=d.attributes.location;
+    } else {
+      const c=resolveCategory(pn,raw,threshold);
+      if(c.status==="category_resolved") out.category=c.category;
+    }
+  } else {
+    const cats=categoriesInText(raw||"");
+    if(cats.length===1) out.category=cats[0];
+  }
+  return out;
+}
+
 /* ---- UI ---- */
 const $=s=>document.querySelector(s);
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
@@ -8577,6 +8618,23 @@ $("#dialog").addEventListener("click",e=>{
   else if(act==="loc"){ answerAttr("location",val); }
   else if(act==="restart"){ S=null; $("#dialog").style.display="none"; $("#phrase").focus(); }
 });
+
+/* ---- JSON card wiring ---- */
+const JSON_EXAMPLE={shop:null,brand:null,model:null,year:null,engine_type:null,
+  engine_volume:null,part_name:"Amortizator",part_id:null,category:null,subcategory:null,
+  side:null,direction:null,location:null,condition:null,oem_code:null,
+  original_price:null,aftermarket_price:null,raw:"sol qabaq amortizator"};
+$("#jsonin").value=JSON.stringify(JSON_EXAMPLE,null,2);
+function runJson(){
+  const out=$("#jsonout");let obj;
+  try{obj=JSON.parse($("#jsonin").value);}
+  catch(e){out.style.display="block";out.textContent="Ошибка разбора JSON: "+e.message;return;}
+  if(obj===null||typeof obj!=="object"||Array.isArray(obj)){
+    out.style.display="block";out.textContent="Ожидается JSON-объект.";return;}
+  let th=parseFloat($("#threshold").value);if(isNaN(th))th=0.90;
+  out.style.display="block";out.textContent=JSON.stringify(matchJson(obj,th),null,2);
+}
+$("#runjson").onclick=runJson;
 
 $("#run").onclick=start;
 $("#phrase").addEventListener("keydown",e=>{if(e.key==="Enter")start();});
