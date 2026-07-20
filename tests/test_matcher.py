@@ -220,6 +220,28 @@ def test_real_front_word_still_detected(matcher):
     assert r.attributes["direction"] == "ön"
 
 
+# ── expanded keyword coverage (transliteration / typos / keyboard variants) ──
+def test_expanded_keywords_saq_and_peredni():
+    from slovar_matcher.attributes import detect_direction, detect_side
+    # keyboard variant "saq" for "sağ", and transliteration "peredni" for "ön"
+    assert detect_side("saq amortizator") == "sağ"
+    assert detect_direction("peredni bufer") == "ön"
+
+
+def test_saq_resolves_side_on_a_real_part(matcher):
+    # end-to-end: AS-001 (amortizator, side:true) picks up "saq" as sağ
+    r = matcher.match("amortizator", raw_text="saq amortizator")
+    assert r.status == "single_match"
+    assert r.part_id == "AS-001"
+    assert r.attributes["side"] == "sağ"
+
+
+def test_expanded_keywords_do_not_break_word_boundary():
+    from slovar_matcher.attributes import detect_side
+    # "saq" must not match as a substring inside "saqqal" (beard)
+    assert detect_side("saqqal") is None
+
+
 # ── Bug 2: "fara" must not silently match the bulb (EL-025) ───────────────────
 def test_fara_not_silently_the_bulb(matcher):
     r = matcher.match("fara")

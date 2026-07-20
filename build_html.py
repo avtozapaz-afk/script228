@@ -11,6 +11,7 @@ to ``data/SLOVAR_FINAL.txt``::
 import json
 import os
 
+from slovar_matcher import attributes as attr
 from slovar_matcher.head_parts import HeadParts
 from slovar_matcher.parser import parse_file
 
@@ -35,6 +36,18 @@ def export_head_parts() -> str:
     # rules are already normalized (keys + qualifier keywords) on load.
     rules = HeadParts.from_file().rules
     return json.dumps(rules, ensure_ascii=False, separators=(",", ":"))
+
+
+def export_attr_keywords() -> str:
+    # The attribute keyword lists are the single source of truth (attributes.py);
+    # inline them verbatim so the JS detector is guaranteed identical to Python.
+    data = {
+        "side_left": attr.SIDE_LEFT, "side_right": attr.SIDE_RIGHT,
+        "dir_front": attr.DIRECTION_FRONT, "dir_rear": attr.DIRECTION_REAR,
+        "loc_inner": attr.LOCATION_INNER, "loc_outer": attr.LOCATION_OUTER,
+        "counter_words": sorted(attr._COUNTER_WORDS),
+    }
+    return json.dumps(data, ensure_ascii=False, separators=(",", ":"))
 
 
 TEMPLATE = r'''<!doctype html>
@@ -191,6 +204,9 @@ const CATIDX = __CATIDX__;
 const HEADPARTS = __HEADPARTS__;
 </script>
 <script>
+const ATTRKW = __ATTRKW__;
+</script>
+<script>
 /* ---- normalization (mirrors slovar_matcher/normalize.py) ---- */
 const AZ_MAP={'İ':'i','I':'ı','Ə':'ə','Ç':'ç',
   'Ş':'ş','Ğ':'ğ','Ö':'ö','Ü':'ü'};
@@ -199,19 +215,35 @@ const TOKEN_RE=/[0-9a-zçğıəöüşЀ-ӿ]+/g;
 function tokens(s){return azLower(s).match(TOKEN_RE)||[];}
 function normalize(s){return tokens(s).join(' ');}  // drops punctuation/symbols
 
-/* ---- attribute keyword sets (mirrors slovar_matcher/attributes.py) ---- */
-const SIDE_LEFT=new Set(["sol","sola","soldan","soldakı","soldaki","left","lh","лево","левый","левая","левое","левых","левого","слева"]);
-const SIDE_RIGHT=new Set(["sağ","sag","sağa","sağdan","sagdan","sağdakı","sagdaki","right","rh","право","правый","правая","правое","правых","правого","справа"]);
-const DIR_FRONT=new Set(["ön","öndeki","öndəki","önki","qabaq","qabağ","qabaqdakı","qabaqdaki","qabağdakı","front","fr","перед","передний","передняя","переднее","передних","переднего","спереди","speredi"]);
-const DIR_REAR=new Set(["arxa","arxadakı","arxadaki","arxadan","arxadaku","rear","back","зад","задний","задняя","заднее","задних","заднего","сзади"]);
-const LOC_INNER=new Set(["daxili","daxildəki","daxildaki","daxil","iç","içəri","icheri","içdəki","icdeki","inner","internal","внутренний","внутренняя","внутреннее","внутренних","внутреннего","внутри","vnutrenniy","до","before","əvvəl","əvvəlki","evvel","öncə","once"]);
-const LOC_OUTER=new Set(["xarici","xaricdəki","xaricdaki","xaric","çöl","cöl","col","çöldəki","coldeki","outer","external","outside","наружный","наружная","наружное","наружных","наружного","снаружи","naruzhnyy","после","after","sonra","sonrakı","sonraki"]);
-function detect(text,L,R,lv,rv){const t=new Set(tokens(text));let l=false,r=false;
-  for(const x of t){if(L.has(x))l=true;if(R.has(x))r=true;}
+/* ---- attribute keyword detection (mirrors slovar_matcher/attributes.py) ---- */
+/* keyword lists come inlined from Python (ATTRKW) — single source of truth */
+function prepKw(words){const singles=new Set(),phrases=[];
+  for(const w of words){const t=tokens(w);if(!t.length)continue;
+    t.length===1?singles.add(t[0]):phrases.push(t);}
+  return[singles,phrases];}
+const [LEFT_S,LEFT_P]=prepKw(ATTRKW.side_left);
+const [RIGHT_S,RIGHT_P]=prepKw(ATTRKW.side_right);
+const [FRONT_S,FRONT_P]=prepKw(ATTRKW.dir_front);
+const [REAR_S,REAR_P]=prepKw(ATTRKW.dir_rear);
+const [INNER_S,INNER_P]=prepKw(ATTRKW.loc_inner);
+const [OUTER_S,OUTER_P]=prepKw(ATTRKW.loc_outer);
+const COUNTER_WORDS=new Set(ATTRKW.counter_words);
+function phrasePresent(toks,phrases){for(const ph of phrases){const n=ph.length;
+  for(let i=0;i+n<=toks.length;i++){let ok=true;
+    for(let j=0;j<n;j++)if(toks[i+j]!==ph[j]){ok=false;break;}
+    if(ok)return true;}}return false;}
+function present(toks,singles,phrases){
+  for(let i=0;i<toks.length;i++){const t=toks[i];
+    if(singles.has(t)){
+      if(t==="on"){const nxt=toks[i+1]||"";if(COUNTER_WORDS.has(nxt)||/^\d+$/.test(nxt))continue;}
+      return true;}}
+  return phrasePresent(toks,phrases);}
+function detectAttr(text,ls,lp,rs,rp,lv,rv){const t=tokens(text);
+  const l=present(t,ls,lp),r=present(t,rs,rp);
   if(l&&r)return lv+","+rv;if(l)return lv;if(r)return rv;return null;}
-const detectSide=t=>detect(t,SIDE_LEFT,SIDE_RIGHT,"sol","sağ");
-const detectDirection=t=>detect(t,DIR_FRONT,DIR_REAR,"ön","arxa");
-const detectLocation=t=>detect(t,LOC_INNER,LOC_OUTER,"daxili","xarici");
+const detectSide=t=>detectAttr(t,LEFT_S,LEFT_P,RIGHT_S,RIGHT_P,"sol","sağ");
+const detectDirection=t=>detectAttr(t,FRONT_S,FRONT_P,REAR_S,REAR_P,"ön","arxa");
+const detectLocation=t=>detectAttr(t,INNER_S,INNER_P,OUTER_S,OUTER_P,"daxili","xarici");
 
 /* ---- similarity (mirrors slovar_matcher/normalize.py) ---- */
 function lev(a,b){const m=a.length,n=b.length;if(!m)return n;if(!n)return m;
@@ -470,7 +502,8 @@ def main() -> None:
     out = (TEMPLATE
            .replace("__DATA__", export_data())
            .replace("__CATIDX__", export_category_index())
-           .replace("__HEADPARTS__", export_head_parts()))
+           .replace("__HEADPARTS__", export_head_parts())
+           .replace("__ATTRKW__", export_attr_keywords()))
     path = os.path.join(HERE, "matcher_tool.html")
     with open(path, "w", encoding="utf-8") as f:
         f.write(out)

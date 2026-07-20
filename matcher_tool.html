@@ -8350,6 +8350,9 @@ const CATIDX = {
 const HEADPARTS = {"fara":{"default":"KZ-005","qualifiers":[{"keywords":["şüşə","suse","стекло","стекла","steklo"],"part_id":"KZ-010"},{"keywords":["linza","линза","проектор","proyektor","projektor","lupa"],"part_id":"KZ-066"},{"keywords":["plasma","plasması","накладка","рамка","ramka"],"part_id":"KZ-059"},{"keywords":["drl","gündüz","gunduz","дхо","дневной","ходовой"],"part_id":"KZ-044"}]},"faralar":{"default":"KZ-005","qualifiers":[{"keywords":["şüşə","suse","стекло","стекла","steklo"],"part_id":"KZ-010"},{"keywords":["linza","линза","проектор","proyektor","projektor","lupa"],"part_id":"KZ-066"},{"keywords":["plasma","plasması","накладка","рамка","ramka"],"part_id":"KZ-059"},{"keywords":["drl","gündüz","gunduz","дхо","дневной","ходовой"],"part_id":"KZ-044"}]},"фара":{"default":"KZ-005","qualifiers":[{"keywords":["şüşə","suse","стекло","стекла","steklo"],"part_id":"KZ-010"},{"keywords":["linza","линза","проектор","proyektor","projektor","lupa"],"part_id":"KZ-066"},{"keywords":["plasma","plasması","накладка","рамка","ramka"],"part_id":"KZ-059"},{"keywords":["drl","gündüz","gunduz","дхо","дневной","ходовой"],"part_id":"KZ-044"}]},"фары":{"default":"KZ-005","qualifiers":[{"keywords":["şüşə","suse","стекло","стекла","steklo"],"part_id":"KZ-010"},{"keywords":["linza","линза","проектор","proyektor","projektor","lupa"],"part_id":"KZ-066"},{"keywords":["plasma","plasması","накладка","рамка","ramka"],"part_id":"KZ-059"},{"keywords":["drl","gündüz","gunduz","дхо","дневной","ходовой"],"part_id":"KZ-044"}]},"stop":{"default":"KZ-007","qualifiers":[{"keywords":["şüşə","suse","стекло","стекла","steklo"],"part_id":"KZ-048"},{"keywords":["plata","platası","плата","светодиод","led"],"part_id":"KZ-063"},{"keywords":["reflektor","reflector","otrajatel","otrajateli","катафот","отражатель"],"part_id":"KZ-009"},{"keywords":["üçüncü","ucuncu","əlavə","elave","третий","дополнительный"],"part_id":"KZ-049"}]},"stoplar":{"default":"KZ-007","qualifiers":[{"keywords":["şüşə","suse","стекло","стекла","steklo"],"part_id":"KZ-048"},{"keywords":["plata","platası","плата","светодиод","led"],"part_id":"KZ-063"},{"keywords":["reflektor","reflector","otrajatel","otrajateli","катафот","отражатель"],"part_id":"KZ-009"},{"keywords":["üçüncü","ucuncu","əlavə","elave","третий","дополнительный"],"part_id":"KZ-049"}]},"стоп":{"default":"KZ-007","qualifiers":[{"keywords":["şüşə","suse","стекло","стекла","steklo"],"part_id":"KZ-048"},{"keywords":["plata","platası","плата","светодиод","led"],"part_id":"KZ-063"},{"keywords":["reflektor","reflector","otrajatel","otrajateli","катафот","отражатель"],"part_id":"KZ-009"},{"keywords":["üçüncü","ucuncu","əlavə","elave","третий","дополнительный"],"part_id":"KZ-049"}]}};
 </script>
 <script>
+const ATTRKW = {"side_left":["sol","sola","solda","soldan","soldakı","soldaki","sol tərəf","sol teref","left","lh","левый","левая","левые","левых","левое","левого","левой","лево","слева","levy","leviy","levii","levo","levoy"],"side_right":["sağ","sag","saq","sağa","sağda","sagda","saqda","sağdan","sagdan","sağdakı","sagdaki","sağ tərəf","sag teref","saq teref","right","rh","правый","правая","правые","правых","правое","правого","правой","право","справа","pravy","praviy","pravii","pravo","pravoy"],"dir_front":["ön","on","öndə","önde","onde","öndeki","öndəki","önki","qabaq","qabag","gabag","gabaq","qabağ","qabaqda","qabagda","qabaqdakı","qabaqdaki","qabağdakı","front","fr","передний","передняя","передние","передних","переднее","переднего","перед","спереди","peredni","peredny","perednie","peredniy","perednii","speredi"],"dir_rear":["arxa","arxada","arxadakı","arxadaki","arxadan","arxadaku","rear","back","задний","задняя","задние","задних","заднее","заднего","зад","задн","сзади","zadni","zadny","zadnie","zadniy","zadnii","zad"],"loc_inner":["daxili","daxildəki","daxildaki","daxil","iç","içəri","icheri","içdəki","icdeki","inner","internal","внутренний","внутренняя","внутреннее","внутренних","внутреннего","внутри","vnutrenniy","до","before","əvvəl","əvvəlki","evvel","öncə","once"],"loc_outer":["xarici","xaricdəki","xaricdaki","xaric","çöl","cöl","col","çöldəki","coldeki","outer","external","outside","наружный","наружная","наружное","наружных","наружного","снаружи","naruzhnyy","после","after","sonra","sonrakı","sonraki"],"counter_words":["dene","dənə","eded","əd","ədəd"]};
+</script>
+<script>
 /* ---- normalization (mirrors slovar_matcher/normalize.py) ---- */
 const AZ_MAP={'İ':'i','I':'ı','Ə':'ə','Ç':'ç',
   'Ş':'ş','Ğ':'ğ','Ö':'ö','Ü':'ü'};
@@ -8358,19 +8361,35 @@ const TOKEN_RE=/[0-9a-zçğıəöüşЀ-ӿ]+/g;
 function tokens(s){return azLower(s).match(TOKEN_RE)||[];}
 function normalize(s){return tokens(s).join(' ');}  // drops punctuation/symbols
 
-/* ---- attribute keyword sets (mirrors slovar_matcher/attributes.py) ---- */
-const SIDE_LEFT=new Set(["sol","sola","soldan","soldakı","soldaki","left","lh","лево","левый","левая","левое","левых","левого","слева"]);
-const SIDE_RIGHT=new Set(["sağ","sag","sağa","sağdan","sagdan","sağdakı","sagdaki","right","rh","право","правый","правая","правое","правых","правого","справа"]);
-const DIR_FRONT=new Set(["ön","öndeki","öndəki","önki","qabaq","qabağ","qabaqdakı","qabaqdaki","qabağdakı","front","fr","перед","передний","передняя","переднее","передних","переднего","спереди","speredi"]);
-const DIR_REAR=new Set(["arxa","arxadakı","arxadaki","arxadan","arxadaku","rear","back","зад","задний","задняя","заднее","задних","заднего","сзади"]);
-const LOC_INNER=new Set(["daxili","daxildəki","daxildaki","daxil","iç","içəri","icheri","içdəki","icdeki","inner","internal","внутренний","внутренняя","внутреннее","внутренних","внутреннего","внутри","vnutrenniy","до","before","əvvəl","əvvəlki","evvel","öncə","once"]);
-const LOC_OUTER=new Set(["xarici","xaricdəki","xaricdaki","xaric","çöl","cöl","col","çöldəki","coldeki","outer","external","outside","наружный","наружная","наружное","наружных","наружного","снаружи","naruzhnyy","после","after","sonra","sonrakı","sonraki"]);
-function detect(text,L,R,lv,rv){const t=new Set(tokens(text));let l=false,r=false;
-  for(const x of t){if(L.has(x))l=true;if(R.has(x))r=true;}
+/* ---- attribute keyword detection (mirrors slovar_matcher/attributes.py) ---- */
+/* keyword lists come inlined from Python (ATTRKW) — single source of truth */
+function prepKw(words){const singles=new Set(),phrases=[];
+  for(const w of words){const t=tokens(w);if(!t.length)continue;
+    t.length===1?singles.add(t[0]):phrases.push(t);}
+  return[singles,phrases];}
+const [LEFT_S,LEFT_P]=prepKw(ATTRKW.side_left);
+const [RIGHT_S,RIGHT_P]=prepKw(ATTRKW.side_right);
+const [FRONT_S,FRONT_P]=prepKw(ATTRKW.dir_front);
+const [REAR_S,REAR_P]=prepKw(ATTRKW.dir_rear);
+const [INNER_S,INNER_P]=prepKw(ATTRKW.loc_inner);
+const [OUTER_S,OUTER_P]=prepKw(ATTRKW.loc_outer);
+const COUNTER_WORDS=new Set(ATTRKW.counter_words);
+function phrasePresent(toks,phrases){for(const ph of phrases){const n=ph.length;
+  for(let i=0;i+n<=toks.length;i++){let ok=true;
+    for(let j=0;j<n;j++)if(toks[i+j]!==ph[j]){ok=false;break;}
+    if(ok)return true;}}return false;}
+function present(toks,singles,phrases){
+  for(let i=0;i<toks.length;i++){const t=toks[i];
+    if(singles.has(t)){
+      if(t==="on"){const nxt=toks[i+1]||"";if(COUNTER_WORDS.has(nxt)||/^\d+$/.test(nxt))continue;}
+      return true;}}
+  return phrasePresent(toks,phrases);}
+function detectAttr(text,ls,lp,rs,rp,lv,rv){const t=tokens(text);
+  const l=present(t,ls,lp),r=present(t,rs,rp);
   if(l&&r)return lv+","+rv;if(l)return lv;if(r)return rv;return null;}
-const detectSide=t=>detect(t,SIDE_LEFT,SIDE_RIGHT,"sol","sağ");
-const detectDirection=t=>detect(t,DIR_FRONT,DIR_REAR,"ön","arxa");
-const detectLocation=t=>detect(t,LOC_INNER,LOC_OUTER,"daxili","xarici");
+const detectSide=t=>detectAttr(t,LEFT_S,LEFT_P,RIGHT_S,RIGHT_P,"sol","sağ");
+const detectDirection=t=>detectAttr(t,FRONT_S,FRONT_P,REAR_S,REAR_P,"ön","arxa");
+const detectLocation=t=>detectAttr(t,INNER_S,INNER_P,OUTER_S,OUTER_P,"daxili","xarici");
 
 /* ---- similarity (mirrors slovar_matcher/normalize.py) ---- */
 function lev(a,b){const m=a.length,n=b.length;if(!m)return n;if(!n)return m;
