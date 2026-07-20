@@ -16,11 +16,10 @@ The keyword lists below are the single source of truth (the offline
 Azerbaijani, Russian, transliteration, common typos and diacritic-free /
 keyboard variants.
 
-Homonym note: ``"on"`` is the diacritic-free spelling of ``ön`` (front) **and** the
-Azerbaijani numeral 10. It is treated as ``ön`` *except* when it is a counted
-quantity — ``"on ədəd"`` ("10 pieces") — i.e. when the next token is a counter
-word or a digit (see ``_COUNTER_WORDS`` and ``_present``). ``"sağ"`` is kept
-although it doubles as ``sağ ol`` (thanks); it is the only word for "right".
+Homonym note: ``"on"`` is the diacritic-free spelling of ``ön`` (front); it also
+doubles as the Azerbaijani numeral 10, but by explicit choice it is **always**
+read as ``ön`` here. ``"sağ"`` is kept although it doubles as ``sağ ol`` (thanks);
+it is the only word for "right".
 """
 
 from __future__ import annotations
@@ -99,11 +98,6 @@ LOCATION_OUTER = [
     "после", "after", "sonra", "sonrakı", "sonraki",
 ]
 
-#: ``"on"`` is the numeral 10, not ``ön``, when it directly precedes one of these
-#: (or a digit). Normalized token forms.
-_COUNTER_WORDS = {"ədəd", "eded", "dənə", "dene", "əd"}
-
-
 def _prep(words: list[str]) -> tuple[set[str], list[list[str]]]:
     """Normalize each keyword into tokens; split into single tokens vs phrases."""
     singles: set[str] = set()
@@ -137,13 +131,8 @@ def _phrase_present(toks: list[str], phrases: list[list[str]]) -> bool:
 
 
 def _present(toks: list[str], singles: set[str], phrases: list[list[str]]) -> bool:
-    for i, tok in enumerate(toks):
-        if tok in singles:
-            if tok == "on":
-                nxt = toks[i + 1] if i + 1 < len(toks) else ""
-                if nxt in _COUNTER_WORDS or nxt.isdigit():
-                    continue  # "on ədəd" = 10 pieces, not "ön" (front)
-            return True
+    if singles & set(toks):
+        return True
     return _phrase_present(toks, phrases)
 
 

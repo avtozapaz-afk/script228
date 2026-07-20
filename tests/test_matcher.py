@@ -203,16 +203,18 @@ def test_no_silent_guess_on_ambiguous(matcher):
     assert len(r.candidates) >= 2
 
 
-# ── Bug 1: numeral "on" (10) must not be read as direction "ön" ───────────────
-def test_numeral_on_is_not_direction_front(matcher):
+# ── "on" is the diacritic-free spelling of "ön" and is always read as front ──
+def test_on_is_read_as_front(matcher):
+    # By explicit choice "on" always maps to direction "ön" (front), even next to
+    # a counter word — the diacritic-free spelling wins over the numeral reading.
     r = matcher.match(
         "Stupitsa podşipniki",
         raw_text="mənə sol tərəf üçün on ədəd stupitsa podşipniki lazımdır",
     )
     assert r.status == "single_match"
     assert r.attributes["side"] == "sol"
-    assert r.attributes["direction"] is None           # not invented
-    assert "direction" in r.needs_clarification         # still asked
+    assert r.attributes["direction"] == "ön"
+    assert "direction" not in r.needs_clarification
 
 
 def test_real_front_word_still_detected(matcher):

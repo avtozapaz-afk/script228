@@ -45,7 +45,6 @@ def export_attr_keywords() -> str:
         "side_left": attr.SIDE_LEFT, "side_right": attr.SIDE_RIGHT,
         "dir_front": attr.DIRECTION_FRONT, "dir_rear": attr.DIRECTION_REAR,
         "loc_inner": attr.LOCATION_INNER, "loc_outer": attr.LOCATION_OUTER,
-        "counter_words": sorted(attr._COUNTER_WORDS),
     }
     return json.dumps(data, ensure_ascii=False, separators=(",", ":"))
 
@@ -227,16 +226,12 @@ const [FRONT_S,FRONT_P]=prepKw(ATTRKW.dir_front);
 const [REAR_S,REAR_P]=prepKw(ATTRKW.dir_rear);
 const [INNER_S,INNER_P]=prepKw(ATTRKW.loc_inner);
 const [OUTER_S,OUTER_P]=prepKw(ATTRKW.loc_outer);
-const COUNTER_WORDS=new Set(ATTRKW.counter_words);
 function phrasePresent(toks,phrases){for(const ph of phrases){const n=ph.length;
   for(let i=0;i+n<=toks.length;i++){let ok=true;
     for(let j=0;j<n;j++)if(toks[i+j]!==ph[j]){ok=false;break;}
     if(ok)return true;}}return false;}
 function present(toks,singles,phrases){
-  for(let i=0;i<toks.length;i++){const t=toks[i];
-    if(singles.has(t)){
-      if(t==="on"){const nxt=toks[i+1]||"";if(COUNTER_WORDS.has(nxt)||/^\d+$/.test(nxt))continue;}
-      return true;}}
+  for(const t of toks) if(singles.has(t)) return true;
   return phrasePresent(toks,phrases);}
 function detectAttr(text,ls,lp,rs,rp,lv,rv){const t=tokens(text);
   const l=present(t,ls,lp),r=present(t,rs,rp);
