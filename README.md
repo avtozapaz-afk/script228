@@ -182,8 +182,10 @@ python cli.py --json '{"part_name": "Amortizator", "raw": "sol qabaq amortizator
 echo '{ … }' | python cli.py --json -        # read the object from stdin
 ```
 
-`matcher_tool.html` exposes the same JSON in/out at the top of the page (paste the
-reference object, get it back filled), alongside the interactive funnel.
+In `matcher_tool.html` this is automatic: the user just types the request and
+answers the chip questions, and the final screen shows the filled **reference
+object** (same schema) without anyone pasting or editing JSON. The JSON-object
+API itself is a pipeline interface — use it from Python / the `--json` CLI.
 
 ### Why "traves" is ambiguous but "yan güzgü" / "nadduv" are single
 
