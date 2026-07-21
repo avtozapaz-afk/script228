@@ -1,7 +1,7 @@
 # AVTOZAP — Canonical Names
 
 > Auto-generated from `data/SLOVAR_FINAL.txt` by `scripts/generate_canonical_names.py`. Do not edit by hand.
-> 438 parts · 86 leaves.
+> 442 parts · 86 leaves.
 
 ## Двигатель
 
@@ -699,6 +699,10 @@
 | EL-009 | Airbag (yastıq) |
 | EL-010 | Rul lenti (saat yayı) |
 | EL-062 | Pərdə airbag |
+| EL-073 | Sükan airbaqı |
+| EL-074 | Sərnişin airbaqı |
+| EL-075 | Diz altı airbaqı |
+| EL-076 | Oturacaq airbaqı |
 
 ### Multimedia / akustika
 

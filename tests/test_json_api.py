@@ -108,6 +108,17 @@ def test_no_match_part_name_leaves_all_null(jm):
     # (category may be null here; the important guarantee is no false part_id.)
 
 
+# ── airbag position through the reference-object pipeline ────────────────────
+def test_diz_alti_airbag_reference_object(jm):
+    # the realistic pipeline: normalized name in part_name, full text in raw
+    out = jm.match(_reference(part_name="diz altı airbaqı",
+                              raw="sol diz altı airbaqı"))
+    assert out["part_id"] == "EL-075"
+    assert out["category"] == "Электрика и электроника"
+    assert out["subcategory"] == "Airbag / SRS bloku"
+    assert out["side"] == "sol"
+
+
 # ── module-level convenience ─────────────────────────────────────────────────
 def test_module_level_match_json():
     out = match_json(_reference(part_name="Amortizator", raw="sol qabaq amortizator"))

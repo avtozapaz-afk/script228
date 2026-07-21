@@ -628,12 +628,16 @@
       EL-070  Корректор фары (моторчик регулировки)  |  Faranın korrektoru (tənzimləyici motoru)  [side:false|direction:false|location:false]
       синонимы: 360 kamera, arxa görüş kamerası, arxa kamera, backup camera, cruise control, distronic kabeli, distronik, kamera, kor zona detektoru, kor zona sensoru, kor zonası sensoru, park datçikləri, park kamerası, park radar bloku, park radar sensoru, park radar şunuru, park sensoru, parktronik, qabaq kamera, radar şunuru, zolaq dəyişmə datçiki, zolaq tanıma kamerası, ölü zona datciki, камера заднего вида, парковочные датчики, fara korrektoru, faranın korrektoru, korrektor fara, корректор фары, корректор
 
-  ▸ Airbag / SRS bloku / Подушки безопасности/SRS-блок  [electrical-airbag]  (4 дет)
+  ▸ Airbag / SRS bloku / Подушки безопасности/SRS-блок  [electrical-airbag]  (8 дет)
       EL-008  Блок управления airbag (SRS)  |  SRS/Airbag bloku  [side:false|direction:false|location:false]
       EL-009  Подушка безопасности  |  Airbag (yastıq)  [side:false|direction:false|location:false]
       EL-010  Шлейф руля (clock spring)  |  Rul lenti (saat yayı)  [side:false|direction:false|location:false]
       EL-062  Шторка безопасности (боковая подушка)  |  Pərdə airbag  [side:true|direction:false|location:false]
-      синонимы: airbag, airbag bloku, airbag pərdəsi, hava yastığı, pərdə airbag, rolun lentası, rul lenti, rulun airbagi, rulun lenti, siqnalın lenti, srs bloku, sükanın lenti, sükün lenti, tavan airbag
+      EL-073  Sükan airbaqı  |  Sükan airbaqı  [side:false|direction:false|location:false]
+      EL-074  Sərnişin airbaqı  |  Sərnişin airbaqı  [side:false|direction:false|location:false]
+      EL-075  Diz altı airbaqı  |  Diz altı airbaqı  [side:true|direction:false|location:false]
+      EL-076  Oturacaq airbaqı  |  Oturacaq airbaqı  [side:true|direction:false|location:false]
+      синонимы: airbag, airbag bloku, airbag pərdəsi, hava yastığı, pərdə airbag, rolun lentası, rul lenti, rulun airbagi, rulun lenti, siqnalın lenti, srs bloku, sükanın lenti, sükün lenti, tavan airbag, sükan airbaqı, rul airbaqı, rul yastığı, sükan yastığı, подушка руля, sərnişin airbaqı, ön sərnişin airbaqı, torpeda airbaqı, пассажирская подушка, sərnişin yastığı, diz altı airbaqı, diz airbaqı, коленная подушка, diz yastığı, sürücü diz airbaqı, oturacaq airbaqı, yan airbaq, yan yastıq, боковая подушка, oturacaq yan yastığı
 
   ▸ Multimedia / akustika / Мультимедиа/акустика  [acoustics]  (13 дет)
       EL-023  Мультимедийный экран  |  Manitor (multimedia ekranı)  [side:false|direction:false|location:false]

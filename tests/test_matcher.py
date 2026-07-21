@@ -333,6 +333,43 @@ def test_cross_group_collision_is_ambiguous():
 # ── structural sanity of the parsed dictionary ───────────────────────────────
 def test_dictionary_shape(matcher):
     assert len(matcher.dict.groups) == 86
-    assert len(matcher.dict.parts) == 438
+    assert len(matcher.dict.parts) == 442     # 438 + 4 airbag positions (EL-073..076)
     categories = {g.category for g in matcher.dict.groups.values()}
     assert len(categories) == 15
+
+
+# ── airbag positions (EL-073..076) ───────────────────────────────────────────
+def test_sukan_airbag_is_el073_not_curtain(matcher):
+    # exact name wins over the shared airbag-group synonyms -> EL-073, not EL-062
+    r = matcher.match("sükan airbaqı")
+    assert r.status == "single_match"
+    assert r.part_id == "EL-073"
+    assert r.subcategory == "Airbag / SRS bloku"
+
+
+def test_sernisin_airbag_is_el074(matcher):
+    r = matcher.match("sərnişin airbaqı")
+    assert r.status == "single_match"
+    assert r.part_id == "EL-074"
+
+
+def test_diz_alti_airbag_side_sol(matcher):
+    # phrase = normalized name, raw = full client text carrying the side word
+    r = matcher.match("diz altı airbaqı", raw_text="sol diz altı airbaqı")
+    assert r.status == "single_match"
+    assert r.part_id == "EL-075"
+    assert r.attributes["side"] == "sol"
+
+
+def test_oturacaq_airbag_side_sag(matcher):
+    r = matcher.match("oturacaq airbaqı", raw_text="sağ oturacaq airbaqı")
+    assert r.status == "single_match"
+    assert r.part_id == "EL-076"
+    assert r.attributes["side"] == "sağ"
+
+
+def test_sol_fara_side_is_azerbaijani(matcher):
+    # side output is Azerbaijani "sol" — never the English input alias "left"
+    r = matcher.match("fara", raw_text="sol fara")
+    assert r.attributes["side"] == "sol"
+    assert r.attributes["side"] != "left"
