@@ -22,7 +22,7 @@ import json
 import os
 from typing import Any
 
-from .normalize import normalize, similarity
+from .normalize import normalize, similarity, tokens
 
 _INDEX_PATH = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
@@ -87,6 +87,29 @@ class CategoryMatcher:
             "raw_text_passthrough": passthrough,
             "match_score": score,
         }
+
+    def categories_in_text(self, text: str) -> list[str]:
+        """Every category any token of ``text`` maps to (deduped, sorted).
+
+        Used by the JSON funnel when ``part_name`` is null — a containment
+        fallback over the raw request. Exact index-key hits are preferred; only
+        if no token is an exact key do we widen to substring/containment, so a
+        clean word (``amortizator``) resolves precisely and a stray fragment
+        still surfaces something rather than nothing.
+        """
+        cats: list[str] = []
+        toks = tokens(text or "")
+        for tok in toks:
+            for cat in self.index.get(tok, []):
+                if cat not in cats:
+                    cats.append(cat)
+        if cats:
+            return sorted(cats)
+        for tok in toks:
+            for cat in self._containment_categories(tok):
+                if cat not in cats:
+                    cats.append(cat)
+        return sorted(cats)
 
     def _containment_categories(self, key: str) -> list[str]:
         """Every category whose entries contain ``key`` as a substring.

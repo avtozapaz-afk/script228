@@ -12,8 +12,8 @@ couple of extra/typo'd letters still resolve, without ever loosening into a
 guess: name matches take priority over synonym matches, and when the best
 near-match maps to several distinct parts the result stays ``ambiguous``.
 
-Only for ``single_match`` are side/position attributes extracted, and only for
-the flags the part actually declares.
+Only for ``single_match`` are side/direction/location attributes extracted, and
+only for the flags the part actually declares.
 """
 
 from __future__ import annotations
@@ -22,7 +22,8 @@ import os
 from dataclasses import dataclass, field
 from typing import Any
 
-from .attributes import detect_position, detect_side
+from .attributes import detect_direction, detect_location, detect_side
+from .head_parts import HeadParts
 from .normalize import normalize, similarity
 from .parser import Dictionary, parse_file
 
@@ -44,7 +45,8 @@ class MatchResult:
     name_az: str | None = None
     category: str | None = None
     subcategory: str | None = None
-    attributes: dict[str, Any] = field(default_factory=lambda: {"side": None, "position": None})
+    attributes: dict[str, Any] = field(
+        default_factory=lambda: {"side": None, "direction": None, "location": None})
     needs_clarification: list[str] = field(default_factory=list)
     candidates: list[dict[str, str]] = field(default_factory=list)
     match_score: float | None = None              # 1.0 exact, <1.0 near-match
@@ -67,12 +69,16 @@ class MatchResult:
 
 
 class Matcher:
-    def __init__(self, dictionary: Dictionary):
+    def __init__(self, dictionary: Dictionary, head_parts: HeadParts | None = None):
         self.dict = dictionary
+        # No config by default so a synthetic Matcher(parse_text(...)) stays pure;
+        # Matcher.from_file() loads the real head-part table.
+        self.head_parts = head_parts if head_parts is not None else HeadParts.empty()
 
     @classmethod
-    def from_file(cls, path: str = _DEFAULT_PATH) -> "Matcher":
-        return cls(parse_file(path))
+    def from_file(cls, path: str = _DEFAULT_PATH,
+                  head_parts: HeadParts | None = None) -> "Matcher":
+        return cls(parse_file(path), head_parts or HeadParts.from_file())
 
     # ── public API ───────────────────────────────────────────────────────────
     def match(
@@ -81,6 +87,22 @@ class Matcher:
         raw_text: str | None = None,
         threshold: float = DEFAULT_THRESHOLD,
         restrict_category: str | None = None,
+    ) -> MatchResult:
+        result = self._match_core(phrase, raw_text, threshold, restrict_category)
+        # Head-part layer: only ever refines an ``ambiguous`` group hit into a
+        # concrete part; ``single_match`` / ``no_match`` are returned untouched.
+        if result.status == "ambiguous":
+            head = self._resolve_head_part(phrase, raw_text, restrict_category)
+            if head is not None:
+                return head
+        return result
+
+    def _match_core(
+        self,
+        phrase: str,
+        raw_text: str | None,
+        threshold: float,
+        restrict_category: str | None,
     ) -> MatchResult:
         key = normalize(phrase)
 
@@ -119,6 +141,27 @@ class Matcher:
         return MatchResult(status="no_match")
 
     # ── internals ────────────────────────────────────────────────────────────
+    def _resolve_head_part(self, phrase: str, raw_text: str | None,
+                           restrict_category: str | None) -> MatchResult | None:
+        """Refine an ambiguous head word into its default / qualifier part.
+
+        Returns ``None`` (keep the ambiguous result) when the phrase is not a
+        head word, the target part is unknown, or a category restriction is in
+        force and the target lies outside it.
+        """
+        key = normalize(phrase)
+        search = " ".join(x for x in (phrase, raw_text) if x)
+        target = self.head_parts.resolve(key, search)
+        if target is None:
+            return None
+        part = self.dict.parts.get(target)
+        if part is None:
+            return None
+        if restrict_category is not None and part.category != restrict_category:
+            return None
+        # Deterministic exact resolution -> score 1.0, attributes from raw.
+        return self._single(target, phrase, raw_text, 1.0)
+
     def _group_ids(self, leaf_codes: list[str]) -> list[str]:
         ids: list[str] = []
         for code in leaf_codes:
@@ -169,7 +212,7 @@ class Matcher:
         part = self.dict.parts[part_id]
         search_space = " ".join(x for x in (phrase, raw_text) if x)
 
-        attributes: dict[str, Any] = {"side": None, "position": None}
+        attributes: dict[str, Any] = {"side": None, "direction": None, "location": None}
         needs: list[str] = []
 
         if part.side_flag:
@@ -179,12 +222,19 @@ class Matcher:
             else:
                 needs.append("side")
 
-        if part.position_flag:
-            position = detect_position(search_space)
-            if position:
-                attributes["position"] = position
+        if part.direction_flag:
+            direction = detect_direction(search_space)
+            if direction:
+                attributes["direction"] = direction
             else:
-                needs.append("position")
+                needs.append("direction")
+
+        if part.location_flag:
+            location = detect_location(search_space)
+            if location:
+                attributes["location"] = location
+            else:
+                needs.append("location")
 
         return MatchResult(
             status="single_match",

@@ -11,6 +11,8 @@ to ``data/SLOVAR_FINAL.txt``::
 import json
 import os
 
+from slovar_matcher import attributes as attr
+from slovar_matcher.head_parts import HeadParts
 from slovar_matcher.parser import parse_file
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -21,11 +23,29 @@ def export_data() -> str:
     parts = {pid: {
         "name_ru": p.name_ru, "name_az": p.name_az,
         "category": p.category, "subcategory": p.subcategory,
-        "leaf_code": p.leaf_code, "side": p.side_flag, "position": p.position_flag,
+        "leaf_code": p.leaf_code, "side": p.side_flag,
+        "direction": p.direction_flag, "location": p.location_flag,
     } for pid, p in d.parts.items()}
     groups = {c: {"part_ids": g.part_ids} for c, g in d.groups.items()}
     data = {"parts": parts, "groups": groups,
             "name_index": d.name_index, "synonym_index": d.synonym_index}
+    return json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+
+
+def export_head_parts() -> str:
+    # rules are already normalized (keys + qualifier keywords) on load.
+    rules = HeadParts.from_file().rules
+    return json.dumps(rules, ensure_ascii=False, separators=(",", ":"))
+
+
+def export_attr_keywords() -> str:
+    # The attribute keyword lists are the single source of truth (attributes.py);
+    # inline them verbatim so the JS detector is guaranteed identical to Python.
+    data = {
+        "side_left": attr.SIDE_LEFT, "side_right": attr.SIDE_RIGHT,
+        "dir_front": attr.DIRECTION_FRONT, "dir_rear": attr.DIRECTION_REAR,
+        "loc_inner": attr.LOCATION_INNER, "loc_outer": attr.LOCATION_OUTER,
+    }
     return json.dumps(data, ensure_ascii=False, separators=(",", ":"))
 
 
@@ -135,12 +155,12 @@ TEMPLATE = r'''<!doctype html>
   </header>
 
   <div class="card">
-    <label for="phrase">Запрос клиента <span class="hint">(нормализованная фраза от Seller-модели)</span></label>
-    <input type="text" id="phrase" placeholder="напр. emblema" autocomplete="off">
+    <label for="phrase">Запрос клиента <span class="hint">(что ищет клиент — фраза или слово)</span></label>
+    <input type="text" id="phrase" placeholder="напр. amortizator" autocomplete="off">
     <div class="examples" id="examples"></div>
 
     <div style="margin-top:16px">
-      <label for="raw">Сырой текст клиента <span class="hint">(необязательно — для стороны/позиции)</span></label>
+      <label for="raw">Сырой текст клиента <span class="hint">(необязательно — сторона / позиция / расположение берутся отсюда)</span></label>
       <input type="text" id="raw" placeholder="напр. sol qabaq" autocomplete="off">
     </div>
 
@@ -163,9 +183,10 @@ TEMPLATE = r'''<!doctype html>
       <b>Слой 2 — деталь.</b> Как категория известна, матчер ищет деталь <b>только внутри неё</b>
       (точное имя → синоним группы → near-match ≥ порога). Одна деталь → дальше; несколько →
       <b>вопрос кнопками</b>; ничего → «не найдено».<br><br>
-      <b>Атрибуты.</b> У детали спрашиваются <b>только</b> те флаги (сторона / позиция), что у неё
-      <code>true</code> и не найдены в тексте — тоже кнопками. Если флаг <code>false</code> — не спрашиваем.<br><br>
+      <b>Атрибуты.</b> У детали спрашиваются <b>только</b> те флаги (сторона / позиция / расположение),
+      что у неё <code>true</code> и не найдены в тексте — тоже кнопками. Если флаг <code>false</code> — не спрашиваем.<br><br>
       Никакого угадывания: на каждом шаге либо уверенность, либо ровно один вопрос.
+      В конце — <b>готовый JSON заполняется сам</b>.
     </p>
   </details>
 
@@ -179,6 +200,12 @@ const DATA = __DATA__;
 const CATIDX = __CATIDX__;
 </script>
 <script>
+const HEADPARTS = __HEADPARTS__;
+</script>
+<script>
+const ATTRKW = __ATTRKW__;
+</script>
+<script>
 /* ---- normalization (mirrors slovar_matcher/normalize.py) ---- */
 const AZ_MAP={'İ':'i','I':'ı','Ə':'ə','Ç':'ç',
   'Ş':'ş','Ğ':'ğ','Ö':'ö','Ü':'ü'};
@@ -187,16 +214,31 @@ const TOKEN_RE=/[0-9a-zçğıəöüşЀ-ӿ]+/g;
 function tokens(s){return azLower(s).match(TOKEN_RE)||[];}
 function normalize(s){return tokens(s).join(' ');}  // drops punctuation/symbols
 
-/* ---- attribute keyword sets (mirrors slovar_matcher/attributes.py) ---- */
-const SIDE_LEFT=new Set(["sol","sola","soldan","soldakı","soldaki","left","lh","лево","левый","левая","левое","левых","левого","слева"]);
-const SIDE_RIGHT=new Set(["sağ","sag","sağa","sağdan","sagdan","sağdakı","sagdaki","right","rh","право","правый","правая","правое","правых","правого","справа"]);
-const POS_FRONT=new Set(["ön","öndeki","öndəki","önki","qabaq","qabağ","qabaqdakı","qabaqdaki","qabağdakı","front","fr","перед","передний","передняя","переднее","передних","переднего","спереди","speredi"]);
-const POS_REAR=new Set(["arxa","arxadakı","arxadaki","arxadan","arxadaku","rear","back","зад","задний","задняя","заднее","задних","заднего","сзади"]);
-function detect(text,L,R,lv,rv){const t=new Set(tokens(text));let l=false,r=false;
-  for(const x of t){if(L.has(x))l=true;if(R.has(x))r=true;}
+/* ---- attribute keyword detection (mirrors slovar_matcher/attributes.py) ---- */
+/* keyword lists come inlined from Python (ATTRKW) — single source of truth */
+function prepKw(words){const singles=new Set(),phrases=[];
+  for(const w of words){const t=tokens(w);if(!t.length)continue;
+    t.length===1?singles.add(t[0]):phrases.push(t);}
+  return[singles,phrases];}
+const [LEFT_S,LEFT_P]=prepKw(ATTRKW.side_left);
+const [RIGHT_S,RIGHT_P]=prepKw(ATTRKW.side_right);
+const [FRONT_S,FRONT_P]=prepKw(ATTRKW.dir_front);
+const [REAR_S,REAR_P]=prepKw(ATTRKW.dir_rear);
+const [INNER_S,INNER_P]=prepKw(ATTRKW.loc_inner);
+const [OUTER_S,OUTER_P]=prepKw(ATTRKW.loc_outer);
+function phrasePresent(toks,phrases){for(const ph of phrases){const n=ph.length;
+  for(let i=0;i+n<=toks.length;i++){let ok=true;
+    for(let j=0;j<n;j++)if(toks[i+j]!==ph[j]){ok=false;break;}
+    if(ok)return true;}}return false;}
+function present(toks,singles,phrases){
+  for(const t of toks) if(singles.has(t)) return true;
+  return phrasePresent(toks,phrases);}
+function detectAttr(text,ls,lp,rs,rp,lv,rv){const t=tokens(text);
+  const l=present(t,ls,lp),r=present(t,rs,rp);
   if(l&&r)return lv+","+rv;if(l)return lv;if(r)return rv;return null;}
-const detectSide=t=>detect(t,SIDE_LEFT,SIDE_RIGHT,"sol","sağ");
-const detectPosition=t=>detect(t,POS_FRONT,POS_REAR,"ön","arxa");
+const detectSide=t=>detectAttr(t,LEFT_S,LEFT_P,RIGHT_S,RIGHT_P,"sol","sağ");
+const detectDirection=t=>detectAttr(t,FRONT_S,FRONT_P,REAR_S,REAR_P,"ön","arxa");
+const detectLocation=t=>detectAttr(t,INNER_S,INNER_P,OUTER_S,OUTER_P,"daxili","xarici");
 
 /* ---- similarity (mirrors slovar_matcher/normalize.py) ---- */
 function lev(a,b){const m=a.length,n=b.length;if(!m)return n;if(!n)return m;
@@ -218,8 +260,27 @@ function fuzzyRefs(key,index,threshold){let best=0;const hits=[];
     for(const r of index[k]) if(!refs.includes(r)) refs.push(r);
   return[best,refs];}
 function noMatch(){return{status:"no_match",part_id:null,name_ru:null,name_az:null,category:null,
-  subcategory:null,attributes:{side:null,position:null},needs_clarification:[],candidates:[]};}
+  subcategory:null,attributes:{side:null,direction:null,location:null},needs_clarification:[],candidates:[]};}
 function match(phrase,raw,threshold,restrict){
+  const r=matchCore(phrase,raw,threshold,restrict);
+  // Head-part layer: refine an ambiguous group hit into its default/qualifier part.
+  if(r.status==="ambiguous"){const h=resolveHeadPart(phrase,raw,restrict);if(h)return h;}
+  return r;
+}
+function resolveHeadPart(phrase,raw,restrict){
+  const key=normalize(phrase);const rule=HEADPARTS[key];if(!rule)return null;
+  const toks=tokens([phrase,raw].filter(Boolean).join(" "));
+  let target=null;
+  for(const q of rule.qualifiers){
+    for(const kw of q.keywords){ if(toks.some(t=>t.indexOf(kw)>=0)){target=q.part_id;break;} }
+    if(target!==null)break;
+  }
+  if(target===null)target=rule.default;
+  const p=DATA.parts[target];if(!p)return null;
+  if(restrict!=null&&p.category!==restrict)return null;
+  return single(target,phrase,raw,1.0);
+}
+function matchCore(phrase,raw,threshold,restrict){
   if(threshold==null)threshold=DEFAULT_THRESHOLD;
   const key=normalize(phrase);
   const nameHit=DATA.name_index[key];
@@ -241,15 +302,16 @@ function build(ids,phrase,raw,score,restrict){
   return ids.length===1?single(ids[0],phrase,raw,score):ambiguous(ids,score);}
 function single(pid,phrase,raw,score){const p=DATA.parts[pid];
   const space=[phrase,raw].filter(Boolean).join(" ");
-  const attributes={side:null,position:null};const needs=[];
+  const attributes={side:null,direction:null,location:null};const needs=[];
   if(p.side){const s=detectSide(space);s?attributes.side=s:needs.push("side");}
-  if(p.position){const s=detectPosition(space);s?attributes.position=s:needs.push("position");}
+  if(p.direction){const s=detectDirection(space);s?attributes.direction=s:needs.push("direction");}
+  if(p.location){const s=detectLocation(space);s?attributes.location=s:needs.push("location");}
   return{status:"single_match",part_id:pid,name_ru:p.name_ru,name_az:p.name_az,
     category:p.category,subcategory:p.subcategory,attributes,needs_clarification:needs,
     candidates:[],match_score:score};
 }
 function ambiguous(ids,score){return{status:"ambiguous",part_id:null,name_ru:null,name_az:null,
-  category:null,subcategory:null,attributes:{side:null,position:null},needs_clarification:[],
+  category:null,subcategory:null,attributes:{side:null,direction:null,location:null},needs_clarification:[],
   candidates:ids.map(i=>({part_id:i,name_ru:DATA.parts[i].name_ru,name_az:DATA.parts[i].name_az})),
   match_score:score};}
 
@@ -307,7 +369,7 @@ function start(){
   const phrase=$("#phrase").value.trim(); if(!phrase)return;
   let th=parseFloat($("#threshold").value); if(isNaN(th))th=0.90;
   S={phrase,raw:$("#raw").value.trim(),threshold:th,category:null,part:null,
-     attributes:{side:null,position:null},pendingNeeds:[],transcript:[],current:null};
+     attributes:{side:null,direction:null,location:null},pendingNeeds:[],transcript:[],current:null};
   line('🔎 Запрос: <b>'+esc(phrase)+'</b>'+(S.raw?' <span class=muted>· сырой текст: «'+esc(S.raw)+'»</span>':''));
   stepCategory();
 }
@@ -348,22 +410,24 @@ function stepDetail(){
 
 function selectPart(pid,score){
   const res=single(pid,S.phrase,S.raw,score==null?1.0:score);
-  S.part=res; S.attributes={side:res.attributes.side,position:res.attributes.position};
+  S.part=res; S.attributes={side:res.attributes.side,direction:res.attributes.direction,location:res.attributes.location};
   S.pendingNeeds=res.needs_clarification.slice();
   line('② Деталь: <span class="pid">'+esc(res.part_id)+'</span> — <b>'+esc(res.name_ru)+'</b>'+
     (res.match_score<0.9999?' <span class=muted>(≈ '+pct(res.match_score)+')</span>':''));
   // auto-filled attributes (found in raw text) reported as facts, not questions
-  ["side","position"].forEach(k=>{ if(S.attributes[k]) line('③ '+attrLabel(k)+' найдено в тексте: <b>'+esc(S.attributes[k])+'</b>'); });
+  ["side","direction","location"].forEach(k=>{ if(S.attributes[k]) line('③ '+attrLabel(k)+' найдено в тексте: <b>'+esc(S.attributes[k])+'</b>'); });
   S.current=null; askNext();
 }
 
-const attrLabel=k=>k==="side"?"Сторона":"Позиция";
+const attrLabel=k=>k==="side"?"Сторона":k==="direction"?"Позиция":"Расположение";
+const attrQuestion=k=>k==="side"?"С какой стороны?":k==="direction"?"Перёд или зад?":"Внутренний или наружный?";
 function askNext(){
   if(!S.pendingNeeds.length){ renderFinal(); return; }
   const need=S.pendingNeeds[0];
-  let h='<div class="qblock"><div class="q">③ ❓ '+(need==="side"?"С какой стороны?":"Перёд или зад?")+'</div><div class="chips">';
+  let h='<div class="qblock"><div class="q">③ ❓ '+attrQuestion(need)+'</div><div class="chips">';
   if(need==="side"){ h+=chip("side","sol","Sol (лев.)")+chip("side","sağ","Sağ (прав.)")+chip("side","sol,sağ","Hər ikisi (обе)"); }
-  else { h+=chip("pos","ön","Ön (перёд)")+chip("pos","arxa","Arxa (зад)"); }
+  else if(need==="direction"){ h+=chip("dir","ön","Ön (перёд)")+chip("dir","arxa","Arxa (зад)"); }
+  else { h+=chip("loc","daxili","Daxili (внутр.)")+chip("loc","xarici","Xarici (наружн.)"); }
   h+='</div></div>'; S.current=h; draw();
 }
 function answerAttr(kind,val){
@@ -374,8 +438,13 @@ function answerAttr(kind,val){
 
 function renderFinal(){
   const p=S.part, a=S.attributes;
-  const final={category:p.category,subcategory:p.subcategory,part_id:p.part_id,
-    name_ru:p.name_ru,name_az:p.name_az,attributes:a,match_score:p.match_score};
+  // The auto-filled reference object — the same schema the pipeline uses.
+  // Fields the matcher does not decide stay null; the rest are filled here.
+  const final={shop:null,brand:null,model:null,year:null,engine_type:null,engine_volume:null,
+    part_name:S.phrase,part_id:p.part_id,category:p.category,subcategory:p.subcategory,
+    side:a.side,direction:a.direction,location:a.location,
+    condition:null,oem_code:null,original_price:null,aftermarket_price:null,
+    raw:S.raw||null};
   let h='<div class="final"><h3>✔ Деталь собрана</h3><dl class="kv">'+
     '<dt>Категория</dt><dd>'+esc(p.category)+'</dd>'+
     '<dt>Подкатегория</dt><dd>'+esc(p.subcategory)+'</dd>'+
@@ -383,8 +452,9 @@ function renderFinal(){
     '<dt>Название (RU)</dt><dd>'+esc(p.name_ru)+'</dd>'+
     '<dt>Название (AZ)</dt><dd>'+esc(p.name_az)+'</dd>'+
     '<dt>Сторона</dt><dd>'+(a.side?esc(a.side):'<span class=muted>— (не требуется)</span>')+'</dd>'+
-    '<dt>Позиция</dt><dd>'+(a.position?esc(a.position):'<span class=muted>— (не требуется)</span>')+'</dd>'+
-    '</dl><details><summary>JSON</summary><pre>'+esc(JSON.stringify(final,null,2))+'</pre></details>'+
+    '<dt>Позиция</dt><dd>'+(a.direction?esc(a.direction):'<span class=muted>— (не требуется)</span>')+'</dd>'+
+    '<dt>Расположение</dt><dd>'+(a.location?esc(a.location):'<span class=muted>— (не требуется)</span>')+'</dd>'+
+    '</dl><details open><summary>Заполненный JSON</summary><pre>'+esc(JSON.stringify(final,null,2))+'</pre></details>'+
     '<div class="chips" style="margin-top:12px">'+chip("restart","","↻ Новый подбор")+'</div></div>';
   S.current=h; draw();
 }
@@ -399,7 +469,8 @@ $("#dialog").addEventListener("click",e=>{
   else if(act==="part-other"){ line('② Другое — уточните название в поле выше и нажмите «Начать».');
     S.current='<div class="qblock"><div class="chips">'+chip("restart","","↻ Заново")+'</div></div>'; draw(); $("#phrase").focus(); }
   else if(act==="side"){ answerAttr("side",val); }
-  else if(act==="pos"){ answerAttr("position",val); }
+  else if(act==="dir"){ answerAttr("direction",val); }
+  else if(act==="loc"){ answerAttr("location",val); }
   else if(act==="restart"){ S=null; $("#dialog").style.display="none"; $("#phrase").focus(); }
 });
 
@@ -425,7 +496,9 @@ def export_category_index() -> str:
 def main() -> None:
     out = (TEMPLATE
            .replace("__DATA__", export_data())
-           .replace("__CATIDX__", export_category_index()))
+           .replace("__CATIDX__", export_category_index())
+           .replace("__HEADPARTS__", export_head_parts())
+           .replace("__ATTRKW__", export_attr_keywords()))
     path = os.path.join(HERE, "matcher_tool.html")
     with open(path, "w", encoding="utf-8") as f:
         f.write(out)
