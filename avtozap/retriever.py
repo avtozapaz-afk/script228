@@ -1,413 +1,202 @@
-"""Retriever V2 — кандидаты ТОЛЬКО из словаря, ничего не выдумывается.
+"""Retriever V2 — адаптер над поставленной реализацией проекта.
 
-Каждый кандидат — реальный ``part_id`` из ``SLOVAR_FINAL.txt``; ретривер лишь
-находит уже существующие записи и никогда не порождает новые.
+Алгоритм поиска здесь НЕ переписан: за него отвечает
+``vendor/retriever_v2/avtozap_retriever_v2.py`` — код проекта, перенесённый в
+репозиторий как есть (правились только пути к файлам). Этот модуль:
 
-Как ищем
---------
-Запрос раскладывается на несколько «ключей»: полная нормализованная фраза и она
-же без служебных слов (сторона/позиция/количество/вежливость/марка авто). Для
-каждого ключа токены мягко сопоставляются со словарной лексикой (см.
-``_match_token``): точное совпадение, опечатка, согласный скелет
-(``tormuz`` ≡ ``tormoz``) или общий префикс (``qutusunun`` ≈ ``qutusu``).
-Кириллические записи предварительно транслитерируются, поэтому «tormuz disk»
-достаёт и «тормозной диск».
+* приводит его вывод к типам конвейера (``Candidate`` / ``RetrieverResult``),
+  добавляя из словаря 541 имена, категорию и синонимы;
+* даёт слоям выше три справки, которые им нужны от словаря:
+  ``head_codes`` (точная «голова» предмета), ``is_exact_key`` и
+  ``lexical_support`` (есть ли у выбранной детали опора в тексте запроса).
 
-Причины (``reason``) кандидата, по убыванию доверия::
+Дополнительный проход по именам листьев словаря здесь был и был удалён: на
+реальном fresh-300 он не изменил ни полноту, ни ранги (см. README_TEST.md,
+раздел о согласовании с поставленным V2). Держать код, который ничего не даёт,
+дороже, чем удалить его.
 
-    exact_name           1.00   фраза == вариант имени детали
-    exact_synonym        0.95   фраза == синоним листа → все детали листа
-    name_containment     0.70+  все токены имени покрыты запросом (или наоборот)
-    synonym_containment  0.66+  то же для синонима листа
-    fuzzy_name/synonym   =sim   опечатка в целой фразе
-    token_overlap        0.40+  частичное покрытие значимых токенов
-
-Полнота здесь важнее краткости: пропущенный ретривером правильный кандидат
-арбитр уже не спасёт, поэтому список намеренно шире одного «лучшего» ответа.
+Кандидатом может стать только реальный код словаря: список кодов приходит от
+поставленного ретривера, а метаданные — из словаря 541.
 """
 
 from __future__ import annotations
 
-import os
-import re
-from dataclasses import dataclass
-
-from slovar_matcher.normalize import normalize, similarity, tokens
-from slovar_matcher.parser import Dictionary, name_variants, parse_file
-
-from .config import (
-    CONJUNCTIONS,
-    NOISE_WORDS,
-    POSITION_WORDS,
-    QUANTITY_WORDS,
-    RETRIEVER_FUZZY_THRESHOLD,
-    RETRIEVER_MIN_SCORE,
-    RETRIEVER_TOP_K,
-    SIDE_WORDS,
-    SLOVAR_PATH,
-    VEHICLE_BRANDS,
-)
-from .translit import common_prefix_len, fold, skeleton
+from .config import RETRIEVER_LIMIT as DEFAULT_LIMIT
+from .dictionary import Dictionary, Part, _ensure_vendor_on_path, load, normalize
 from .types import Candidate, RetrieverResult
 
-STOPWORDS = SIDE_WORDS | POSITION_WORDS | QUANTITY_WORDS | NOISE_WORDS | CONJUNCTIONS
 
-_EXACT_NAME = 1.00
-_EXACT_SYNONYM = 0.95
-_EXACT_LEAF = 0.90
-
-#: Базовый вес ключа по его происхождению (имя детали > синоним листа > имя листа).
-_BASE = {"name": 0.70, "synonym": 0.66, "leaf": 0.62}
-
-#: Порог мягкого совпадения ДВУХ ТОКЕНОВ (не целых фраз).
-TOKEN_MATCH_THRESHOLD = 0.75
-_SKELETON_SCORE = 0.85
-_PREFIX_SCORE = 0.78
-_MIN_PREFIX = 4
-_MIN_SKELETON = 3
-
-_PARENS_RE = re.compile(r"\([^)]*\)")
-
-#: Кривая для частичного покрытия токенов. Наклон намеренно крутой: одно слабое
-#: совпадение по модификатору не должно протаскивать в список весь лист словаря
-#: (синонимы групповые — один хит расходится на все детали листа).
-_OVERLAP_FLOOR = 0.25
-_OVERLAP_SPAN = 0.60
-
-#: Вес последнего («головного») токена фразы относительно остальных.
-_HEAD_WEIGHT = 2.0
-
-
-def _weighted_cover(items, score_of) -> float:
-    """Средняя сила совпадения по токенам с двойным весом последнего."""
-    total = 0.0
-    weight_sum = 0.0
-    last = len(items) - 1
-    for i, item in enumerate(items):
-        weight = _HEAD_WEIGHT if i == last else 1.0
-        total += weight * score_of(item)
-        weight_sum += weight
-    return total / weight_sum if weight_sum else 0.0
-
-
-def strip_stopwords(text: str, drop_brands: bool = True) -> str:
-    """Нормализованная фраза без атрибутов/шума (и, опционально, марок авто)."""
-    out = []
-    for tok in tokens(text):
-        if tok in STOPWORDS:
-            continue
-        if drop_brands and tok in VEHICLE_BRANDS:
-            continue
-        if tok.isdigit():
-            continue
-        out.append(tok)
-    return " ".join(out)
-
-
-def content_tokens(text: str) -> list[str]:
-    """Значимые токены запроса — то, что реально описывает предмет."""
-    return [t for t in tokens(text)
-            if t not in STOPWORDS and t not in VEHICLE_BRANDS and not t.isdigit()]
-
-
-def match_token(a: str, b: str) -> float:
-    """Мягкое совпадение двух токенов в [0, 1]; 0 — не совпали.
-
-    Порядок сигналов: точное равенство → свёрнутое равенство (диакритика и
-    кириллица) → опечатка → согласный скелет → общий префикс (агглютинативные
-    окончания азербайджанского: ``yastıqları`` ≈ ``yastığı``).
-    """
-    if a == b:
-        return 1.0
-    fa, fb = fold(a), fold(b)
-    if fa == fb:
-        return 1.0
-    sim = similarity(fa, fb)
-    best = sim if sim >= TOKEN_MATCH_THRESHOLD else 0.0
-    sa, sb = skeleton(a), skeleton(b)
-    if len(sa) >= _MIN_SKELETON and sa == sb:
-        best = max(best, _SKELETON_SCORE)
-    shorter = min(len(fa), len(fb))
-    if shorter >= _MIN_PREFIX and common_prefix_len(a, b) >= min(_MIN_PREFIX, shorter):
-        best = max(best, _PREFIX_SCORE)
-    return best if best >= TOKEN_MATCH_THRESHOLD else 0.0
-
-
-def _leaf_variants(leaf_name: str) -> set[str]:
-    """Варианты имени листа для индекса.
-
-    Берём варианты по общему правилу словаря плюс — в отличие от имён деталей —
-    «очищенный» ствол без скобок: ``Əyləc altlıqları (nakladkalar)`` →
-    ``əyləc altlıqları``. Для имени детали такое расширение запрещено (оно
-    превратило бы групповую двусмысленность в единственное совпадение), но имя
-    листа и так групповой ключ, поэтому здесь оно только добавляет полноты.
-    """
-    variants = set(name_variants(leaf_name))
-    stem = _PARENS_RE.sub(" ", leaf_name)
-    for chunk in stem.split("/"):
-        chunk = chunk.strip()
-        if chunk:
-            variants.add(chunk)
-    return {v for v in variants if v.strip()}
-
-
-@dataclass
-class _Hit:
-    score: float
-    reason: str
+def _vendor_retriever():
+    _ensure_vendor_on_path()
+    from avtozap_retriever_v2 import RetrieverV2 as _Vendor
+    return _Vendor
 
 
 class RetrieverV2:
-    def __init__(self, dictionary: Dictionary,
-                 top_k: int = RETRIEVER_TOP_K,
-                 min_score: float = RETRIEVER_MIN_SCORE,
-                 fuzzy_threshold: float = RETRIEVER_FUZZY_THRESHOLD):
-        self.dict = dictionary
-        self.top_k = top_k
-        self.min_score = min_score
-        self.fuzzy_threshold = fuzzy_threshold
-        self._build_index()
-        self._expand_cache: dict[str, dict[str, float]] = {}
+    def __init__(self, limit: int = DEFAULT_LIMIT,
+                 dictionary: Dictionary | None = None):
+        self.dict = dictionary or load()
+        self.limit = limit
+        self._vendor = _vendor_retriever()()
+        self._known_words = {tok for term in self.dict.term_index
+                             for tok in term.split() if len(tok) >= 2}
 
+    # Совместимость с прежним конструктором конвейера.
     @classmethod
-    def from_file(cls, path: str = SLOVAR_PATH, **kw) -> "RetrieverV2":
-        if not os.path.exists(path):
-            raise FileNotFoundError(f"словарь не найден: {path}")
-        return cls(parse_file(path), **kw)
-
-    def _build_index(self) -> None:
-        """Единый поисковый индекс: имена деталей + синонимы + ИМЕНА ЛИСТЬЕВ.
-
-        Имена листьев (подкатегорий) — такая же реальная структура словаря, как
-        имена деталей, и покупатели пишут именно их: «əyləc altlığı» — это лист
-        ``Əyləc altlıqları (nakladkalar)``. Без них целый класс запросов
-        пролетал мимо правильной группы, поэтому лист индексируется как
-        групповой ключ (как синоним), но с чуть меньшим базовым весом.
-        """
-        # index_key -> {kind: [part_id, ...]}
-        self._refs: dict[str, dict[str, list[str]]] = {}
-        self._key_tokens: dict[str, tuple[str, ...]] = {}
-        self._postings: dict[str, list[str]] = {}
-        self._vocab: list[str] = []
-        seen_vocab: set[str] = set()
-
-        def register(index_key: str, kind: str, part_ids: list[str]) -> None:
-            toks = tuple(index_key.split())
-            if not toks or not part_ids:
-                return
-            self._key_tokens[index_key] = toks
-            bucket = self._refs.setdefault(index_key, {}).setdefault(kind, [])
-            for pid in part_ids:
-                if pid not in bucket:
-                    bucket.append(pid)
-            for tok in toks:
-                if tok not in seen_vocab:
-                    seen_vocab.add(tok)
-                    self._vocab.append(tok)
-                posting = self._postings.setdefault(tok, [])
-                if index_key not in posting:
-                    posting.append(index_key)
-
-        for index_key, pids in self.dict.name_index.items():
-            register(index_key, "name", list(pids))
-        for index_key, codes in self.dict.synonym_index.items():
-            register(index_key, "synonym", self._group_ids(list(codes)))
-        for code, group in self.dict.groups.items():
-            for variant in sorted(_leaf_variants(group.subcategory)):
-                register(normalize(variant), "leaf", list(group.part_ids))
+    def from_file(cls, path: str | None = None, limit: int = DEFAULT_LIMIT,
+                  **_ignored) -> "RetrieverV2":
+        return cls(limit=limit)
 
     # ── публичный API ───────────────────────────────────────────────────────
-    def retrieve(self, item_raw: str, restrict_category: str | None = None,
+    def retrieve(self, item_raw: str, search_phrases: list[str] | None = None,
                  extra_hints: list[str] | None = None) -> RetrieverResult:
-        keys = self._query_keys(item_raw, extra_hints)
-        if not keys:
-            return RetrieverResult(status="EMPTY",
-                                   reason="пустой запрос после нормализации",
-                                   query_keys=[])
+        """Кандидаты по атомарному предмету.
 
-        best: dict[str, _Hit] = {}
-        for key in keys:
-            for pid, hit in self._hits_for_key(key).items():
-                cur = best.get(pid)
-                if cur is None or hit.score > cur.score:
-                    best[pid] = hit
+        ``search_phrases`` — подсказки сегментера (Layer 0), ``extra_hints`` —
+        слова со слоя фото. И то и другое лишь расширяет поиск: итоговые коды
+        всё равно приходят только от ретривера и только из словаря.
+        """
+        queries = [item_raw]
+        for extra in list(search_phrases or []) + list(extra_hints or []):
+            if extra and extra not in queries:
+                queries.append(extra)
+
+        best: dict[str, tuple[float, str]] = {}
+        used: list[str] = []
+        for query in queries:
+            if not normalize(query):
+                continue
+            used.append(query)
+            for hit in self._vendor.retrieve_codes(query, limit=self.limit):
+                current = best.get(hit.code)
+                if current is None or hit.score > current[0]:
+                    best[hit.code] = (hit.score, hit.reason)
+
+        if not used:
+            return RetrieverResult(status="EMPTY", query_keys=[],
+                                   reason="пустой запрос после нормализации")
 
         candidates: list[Candidate] = []
-        for pid, hit in best.items():
-            if hit.score < self.min_score:
+        for code, (score, reason) in best.items():
+            part = self.dict.get(code)
+            if part is None:
+                # Ретривер не может выдать код вне словаря, но если это
+                # случится — молча пропускаем, а не выдумываем деталь.
                 continue
-            part = self.dict.parts[pid]
-            if restrict_category and part.category != restrict_category:
-                continue
-            candidates.append(Candidate(
-                part_id=pid,
-                name_ru=part.name_ru,
-                name_az=part.name_az,
-                category=part.category,
-                subcategory=part.subcategory,
-                leaf_code=part.leaf_code,
-                score=round(hit.score, 4),
-                reason=hit.reason,
-            ))
+            candidates.append(_candidate(part, score, reason))
 
-        # Детерминированный порядок: score ↓, затем part_id ↑.
-        candidates.sort(key=lambda c: (-c.score, c.part_id))
-        candidates = candidates[: self.top_k]
-
+        candidates.sort(key=lambda c: (-c.score, c.external_code))
+        candidates = candidates[: self.limit]
         if not candidates:
-            return RetrieverResult(status="EMPTY",
-                                   reason="в словаре нет кандидатов выше min_score",
-                                   query_keys=keys)
-        return RetrieverResult(candidates=candidates, status="OK",
-                               reason=f"{len(candidates)} кандидат(ов)",
-                               query_keys=keys)
+            return RetrieverResult(status="EMPTY", query_keys=used,
+                                   reason="ретривер не нашёл кандидатов в словаре")
+        return RetrieverResult(candidates=candidates, status="OK", query_keys=used,
+                               reason=f"{len(candidates)} кандидат(ов)")
 
-    def head_part_ids(self, item_raw: str) -> list[str]:
-        """Точная «голова» предмета: только exact name/synonym, без догадок.
+    def head_codes(self, item_raw: str) -> list[str]:
+        """Точная «голова» предмета: только полное совпадение термина словаря.
 
-        Нужна Layer 0 (слияние одинаковых предметов) и OEM-резолверу (сравнение
-        текстового объекта с объектом по номеру) — ещё ДО работы ретривера.
+        Используется Layer 0 (слияние одной детали в разных позициях) и
+        OEM-резолвером (сравнение объекта по тексту с объектом по номеру) —
+        ещё до работы ретривера. Никаких догадок: либо термин есть, либо нет.
         """
-        for key in self._query_keys(item_raw, None):
-            pids = self.dict.name_index.get(key)
-            if pids:
-                return list(pids)
-            codes = self.dict.synonym_index.get(key)
+        for key in _query_keys(item_raw):
+            codes = self.dict.exact_codes(key)
             if codes:
-                return self._group_ids(codes)
+                return codes
         return []
 
-    def is_exact_key(self, phrase: str) -> bool:
-        """Есть ли такая точная запись (имя или синоним) в словаре."""
-        key = normalize(phrase)
-        return bool(key) and (key in self.dict.name_index or key in self.dict.synonym_index)
+    def is_known_word(self, word: str) -> bool:
+        """Знает ли словарь такое слово хотя бы в одном термине.
 
-    def lexical_support(self, item_raw: str, part_id: str) -> bool:
-        """Есть ли у выбранной детали текстовая опора в запросе.
-
-        True, если хотя бы один значимый токен запроса мягко совпадает с
-        каким-либо токеном имён детали, её подкатегории или синонимов её листа.
-        Валидатор использует это против «выбрал родителя/соседа вместо детали».
+        Layer 0 спрашивает это перед тем, как вырезать токен как марку авто:
+        слово из словаря запчастей не вырезается никогда.
         """
-        part = self.dict.parts.get(part_id)
-        if part is None:
-            return False
-        vocabulary: set[str] = set()
-        for name in (part.name_ru, part.name_az, part.subcategory):
-            vocabulary |= set(normalize(name).split())
-        for syn in self.dict.groups[part.leaf_code].synonyms:
-            vocabulary |= set(syn.split())
+        key = normalize(word)
+        return bool(key) and key in self._known_words
 
-        for tok in content_tokens(item_raw):
+    def is_exact_key(self, phrase: str) -> bool:
+        """Есть ли такой точный термин в словаре."""
+        key = normalize(phrase)
+        return bool(key) and bool(self.dict.exact_codes(key))
+
+    def lexical_support(self, item_raw: str, code: str) -> bool:
+        """Есть ли у выбранной детали опора в словах запроса.
+
+        True, если хотя бы одно значимое слово запроса встречается среди имён,
+        категории или синонимов детали — точно, с опечаткой или с поправкой на
+        азербайджанские окончания. Валидатор использует это против «выбрал
+        родителя или соседа вместо запрошенной детали».
+        """
+        vocabulary = self.dict.vocabulary(code)
+        if not vocabulary:
+            return False
+        for token in content_tokens(item_raw):
             for word in vocabulary:
-                if match_token(tok, word) > 0:
+                if _tokens_match(token, word):
                     return True
         return False
 
-    # ── внутреннее ──────────────────────────────────────────────────────────
-    def _query_keys(self, item_raw: str, extra_hints: list[str] | None) -> list[str]:
-        keys: list[str] = []
 
-        def add(k: str) -> None:
-            if k and k not in keys:
-                keys.append(k)
+def _candidate(part: Part, score: float, reason: str) -> Candidate:
+    return Candidate(
+        external_code=part.external_code,
+        name_ru=part.name_ru,
+        name_az=part.name_az,
+        category=part.category,
+        synonyms=list(part.synonyms[:12]),
+        score=round(float(score), 4),
+        reason=reason[:300],
+    )
 
-        add(normalize(item_raw))
-        add(strip_stopwords(item_raw, drop_brands=True))
-        add(strip_stopwords(item_raw, drop_brands=False))
-        for hint in extra_hints or []:
-            add(normalize(hint))
-        return keys
 
-    def _group_ids(self, leaf_codes: list[str]) -> list[str]:
-        ids: list[str] = []
-        for code in leaf_codes:
-            for pid in self.dict.groups[code].part_ids:
-                if pid not in ids:
-                    ids.append(pid)
-        return ids
+# ── работа со словами запроса ───────────────────────────────────────────────
+#: Слова, которые описывают не деталь, а её положение, количество или вежливость.
+MODIFIER_WORDS = {
+    "sol", "sag", "qabaq", "on", "arxa", "alt", "ust", "ic", "col", "daxili",
+    "xarici", "zbor", "komplekt", "tam", "original", "orjinal", "arginal",
+    "lazim", "lazimdi", "lazimdir", "eded", "tere", "teref", "terefi", "ucun",
+    "ve", "ile", "birlikde", "bir", "yerde", "surucu", "sernisin", "terefden",
+    "salam", "xahis", "edirem", "zehmet", "olmasa", "var", "varmi", "olar",
+    "olarmi", "qiymet", "qiymeti", "necedir", "nece", "please",
+    "здравствуйте", "привет", "нужен", "нужна", "нужно", "нужны", "есть",
+    "для", "пожалуйста", "спасибо", "цена", "сколько", "стоит", "и",
+    "левый", "правый", "передний", "задний", "перед", "зад", "лево", "право",
+}
 
-    def _expand(self, token: str) -> dict[str, float]:
-        """Словарные токены, мягко совпадающие с ``token`` → сила совпадения."""
-        cached = self._expand_cache.get(token)
-        if cached is not None:
-            return cached
-        matches: dict[str, float] = {}
-        for word in self._vocab:
-            score = match_token(token, word)
-            if score > 0:
-                matches[word] = score
-        self._expand_cache[token] = matches
-        return matches
 
-    def _hits_for_key(self, key: str) -> dict[str, _Hit]:
-        hits: dict[str, _Hit] = {}
+def content_tokens(text: str) -> list[str]:
+    """Значимые слова запроса — то, что описывает саму деталь."""
+    return [t for t in normalize(text).split()
+            if t not in MODIFIER_WORDS and not t.isdigit() and len(t) >= 2]
 
-        def put(pid: str, score: float, reason: str) -> None:
-            cur = hits.get(pid)
-            if cur is None or score > cur.score:
-                hits[pid] = _Hit(score, reason)
 
-        query_tokens = [t for t in key.split() if t]
-        if not query_tokens:
-            return hits
+def strip_modifiers(text: str) -> str:
+    return " ".join(content_tokens(text))
 
-        # 1) точное совпадение фразы целиком — максимальное доверие.
-        exact = self._refs.get(key, {})
-        for pid in exact.get("name", ()):
-            put(pid, _EXACT_NAME, "exact_name")
-        for pid in exact.get("synonym", ()):
-            put(pid, _EXACT_SYNONYM, "exact_synonym")
-        for pid in exact.get("leaf", ()):
-            put(pid, _EXACT_LEAF, "exact_leaf")
 
-        # 2) отбираем только словарные ключи, где есть хоть один общий токен.
-        expansions = {t: self._expand(t) for t in query_tokens}
-        candidate_keys: set[str] = set()
-        for matches in expansions.values():
-            for word in matches:
-                candidate_keys.update(self._postings.get(word, ()))
+def _query_keys(item_raw: str) -> list[str]:
+    keys: list[str] = []
+    for key in (normalize(item_raw), strip_modifiers(item_raw)):
+        if key and key not in keys:
+            keys.append(key)
+    return keys
 
-        for index_key in candidate_keys:
-            if index_key == key:
-                continue                      # уже учтён как точное совпадение
-            index_tokens = self._key_tokens[index_key]
 
-            # Покрытие в обе стороны, с весом на «голове» фразы: и азербайджанский,
-            # и русский здесь head-final («sürətlər qutusunun YASTIQLARI»,
-            # «подушка КОРОБКИ» — последнее слово несёт тип детали), поэтому
-            # совпадение по последнему токену весит вдвое против модификаторов.
-            index_cover = _weighted_cover(
-                index_tokens,
-                lambda itok: max((expansions[q].get(itok, 0.0) for q in query_tokens),
-                                 default=0.0))
-            query_cover = _weighted_cover(
-                query_tokens,
-                lambda q: max((expansions[q].get(itok, 0.0) for itok in index_tokens),
-                              default=0.0))
-            if index_cover <= 0.0 or query_cover <= 0.0:
-                continue
+def _tokens_match(a: str, b: str) -> bool:
+    """Совпадают ли два слова с поправкой на окончания и опечатки.
 
-            full_sim = similarity(key, index_key)
-            for kind, part_ids in self._refs[index_key].items():
-                base = _BASE[kind]
-                if index_cover >= 0.999 or query_cover >= 0.999:
-                    other = query_cover if index_cover >= 0.999 else index_cover
-                    score = base + 0.25 * other
-                    reason = f"{kind}_containment"
-                elif full_sim >= self.fuzzy_threshold:
-                    score = full_sim
-                    reason = f"fuzzy_{kind}"
-                else:
-                    # Гармоническое среднее: наказывает односторонние совпадения,
-                    # когда половина запроса осталась непокрытой.
-                    denom = index_cover + query_cover
-                    harmonic = (2 * index_cover * query_cover / denom) if denom else 0.0
-                    score = _OVERLAP_FLOOR + _OVERLAP_SPAN * harmonic
-                    reason = "token_overlap"
-
-                if score >= self.min_score - 1e-9:
-                    for pid in part_ids:
-                        put(pid, score, reason)
-
-        return hits
+    Морфологию берём у поставленного ретривера (та же функция ``stem_token``),
+    чтобы слои конвейера судили о словах одинаково.
+    """
+    if a == b:
+        return True
+    _ensure_vendor_on_path()
+    from avtozap_retriever_v2 import stem_token
+    if len(a) >= 4 and len(b) >= 4 and stem_token(a) == stem_token(b):
+        return True
+    from rapidfuzz import fuzz
+    shorter = min(len(a), len(b))
+    if shorter < 4:
+        return False
+    return fuzz.ratio(a, b) >= 88

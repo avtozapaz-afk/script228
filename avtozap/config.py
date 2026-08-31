@@ -10,6 +10,10 @@ DATA_DIR = os.path.join(ROOT, "data")
 OUT_DIR = os.path.join(ROOT, "out")
 PROMPT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "prompts")
 
+# Словарь на 541 деталь — единственный источник истины по external_code.
+SLOVAR_XLSX_PATH = os.path.join(DATA_DIR, "AVTOZAP_slovar_FINAL_541.xlsx")
+# Старый текстовый словарь репозитория (438 деталей) оставлен только для
+# ранее существовавшего slovar_matcher и в новом конвейере НЕ используется.
 SLOVAR_PATH = os.path.join(DATA_DIR, "SLOVAR_FINAL.txt")
 CATEGORY_INDEX_PATH = os.path.join(DATA_DIR, "category_index.json")
 # Необязательный каталог OEM-номеров. Его нет в поставке — пока файла нет,
@@ -18,15 +22,22 @@ OEM_CATALOG_PATH = os.path.join(DATA_DIR, "oem_catalog.json")
 
 ARBITER_PROMPT_PATH = os.path.join(PROMPT_DIR, "arbiter_v3.txt")
 ARBITER_PROMPT_SHA_PATH = os.path.join(PROMPT_DIR, "arbiter_v3.sha256")
+SEGMENTER_PROMPT_PATH = os.path.join(PROMPT_DIR, "segmenter_v1.txt")
+SEGMENTER_PROMPT_SHA_PATH = os.path.join(PROMPT_DIR, "segmenter_v1.sha256")
 
 # ── Retriever V2 ────────────────────────────────────────────────────────────
-RETRIEVER_TOP_K = 12
-RETRIEVER_MIN_SCORE = 0.45
-RETRIEVER_FUZZY_THRESHOLD = 0.80
+# limit=24. Выбран по замеру на реальном fresh-300 (scripts/measure_retriever.py):
+# именно при 24 наш shortlist совпадает со ссылочным из devset на 100%, то есть
+# воспроизводит эталонный прогон проекта один-в-один, и даёт лучшую полноту,
+# чем 16 (93.8% против 92.9% по old_external_code). Значение 32 добавляет ещё
+# 0.4 п.п., но перестаёт совпадать со ссылкой и удорожает каждый вызов арбитра.
+RETRIEVER_LIMIT = 24
 
 # ── Arbiter V3 ──────────────────────────────────────────────────────────────
-DEFAULT_ARBITER_MODEL = os.environ.get("AVTOZAP_ARBITER_MODEL", "gpt-4o")
-DEFAULT_VISION_MODEL = os.environ.get("AVTOZAP_VISION_MODEL", "gpt-4o")
+# Продуктовая модель проекта для всех LLM-стадий.
+DEFAULT_ARBITER_MODEL = os.environ.get("AVTOZAP_ARBITER_MODEL", "gpt-4.1-mini")
+DEFAULT_VISION_MODEL = os.environ.get("AVTOZAP_VISION_MODEL", "gpt-4.1-mini")
+DEFAULT_SEGMENTER_MODEL = os.environ.get("AVTOZAP_SEGMENTER_MODEL", "gpt-4.1-mini")
 DEFAULT_TEMPERATURE = 0.0
 DEFAULT_TIMEOUT_S = 60.0
 DEFAULT_MAX_RETRIES = 5
@@ -34,9 +45,10 @@ DEFAULT_BACKOFF_BASE_S = 2.0
 DEFAULT_BACKOFF_CAP_S = 60.0
 
 # ── Validator ───────────────────────────────────────────────────────────────
-# Точность важнее навязанной полноты: ниже этого порога уверенности SELECT
-# понижается до REVIEW, а не отдаётся как готовый ответ.
-MIN_CONFIDENCE_FOR_SELECT = 0.45
+# Точность важнее навязанной полноты. Промпт V3 отдаёт уверенность словом,
+# поэтому порог — множество уровней, которые считаются достаточными для SELECT.
+# «low» сюда не входит: такой ответ понижается до REVIEW.
+ACCEPTED_CONFIDENCE = {"high", "medium"}
 
 # ── служебные слова ─────────────────────────────────────────────────────────
 # Разделители, по которым Layer 0 режет сообщение на фрагменты.
@@ -97,24 +109,54 @@ VEHICLE_BRANDS = {
 }
 
 
+def _normalized(words: set[str]) -> frozenset[str]:
+    """Привести набор служебных слов к нормализации словаря проекта.
+
+    ``na()`` снимает азербайджанскую диакритику, поэтому «ön» в тексте
+    становится «on», а «və» — «ve». Наборы выше записаны в читаемом виде, а
+    сравнивать их надо в той же форме, в какой приходят слова запроса.
+    """
+    from .dictionary import normalize
+    out: set[str] = set()
+    for word in words:
+        key = normalize(word)
+        if key:
+            out.update(key.split())
+    return frozenset(out)
+
+
+# Наборы в нормализованной форме — именно их используют слои конвейера.
+CONJUNCTIONS_NA = _normalized(CONJUNCTIONS)
+SIDE_WORDS_NA = _normalized(SIDE_WORDS)
+QUANTITY_WORDS_NA = _normalized(QUANTITY_WORDS)
+NOISE_WORDS_NA = _normalized(NOISE_WORDS)
+VEHICLE_BRANDS_NA = _normalized(VEHICLE_BRANDS)
+
+# «ön» после снятия диакритики совпадает с числительным «on» (10). Держим его
+# отдельно: как слово позиции оно засчитывается только тогда, когда рядом нет
+# счётного слова (см. layer0._position_words_in).
+AMBIGUOUS_FRONT = "on"
+POSITION_WORDS_NA = _normalized(POSITION_WORDS) | {AMBIGUOUS_FRONT}
+
+
 @dataclass
 class RunConfig:
     """Настройки одного прогона харнесса."""
 
     input_path: str
     out_dir: str = OUT_DIR
-    dict_path: str = SLOVAR_PATH
+    dict_path: str = SLOVAR_XLSX_PATH
     category_index_path: str = CATEGORY_INDEX_PATH
     oem_catalog_path: str = OEM_CATALOG_PATH
     model: str = DEFAULT_ARBITER_MODEL
+    segmenter_model: str = DEFAULT_SEGMENTER_MODEL
     vision_model: str = DEFAULT_VISION_MODEL
     temperature: float = DEFAULT_TEMPERATURE
     timeout_s: float = DEFAULT_TIMEOUT_S
     max_retries: int = DEFAULT_MAX_RETRIES
-    top_k: int = RETRIEVER_TOP_K
-    min_score: float = RETRIEVER_MIN_SCORE
-    min_confidence: float = MIN_CONFIDENCE_FOR_SELECT
+    limit: int = RETRIEVER_LIMIT
+    accepted_confidence: frozenset = frozenset(ACCEPTED_CONFIDENCE)
     mock: bool = False
     enable_photo: bool = False
-    limit: int | None = None
+    max_requests: int | None = None
     resume: bool = True

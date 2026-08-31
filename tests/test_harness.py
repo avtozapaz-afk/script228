@@ -59,9 +59,14 @@ def test_empty_input_fails_loudly(tmp_path):
         read_requests(str(path))
 
 
-def test_supplied_smoke_set_is_readable():
-    rows = read_requests(os.path.join("data", "sample_requests.jsonl"))
-    assert len(rows) >= 10 and all(r["original_text"] for r in rows)
+def test_the_real_fresh_300_input_is_readable():
+    """Реальные 300 свежих заявок читаются и содержат только сырой текст."""
+    rows = read_requests(os.path.join("data", "requests_300.jsonl"))
+    assert len(rows) == 300
+    assert all(r["original_text"].strip() for r in rows)
+    # Подсказки прежнего прогона на вход не попадают.
+    assert all(not {"item_raw", "candidates", "old_external_code"} & set(r)
+               for r in rows)
 
 
 # ── запись и возобновление ──────────────────────────────────────────────────
@@ -93,11 +98,11 @@ def test_done_keys_of_a_missing_file_are_empty(tmp_path):
 def test_csv_has_every_declared_column(tmp_path):
     record = {"rfq_id": "a", "item_index": 0, "original_text": "bufer",
               "retriever": {"status": "OK", "candidates": [
-                  {"part_id": "KZ-001", "name_ru": "Бампер", "score": 1.0,
-                   "reason": "exact_name"}]},
-              "arbiter": {"decision": "SELECT", "part_id": "KZ-001"},
+                  {"external_code": "KZ-001", "name_ru": "Бампер", "score": 0.999,
+                   "reason": "exact:bufer"}]},
+              "arbiter": {"decision": "select", "external_code": "KZ-001"},
               "validator": {"status": "PASS"},
-              "final_part_id": "KZ-001", "final_status": "SELECT"}
+              "final_external_code": "KZ-001", "final_status": "SELECT"}
     path = str(tmp_path / "out.csv")
     write_csv([record], path)
     text = open(path, encoding="utf-8-sig").read()
@@ -115,12 +120,12 @@ def test_flatten_survives_a_sparse_record():
 def _record(rfq, final_status, final_id=None, expected=None, candidates=()):
     return {
         "rfq_id": rfq, "item_index": 0, "final_status": final_status,
-        "final_part_id": final_id, "expected_part_id": expected,
+        "final_external_code": final_id, "expected_external_code": expected,
         "layer0_status": "OK", "failure_layer": "-",
         "oem": {"status": "NONE"}, "photo": {"status": "NO_IMAGE"},
         "retriever": {"status": "OK",
-                      "candidates": [{"part_id": c} for c in candidates]},
-        "arbiter": {"decision": "SELECT"}, "validator": {"status": "PASS"},
+                      "candidates": [{"external_code": c} for c in candidates]},
+        "arbiter": {"decision": "select"}, "validator": {"status": "PASS"},
     }
 
 
@@ -147,7 +152,7 @@ def test_summary_counts_a_retriever_miss():
 def test_summary_without_expectations_says_so():
     summary = build_summary([_record("a", "SELECT", "EY-001")], 1)
     assert summary["graded"] is None
-    assert "expected_part_id" in render_markdown(summary)
+    assert "expected_external_code" in render_markdown(summary)
 
 
 def test_markdown_renders_every_section():
@@ -160,8 +165,8 @@ def test_markdown_renders_every_section():
 def test_dry_run_needs_no_api_key(tmp_path, monkeypatch):
     monkeypatch.delenv("OPENAI_API_KEY", raising=False)
     assert run_test.main([
-        "--input", os.path.join("data", "sample_requests.jsonl"),
-        "--out-dir", str(tmp_path), "--dry-run", "--limit", "3"]) == 0
+        "--input", os.path.join("data", "requests_300.jsonl"),
+        "--out-dir", str(tmp_path), "--dry-run", "--max-requests", "3"]) == 0
 
 
 def test_missing_input_returns_an_error_code(tmp_path):

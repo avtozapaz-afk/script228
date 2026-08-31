@@ -74,7 +74,7 @@ def build_summary(records: list[dict[str, Any]],
         if not expected:
             continue
         graded_rfqs.append(rfq_id)
-        produced = {i.get("final_part_id") for i in items if i.get("final_part_id")}
+        produced = {i.get("final_external_code") for i in items if i.get("final_external_code")}
         statuses = {i.get("final_status") for i in items}
         ok = True
         for want in expected:
@@ -101,7 +101,7 @@ def build_summary(records: list[dict[str, Any]],
         items = by_rfq[rfq_id]
         available: set[str] = set()
         for i in items:
-            available |= {c.get("part_id")
+            available |= {c.get("external_code")
                           for c in ((i.get("retriever") or {}).get("candidates") or [])}
         for want in _expected_of(items):
             if want.upper() in {"UNKNOWN", "NONE", "-"}:
@@ -146,7 +146,7 @@ def build_summary(records: list[dict[str, Any]],
 def _expected_of(items: list[dict[str, Any]]) -> list[str]:
     """Эталонные ответы запроса (записаны одинаково во всех его предметах)."""
     for item in items:
-        raw = item.get("expected_part_id")
+        raw = item.get("expected_external_code")
         if raw:
             return [v.strip() for v in str(raw).split(",") if v.strip()]
     return []
@@ -204,7 +204,7 @@ def render_markdown(summary: dict[str, Any], config_note: str = "") -> str:
                       + (f" … и ещё {len(wrong) - 60}" if len(wrong) > 60 else "")]
     else:
         lines.append(
-            "_Во входном файле нет поля `expected_part_id`, поэтому точность не "
+            "_Во входном файле нет поля `expected_external_code`, поэтому точность не "
             "считается. Разбор ошибок по слоям без эталона тоже неполон: добавьте "
             "эталонные ответы, чтобы получить настоящую картину слабого звена._")
 
@@ -235,3 +235,139 @@ def write_summary(summary: dict[str, Any], out_dir: str,
     with open(md_path, "w", encoding="utf-8") as fh:
         fh.write(render_markdown(summary, config_note))
     return json_path, md_path
+
+
+# ── разбор провалов по слоям ────────────────────────────────────────────────
+_LAYER_ORDER = [
+    "LAYER0_SEGMENTATION",
+    "OEM_RESOLVER",
+    "PHOTO_EVIDENCE",
+    "RETRIEVER_V2_MISS",
+    "ARBITER_V3_SEMANTIC",
+    "VALIDATOR",
+    "NORMALIZATION_DICTIONARY",
+    "TRUE_DICTIONARY_ABSENCE",
+    "PIPELINE_ERROR",
+]
+
+_LAYER_ADVICE = {
+    "LAYER0_SEGMENTATION":
+        "Чинить сегментацию: предмет выделен неверно, всё остальное считало не то.",
+    "OEM_RESOLVER":
+        "Чинить разбор номеров: номер обработан неверно либо конфликт не разрешён.",
+    "PHOTO_EVIDENCE":
+        "Чинить слой фото: изображение не дало пригодного свидетельства.",
+    "RETRIEVER_V2_MISS":
+        "Чинить ретривер/индексацию/словарь: правильной детали не было среди "
+        "кандидатов, арбитр физически не мог её выбрать.",
+    "ARBITER_V3_SEMANTIC":
+        "Семантическая ошибка арбитра: правильный кандидат был на руках. "
+        "Промпт V3 заморожен — сначала убедитесь, что виноват не предыдущий слой.",
+    "VALIDATOR":
+        "Чинить валидатор: арбитр ответил верно, а проверка его зарубила.",
+    "NORMALIZATION_DICTIONARY":
+        "Чинить нормализацию/словарь.",
+    "TRUE_DICTIONARY_ABSENCE":
+        "Детали действительно нет в словаре — UNKNOWN здесь правильный ответ.",
+    "PIPELINE_ERROR":
+        "Сбой конвейера или API: смотрите errors.log.",
+}
+
+
+def render_failure_analysis(records: list[dict[str, Any]],
+                            summary: dict[str, Any]) -> str:
+    """Отчёт «слабое звено»: каждый провал — на первый ответственный слой."""
+    by_layer: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for record in records:
+        layer = record.get("failure_layer") or LAYER_NONE
+        if layer != LAYER_NONE:
+            by_layer[layer].append(record)
+
+    total_items = summary["total_atomic_items"]
+    graded = summary.get("graded")
+
+    lines = [
+        "# AVTOZAP — разбор провалов по слоям",
+        "",
+        "Каждый провал отнесён к **первому** слою, который потерял правильный "
+        "ответ. Arbiter V3 обвиняется только тогда, когда правильный кандидат "
+        "был у него на руках: если деталь не дошла до shortlist, виноват "
+        "ретривер, а если предмет выделен неверно — Layer 0.",
+        "",
+        f"* атомарных предметов: **{total_items}**",
+        f"* предметов с зафиксированным слабым звеном: "
+        f"**{sum(len(v) for v in by_layer.values())}**",
+        "",
+    ]
+
+    if not graded:
+        lines += [
+            "> **Внимание.** Во входных данных нет поля `expected_external_code`, "
+            "поэтому разбор опирается только на внутренние признаки конвейера "
+            "(пустой shortlist, отказы, ошибки). Отличить семантическую ошибку "
+            "арбитра от верного ответа без размеченной истины нельзя — "
+            "соответствующие строки ниже отсутствуют не потому, что ошибок нет.",
+            "",
+        ]
+
+    lines += ["## Сводка", "", "| слой | предметов | доля |", "|---|---|---|"]
+    for layer in _LAYER_ORDER:
+        items = by_layer.get(layer)
+        if not items:
+            continue
+        share = len(items) / total_items * 100 if total_items else 0.0
+        lines.append(f"| {_LAYER_TITLES.get(layer, layer)} | {len(items)} | {share:.1f}% |")
+    if not by_layer:
+        lines.append("| — | 0 | 0.0% |")
+
+    ranked = sorted(by_layer.items(), key=lambda kv: -len(kv[1]))
+    if ranked:
+        weakest, items = ranked[0]
+        lines += [
+            "",
+            "## Самое слабое звено",
+            "",
+            f"**{_LAYER_TITLES.get(weakest, weakest)}** — {len(items)} предмет(ов).",
+            "",
+            _LAYER_ADVICE.get(weakest, ""),
+        ]
+
+    lines += ["", "## Подробно", ""]
+    for layer in _LAYER_ORDER:
+        items = by_layer.get(layer)
+        if not items:
+            continue
+        lines += [f"### {_LAYER_TITLES.get(layer, layer)} — {len(items)}", "",
+                  _LAYER_ADVICE.get(layer, ""), "",
+                  "| предмет | текст запроса | item_raw | арбитр | валидатор | итог |",
+                  "|---|---|---|---|---|---|"]
+        for record in items[:40]:
+            arb = record.get("arbiter") or {}
+            val = record.get("validator") or {}
+            lines.append(
+                f"| `{record.get('rfq_id')}#{record.get('item_index')}` "
+                f"| {_cell(record.get('original_text'))} "
+                f"| {_cell(record.get('item_raw'))} "
+                f"| {arb.get('decision')} {arb.get('external_code') or ''} "
+                f"| {val.get('status')} {val.get('code') or ''} "
+                f"| {record.get('final_status')} |")
+        if len(items) > 40:
+            lines.append(f"| … и ещё {len(items) - 40} | | | | | |")
+        lines.append("")
+
+    return "\n".join(lines) + "\n"
+
+
+def _cell(text: Any, width: int = 46) -> str:
+    """Значение для ячейки Markdown: обрезать и обезвредить разделители."""
+    value = str(text or "").replace("|", "\\|").replace("\n", " ").strip()
+    return value[:width] + ("…" if len(value) > width else "")
+
+
+def write_failure_analysis(records: list[dict[str, Any]], summary: dict[str, Any],
+                           out_dir: str) -> str:
+    os.makedirs(out_dir, exist_ok=True)
+    path = os.path.join(out_dir, "failure_analysis.md")
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write(render_failure_analysis(records, summary))
+    return path

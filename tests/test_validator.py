@@ -33,13 +33,13 @@ def validator(retriever) -> Validator:
     return Validator(retriever, layer0=Layer0(retriever))
 
 
-def candidates_for(retriever, *part_ids) -> RetrieverResult:
+def candidates_for(retriever, *codes) -> RetrieverResult:
     out = []
-    for pid in part_ids:
-        part = retriever.dict.parts[pid]
-        out.append(Candidate(part_id=pid, name_ru=part.name_ru, name_az=part.name_az,
-                             category=part.category, subcategory=part.subcategory,
-                             leaf_code=part.leaf_code, score=0.9, reason="test"))
+    for code in codes:
+        part = retriever.dict.get(code)
+        out.append(Candidate(external_code=code, name_ru=part.name_ru,
+                             name_az=part.name_az, category=part.category,
+                             score=0.9, reason="test"))
     return RetrieverResult(candidates=out, status="OK")
 
 
@@ -47,8 +47,8 @@ def item(text: str) -> Layer0Item:
     return Layer0Item(item_index=0, item_raw=text)
 
 
-def select(part_id: str, confidence: float = 0.9) -> ArbiterDecision:
-    return ArbiterDecision(decision=ARB_SELECT, part_id=part_id,
+def select(code: str, confidence: str = "high") -> ArbiterDecision:
+    return ArbiterDecision(decision=ARB_SELECT, external_code=code,
                            confidence=confidence, reason="тест")
 
 
@@ -62,13 +62,13 @@ def test_valid_selection_passes(validator, retriever):
 
 
 # ── V1 / V2: код должен существовать и быть разрешённым ────────────────────
-def test_v1_part_id_absent_from_dictionary(validator, retriever):
+def test_v1_code_absent_from_dictionary(validator, retriever):
     result = validator.validate(item("əyləc diski"), select("ZZ-999"),
                                 candidates_for(retriever, "EY-002"), NO_OEM)
     assert (result.status, result.code) == (VAL_REJECT, "V1")
 
 
-def test_v2_part_id_not_among_candidates(validator, retriever):
+def test_v2_code_not_among_candidates(validator, retriever):
     """Существующий, но не предложенный ретривером код — тоже отказ."""
     result = validator.validate(item("əyləc diski"), select("KZ-020"),
                                 candidates_for(retriever, "EY-002"), NO_OEM)
@@ -85,14 +85,14 @@ def test_v3_neighbour_part_without_textual_support_is_downgraded(validator, retr
 # ── V4: конфликт OEM ────────────────────────────────────────────────────────
 def test_v4_unresolved_oem_conflict_is_downgraded(validator, retriever):
     oem = OemEvidence(status=OEM_CONFLICT, numbers=["06A115561B"],
-                      resolved_part_id="MU-025", resolved_name="Катушка зажигания")
+                      resolved_external_code="MU-025", resolved_name="Катушка зажигания")
     result = validator.validate(item("əyləc diski"), select("EY-002"),
                                 candidates_for(retriever, "EY-002"), oem)
     assert (result.status, result.code) == (VAL_DOWNGRADE, "V4")
 
 
 def test_v4_conflict_resolved_in_favour_of_the_number_passes(validator, retriever):
-    oem = OemEvidence(status=OEM_CONFLICT, resolved_part_id="EY-002")
+    oem = OemEvidence(status=OEM_CONFLICT, resolved_external_code="EY-002")
     result = validator.validate(item("əyləc diski"), select("EY-002"),
                                 candidates_for(retriever, "EY-002"), oem)
     assert result.status == VAL_PASS
@@ -114,7 +114,8 @@ def test_v6_arbiter_error(validator, retriever):
 
 
 def test_v6_unknown_must_not_carry_a_part_id(validator, retriever):
-    decision = ArbiterDecision(decision=ARB_UNKNOWN, part_id="EY-002", confidence=0.9)
+    decision = ArbiterDecision(decision=ARB_UNKNOWN, external_code="EY-002",
+                               confidence="high")
     result = validator.validate(item("əyləc diski"), decision,
                                 candidates_for(retriever, "EY-002"), NO_OEM)
     assert (result.status, result.code) == (VAL_REJECT, "V6")
@@ -122,13 +123,22 @@ def test_v6_unknown_must_not_carry_a_part_id(validator, retriever):
 
 # ── V7: точность важнее навязанной полноты ─────────────────────────────────
 def test_v7_low_confidence_is_downgraded_not_returned(validator, retriever):
-    result = validator.validate(item("əyləc diski"), select("EY-002", confidence=0.2),
+    """Промпт V3 отдаёт уверенность словом: «low» не годится для готового ответа."""
+    result = validator.validate(item("əyləc diski"), select("EY-002", confidence="low"),
                                 candidates_for(retriever, "EY-002"), NO_OEM)
     assert (result.status, result.code) == (VAL_DOWNGRADE, "V7")
 
 
+def test_v7_medium_confidence_is_accepted(validator, retriever):
+    result = validator.validate(item("əyləc diski"),
+                                select("EY-002", confidence="medium"),
+                                candidates_for(retriever, "EY-002"), NO_OEM)
+    assert result.status == VAL_PASS
+
+
 def test_v7_missing_confidence_is_downgraded(validator, retriever):
-    decision = ArbiterDecision(decision=ARB_SELECT, part_id="EY-002", confidence=None)
+    decision = ArbiterDecision(decision=ARB_SELECT, external_code="EY-002",
+                               confidence=None)
     result = validator.validate(item("əyləc diski"), decision,
                                 candidates_for(retriever, "EY-002"), NO_OEM)
     assert (result.status, result.code) == (VAL_DOWNGRADE, "V7")
@@ -138,6 +148,6 @@ def test_v7_missing_confidence_is_downgraded(validator, retriever):
 @pytest.mark.parametrize("decision", [ARB_UNKNOWN, ARB_CLARIFY])
 def test_arbiter_refusal_passes_through(validator, retriever, decision):
     result = validator.validate(item("əyləc diski"),
-                                ArbiterDecision(decision=decision, confidence=0.1),
+                                ArbiterDecision(decision=decision, confidence="low"),
                                 candidates_for(retriever, "EY-002"), NO_OEM)
     assert result.status == VAL_PASS

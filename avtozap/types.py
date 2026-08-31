@@ -27,11 +27,14 @@ PHOTO_UNAVAILABLE = "IMAGE_UNAVAILABLE"
 PHOTO_OK = "OK"
 PHOTO_ERROR = "ERROR"
 
-# Arbiter V3
-ARB_SELECT = "SELECT"
-ARB_UNKNOWN = "UNKNOWN"
-ARB_CLARIFY = "CLARIFY"
-ARB_ERROR = "ERROR"
+# Arbiter V3 — значения ровно как в замороженном промпте (нижний регистр).
+ARB_SELECT = "select"
+ARB_UNKNOWN = "unknown"
+ARB_CLARIFY = "clarify"
+ARB_ERROR = "error"
+
+#: Уверенность в промпте V3 — слово, а не число.
+CONFIDENCE_LEVELS = ("high", "medium", "low")
 
 # Validator
 VAL_PASS = "PASS"
@@ -65,6 +68,11 @@ class Layer0Item:
     item_raw: str
     status: str = L0_OK
     reason: str = ""
+    # Подсказки сегментера для поиска — не ответы, а расширение запроса.
+    search_phrases: list[str] = field(default_factory=list)
+    oem_code: str | None = None
+    # Просьба о ремонте/услуге, а не о детали (правило 6 промпта сегментера).
+    is_part_request: bool = True
     # Позиционные/сторонние атрибуты, собранные при слиянии фрагментов
     side_hint: str | None = None
     position_hint: str | None = None
@@ -77,6 +85,8 @@ class Layer0Result:
     items: list[Layer0Item] = field(default_factory=list)
     status: str = L0_OK
     reason: str = ""
+    # Кто разобрал сообщение: сегментер LLM или детерминированный запасной.
+    source: str = ""
     vehicle_context: str = ""
     # Сырые фрагменты до слияния — видно, что и почему склеилось
     raw_fragments: list[str] = field(default_factory=list)
@@ -87,9 +97,9 @@ class OemEvidence:
     status: str = OEM_NONE
     numbers: list[str] = field(default_factory=list)
     rejected: list[dict[str, str]] = field(default_factory=list)
-    resolved_part_id: str | None = None
+    resolved_external_code: str | None = None
     resolved_name: str | None = None
-    text_head_part_ids: list[str] = field(default_factory=list)
+    text_head_codes: list[str] = field(default_factory=list)
     reason: str = "no number found"
 
 
@@ -103,14 +113,19 @@ class PhotoEvidence:
 
 @dataclass
 class Candidate:
-    part_id: str
+    """Реальная деталь словаря, предложенная ретривером.
+
+    ``external_code`` — идентификатор проекта; именно его возвращает Arbiter V3
+    и именно его проверяет валидатор.
+    """
+
+    external_code: str
     name_ru: str
     name_az: str
     category: str
-    subcategory: str
-    leaf_code: str
     score: float
     reason: str
+    synonyms: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -125,16 +140,24 @@ class RetrieverResult:
     query_keys: list[str] = field(default_factory=list)
 
     @property
-    def part_ids(self) -> list[str]:
-        return [c.part_id for c in self.candidates]
+    def codes(self) -> list[str]:
+        return [c.external_code for c in self.candidates]
 
 
 @dataclass
 class ArbiterDecision:
+    """Ответ Arbiter V3 ровно в том виде, в каком его описывает промпт.
+
+    Промпт заморожен, поэтому поля здесь повторяют его контракт буквально:
+    решение в нижнем регистре, ``external_code``, уверенность словом
+    (``high|medium|low``), текст уточнения.
+    """
+
     decision: str = ARB_UNKNOWN
-    part_id: str | None = None
-    confidence: float | None = None
+    external_code: str | None = None
+    confidence: str | None = None            # high | medium | low
     reason: str = ""
+    clarification_text: str | None = None
     model: str = ""
     latency_ms: int = 0
     attempts: int = 0
@@ -161,15 +184,18 @@ class ItemRecord:
     layer0_status: str
     layer0_reason: str
     layer0_item_count: int
+    layer0_source: str
     vehicle_context: str
     oem: OemEvidence
     photo: PhotoEvidence
     retriever: RetrieverResult
     arbiter: ArbiterDecision
     validator: ValidatorResult
-    final_part_id: str | None
+    final_external_code: str | None
     final_status: str
-    expected_part_id: str | None = None
+    search_phrases: list[str] = field(default_factory=list)
+    is_part_request: bool = True
+    expected_external_code: str | None = None
     failure_layer: str = LAYER_NONE
     latency_ms: int = 0
     error: str | None = None

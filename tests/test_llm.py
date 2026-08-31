@@ -129,11 +129,10 @@ def test_judge_calls_are_deterministic_and_json_only():
 # ── арбитр поверх подставного транспорта ───────────────────────────────────
 @pytest.fixture(scope="module")
 def candidates() -> RetrieverResult:
-    part = RetrieverV2.from_file().dict.parts["EY-002"]
+    part = RetrieverV2().dict.get("EY-002")
     return RetrieverResult(status="OK", candidates=[Candidate(
-        part_id="EY-002", name_ru=part.name_ru, name_az=part.name_az,
-        category=part.category, subcategory=part.subcategory,
-        leaf_code=part.leaf_code, score=1.0, reason="exact_name")])
+        external_code="EY-002", name_ru=part.name_ru, name_az=part.name_az,
+        category=part.category, score=0.999, reason="exact:eylec diski")])
 
 
 def decide(client, candidates):
@@ -144,15 +143,17 @@ def decide(client, candidates):
 
 def test_a_well_formed_answer_becomes_a_selection(candidates):
     client = client_for(_Response(
-        '{"decision":"SELECT","part_id":"EY-002","confidence":0.93,"reason":"диск"}'))
+        '{"decision":"select","external_code":"EY-002","confidence":"high",'
+        '"reason":"диск"}'))
     decision = decide(client, candidates)
-    assert (decision.decision, decision.part_id) == (ARB_SELECT, "EY-002")
-    assert decision.confidence == 0.93
+    assert (decision.decision, decision.external_code) == (ARB_SELECT, "EY-002")
+    assert decision.confidence == "high"
 
 
-def test_an_invented_part_id_is_reported_as_an_error_not_accepted(candidates):
+def test_an_invented_code_is_reported_as_an_error_not_accepted(candidates):
     """Код вне списка кандидатов не «чинится» — он попадает в отчёт как ошибка."""
-    client = client_for(_Response('{"decision":"SELECT","part_id":"ZZ-999"}'))
+    client = client_for(_Response(
+        '{"decision":"select","external_code":"ZZ-999","confidence":"high"}'))
     decision = decide(client, candidates)
     assert decision.decision == ARB_ERROR
     assert "отсутствует среди кандидатов" in decision.reason

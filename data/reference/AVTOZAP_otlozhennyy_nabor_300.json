@@ -1,0 +1,1922 @@
+[
+ {
+  "n": 1,
+  "rfq": "efbb8d91-544a-48b3-842c-e767aeda45e0",
+  "raw": "arxa bagaj",
+  "original_text": "Kia Sorento 2022 model amerkanka 1,6 hibrid masini ucun arxa bagaj varmi? Ag mirvari",
+  "boy": "KZ-033",
+  "status": "single_match"
+ },
+ {
+  "n": 2,
+  "rfq": "d4ee62ea-84f0-4832-9932-e8bd3edac127",
+  "raw": "Raspidval 2 turbo",
+  "original_text": "Kia optuma Raspidval 2 turbo",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 3,
+  "rfq": "04416c08-333d-406b-ba79-803a87ceb375",
+  "raw": "Ön şüşə patpres qırağı plastmas lazımdı",
+  "original_text": "Ön şüşə patpres qırağı plastmas lazımdı",
+  "boy": "KZ-011",
+  "status": "single_match"
+ },
+ {
+  "n": 4,
+  "rfq": "df7632f8-244d-445e-8c21-72b50c731753",
+  "raw": "termostat",
+  "original_text": "termostat",
+  "boy": "SO-004",
+  "status": "single_match"
+ },
+ {
+  "n": 5,
+  "rfq": "586ee179-8754-49ce-9213-3c7c3f50da95",
+  "raw": "Padkrelniklər",
+  "original_text": "Padkrelniklər",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 6,
+  "rfq": "5aa2bd63-0e4b-4374-b2a4-3c2eb6ead284",
+  "raw": "Opel astra H 1.7 2007 matorun şatunun kladişleri",
+  "original_text": "Opel astra H 1.7 2007 matorun şatunun kladişleri",
+  "boy": "MU-008",
+  "status": "single_match"
+ },
+ {
+  "n": 7,
+  "rfq": "53c7401a-4195-416a-b937-1fc88b460be0",
+  "raw": "Bmw e46 kupe sol qapinin zamoku lazimdir",
+  "original_text": "Bmw e46 kupe sol qapinin zamoku lazimdir.\nYaponka variyyant getmir 320ci",
+  "boy": "KZ-017",
+  "status": "single_match"
+ },
+ {
+  "n": 8,
+  "rfq": "6461d295-1449-4910-8b47-5cd7ff5d889c",
+  "raw": "Qabaq naktaltkalar",
+  "original_text": "Qabaq naktaltkalar",
+  "boy": "EY-001",
+  "status": "single_match"
+ },
+ {
+  "n": 9,
+  "rfq": "7f6917a4-23b6-4fae-a692-51310197cf67",
+  "raw": "Sağ sol podkrelnık",
+  "original_text": "Sağ sol podkrelnık",
+  "boy": "KZ-029",
+  "status": "single_match"
+ },
+ {
+  "n": 10,
+  "rfq": "08a713bf-185d-4c72-9f74-4276a712bf9c",
+  "raw": "Matorxananin altinin zaşitniki",
+  "original_text": "Kia forte. 1 ədəd diski. Ön bujer. Ön sol krelo. Radiator. Ekran. Ön sol çaşka. Sol iç  qranat. Sol çöl qranat. Ön sol amartizator. Ön sol zaşitnik. Matorxananin altinin zaşitniki. Şaravoy.",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 11,
+  "rfq": "be3e308c-1bf0-46bd-af76-25b88170db1c",
+  "raw": "Suret olcen lazer lazimdi",
+  "original_text": "Suret olcen lazer lazimdi",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 12,
+  "rfq": "726a37e2-4c66-4322-94a9-795d49c42e75",
+  "raw": "Mühərrikin sepi komplekt",
+  "original_text": "Bu firmaynan var?",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 13,
+  "rfq": "eef8008e-8e1c-4eb0-802a-af261dabf817",
+  "raw": "pod krilnikler qabaq",
+  "original_text": "Carolla 2016 amerikanka pod krilnikler qabaq",
+  "boy": "KZ-029",
+  "status": "single_match"
+ },
+ {
+  "n": 14,
+  "rfq": "512b7f61-ca32-4dbf-846b-a5ee451e9751",
+  "raw": "Qranatin plniki sag teref col qranat",
+  "original_text": "Qranatin plniki sag teref col qranat",
+  "boy": "AS-009",
+  "status": "single_match"
+ },
+ {
+  "n": 15,
+  "rfq": "25d89ac0-df40-4dcd-9639-03503f91f18d",
+  "raw": "Qabağ amartizatorlar",
+  "original_text": "Camry 2014 amerkanka. Qabağ amartizatorlar",
+  "boy": "AS-001",
+  "status": "single_match"
+ },
+ {
+  "n": 16,
+  "rfq": "e7b2c98c-5362-492f-b989-3846734b53b2",
+  "raw": "Kompressor opel omega 2 ecotec motor",
+  "original_text": "Kompressor opel omega 2 ecotec motor",
+  "boy": "SO-012",
+  "status": "single_match"
+ },
+ {
+  "n": 17,
+  "rfq": "700b01d3-4bba-4d51-ba3f-2097a52bc79d",
+  "raw": "Mercedes Benz 111 matorun ön qabağında yağ filtrinin bağlandığı yerdə olan təzyiq klapanları",
+  "original_text": "Mercedes Benz 111 matorun ön qabağında yağ filtrinin bağlandığı yerdə olan təzyiq klapanları",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 18,
+  "rfq": "2a68e3f2-67de-4e92-8fe9-ab82ecdea31f",
+  "raw": "Arxa patpres",
+  "original_text": "Arxa patpres",
+  "boy": "KZ-012",
+  "status": "single_match"
+ },
+ {
+  "n": 19,
+  "rfq": "f32fdabb-9232-4eb3-a61b-f8cecf645f0b",
+  "raw": "Katalizator datcikleri",
+  "original_text": "Katalizator datcikleri",
+  "boy": "EG-002",
+  "status": "single_match"
+ },
+ {
+  "n": 20,
+  "rfq": "4cc29518-5421-43dc-a839-eff2c55e7896",
+  "raw": "Peçin alt və üst şlanqları",
+  "original_text": "Peçin alt və üst şlanqları",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 21,
+  "rfq": "def3be6e-1ad3-49c7-a3e8-4459c41342d9",
+  "raw": "Radiatirin fani",
+  "original_text": "Radiatirin fani",
+  "boy": "SO-002",
+  "status": "single_match"
+ },
+ {
+  "n": 22,
+  "rfq": "2ccffd4c-2155-4cba-979e-6d8ba1b8e56a",
+  "raw": "Hyundai sonata 2003 dumanlı işıq üst şüşəsi",
+  "original_text": "Hyundai sonata 2003 dumanlı işıq üst şüşəsi",
+  "boy": "KZ-006",
+  "status": "single_match"
+ },
+ {
+  "n": 23,
+  "rfq": "4facdb04-96b9-4ad4-8c64-a8288a6156eb",
+  "raw": "Sol fara",
+  "original_text": "Zədəli olan hissələrin ehtiyat hissələrin qiymət ini öyrənmək istəyirəm \nKapot \nSol qabaq \nSol fara\nSol güzgü \nPodpres",
+  "boy": "KZ-005",
+  "status": "single_match"
+ },
+ {
+  "n": 24,
+  "rfq": "96743248-43d8-431c-8e56-6946c23f35ad",
+  "raw": "Qabağ faralar resdaylinq",
+  "original_text": "Qabağ faralar resdaylinq",
+  "boy": "KZ-005",
+  "status": "single_match"
+ },
+ {
+  "n": 25,
+  "rfq": "3ecd1a23-e302-4e65-b46b-cd4b2c271f33",
+  "raw": "Моторедуктор печки",
+  "original_text": "Моторедуктор печки",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 26,
+  "rfq": "baf659ef-ed20-4202-9209-f1f7a25fa247",
+  "raw": "sürətlər qutusu yastıqları",
+  "original_text": "Mator və sürətlər qutusu yastıqları",
+  "boy": "MU-018",
+  "status": "single_match"
+ },
+ {
+  "n": 27,
+  "rfq": "0d7da85e-1fe6-411c-97fd-eeff17598006",
+  "raw": "Zavod manitor",
+  "original_text": "Zavod manitor",
+  "boy": "EL-023",
+  "status": "single_match"
+ },
+ {
+  "n": 28,
+  "rfq": "e8b18247-9fd5-4169-a7b9-900b9c2f4827",
+  "raw": "Mmı girişli aux kabeli , sağ günlük",
+  "original_text": "Mmı girişli aux kabeli , sağ günlük",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 29,
+  "rfq": "1430ae83-6d91-4433-902d-700b73bbdd90",
+  "raw": "Mühərrikin sağ, sol, alt paduşqası",
+  "original_text": "Mühərrikin sağ, sol, alt paduşqası və mühərrikin üst krişkası.\n\nKia sorento 2010 model.",
+  "boy": "MU-017",
+  "status": "single_match"
+ },
+ {
+  "n": 30,
+  "rfq": "a81c2364-3118-4b30-957d-1b3eacfd5cdb",
+  "raw": "tarpeda( şit )",
+  "original_text": "Vaz 21010 üçün tarpeda( şit ) lazımdı",
+  "boy": "EL-038",
+  "status": "single_match"
+ },
+ {
+  "n": 31,
+  "rfq": "4888dbf0-bf2b-4fad-b9a2-ce53649bae79",
+  "raw": "Most tam komplekt",
+  "original_text": "Salam Most tam komplekt lazımdır.",
+  "boy": "AS-018",
+  "status": "single_match"
+ },
+ {
+  "n": 32,
+  "rfq": "e83fbcd5-7a5c-4b47-8833-57b783d05cb3",
+  "raw": "Orjinal yag",
+  "original_text": "Orjinal yag",
+  "boy": "SR-001",
+  "status": "single_match"
+ },
+ {
+  "n": 33,
+  "rfq": "21d92fb4-ab7c-42d6-95a9-4ee85b049202",
+  "raw": "Suse ve ya plyonka",
+  "original_text": "Suse ve ya plyonka",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 34,
+  "rfq": "efe953ac-68a0-4b91-b57f-a8c2c4c500dc",
+  "raw": "Kallektorun kəpənəyin akdivatoru var?",
+  "original_text": "Kallektorun kəpənəyin akdivatoru var?",
+  "boy": "MU-034",
+  "status": "single_match"
+ },
+ {
+  "n": 35,
+  "rfq": "f9cb1399-e0af-4b47-ad59-87351803e07f",
+  "raw": "Lyuk reyzini",
+  "original_text": "Lyuk reyzini\nPrzavikler",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 36,
+  "rfq": "17aaf325-5ae0-4dac-8260-51482323d07e",
+  "raw": "Bufet bamper",
+  "original_text": "Bufet bamper",
+  "boy": "KZ-001",
+  "status": "single_match"
+ },
+ {
+  "n": 37,
+  "rfq": "456c4787-0c10-40b5-ab42-44d9afad2c87",
+  "raw": "Qabaq qapıdakı kalonka (sağ - sol)",
+  "original_text": "Qabaq qapıdakı kalonka (sağ - sol) - Hyundai Grandeur 2017",
+  "boy": "AU-001",
+  "status": "single_match"
+ },
+ {
+  "n": 38,
+  "rfq": "e0ba15a3-5453-41d4-95e1-c859c2c642b8",
+  "raw": "sağ patkrennik",
+  "original_text": "Qabaq sağ çaşqa,Ön bufer,Sağ və sol faralar,sağ və sol qanadlar(Krlo) birdə sağ patkrennik.",
+  "boy": "AS-005",
+  "status": "single_match"
+ },
+ {
+  "n": 39,
+  "rfq": "3acf640d-5aaf-4a76-8960-fe465c179807",
+  "raw": "Hyundai Accent hidrotransformatoru (Bublik)",
+  "original_text": "Hyundai Accent hidrotransformatoru (Bublik)",
+  "boy": "TR-029",
+  "status": "single_match"
+ },
+ {
+  "n": 40,
+  "rfq": "a90df3ce-a28f-47c2-bbf2-eb65058b2570",
+  "raw": "Mühərrikin soyutma radiatoru",
+  "original_text": "Mühərrikin soyutma radiatoru.",
+  "boy": "SO-001",
+  "status": "single_match"
+ },
+ {
+  "n": 41,
+  "rfq": "d5d5c076-f5f9-4b29-b1f9-3f51ddf3dcfc",
+  "raw": "Yağ nasosu",
+  "original_text": "Salam\nYağ nasosu lazımdır.",
+  "boy": "MU-027",
+  "status": "single_match"
+ },
+ {
+  "n": 42,
+  "rfq": "de25f993-7824-48d1-b8ad-131e8df102e2",
+  "raw": "panoramanın ramkası",
+  "original_text": "Panaramanın şüşələri və panoramanın ramkası",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 43,
+  "rfq": "4ab1b58f-67b9-43bc-a15c-13eca9eb7d92",
+  "raw": "Orijinal ön sol alt qollar",
+  "original_text": "Salam\nOrijinal ön sol Prujina\nOrijinal ön sol alt qollar\nOrijinal ön sol Şaravoy\nOrijinal ön sol Sükan dartısı və sükan ucluğu\nOrijinal ön sol Povorot yumruğu\nOrijinal ön sol Stupitsa və stupitsa podşipniki\nOrijinal ön sol Ön yarımox/ŞRUS",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 44,
+  "rfq": "239edc4a-69a0-475a-914d-f184afa8e607",
+  "raw": "Silindr başlığı bərkidici boltları (FORD FUSION 2.0 T.) uygun gelir.",
+  "original_text": "Silindr başlığı bərkidici boltları (FORD FUSION 2.0 T.) uygun gelir.",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 45,
+  "rfq": "5ac1d369-3c65-4850-b1c1-ab8abf306369",
+  "raw": "Sol qabaq qanadaltlığı",
+  "original_text": "Baqaj toru setkası, Sol qabaq qanadaltlığı",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 46,
+  "rfq": "c24108e6-d9a6-4340-bdb0-9d1f86fb540f",
+  "raw": "arxa spoilerdəki 3 cü əlyəc stopu",
+  "original_text": "Nissan Sentra sol yan güzgünün dönmə işıq stopu və arxa spoilerdəki 3 cü əlyəc stopu",
+  "boy": "KZ-049",
+  "status": "single_match"
+ },
+ {
+  "n": 47,
+  "rfq": "326fee85-0f7f-457e-9289-b5db5cc8e45e",
+  "raw": "Parking əyləc düyməsi",
+  "original_text": "BMW F10. Parking əyləc düyməsi",
+  "boy": "EY-013",
+  "status": "single_match"
+ },
+ {
+  "n": 48,
+  "rfq": "16d964c0-8ce2-4fa6-8a01-94889df8a9a4",
+  "raw": "iç remen komplekt",
+  "original_text": "iç remen komplekt , və generator remeni",
+  "boy": "MU-019",
+  "status": "single_match"
+ },
+ {
+  "n": 49,
+  "rfq": "12156d89-20cd-44f6-ab58-561125459991",
+  "raw": "BAR ASSY-FR STABILIZER",
+  "original_text": "BAR ASSY-FR STABILIZER",
+  "boy": "AS-011",
+  "status": "single_match"
+ },
+ {
+  "n": 50,
+  "rfq": "f317cb66-4bab-497a-bc2e-a7eec0b02ae3",
+  "raw": "Ruçnoy",
+  "original_text": "Ruçnoy",
+  "boy": "EY-013",
+  "status": "single_match"
+ },
+ {
+  "n": 51,
+  "rfq": "a15a0a06-4f36-4bd2-9659-b7d56752402c",
+  "raw": "Ynacax teziq nasosu",
+  "original_text": "Ynacax teziq nasosu",
+  "boy": "EY-015",
+  "status": "single_match"
+ },
+ {
+  "n": 52,
+  "rfq": "2a879dbe-1e8d-4955-862c-ed4f869567f6",
+  "raw": "Sofer arxa qapi alt plasmas",
+  "original_text": "Sofer arxa qapi alt plasmas",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 53,
+  "rfq": "f03d4838-8cd4-458a-b1ab-e51117515fc3",
+  "raw": "Su radiyatorunun kriska teref plasmasi lazimdi",
+  "original_text": "Su radiyatorunun kriska teref plasmasi lazimdi",
+  "boy": "SO-005",
+  "status": "single_match"
+ },
+ {
+  "n": 54,
+  "rfq": "15666ae0-debc-4bf2-b9c1-0bfa5099dbee",
+  "raw": "Təkər",
+  "original_text": "Təkər",
+  "boy": "TK-001",
+  "status": "single_match"
+ },
+ {
+  "n": 55,
+  "rfq": "29665e6c-5ad0-4b37-9717-3129678d88eb",
+  "raw": "Sofer arxa qapi nikel",
+  "original_text": "Sofer arxa qapi nikel\nKanti",
+  "boy": "KZ-015",
+  "status": "single_match"
+ },
+ {
+  "n": 56,
+  "rfq": "2892acd2-6f04-4147-ba50-e58cebb7c861",
+  "raw": "Radiator dəsti",
+  "original_text": "Radiator dəsti",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 57,
+  "rfq": "1ae1ad2d-bd2c-4920-853d-4a876f233b72",
+  "raw": "Стеклоподъёмники передняя левая и задняя правая",
+  "original_text": "Стеклоподъёмники передняя левая и задняя правая",
+  "boy": "EL-002",
+  "status": "single_match"
+ },
+ {
+  "n": 58,
+  "rfq": "34f641ab-6c72-4644-930f-cd85954f6b03",
+  "raw": "Sveça",
+  "original_text": "Sveça",
+  "boy": "SR-014",
+  "status": "single_match"
+ },
+ {
+  "n": 59,
+  "rfq": "0e6f2663-57fe-4dc7-a803-5a7f03906afa",
+  "raw": "Qranat",
+  "original_text": "Qranat",
+  "boy": "AS-008",
+  "status": "single_match"
+ },
+ {
+  "n": 60,
+  "rfq": "494b0015-b829-4cc2-a53a-afc2b979092c",
+  "raw": "ERR 6761 - уплотнительное кольцо фильтра топливного соединительного блока – LR Discovery 2 td5 2.5tdi.",
+  "original_text": "ERR 6761 - уплотнительное кольцо фильтра топливного соединительного блока – LR Discovery 2 td5 2.5tdi.",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 61,
+  "rfq": "1953b060-de74-4704-88ad-3ae0175e9e64",
+  "raw": "arxa sol sağ usdubçiyanın paçeniki",
+  "original_text": "Hunday tukson 2006 sadə 2 mator tək qabağ çək \n 1- qabağ sol tərəf qranatı  iç və çöl\n2- konsaner kompressor matoru  təzə\n3- arxa sol sağ usdubçiyanın paçeniki",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 62,
+  "rfq": "f094eb59-5d77-410a-ac3c-35a084ab4a39",
+  "raw": "baqaj açan knopka",
+  "original_text": "baqaj açan knopka",
+  "boy": "EL-022",
+  "status": "single_match"
+ },
+ {
+  "n": 63,
+  "rfq": "15f035b3-94c8-4cda-8ad6-804f56baceac",
+  "raw": "Starter Mercedes gl 2013",
+  "original_text": "Starter Mercedes gl 2013",
+  "boy": "MU-048",
+  "status": "single_match"
+ },
+ {
+  "n": 64,
+  "rfq": "014cea71-b36e-45c1-bcb3-330a1da5a714",
+  "raw": "Sol qabaq krlo",
+  "original_text": "W202 2.3 k amerkanka benzin il 1999  \n\nkaport,\nqabaq bamper\n,radiyator barmaqliqi,\nfaralar\n,sag sol pavarotnikler\nSol qabaq krlo\nSag qabaq krlo\nRadiyator dest\nKaport klidi trosuyla birlikde\nKondisonerin borulari ve slanklari\nSarlotda bufer",
+  "boy": "KZ-027",
+  "status": "single_match"
+ },
+ {
+  "n": 65,
+  "rfq": "642b68ed-f66d-46c9-b27e-8a49ee4ecc34",
+  "raw": "Sağ tərəf fara 4 dənə üstən çıxma orginal",
+  "original_text": "Sağ tərəf fara 4 dənə üstən çıxma orginal",
+  "boy": "KZ-005",
+  "status": "single_match"
+ },
+ {
+  "n": 66,
+  "rfq": "b91d0d11-5038-4d6c-9866-23b4dfae9cf8",
+  "raw": "komfort on oturacaglarin platasi",
+  "original_text": "Bmw e60 komfort on oturacaglarin platasi lazimdi",
+  "boy": "EL-067",
+  "status": "single_match"
+ },
+ {
+  "n": 67,
+  "rfq": "926bd8d3-1a4e-4011-b47f-0dc021d8d500",
+  "raw": "kondinsioner filteri",
+  "original_text": "2023 Changan CS55 plus üçün filterlər (yağ, hava və kondinsioner və peç filteri)",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 68,
+  "rfq": "a2d14a65-9ed6-4152-994f-e323f9fd71f2",
+  "raw": "Правый задний саффа",
+  "original_text": "Правый задний саффа",
+  "boy": "AS-030",
+  "status": "single_match"
+ },
+ {
+  "n": 69,
+  "rfq": "b70b0d4e-b193-428e-8403-b1c61f02cc7a",
+  "raw": "Vozduxamer 116",
+  "original_text": "Vozduxamer 116",
+  "boy": "MU-033",
+  "status": "single_match"
+ },
+ {
+  "n": 70,
+  "rfq": "310accd1-2ed6-4014-9e6d-0830fb65493b",
+  "raw": "солнцезашитники бежевого цвета б/у",
+  "original_text": "Ищу солнцезашитники бежевого цвета б/у",
+  "boy": "AK-003",
+  "status": "single_match"
+ },
+ {
+  "n": 71,
+  "rfq": "85c3ec45-45e9-4345-8a08-c349128ecad4",
+  "raw": "Baş silindr proklatkası",
+  "original_text": "Porşen üzükləri\nŞatun yatağı\nKlapan salniki\nÖn salnik\nBaş silindr proklatkası\nÜst krişka praklatkası\nGermetik\nMühərrik yağı\nYağ filtri\nAntifriz",
+  "boy": "MU-078",
+  "status": "single_match"
+ },
+ {
+  "n": 72,
+  "rfq": "a4f7882a-d3cb-48d4-9382-8e18efade017",
+  "raw": "Babin sag ve sol",
+  "original_text": "Babin sag ve sol",
+  "boy": "MU-025",
+  "status": "single_match"
+ },
+ {
+  "n": 73,
+  "rfq": "29f3e306-b2c7-4c44-8820-1376a241ea49",
+  "raw": "Qabax sol qapin. samok",
+  "original_text": "Qabax sol qapin. samok",
+  "boy": "KZ-017",
+  "status": "single_match"
+ },
+ {
+  "n": 74,
+  "rfq": "31e3b12e-5113-487f-b79f-7c2d6aa04da9",
+  "raw": "Rolik(orijinal)",
+  "original_text": "Kia Magentis 2006 2.0 CRDI\nMotor remeni(orijinal)\nRolik(orijinal)\nNatyajitel(orijinal)",
+  "boy": "MU-023",
+  "status": "single_match"
+ },
+ {
+  "n": 75,
+  "rfq": "1cd2df7b-7393-4c27-9980-e2a4d0dedca0",
+  "raw": "Ön və arxa naklatka",
+  "original_text": "Ön və arxa naklatka",
+  "boy": "EY-001",
+  "status": "single_match"
+ },
+ {
+  "n": 76,
+  "rfq": "f0df080a-50b8-4c1a-88e3-bd60b2e7613f",
+  "raw": "Soyutma su radyatoru",
+  "original_text": "Soyutma su radyatoru \n\nTurbo reguliyator",
+  "boy": "SO-001",
+  "status": "single_match"
+ },
+ {
+  "n": 77,
+  "rfq": "b2d07e72-8e46-4d5b-a348-668e88586203",
+  "raw": "Duman əleyhinə işıq yerləri çərcivələri",
+  "original_text": "Duman əleyhinə işıq yerləri çərcivələri",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 78,
+  "rfq": "7550f5e6-643d-4cd7-a26e-af1aadbf5046",
+  "raw": "kirilolar",
+  "original_text": "Mersedes vito 2011 bufer kirilolar faralar patples lazimdi mene",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 79,
+  "rfq": "022c2233-40e4-4b76-b9b6-29b358cdf303",
+  "raw": "karopka beyini",
+  "original_text": "Salam mende avtomabil soyuq olanda karopka mueyyen muddet vururu, masin qizandan sonra duzeleri. Mene zemanet verilen karopka ve ya karopka beyini lazimdir. Zehmet olmasa komeklik ederdiniz",
+  "boy": "TR-004",
+  "status": "single_match"
+ },
+ {
+  "n": 80,
+  "rfq": "7996f86d-13ce-4823-85b4-ca1a1f543622",
+  "raw": "Grandeur 2023 hybrid yag nasosu",
+  "original_text": "Grandeur 2023 hybrid yag nasosu \n46190-30310",
+  "boy": "MU-027",
+  "status": "single_match"
+ },
+ {
+  "n": 81,
+  "rfq": "ed444653-6998-49cd-aa08-998a8a30c669",
+  "raw": "Bobin",
+  "original_text": "Bobin ve mustuk lazimdir. Firmasini qeyd edin zehmet olmasa.",
+  "boy": "MU-025",
+  "status": "single_match"
+ },
+ {
+  "n": 82,
+  "rfq": "453423f2-6adf-4cdd-92e6-cd56fd45502c",
+  "raw": "nasos filtiri ikisi bir",
+  "original_text": "nasos filtiri ikisi bir",
+  "boy": "SR-010",
+  "status": "single_match"
+ },
+ {
+  "n": 83,
+  "rfq": "cbb96c5c-75a8-42bc-aef9-8037fae8c637",
+  "raw": "arxa sol tekerin abs dacciki",
+  "original_text": "Chevrolet Aveo T250 servis 2011 1.4 mator avtomat benzin\nBu masin ucun arxa sol tekerin abs dacciki",
+  "boy": "EY-011",
+  "status": "single_match"
+ },
+ {
+  "n": 84,
+  "rfq": "0475cf74-5853-4459-bbe6-d287bd96a724",
+  "raw": "Motor karopka poduşkaları",
+  "original_text": "Motor karopka poduşkaları",
+  "boy": "MU-018",
+  "status": "single_match"
+ },
+ {
+  "n": 85,
+  "rfq": "3e7e9665-8ed8-419e-b881-cdacb3548866",
+  "raw": "buji naqilleri",
+  "original_text": "Babin   ve  buji naqilleri",
+  "boy": "MU-058",
+  "status": "single_match"
+ },
+ {
+  "n": 86,
+  "rfq": "59393cb2-5ec1-4f32-b897-6b665d046055",
+  "raw": "Optima 2014 2 turbo amerkanka   28130-3q500",
+  "original_text": "Optima 2014 2 turbo amerkanka   28130-3q500",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 87,
+  "rfq": "2581f950-8d70-4bc3-9b95-70a1cd3ba40b",
+  "raw": "Su pompası (su nasosu)",
+  "original_text": "Pompa",
+  "boy": "SO-006",
+  "status": "single_match"
+ },
+ {
+  "n": 88,
+  "rfq": "21f59fa1-ed9d-4aa2-b0d3-4d5a7d7fdb1c",
+  "raw": "On bamperin yan kronçteyi",
+  "original_text": "On bamperin yan kronçteyi",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 89,
+  "rfq": "7fdff39c-20ea-4d36-a2f8-e065882ba7cb",
+  "raw": "Original NGK şamlar lazimdir",
+  "original_text": "Original NGK şamlar lazimdir",
+  "boy": "SR-014",
+  "status": "single_match"
+ },
+ {
+  "n": 90,
+  "rfq": "85d4e1b4-0da4-4fe0-9910-a42eefb04cc7",
+  "raw": "Su radiyatoru",
+  "original_text": "Su radiyatoru.qabax sag fara. Qabax patkrilnikler 2side qabax bufer zbor.patpres.qabax sag amartizator",
+  "boy": "SO-001",
+  "status": "single_match"
+ },
+ {
+  "n": 91,
+  "rfq": "820bb2e1-cc23-4c0a-a2e3-7bb1cc3482d3",
+  "raw": "ÖN Amarzatorun üst dartçiki",
+  "original_text": "ÖN Amarzatorun üst dartçiki",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 92,
+  "rfq": "1bef84c5-5021-49d7-9b8e-30ee077e958f",
+  "raw": "Əyləc bəndi",
+  "original_text": "Əyləc bəndi,peugeot 308,2012",
+  "boy": "EY-001",
+  "status": "single_match"
+ },
+ {
+  "n": 93,
+  "rfq": "80b656bc-db67-4296-96ef-73ca70d5ca7b",
+  "raw": "karopka yağ filtri",
+  "original_text": "karopka yağ filtri lazmdir",
+  "boy": "SR-006",
+  "status": "single_match"
+ },
+ {
+  "n": 94,
+  "rfq": "fedb9ebc-161b-42c6-aed5-6d6d63586466",
+  "raw": "Mərkəzi konsol Tahta Mebel",
+  "original_text": "Mərkəzi konsol Tahta Mebel",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 95,
+  "rfq": "960226f6-dd5d-4ff9-86e6-49dbdf7f0b72",
+  "raw": "Qabaq pəncərə şüşələri cızıqsız",
+  "original_text": "Qabaq pəncərə şüşələri cızıqsız",
+  "boy": "KZ-013",
+  "status": "single_match"
+ },
+ {
+  "n": 96,
+  "rfq": "cdddb9a6-d3a9-4a02-b7c1-d9acb522c0cb",
+  "raw": "arxa bufet",
+  "original_text": "Kia sportage 2015 arxa bufet lazımdır.",
+  "boy": "KZ-001",
+  "status": "single_match"
+ },
+ {
+  "n": 97,
+  "rfq": "74fc8bf4-2f2c-464b-9de6-61fb73b13d1a",
+  "raw": "Orginal 4 eded mobis svetçsa",
+  "original_text": "Orginal 4 eded mobis svetçsa",
+  "boy": "SR-014",
+  "status": "single_match"
+ },
+ {
+  "n": 98,
+  "rfq": "9c1bc5b9-9f06-43b0-9f02-c861292c144c",
+  "raw": "O dumanni",
+  "original_text": "O dumanni",
+  "boy": "KZ-006",
+  "status": "single_match"
+ },
+ {
+  "n": 99,
+  "rfq": "6fb20909-72f2-4e4d-b65b-4fa4246ff00b",
+  "raw": "Yan güzgülər",
+  "original_text": "Yan güzgülər, faralar və yeni şit baz 21099",
+  "boy": "KZ-020",
+  "status": "single_match"
+ },
+ {
+  "n": 100,
+  "rfq": "2c3cd5d1-65e3-4d4b-9bae-fbc680b7022a",
+  "raw": "Farsunka gonbul boz. Farsunka",
+  "original_text": "Farsunka gonbul boz. Farsunka \nOpel astra 1.6 mexanika",
+  "boy": "MU-035",
+  "status": "single_match"
+ },
+ {
+  "n": 101,
+  "rfq": "63f2b8b2-1b99-4344-82c9-7b027781cd1e",
+  "raw": "Panarama lkun trosu",
+  "original_text": "Panarama lkun trosu ve mator baglanan hissesi",
+  "boy": "KZ-035",
+  "status": "single_match"
+ },
+ {
+  "n": 102,
+  "rfq": "3371881b-1638-429e-acdb-dc2940144e34",
+  "raw": "Arxa razvalni boltlar lazimdi 2 eded",
+  "original_text": "Arxa razvalni boltlar lazimdi 2 eded",
+  "boy": "AS-013",
+  "status": "single_match"
+ },
+ {
+  "n": 103,
+  "rfq": "b96d89ba-64d9-417f-b56b-1d133c09a90c",
+  "raw": "Kompressorun mufta puskateli",
+  "original_text": "Kompressorun mufta puskateli",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 104,
+  "rfq": "40827999-82ff-4627-a99e-a2e2d21299e5",
+  "raw": "Mühərrikin 4 ədəd Farsunkadı",
+  "original_text": "Mühərrikin 4 ədəd Farsunkadı lazımdır.",
+  "boy": "MU-035",
+  "status": "single_match"
+ },
+ {
+  "n": 105,
+  "rfq": "0a357fce-90a3-4063-b337-bf307acfba80",
+  "raw": "Benzin nasos orjinal",
+  "original_text": "Benzin nasos orjinal",
+  "boy": "YA-001",
+  "status": "single_match"
+ },
+ {
+  "n": 106,
+  "rfq": "792f3ba4-a91e-494a-b9eb-f114ece54e3a",
+  "raw": "Ön stupitsiya",
+  "original_text": "Ön stupitsiya",
+  "boy": "AS-006",
+  "status": "single_match"
+ },
+ {
+  "n": 107,
+  "rfq": "b740608b-55a5-49b2-8090-7f066a4444c5",
+  "raw": "Yag filtiri",
+  "original_text": "Yag filtiri",
+  "boy": "SR-002",
+  "status": "single_match"
+ },
+ {
+  "n": 108,
+  "rfq": "dd88fd36-2574-4001-9aff-cf05f91b7e5a",
+  "raw": "Датчик кислорода, лямбда зонд",
+  "original_text": "Датчик кислорода, лямбда зонд",
+  "boy": "EG-002",
+  "status": "single_match"
+ },
+ {
+  "n": 109,
+  "rfq": "5f6a94a8-6cb7-4f6f-be0f-c344d9b894aa",
+  "raw": "Motor qoruyucusu(zaşitnik)",
+  "original_text": "Motor qoruyucusu(zaşitnik)",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 110,
+  "rfq": "d25be8c5-200c-47f0-87af-aa451216f7f7",
+  "raw": "Katalizator datçikləri",
+  "original_text": "Salam aleykum \nKatalizator datçikləri lazımdır.\nQabaq tərəfi hər ikisi (yanı sağ və sol). Arxa tərəfi isə bir ədəd lazımdır",
+  "boy": "EG-002",
+  "status": "single_match"
+ },
+ {
+  "n": 111,
+  "rfq": "05259e7f-2f91-4f38-8904-2ac947c5f377",
+  "raw": "Sağ tərəf qabaq podkrılnık",
+  "original_text": "Sağ tərəf qabaq podkrılnık. Kia niro 2021.",
+  "boy": "KZ-029",
+  "status": "single_match"
+ },
+ {
+  "n": 112,
+  "rfq": "f6fb8eb9-dad6-4a2a-a184-0e03d5131bc4",
+  "raw": "Benzin çəni",
+  "original_text": "Benzin çəni",
+  "boy": "YA-004",
+  "status": "single_match"
+ },
+ {
+  "n": 113,
+  "rfq": "dfa69f0b-52e3-4de0-ad47-5afda3d475ed",
+  "raw": "Çol qranat",
+  "original_text": "Çol qranat",
+  "boy": "AS-008",
+  "status": "single_match"
+ },
+ {
+  "n": 114,
+  "rfq": "54394258-a8a0-479f-9730-2c82f60fda30",
+  "raw": "Qabag bufer ver",
+  "original_text": "Qabag bufer ver arxa baqaj neciyedir ?",
+  "boy": "KZ-001",
+  "status": "single_match"
+ },
+ {
+  "n": 115,
+  "rfq": "0b33c63c-d35f-410c-a761-a370bdda0570",
+  "raw": "Benzin nasus gücləndirici",
+  "original_text": "Benzin nasus gücləndirici",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 116,
+  "rfq": "e084b3c0-a11f-4380-ae38-c4d27fec7769",
+  "raw": "süretler qutusunun yastıqları",
+  "original_text": "Kia optima 2013 amerkanka muherik ve süretler qutusunun yastıqları",
+  "boy": "MU-018",
+  "status": "single_match"
+ },
+ {
+  "n": 117,
+  "rfq": "0f49568a-2918-4928-b1d5-4749970ae453",
+  "raw": "Ön salnik",
+  "original_text": "Porşen üzükləri\nŞatun yatağı\nKlapan salniki\nÖn salnik\nBaş silindr proklatkası\nÜst krişka praklatkası\nGermetik\nMühərrik yağı\nYağ filtri\nAntifriz",
+  "boy": "MU-086",
+  "status": "single_match"
+ },
+ {
+  "n": 118,
+  "rfq": "260d0ec9-7aeb-41ba-8761-14f7883c3621",
+  "raw": "arxa sol qapi qara rengde 2 el",
+  "original_text": "Changan A07-e qabaq sol padkrilnik ve qabaq alt zaşitnik qiymetin bilmek isdeyirem\nChangan Q07-e arxa sol qapi qara rengde 2 el qiymetini bilmek isdeyirem",
+  "boy": "KZ-015",
+  "status": "single_match"
+ },
+ {
+  "n": 119,
+  "rfq": "21822a80-4972-4304-9df4-8ab0070e9639",
+  "raw": "G68 dacciki",
+  "original_text": "Volkswagen golf 4 1998 ci il 1.6 mator  avtomat karopka G68 dacciki. Hardan tapabilərəm??",
+  "boy": "TR-005",
+  "status": "single_match"
+ },
+ {
+  "n": 120,
+  "rfq": "d39c7601-c761-46b7-b7be-1d6a48dd7193",
+  "raw": "Ön sol zaşitnik",
+  "original_text": "Kia forte. 1 ədəd diski. Ön bujer. Ön sol krelo. Radiator. Ekran. Ön sol çaşka. Sol iç  qranat. Sol çöl qranat. Ön sol amartizator. Ön sol zaşitnik. Matorxananin altinin zaşitniki. Şaravoy.",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 121,
+  "rfq": "dea48e3c-878f-4a90-8152-e8e0a26ca77c",
+  "raw": "bagajın örtülən yerindeki plastik",
+  "original_text": "Sağ faranın alt nahiyesi birdəki bagajın örtülən yerindeki plastik ve arxa bgaj nahiyəsinin tok sistemi",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 122,
+  "rfq": "ab5d7e5b-5a6e-4ed6-8dd4-0c9b2b11e8cd",
+  "raw": "Natyajitel(orijinal)",
+  "original_text": "Kia Magentis 2006 2.0 CRDI\nMotor remeni(orijinal)\nRolik(orijinal)\nNatyajitel(orijinal)",
+  "boy": "MU-022",
+  "status": "single_match"
+ },
+ {
+  "n": 123,
+  "rfq": "f367257a-4fd8-4db6-909f-7b30a439dbd3",
+  "raw": "Avtomat karopkanın selektoru",
+  "original_text": "Maf sensor (vozduxamerin daçiki)\nAvtomat karopkanın selektoru",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 124,
+  "rfq": "f99deb64-5822-46fd-8c32-290352d3de52",
+  "raw": "Sürücü (sol) tərəf qapı əlcəyi həm arxa həmdə qabaq",
+  "original_text": "Gidrouslitel, şlankı, baçoku. Sürücü (sol) tərəf qapı əlcəyi həm arxa həmdə qabaq.  Əlavə olaraq gidrouslitel qarantilisk olsa daha əla.",
+  "boy": "KZ-016",
+  "status": "single_match"
+ },
+ {
+  "n": 125,
+  "rfq": "a156c976-f359-4438-977a-9265a1a0b57e",
+  "raw": "Rulavoyun sağ butulkasi lazımdır bu kodda\n57735-1u000",
+  "original_text": "Rulavoyun sağ butulkasi lazımdır bu kodda\n57735-1u000",
+  "boy": "SU-014",
+  "status": "single_match"
+ },
+ {
+  "n": 126,
+  "rfq": "3be0ff4b-1724-41b3-969d-5b8f458250aa",
+  "raw": "Su radiyatoru ford",
+  "original_text": "Su radiyatoru ford",
+  "boy": "SO-001",
+  "status": "single_match"
+ },
+ {
+  "n": 127,
+  "rfq": "8d3c99ce-79ba-4c6f-a087-c08c28f40fe9",
+  "raw": "Təkər. 215/55/r17 camry 2014 amerkanka",
+  "original_text": "Təkər. 215/55/r17 camry 2014 amerkanka",
+  "boy": "TK-001",
+  "status": "single_match"
+ },
+ {
+  "n": 128,
+  "rfq": "ed3b30ef-485f-4200-a650-32224481bb15",
+  "raw": "Turbo reguliyator",
+  "original_text": "Soyutma su radyatoru \n\nTurbo reguliyator",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 129,
+  "rfq": "b44a6d55-1dc0-4735-98d5-01bf0974e1e5",
+  "raw": "ARXA SAĞ SAFFA",
+  "original_text": "ARXA SAĞ SAFFA",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 130,
+  "rfq": "4e10c819-8802-4642-aaa2-b0f0beb775df",
+  "raw": "Əylənc bəndi(arxa)",
+  "original_text": "Əylənc bəndi(arxa)",
+  "boy": "EY-001",
+  "status": "single_match"
+ },
+ {
+  "n": 131,
+  "rfq": "fecd5164-7033-4a21-832e-24ab382bc7fe",
+  "raw": "Sol guzgu",
+  "original_text": "Sol guzgu",
+  "boy": "KZ-020",
+  "status": "single_match"
+ },
+ {
+  "n": 132,
+  "rfq": "89d8150d-9924-48b3-ae81-be84adad3136",
+  "raw": "Ступица",
+  "original_text": "Ступица",
+  "boy": "AS-006",
+  "status": "single_match"
+ },
+ {
+  "n": 133,
+  "rfq": "e4646522-80ff-4760-ac7f-6775149735ec",
+  "raw": "Arxa buferin sol nikkeli",
+  "original_text": "Arxa buferin sol nikkeli",
+  "boy": "KZ-003",
+  "status": "single_match"
+ },
+ {
+  "n": 134,
+  "rfq": "4d6d1f3b-6728-4cab-98e7-4989ade7e3e5",
+  "raw": "sağ qapının çöldən əlcəyi xrom",
+  "original_text": "Ön partpres və sağ qapının çöldən əlcəyi xrom",
+  "boy": "KZ-016",
+  "status": "single_match"
+ },
+ {
+  "n": 135,
+  "rfq": "70ddaba4-fa2d-41f9-9f8d-8d1ff0b372fb",
+  "raw": "Sol qanad",
+  "original_text": "Sol qanad",
+  "boy": "KZ-027",
+  "status": "single_match"
+ },
+ {
+  "n": 136,
+  "rfq": "2d8c5936-1177-458e-abb9-cb676f0b60c3",
+  "raw": "Alt qoruyucu tək bufer yox ümumi matorun altın bağlayan ve tekerin iç tərəfləri yan krlolara bağlanan",
+  "original_text": "Alt qoruyucu tək bufer yox ümumi matorun altın bağlayan ve tekerin iç tərəfləri yan krlolara bağlanan",
+  "boy": "MU-053",
+  "status": "single_match"
+ },
+ {
+  "n": 137,
+  "rfq": "27bc3303-6efb-4ad3-8e85-0e5574814f7e",
+  "raw": "Təkər üçün hava datçiki",
+  "original_text": "Təkər üçün hava datçiki",
+  "boy": "TK-005",
+  "status": "single_match"
+ },
+ {
+  "n": 138,
+  "rfq": "39e6b7e0-c024-4f61-823d-def4f51d3025",
+  "raw": "Qabaq sol qol",
+  "original_text": "Qabaq sol qol",
+  "boy": "AS-015",
+  "status": "single_match"
+ },
+ {
+  "n": 139,
+  "rfq": "8d581f2d-d7e9-4290-988a-c4114172d374",
+  "raw": "Бачок для воды",
+  "original_text": "Бачок для воды",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 140,
+  "rfq": "0eeb8764-9847-43ec-96de-bcbc7151594e",
+  "raw": "By pass",
+  "original_text": "By pass \nİnjektor arxa sensor",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 141,
+  "rfq": "7edb8bcf-a102-438c-a84c-e28797eb1811",
+  "raw": "Hava filteri",
+  "original_text": "Hava filteri",
+  "boy": "SR-003",
+  "status": "single_match"
+ },
+ {
+  "n": 142,
+  "rfq": "9de8b74b-5686-467e-bbfd-39c12945e52d",
+  "raw": "Sukan reykasi rulavoy qarantiyali mal olsun",
+  "original_text": "Sukan reykasi rulavoy qarantiyali mal olsun",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 143,
+  "rfq": "5d5f2549-f070-433b-bfde-b323e2e16d13",
+  "raw": "Motor",
+  "original_text": "Motor",
+  "boy": "MU-001",
+  "status": "single_match"
+ },
+ {
+  "n": 144,
+  "rfq": "1cf4c54d-2235-453e-9b12-cdd1c15632cc",
+  "raw": "Elantra 2019 limited sol amerikanka farası",
+  "original_text": "Elantra 2019 limited sol amerikanka farası lazımdır. Cızığsız və zədəsiz",
+  "boy": "KZ-005",
+  "status": "single_match"
+ },
+ {
+  "n": 145,
+  "rfq": "de38897d-a340-496d-b7cc-fbcd1b848475",
+  "raw": "motor yastıqları",
+  "original_text": "Kondisioner kompressoru və motor yastıqları",
+  "boy": "MU-017",
+  "status": "single_match"
+ },
+ {
+  "n": 146,
+  "rfq": "6b4aac9b-24c3-4e33-8d0e-075d65cddfa1",
+  "raw": "Karopka dayagi",
+  "original_text": "Karopka dayagi \nÖn faralar \nArxa faralar\nGac trumpchi gs5",
+  "boy": "MU-018",
+  "status": "single_match"
+ },
+ {
+  "n": 147,
+  "rfq": "2b7071fc-9172-4ed9-a1e4-454aee328ef6",
+  "raw": "mator radyatoru",
+  "original_text": "Kia Ceed 2011 restyling sol ön fara lupa ilə ,ön ekran morda , abirisofka,mator radyatoru",
+  "boy": "SO-002",
+  "status": "single_match"
+ },
+ {
+  "n": 148,
+  "rfq": "59a679a0-b6e7-4f4c-9104-a3f890b90687",
+  "raw": "Arxa təkərin qoruyucu kapronları krelin altındakı çamurluk",
+  "original_text": "Arxa təkərin qoruyucu kapronları krelin altındakı çamurluk",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 149,
+  "rfq": "46015aa9-0e9f-4ecf-b379-37b857f597a6",
+  "raw": "Sürücü tərəf şüşə qaldıran düymələr Hyundai Elantra",
+  "original_text": "Sürücü tərəf şüşə qaldıran düymələr Hyundai Elantra",
+  "boy": "EL-003",
+  "status": "single_match"
+ },
+ {
+  "n": 150,
+  "rfq": "23d4b019-a692-4c51-b04b-3566912302f5",
+  "raw": "arxa paduska yastigi",
+  "original_text": "Salam GL2013 arxa paduska yastigi lazimdir",
+  "boy": "AS-025",
+  "status": "single_match"
+ },
+ {
+  "n": 151,
+  "rfq": "6dde941d-699b-48f2-866e-d4b5169a167f",
+  "raw": "Kia ceed şikif lazımdır",
+  "original_text": "Kia ceed şikif lazımdır",
+  "boy": "MU-021",
+  "status": "single_match"
+ },
+ {
+  "n": 152,
+  "rfq": "3b079eb1-5a16-47ce-9256-179163e85729",
+  "raw": "2 eded vanusun giriw cixiw datciki",
+  "original_text": "Raspedval datciki, 2 eded vanusun giriw cixiw datciki, balaca termostat lazimdi",
+  "boy": "MU-050",
+  "status": "single_match"
+ },
+ {
+  "n": 153,
+  "rfq": "e6be700b-8f5e-405a-b838-8131873b1dd8",
+  "raw": "Qabağ naklatka",
+  "original_text": "Qabağ naklatka",
+  "boy": "EY-001",
+  "status": "single_match"
+ },
+ {
+  "n": 154,
+  "rfq": "0ba9c879-5eae-4011-83db-ea6c5defef3c",
+  "raw": "Alışma şamları sveça",
+  "original_text": "Alışma şamları sveça",
+  "boy": "SR-014",
+  "status": "single_match"
+ },
+ {
+  "n": 155,
+  "rfq": "9722ac50-325e-4f99-95e0-1d073d006e82",
+  "raw": "Амортизатор багажника",
+  "original_text": "Амортизатор багажника",
+  "boy": "KZ-042",
+  "status": "single_match"
+ },
+ {
+  "n": 156,
+  "rfq": "69e2f1db-3957-4e06-8770-1256ae0257fb",
+  "raw": "Klapan fazarequlyator",
+  "original_text": "Zapchastin kodu: 25819 0w010 \nKlapan fazarequlyator",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 157,
+  "rfq": "f3c9583d-99ed-4075-9e47-5dd4e5719b35",
+  "raw": "dizel nasosu bakdaki",
+  "original_text": "dizel nasosu bakdaki",
+  "boy": "YA-001",
+  "status": "single_match"
+ },
+ {
+  "n": 158,
+  "rfq": "8d1a47f5-e25a-47b6-b2ac-c69447a472d3",
+  "raw": "Arxa və qabaq apornular",
+  "original_text": "Arxa və qabaq apornular.",
+  "boy": "EY-002",
+  "status": "single_match"
+ },
+ {
+  "n": 159,
+  "rfq": "f7bca4a0-48c8-47c3-ad8f-907fefd17c29",
+  "raw": "Benzin daciki",
+  "original_text": "Benzin daciki",
+  "boy": "YA-006",
+  "status": "single_match"
+ },
+ {
+  "n": 160,
+  "rfq": "08c29a21-48eb-4dcc-999e-3ec072dda1fb",
+  "raw": "Arxa əyləc bəndi (naklatka)",
+  "original_text": "Arxa əyləc bəndi (naklatka)",
+  "boy": "EY-001",
+  "status": "single_match"
+ },
+ {
+  "n": 161,
+  "rfq": "2aa521aa-3500-4ffd-b5f7-d29842079f8b",
+  "raw": "Orijinal ön sol Prujina",
+  "original_text": "Salam\nOrijinal ön sol Prujina\nOrijinal ön sol alt qollar\nOrijinal ön sol Şaravoy\nOrijinal ön sol Sükan dartısı və sükan ucluğu\nOrijinal ön sol Povorot yumruğu\nOrijinal ön sol Stupitsa və stupitsa podşipniki\nOrijinal ön sol Ön yarımox/ŞRUS",
+  "boy": "AS-004",
+  "status": "single_match"
+ },
+ {
+  "n": 162,
+  "rfq": "f398c7e7-c58b-4295-8e45-64f822c154dd",
+  "raw": "Dinamo skif",
+  "original_text": "Dinamo skif satan var ? Neciyedi",
+  "boy": "MU-047",
+  "status": "single_match"
+ },
+ {
+  "n": 163,
+  "rfq": "935574e7-3b2f-41d8-a5bf-4a96906d25e4",
+  "raw": "Mator zaşitniki mator qoruyucu",
+  "original_text": "Mator zaşitniki mator qoruyucu",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 164,
+  "rfq": "37ea6f0a-19ad-4924-ab96-a63cc1ac2ff2",
+  "raw": "karofkanın tempurator dacıkı",
+  "original_text": "E 39 ,2.8tek vanus 1997 cı ıl cem karofkanın tempurator dacıkı",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 165,
+  "rfq": "0ab57bd2-85c8-493d-b1f8-be38f927227f",
+  "raw": "naklatka",
+  "original_text": "naklatka",
+  "boy": "EY-001",
+  "status": "single_match"
+ },
+ {
+  "n": 166,
+  "rfq": "fed487f5-ea42-4457-a29c-fc2028a6f194",
+  "raw": "Kalenvalın daçiki",
+  "original_text": "1.Kalenvalın daçiki\n2.vanusun daçiki\n3.matorun üstündə zbor olur, üst kırışqa deyilir,\nZəhmət olmasa bunların arjinal qiymətlərini mənə deyin!",
+  "boy": "MU-040",
+  "status": "single_match"
+ },
+ {
+  "n": 167,
+  "rfq": "49c2aef4-e517-4f46-b695-7c1ac1885b58",
+  "raw": "Şüşəsilənin  matoru",
+  "original_text": "Şüşəsilənin  matoru  hardan tapa bilərəm, neçiyə olar",
+  "boy": "EL-001",
+  "status": "single_match"
+ },
+ {
+  "n": 168,
+  "rfq": "6b5b0d74-9a48-4e23-8714-9794bf950f34",
+  "raw": "Klapan stəkanı / tappet (bucket lifter) — распредвалın (valın) altında olur.\n* Bəzi mühərriklərdə hidrokompensator (hydraulic lifter) olur.\n* Bəzən ustalar itələyici (толкатель) də deyirlər.",
+  "original_text": "Mashin  xodda  parkovkada 4-5 deqe qalanda takkildi gelir .Klapan stəkanı / tappet (bucket lifter) — распредвалın (valın) altında olur.\n* Bəzi mühərriklərdə hidrokompensator (hydraulic lifter) olur.\n* Bəzən ustalar itələyici (толкатель) də deyirlər.",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 169,
+  "rfq": "6e7f8e75-edd3-423a-bc7d-b026a748026f",
+  "raw": "luk firmasiynan",
+  "original_text": "Cawka maxavik feredo dest luk firmasiynan birde iwlenmiw mexatronig iwlenmiw suretler qutusu dsg 7",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 170,
+  "rfq": "8f2e4bf8-eb7e-41bb-ad16-b5e756e813d0",
+  "raw": "Dizel  yanacaq filtiri",
+  "original_text": "Dizel  yanacaq filtiri  mühərrikin  hava filtiri",
+  "boy": "SR-010",
+  "status": "single_match"
+ },
+ {
+  "n": 171,
+  "rfq": "9836ae08-0385-4288-8341-88e4991c6581",
+  "raw": "salonda qapıların üstündə, banda olan lampalar(sağda və solda olur). Bütöv, komplekt lazımdır",
+  "original_text": "Salam. Nissan teana 2008-ci il. 2.5 benzin. J32 modeli\nSalon üçün tavan lampası(ön hissədə ortada olan)\nHəmçinin salonda qapıların üstündə, banda olan lampalar(sağda və solda olur). Bütöv, komplekt lazımdır.",
+  "boy": "EL-025",
+  "status": "single_match"
+ },
+ {
+  "n": 172,
+  "rfq": "2d299ba5-bc39-41c0-8325-807d7de48af3",
+  "raw": "Kia sportage günlükler",
+  "original_text": "Kia sportage günlükler",
+  "boy": "AK-003",
+  "status": "single_match"
+ },
+ {
+  "n": 173,
+  "rfq": "e518ad84-4992-4a75-87a6-6612fe0428c2",
+  "raw": "Terezi datciki arxa",
+  "original_text": "Terezi datciki lazimdir arxa",
+  "boy": "KZ-012",
+  "status": "single_match"
+ },
+ {
+  "n": 174,
+  "rfq": "b64f5759-3e67-47d5-bd43-40219082a216",
+  "raw": "Kantli sonatanin Kolenval datciki",
+  "original_text": "3918025200\nKantli sonatanin Kolenval datciki",
+  "boy": "MU-040",
+  "status": "single_match"
+ },
+ {
+  "n": 175,
+  "rfq": "3886028f-685a-46bd-9760-3d9943b357b6",
+  "raw": "Arxa silindir",
+  "original_text": "Arxa silindir",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 176,
+  "rfq": "283214c2-4863-4411-b0bd-52c7ef809a74",
+  "raw": "Sol iç  qranat",
+  "original_text": "Kia forte. 1 ədəd diski. Ön bujer. Ön sol krelo. Radiator. Ekran. Ön sol çaşka. Sol iç  qranat. Sol çöl qranat. Ön sol amartizator. Ön sol zaşitnik. Matorxananin altinin zaşitniki. Şaravoy.",
+  "boy": "AS-008",
+  "status": "single_match"
+ },
+ {
+  "n": 177,
+  "rfq": "5469bdac-0727-4c7e-9c50-76349c0068b8",
+  "raw": "arka oturacağın plastik qapağı",
+  "original_text": "Maşında sürücü oturacağının sol tərəf plastik qapağı və arxa oturacağın plastik qapağı lazımdır. Şəkillər əlavə olunub.",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 178,
+  "rfq": "8fa99075-5994-415d-a1a0-21b20fb1196c",
+  "raw": "Arxa amartizator",
+  "original_text": "KMHDU41TP7U356061\nArxa amartizator \nMando, Kyb,sachs",
+  "boy": "AS-001",
+  "status": "single_match"
+ },
+ {
+  "n": 179,
+  "rfq": "a13a80c1-9ea9-4c7e-950a-bbb583289b93",
+  "raw": "Multi sükanın üstündə olan xod verib azaldan knopkası",
+  "original_text": "Multi sükanın üstündə olan xod verib azaldan knopkası",
+  "boy": "EL-011",
+  "status": "single_match"
+ },
+ {
+  "n": 180,
+  "rfq": "d76a32ae-3ca2-45fe-af49-d5fd89a670b9",
+  "raw": "farsunka",
+  "original_text": "W212 om651 1 ədəd farsunka",
+  "boy": "MU-035",
+  "status": "single_match"
+ },
+ {
+  "n": 181,
+  "rfq": "208ba8b3-a60d-4b84-b22b-831e8dc2f3f0",
+  "raw": "Gidrouslitel",
+  "original_text": "Gidrouslitel",
+  "boy": "SU-005",
+  "status": "single_match"
+ },
+ {
+  "n": 182,
+  "rfq": "901adb76-1434-4afe-9ecc-cbd42efe9b1e",
+  "raw": "Sağ güzgü (zbor) qara rəng",
+  "original_text": "Sağ güzgü (zbor) qara rəng",
+  "boy": "KZ-020",
+  "status": "single_match"
+ },
+ {
+  "n": 183,
+  "rfq": "37556a71-7c6b-423c-8398-20f4eac8d872",
+  "raw": "Lyuk təmiri",
+  "original_text": "Lyuk təmiri",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 184,
+  "rfq": "f76b0f5c-a0bc-4b47-8de5-197e078611ef",
+  "raw": "Ön  fara  led  yığılmış",
+  "original_text": "Ön  fara  led  yığılmış",
+  "boy": "KZ-005",
+  "status": "single_match"
+ },
+ {
+  "n": 185,
+  "rfq": "dc4fbac2-e4aa-4786-a0e8-519dc9e64507",
+  "raw": "arxa rot qolu deyirler raZvalni tyaqadi",
+  "original_text": "Salam  mene bu kodulu detal lazimdir A 1633500653\narxa rot qolu deyirler  raZvalni tyaqadi \nZehmet olmasa qiymet deyerdiniz ve hansi firmadir",
+  "boy": "AS-013",
+  "status": "single_match"
+ },
+ {
+  "n": 186,
+  "rfq": "f3aa3162-c4f0-40a5-9cfe-5a08eae14cf7",
+  "raw": "Mator alt qoyrucusu",
+  "original_text": "Mator alt qoyrucusu",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 187,
+  "rfq": "307b5680-ead3-4694-98ae-1db4dafd6b10",
+  "raw": "Yanacaq filtiri",
+  "original_text": "Yanacaq filtiri",
+  "boy": "SR-010",
+  "status": "single_match"
+ },
+ {
+  "n": 188,
+  "rfq": "9358a78c-8570-4b89-a635-3922da188670",
+  "raw": "Kompressorun maqniti",
+  "original_text": "Kompressorun maqniti",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 189,
+  "rfq": "0c4c729c-2142-4fb4-a8a5-8f6604f91bf3",
+  "raw": "arxa qabaq natlatqa",
+  "original_text": "Peredok sisdemi lazımdı.  Razvalnilər şaravoylar amartizator. Sağ sol stubiça  arxa qabaq natlatqa. Sırğalar",
+  "boy": "EY-001",
+  "status": "single_match"
+ },
+ {
+  "n": 190,
+  "rfq": "b24142b0-06a2-4189-9eb7-56ef29a4834e",
+  "raw": "Rlovoy",
+  "original_text": "Vaz2107 \nRlovoy",
+  "boy": "RG-003",
+  "status": "single_match"
+ },
+ {
+  "n": 191,
+  "rfq": "63aa7c76-533e-4b95-a5ae-b1d4a8922733",
+  "raw": "Matorun su zaquruskasi",
+  "original_text": "Matorun su zaquruskasi",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 192,
+  "rfq": "2c4e7e18-65e4-424f-96c5-848cfd7c1e55",
+  "raw": "Sol arxa stop.krilodaki.islenmis",
+  "original_text": "Sol arxa stop.krilodaki.islenmis.",
+  "boy": "KZ-007",
+  "status": "single_match"
+ },
+ {
+  "n": 193,
+  "rfq": "69404933-155f-464c-bc27-42ad40ee182b",
+  "raw": "iki eded arxa qapilarin wuweleri",
+  "original_text": "Salam aleykum. Mene tranzit 2009 cu il 2.2 motor Lavas ucun iki eded arxa qapilarin wuweleri, 1 ci ve 4 cu foraunka, sag teref patpresin veteroku, sag guzgu susesi lazimdi. Iwlenmiw ve ucuz olsa daha yaxwi olar. Birde sol teref govdenin kanti lazimdi",
+  "boy": "KZ-013",
+  "status": "single_match"
+ },
+ {
+  "n": 194,
+  "rfq": "30cf33e2-04bb-4b6f-bd88-a6c0d105a4bb",
+  "raw": "qoruyucu blokun qapağı",
+  "original_text": "Matorun üsd qapağı, radyatorun su bacoku, gidravikin yağ bacoku, gidrosluter, qoruyucu blokun qapağı, patpıresin su bacoku",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 195,
+  "rfq": "de7b75eb-a42c-4861-9fb7-8570cf030ed3",
+  "raw": "Üstən çıxma yaxşı vəziyyətdə oriiinal alın şüşəsi",
+  "original_text": "Üstən çıxma yaxşı vəziyyətdə oriiinal alın şüşəsi",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 196,
+  "rfq": "af7b47f8-a2e4-4db1-987f-a661e692104a",
+  "raw": "ön sağ və sol amortizatorlar",
+  "original_text": "ön sağ və sol amortizatorlar",
+  "boy": "AS-001",
+  "status": "single_match"
+ },
+ {
+  "n": 197,
+  "rfq": "d727ebf3-c712-4acc-91c8-dd57592f2ed0",
+  "raw": "Sağ tərəf stoykadakı əl tutanın qapağı lazımdır",
+  "original_text": "Sağ tərəf stoykadakı əl tutanın qapağı lazımdır",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 198,
+  "rfq": "352e8175-2f5a-482f-a603-c02518d56c49",
+  "raw": "Farsunka",
+  "original_text": "Farsunka",
+  "boy": "MU-035",
+  "status": "single_match"
+ },
+ {
+  "n": 199,
+  "rfq": "8306ea7f-8fc0-4407-af1b-ad832bd806e4",
+  "raw": "Mühərrik",
+  "original_text": "Mühərrik",
+  "boy": "MU-001",
+  "status": "single_match"
+ },
+ {
+  "n": 200,
+  "rfq": "fd40133e-bd3d-4eda-8bcd-095995c1924d",
+  "raw": "yağ filter",
+  "original_text": "2023 Changan CS55 plus üçün filterlər (yağ, hava və kondinsioner və peç filteri)",
+  "boy": "SR-002",
+  "status": "single_match"
+ },
+ {
+  "n": 201,
+  "rfq": "d2713421-1539-4620-a731-d64c0f4eeed0",
+  "raw": "0.20 yag lazimdir arjinal meslehetli bir shey olsun aftomobili yormasin",
+  "original_text": "0.20 yag lazimdir arjinal meslehetli bir shey olsun aftomabili yormasin",
+  "boy": "SR-001",
+  "status": "single_match"
+ },
+ {
+  "n": 202,
+  "rfq": "e87fea0a-cfa9-435a-ad0c-e234a4fa4856",
+  "raw": "Maşina pər axtariram",
+  "original_text": "Maşina pər axtariram",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 203,
+  "rfq": "4a927111-d5a1-42a0-8b20-101cf00b871a",
+  "raw": "Benzin-nasos",
+  "original_text": "Benzin-nasos Mercedes w203",
+  "boy": "YA-001",
+  "status": "single_match"
+ },
+ {
+  "n": 204,
+  "rfq": "d3222fb6-0fda-4cf4-93c0-a55ad9e1eabc",
+  "raw": "Kondisonerin borulari ve slanklari",
+  "original_text": "W202 2.3 k amerkanka benzin il 1999  \n\nkaport,\nqabaq bamper\n,radiyator barmaqliqi,\nfaralar\n,sag sol pavarotnikler\nSol qabaq krlo\nSag qabaq krlo\nRadiyator dest\nKaport klidi trosuyla birlikde\nKondisonerin borulari ve slanklari\nSarlotda bufer",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 205,
+  "rfq": "35aac085-8fa5-4096-a964-a73b40b76e51",
+  "raw": "Dumannı faraları açkisi ilə nissan sunny 2007il yaponka",
+  "original_text": "Dumannı faraları açkisi ilə nissan sunny 2007il yaponka",
+  "boy": "KZ-006",
+  "status": "single_match"
+ },
+ {
+  "n": 206,
+  "rfq": "fadfa13e-fd5b-4c41-a06e-784be2ed1c70",
+  "raw": "baqaj ruçkası",
+  "original_text": "Salam hər vaxtınız xeyir baqaj ruçkası kimdə var",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 207,
+  "rfq": "39e8f87d-efbf-40a5-8e31-6a5f49316a92",
+  "raw": "Beyinden daciklere geden umumi şunur sistemi",
+  "original_text": "Beyinden daciklere geden umumi şunur sistemi",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 208,
+  "rfq": "152010cc-827d-4196-9460-8e10ea7b00c6",
+  "raw": "qabaq sol padkrilnik",
+  "original_text": "Changan A07-e qabaq sol padkrilnik ve qabaq alt zaşitnik qiymetin bilmek isdeyirem\nChangan Q07-e arxa sol qapi qara rengde 2 el qiymetini bilmek isdeyirem",
+  "boy": "KZ-029",
+  "status": "single_match"
+ },
+ {
+  "n": 209,
+  "rfq": "61a49206-af7d-4238-b1fa-81bda54c1f49",
+  "raw": "Sağ arxa qapının nikeli",
+  "original_text": "Sağ arxa qapının nikeli. Kia K3 2014",
+  "boy": "KZ-038",
+  "status": "single_match"
+ },
+ {
+  "n": 210,
+  "rfq": "0634306c-90fd-4292-9679-b8fd08dba435",
+  "raw": "Ön sağ tərəf çamurluq",
+  "original_text": "Ön sağ tərəf çamurluq",
+  "boy": "KZ-027",
+  "status": "single_match"
+ },
+ {
+  "n": 211,
+  "rfq": "08ec4321-c94d-4d22-a7ae-f867e0c86ac8",
+  "raw": "Benzin nasos mercedes c180 1995 model",
+  "original_text": "Benzin nasos mercedes c180 1995 model",
+  "boy": "YA-001",
+  "status": "single_match"
+ },
+ {
+  "n": 212,
+  "rfq": "c3114b9c-1e52-4376-83c4-b13024cd2097",
+  "raw": "Qabag qrilin m loqosunu axtariram",
+  "original_text": "Qabag qrilin m loqosunu axtariram",
+  "boy": "KZ-039",
+  "status": "single_match"
+ },
+ {
+  "n": 213,
+  "rfq": "c5b09b89-34fd-41e6-8910-caa044dfdb49",
+  "raw": "2mator",
+  "original_text": "bmw e46 2mator qosa vanus 1999cu oil qabaq on patpres",
+  "boy": "MU-001",
+  "status": "single_match"
+ },
+ {
+  "n": 214,
+  "rfq": "94037f71-beee-4f62-8cae-fbc52b0d380e",
+  "raw": "520 dizel f10 stupsiya podsipnik",
+  "original_text": "520 dizel f10 stupsiya podsipnik",
+  "boy": "AS-007",
+  "status": "single_match"
+ },
+ {
+  "n": 215,
+  "rfq": "e782cdb6-9366-46f4-b2b7-c12df638b62c",
+  "raw": "gidrosluter",
+  "original_text": "Matorun üsd qapağı, radyatorun su bacoku, gidravikin yağ bacoku, gidrosluter, qoruyucu blokun qapağı, patpıresin su bacoku",
+  "boy": "RG-08",
+  "status": "single_match"
+ },
+ {
+  "n": 216,
+  "rfq": "b411740b-f14a-4362-8bfb-e15553800bed",
+  "raw": "Dizel abratkasi",
+  "original_text": "Dizel abratkasi",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 217,
+  "rfq": "2c8e92b0-96ee-4941-aa03-a64068a70e51",
+  "raw": "Farsunka",
+  "original_text": "Farsunka",
+  "boy": "MU-035",
+  "status": "single_match"
+ },
+ {
+  "n": 218,
+  "rfq": "5d894a46-d934-4a4e-88c7-1e0f46dd7cf9",
+  "raw": "Maf sensor (vozduxamerin daçiki)",
+  "original_text": "Maf sensor (vozduxamerin daçiki)\nAvtomat karopkanın selektoru",
+  "boy": "MU-033",
+  "status": "single_match"
+ },
+ {
+  "n": 219,
+  "rfq": "eb70c6d1-421c-4d55-9150-4261cffb0f36",
+  "raw": "Tormuz vakumi",
+  "original_text": "Tormuz vakumi",
+  "boy": "EY-006",
+  "status": "single_match"
+ },
+ {
+  "n": 220,
+  "rfq": "75c3e7a5-703e-493b-94d5-3c5fb49e6952",
+  "raw": "Qapi rezinleri",
+  "original_text": "Qapi rezinleri lazimdir.",
+  "boy": "KZ-018",
+  "status": "single_match"
+ },
+ {
+  "n": 221,
+  "rfq": "25c71e29-f41e-4036-9526-bde97276fe3b",
+  "raw": "Orgibal stekanlar",
+  "original_text": "Orginal porsen. Orgibal stekanlar",
+  "boy": "AK-008",
+  "status": "single_match"
+ },
+ {
+  "n": 222,
+  "rfq": "cd3225d4-daae-4374-8eb4-9fba7bbd8eeb",
+  "raw": "Sol qabaq qapı fortuçka",
+  "original_text": "Sol qabaq qapı fortuçka",
+  "boy": "KZ-015",
+  "status": "single_match"
+ },
+ {
+  "n": 223,
+  "rfq": "b91d081f-a6cf-48bd-b1aa-6a1fb11c8366",
+  "raw": "faranın kənarlarında olan rezin",
+  "original_text": "Salam W211 2007 faranın kənarlarında olan rezin lazmdı",
+  "boy": "KZ-005",
+  "status": "single_match"
+ },
+ {
+  "n": 224,
+  "rfq": "e2e1e29b-cbfa-4797-871f-3deb529a03f6",
+  "raw": "Sol tərəfin padkrilnik",
+  "original_text": "Sol tərəfin padkrilnik və motorun alt zasitniki lazımdır mənə.",
+  "boy": "KZ-029",
+  "status": "single_match"
+ },
+ {
+  "n": 225,
+  "rfq": "05790260-44c1-4f17-87c7-ee4f40231307",
+  "raw": "Egr borusu",
+  "original_text": "Egr borusu",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 226,
+  "rfq": "ad3faaed-d2a2-4c20-b40c-21d7f30de281",
+  "raw": "Ön fara  ledli olan",
+  "original_text": "Ön fara  ledli olan",
+  "boy": "KZ-005",
+  "status": "single_match"
+ },
+ {
+  "n": 227,
+  "rfq": "f112c246-dbf2-4bd1-9e7c-f53f13e0885b",
+  "raw": "Faralar",
+  "original_text": "Faralar və qabaq bufer salaskası",
+  "boy": "KZ-005",
+  "status": "single_match"
+ },
+ {
+  "n": 228,
+  "rfq": "ac6b3b12-cbc1-4c23-b93b-981217ab9ead",
+  "raw": "orjinal nakladka ön və arxa üçün Kia Sportage 2016 2,0 dizel",
+  "original_text": "Salam  orjinal nakladka ön və arxa üçün Kia Sportage 2016 2,0 dizel neçəyədi",
+  "boy": "EY-001",
+  "status": "single_match"
+ },
+ {
+  "n": 229,
+  "rfq": "84d7ccca-1a28-4f4f-82a8-42ee0f9700b6",
+  "raw": "Şüşə qaldıran knopka",
+  "original_text": "Şüşə qaldıran knopka",
+  "boy": "EL-003",
+  "status": "single_match"
+ },
+ {
+  "n": 230,
+  "rfq": "b018bb25-5ca7-4ae8-a88f-f620c6f36f54",
+  "raw": "Suretler qutusunun salondaki selektoruna dekorativ qapag lazımdır kriskasi hansi ki yazilar göstərir, P, R, N, D +, - amma isiqlari yanan olsun islek qara reng",
+  "original_text": "Suretler qutusunun salondaki selektoruna dekorativ qapag lazımdır kriskasi hansi ki yazilar göstərir, P, R, N, D +, - amma isiqlari yanan olsun islek qara reng",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 231,
+  "rfq": "87007717-3a0a-45c9-b3d0-294a52e27d7e",
+  "raw": "Fara şüşəsi",
+  "original_text": "Hyundai Accent 2007. Fara şüşəsi.",
+  "boy": "KZ-010",
+  "status": "single_match"
+ },
+ {
+  "n": 232,
+  "rfq": "2f761371-b859-4ad7-a168-8f222ab593ec",
+  "raw": "Yağ Hava filtiri",
+  "original_text": "Yağ Hava filtiri",
+  "boy": "SR-003",
+  "status": "single_match"
+ },
+ {
+  "n": 233,
+  "rfq": "757ef22a-40e2-42eb-8648-471ceac4ff91",
+  "raw": "Bufir",
+  "original_text": "Bufir ve fara qabag ekran reno",
+  "boy": "KZ-001",
+  "status": "single_match"
+ },
+ {
+  "n": 234,
+  "rfq": "101f0dab-6d7e-4e9d-9401-b3c96b8d300c",
+  "raw": "Karnizdı olan arxa nikel kant",
+  "original_text": "Karnizdı olan arxa nikel kant",
+  "boy": "KZ-038",
+  "status": "single_match"
+ },
+ {
+  "n": 235,
+  "rfq": "7a20c750-f8cd-46bb-b56c-92e4405e2552",
+  "raw": "Soyuducu mayenin nasosu ştekeri ilə bir yerdə",
+  "original_text": "Soyuducu mayenin nasosu ştekeri ilə bir yerdə",
+  "boy": "SO-006",
+  "status": "single_match"
+ },
+ {
+  "n": 236,
+  "rfq": "a5cb61bc-4baa-4108-976f-7e46036cf54b",
+  "raw": "Цепь мотора в сборе",
+  "original_text": "Цепь мотора в сборе",
+  "boy": null,
+  "status": "no_match"
+ },
+ {
+  "n": 237,
+  "rfq": "547410b4-97a6-4ee3-ba14-a82532291d6f",
+  "raw": "Стекло или пластик для Фары",
+  "original_text": "Стекло или пластик для Фары, подкрелник, и зеркало",
+  "boy": "KZ-010",
+  "status": "single_match"
+ },
+ {
+  "n": 238,
+  "rfq": "fe6ff46e-4458-411a-8da9-ff1c28fc50fd",
+  "raw": "Ön lip hlazımdır",
+  "original_text": "Ön lip hlazımdır",
+  "boy": "TY-005",
+  "status": "single_match"
+ },
+ {
+  "n": 239,
+  "rfq": "e4bbf5b6-a2a8-4842-a7eb-e0988a84c4ec",
+  "raw": "Mühərrik",
+  "original_text": "Mühərrik",
+  "boy": "MU-001",
+  "status": "single_match"
+ },
+ {
+  "n": 240,
+  "rfq": "c248b340-305d-48e3-a133-c06cdd7a1c32",
+  "raw": "265/65/17 işlənmiş yaxşı veziyyetde münasib qiymete 4 dene teker",
+  "original_text": "265/65/17 işlənmiş yaxşı veziyyetde münasib qiymete 4 dene teker lazımdı\nİli çox köhne olmasın.",
+  "boy": "TK-001",
+  "status": "single_match"
+ }
+]

@@ -57,36 +57,36 @@ def test_without_a_catalog_a_number_is_never_invented(retriever):
     """Каталога нет — значит номер честно не разрешён, а не «подобран»."""
     evidence = OemResolver(retriever).resolve("əyləc diski", "1K0615301AA əyləc diski")
     assert evidence.status == OEM_UNRESOLVED
-    assert evidence.resolved_part_id is None
+    assert evidence.resolved_external_code is None
 
 
 def test_number_agreeing_with_the_text_is_a_match(retriever):
-    catalog = {"1K0615301AA": {"part_id": "EY-002"}}
+    catalog = {"1K0615301AA": {"external_code": "EY-002"}}
     evidence = OemResolver(retriever, catalog).resolve(
         "əyləc diski", "1K0615301AA əyləc diski")
     assert evidence.status == OEM_MATCH
-    assert evidence.resolved_part_id == "EY-002"
+    assert evidence.resolved_external_code == "EY-002"
 
 
 def test_number_pointing_elsewhere_is_a_conflict_not_an_override(retriever):
     """Номер не перебивает текст молча — конфликт доезжает до валидатора."""
-    catalog = {"06A115561B": {"part_id": "MU-025"}}
+    catalog = {"06A115561B": {"external_code": "MU-025"}}
     evidence = OemResolver(retriever, catalog).resolve(
         "əyləc diski", "06A115561B əyləc diski")
     assert evidence.status == OEM_CONFLICT
-    assert evidence.resolved_part_id == "MU-025"
-    assert "EY-002" in evidence.text_head_part_ids
+    assert evidence.resolved_external_code == "MU-025"
+    assert "EY-002" in evidence.text_head_codes
 
 
 def test_number_in_the_same_leaf_agrees(retriever):
     """Соседняя деталь того же листа — не конфликт, а уточнение внутри группы."""
-    catalog = {"1K0615301AA": {"part_id": "EY-005"}}       # барабан, тот же лист
+    catalog = {"1K0615301AA": {"external_code": "EY-005"}}       # барабан, тот же лист
     assert OemResolver(retriever, catalog).resolve(
         "əyləc diski", "1K0615301AA əyləc diski").status == OEM_MATCH
 
 
 def test_catalog_pointing_outside_the_dictionary_is_unresolved(retriever):
-    catalog = {"1K0615301AA": {"part_id": "ZZ-999"}}
+    catalog = {"1K0615301AA": {"external_code": "ZZ-999"}}
     evidence = OemResolver(retriever, catalog).resolve(
         "əyləc diski", "1K0615301AA əyləc diski")
     assert evidence.status == OEM_UNRESOLVED

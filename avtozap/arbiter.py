@@ -1,14 +1,19 @@
 """Arbiter V3 — ЗАМОРОЖЕН.
 
-Промпт лежит в ``prompts/arbiter_v3.txt`` и защищён контрольной суммой в
-``prompts/arbiter_v3.sha256`` (тест ``test_arbiter_frozen.py`` падает при любом
-расхождении). Изменить промпт можно только осознанно — правкой обоих файлов;
-случайный «доводкой по ходу дела» он измениться не может.
+Промпт в ``prompts/arbiter_v3.txt`` — точная копия
+``01_PIPELINE/ARBITER_V3_PROMPT.txt`` из поставки проекта, байт в байт. Он
+защищён контрольной суммой в ``arbiter_v3.sha256``, и тест
+``test_prompt_is_frozen`` падает при любом расхождении.
 
-Модуль отвечает только за подачу входа в замороженный промпт и за строгий
-разбор ответа. Никакой доводки решения здесь нет: если модель вернула код,
-которого не было в кандидатах, это ошибка формата, а не повод «починить» ответ.
-Реальную проверку выполняет валидатор — отдельным слоем.
+Контракт ответа задан самим промптом и здесь только исполняется::
+
+    {"decision":"select|unknown|clarify","external_code":null,
+     "confidence":"high|medium|low","reason":"max 18 words",
+     "clarification_text":null}
+
+Модуль не «дорабатывает» решение: если модель вернула код, которого не было
+среди кандидатов, это ошибка формата, попадающая в отчёт, а не повод подставить
+что-то похожее. Проверки согласованности — отдельный слой, валидатор.
 """
 
 from __future__ import annotations
@@ -30,6 +35,7 @@ from .types import (
     ARB_ERROR,
     ARB_SELECT,
     ARB_UNKNOWN,
+    CONFIDENCE_LEVELS,
     ArbiterDecision,
     OemEvidence,
     PhotoEvidence,
@@ -60,43 +66,48 @@ def build_user_message(original_text: str, item_raw: str,
                        oem: OemEvidence, photo: PhotoEvidence,
                        retriever: RetrieverResult,
                        vehicle_context: str = "",
-                       translation: str | None = None) -> str:
-    """Собрать вход арбитра. Кандидаты — единственный источник допустимых кодов."""
-    lines = [
-        f"ORIGINAL_MESSAGE: {original_text}",
-        f"ATOMIC_ITEM: {item_raw}",
-    ]
+                       translation: str | None = None,
+                       search_phrases: list[str] | None = None) -> str:
+    """Вход арбитра. Список кандидатов — единственный источник допустимых кодов."""
+    payload: dict[str, Any] = {
+        "original_text": original_text,
+        "item_raw": item_raw,
+        "candidates": [
+            {
+                "external_code": c.external_code,
+                "name_az": c.name_az,
+                "name_ru": c.name_ru,
+                "category": c.category,
+                "synonyms": c.synonyms,
+                "retrieval_score": c.score,
+                "retrieval_reason": c.reason,
+            }
+            for c in retriever.candidates
+        ],
+    }
     if translation:
-        lines.append(f"TRANSLATION: {translation}")
+        payload["translation"] = translation
+    if search_phrases:
+        payload["search_phrases"] = search_phrases
     if vehicle_context:
-        lines.append(f"VEHICLE_CONTEXT: {vehicle_context}")
+        payload["vehicle_context"] = vehicle_context
 
-    lines.append(f"OEM_STATUS: {oem.status}")
-    lines.append(f"OEM_NUMBERS: {', '.join(oem.numbers) if oem.numbers else '-'}")
-    if oem.resolved_part_id:
-        lines.append(f"OEM_RESOLVED_PART: {oem.resolved_part_id} ({oem.resolved_name})")
-    lines.append(f"OEM_NOTE: {oem.reason}")
-
-    lines.append(f"PHOTO_STATUS: {photo.status}")
-    if photo.summary:
-        lines.append(f"PHOTO_EVIDENCE: {photo.summary}")
-
-    lines.append("")
-    lines.append("CANDIDATES (the ONLY part_ids you may return):")
-    if not retriever.candidates:
-        lines.append("  (none)")
-    else:
-        for c in retriever.candidates:
-            lines.append(
-                f"  {c.part_id} | {c.name_ru} | {c.name_az} | "
-                f"категория: {c.category} / {c.subcategory} | "
-                f"score={c.score} | почему: {c.reason}"
-            )
-    return "\n".join(lines)
+    payload["oem"] = {
+        "status": oem.status,
+        "numbers": oem.numbers,
+        "resolved_external_code": oem.resolved_external_code,
+        "note": oem.reason,
+    }
+    payload["photo"] = {"status": photo.status, "evidence": photo.summary or None}
+    return json.dumps(payload, ensure_ascii=False, indent=2)
 
 
-def parse_response(text: str, allowed_ids: set[str]) -> tuple[dict[str, Any], str | None]:
-    """Разобрать JSON-ответ арбитра. Возвращает ``(данные, ошибка)``."""
+def parse_response(text: str, allowed_codes: set[str]) -> tuple[dict[str, Any], str | None]:
+    """Разобрать ответ арбитра строго по контракту промпта.
+
+    Возвращает ``(данные, ошибка)``; ошибка — это факт для отчёта, а не сигнал
+    что-то исправить за модель.
+    """
     try:
         data = json.loads(text)
     except (json.JSONDecodeError, TypeError):
@@ -104,31 +115,28 @@ def parse_response(text: str, allowed_ids: set[str]) -> tuple[dict[str, Any], st
     if not isinstance(data, dict):
         return {}, "ответ арбитра не является объектом JSON"
 
-    decision = str(data.get("decision", "")).strip().upper()
+    decision = str(data.get("decision", "")).strip().lower()
     if decision not in _VALID_DECISIONS:
-        return data, f"недопустимое решение {decision!r}"
+        return data, f"недопустимое решение {data.get('decision')!r}"
 
-    part_id = data.get("part_id")
-    if part_id is not None and not isinstance(part_id, str):
-        return data, "part_id должен быть строкой либо null"
+    code = data.get("external_code")
+    if code is not None and not isinstance(code, str):
+        return data, "external_code должен быть строкой либо null"
+    code = (code or "").strip() or None
+
     if decision == ARB_SELECT:
-        if not part_id:
-            return data, "SELECT без part_id"
-        if part_id not in allowed_ids:
-            # Не «чиним» ответ: несуществующий код — это факт, который должен
-            # доехать до валидатора и до отчёта.
-            return data, f"part_id {part_id!r} отсутствует среди кандидатов"
-    elif part_id:
-        return data, f"решение {decision} не должно содержать part_id"
+        if not code:
+            return data, "select без external_code"
+        if code not in allowed_codes:
+            return data, f"external_code {code!r} отсутствует среди кандидатов"
+    elif code:
+        return data, f"решение {decision} не должно содержать external_code"
 
     confidence = data.get("confidence")
     if confidence is not None:
-        try:
-            confidence = float(confidence)
-        except (TypeError, ValueError):
-            return data, "confidence не является числом"
-        if not 0.0 <= confidence <= 1.0:
-            return data, "confidence вне диапазона [0, 1]"
+        if str(confidence).strip().lower() not in CONFIDENCE_LEVELS:
+            return data, (f"confidence {confidence!r} вне набора "
+                          f"{'/'.join(CONFIDENCE_LEVELS)}")
     return data, None
 
 
@@ -143,29 +151,25 @@ class ArbiterV3:
 
     def decide(self, original_text: str, item_raw: str, oem: OemEvidence,
                photo: PhotoEvidence, retriever: RetrieverResult,
-               vehicle_context: str = "",
-               translation: str | None = None) -> ArbiterDecision:
-        allowed = set(retriever.part_ids)
+               vehicle_context: str = "", translation: str | None = None,
+               search_phrases: list[str] | None = None) -> ArbiterDecision:
+        allowed = set(retriever.codes)
         if not allowed:
-            # Ретривер не дал ни одного реального кандидата — арбитру не из чего
-            # выбирать, и звать модель незачем.
+            # Кандидатов нет — выбирать не из чего, звать модель незачем.
             return ArbiterDecision(
-                decision=ARB_UNKNOWN, part_id=None, confidence=0.0,
-                reason="ретривер не нашёл ни одного кандидата в словаре",
-                model=self.model,
-            )
+                decision=ARB_UNKNOWN, confidence="low", model=self.model,
+                reason="ретривер не нашёл ни одного кандидата в словаре")
         if self.client is None:
             raise LlmError("клиент OpenAI не сконфигурирован")
 
         user = build_user_message(original_text, item_raw, oem, photo, retriever,
-                                  vehicle_context, translation)
+                                  vehicle_context, translation, search_phrases)
         try:
             response = self.client.complete(
                 model=self.model,
                 messages=[{"role": "system", "content": self.system_prompt},
                           {"role": "user", "content": user}],
-                temperature=self.temperature,
-            )
+                temperature=self.temperature)
         except LlmError as exc:
             return ArbiterDecision(decision=ARB_ERROR, model=self.model,
                                    reason="ошибка вызова API", error=str(exc))
@@ -175,18 +179,15 @@ class ArbiterV3:
             return ArbiterDecision(
                 decision=ARB_ERROR, model=response.model,
                 latency_ms=response.latency_ms, attempts=response.attempts,
-                reason=error, error=error, raw_response=response.text[:2000],
-            )
+                reason=error, error=error, raw_response=response.text[:2000])
 
-        decision = str(data["decision"]).strip().upper()
+        confidence = data.get("confidence")
         return ArbiterDecision(
-            decision=decision,
-            part_id=data.get("part_id") or None,
-            confidence=(float(data["confidence"])
-                        if data.get("confidence") is not None else None),
+            decision=str(data["decision"]).strip().lower(),
+            external_code=(data.get("external_code") or None),
+            confidence=(str(confidence).strip().lower() if confidence else None),
             reason=str(data.get("reason", ""))[:500],
-            model=response.model,
-            latency_ms=response.latency_ms,
-            attempts=response.attempts,
-            raw_response=response.text[:2000],
-        )
+            clarification_text=(str(data["clarification_text"])[:500]
+                                if data.get("clarification_text") else None),
+            model=response.model, latency_ms=response.latency_ms,
+            attempts=response.attempts, raw_response=response.text[:2000])

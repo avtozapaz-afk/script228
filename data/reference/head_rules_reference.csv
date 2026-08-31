@@ -1,0 +1,29 @@
+term,default_part_az,default_code,keywords,qualifier_part_az,qualifier_code
+fara,Fara (baş fara),KZ-005,"[""şüşə"", ""suse"", ""стекло"", ""стекла"", ""steklo""]",Fara şüşəsi,KZ-010
+fara,Fara (baş fara),KZ-005,"[""linza"", ""линза"", ""проектор"", ""proyektor"", ""projektor"", ""lupa""]",Fara linzası,KZ-066
+fara,Fara (baş fara),KZ-005,"[""plasma"", ""plasması"", ""накладка"", ""рамка"", ""ramka""]",Faranın üst plasması,KZ-059
+fara,Fara (baş fara),KZ-005,"[""drl"", ""gündüz"", ""gunduz"", ""дхо"", ""дневной"", ""ходовой""]",Gündüz işığı (DRL),KZ-044
+faralar,Fara (baş fara),KZ-005,"[""plasma"", ""plasması"", ""накладка"", ""рамка"", ""ramka""]",Faranın üst plasması,KZ-059
+faralar,Fara (baş fara),KZ-005,"[""linza"", ""линза"", ""проектор"", ""proyektor"", ""projektor"", ""lupa""]",Fara linzası,KZ-066
+faralar,Fara (baş fara),KZ-005,"[""şüşə"", ""suse"", ""стекло"", ""стекла"", ""steklo""]",Fara şüşəsi,KZ-010
+faralar,Fara (baş fara),KZ-005,"[""drl"", ""gündüz"", ""gunduz"", ""дхо"", ""дневной"", ""ходовой""]",Gündüz işığı (DRL),KZ-044
+stop,Stop (arxa fənər),KZ-007,"[""reflektor"", ""reflector"", ""otrajatel"", ""otrajateli"", ""катафот"", ""отражатель""]",Reflektor,KZ-009
+stop,Stop (arxa fənər),KZ-007,"[""üçüncü"", ""ucuncu"", ""əlavə"", ""elave"", ""третий"", ""дополнительный""]",Əlavə stop (üçüncü stop),KZ-049
+stop,Stop (arxa fənər),KZ-007,"[""plata"", ""platası"", ""плата"", ""светодиод"", ""led""]",Arxa fənərin platası (LED),KZ-063
+stop,Stop (arxa fənər),KZ-007,"[""şüşə"", ""suse"", ""стекло"", ""стекла"", ""steklo""]",Stop şüşəsi,KZ-048
+stoplar,Stop (arxa fənər),KZ-007,"[""üçüncü"", ""ucuncu"", ""əlavə"", ""elave"", ""третий"", ""дополнительный""]",Əlavə stop (üçüncü stop),KZ-049
+stoplar,Stop (arxa fənər),KZ-007,"[""plata"", ""platası"", ""плата"", ""светодиод"", ""led""]",Arxa fənərin platası (LED),KZ-063
+stoplar,Stop (arxa fənər),KZ-007,"[""şüşə"", ""suse"", ""стекло"", ""стекла"", ""steklo""]",Stop şüşəsi,KZ-048
+stoplar,Stop (arxa fənər),KZ-007,"[""reflektor"", ""reflector"", ""otrajatel"", ""otrajateli"", ""катафот"", ""отражатель""]",Reflektor,KZ-009
+стоп,Stop (arxa fənər),KZ-007,"[""üçüncü"", ""ucuncu"", ""əlavə"", ""elave"", ""третий"", ""дополнительный""]",Əlavə stop (üçüncü stop),KZ-049
+стоп,Stop (arxa fənər),KZ-007,"[""plata"", ""platası"", ""плата"", ""светодиод"", ""led""]",Arxa fənərin platası (LED),KZ-063
+стоп,Stop (arxa fənər),KZ-007,"[""reflektor"", ""reflector"", ""otrajatel"", ""otrajateli"", ""катафот"", ""отражатель""]",Reflektor,KZ-009
+стоп,Stop (arxa fənər),KZ-007,"[""şüşə"", ""suse"", ""стекло"", ""стекла"", ""steklo""]",Stop şüşəsi,KZ-048
+фара,Fara (baş fara),KZ-005,"[""drl"", ""gündüz"", ""gunduz"", ""дхо"", ""дневной"", ""ходовой""]",Gündüz işığı (DRL),KZ-044
+фара,Fara (baş fara),KZ-005,"[""linza"", ""линза"", ""проектор"", ""proyektor"", ""projektor"", ""lupa""]",Fara linzası,KZ-066
+фара,Fara (baş fara),KZ-005,"[""şüşə"", ""suse"", ""стекло"", ""стекла"", ""steklo""]",Fara şüşəsi,KZ-010
+фара,Fara (baş fara),KZ-005,"[""plasma"", ""plasması"", ""накладка"", ""рамка"", ""ramka""]",Faranın üst plasması,KZ-059
+фары,Fara (baş fara),KZ-005,"[""drl"", ""gündüz"", ""gunduz"", ""дхо"", ""дневной"", ""ходовой""]",Gündüz işığı (DRL),KZ-044
+фары,Fara (baş fara),KZ-005,"[""plasma"", ""plasması"", ""накладка"", ""рамка"", ""ramka""]",Faranın üst plasması,KZ-059
+фары,Fara (baş fara),KZ-005,"[""şüşə"", ""suse"", ""стекло"", ""стекла"", ""steklo""]",Fara şüşəsi,KZ-010
+фары,Fara (baş fara),KZ-005,"[""linza"", ""линза"", ""проектор"", ""proyektor"", ""projektor"", ""lupa""]",Fara linzası,KZ-066

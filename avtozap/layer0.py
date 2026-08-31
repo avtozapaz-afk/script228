@@ -31,27 +31,49 @@ from __future__ import annotations
 
 import re
 
-from slovar_matcher.normalize import az_lower, tokens
-
 from .config import (
+    AMBIGUOUS_FRONT,
     CONJUNCTIONS,
-    NOISE_WORDS,
-    POSITION_WORDS,
-    QUANTITY_WORDS,
-    SIDE_WORDS,
-    VEHICLE_BRANDS,
+    CONJUNCTIONS_NA,
+    NOISE_WORDS_NA,
+    POSITION_WORDS_NA,
+    QUANTITY_WORDS_NA,
+    SIDE_WORDS_NA,
+    VEHICLE_BRANDS_NA,
 )
+from .dictionary import normalize
 from .retriever import RetrieverV2, content_tokens
+
+
+def az_lower(text: str) -> str:
+    """Нижний регистр с той же нормализацией, что и в словаре проекта."""
+    return normalize(text) or text.lower()
+
+
+def tokens(text: str) -> list[str]:
+    """Слова текста в нормализации словаря проекта."""
+    return normalize(text).split()
 from .types import L0_EMPTY, L0_FALLBACK, L0_OK, Layer0Item, Layer0Result
 
 # Явные разделители: запятая, точка с запятой, плюс, амперсанд, перевод строки,
 # маркеры списка. Слэш НЕ разделитель — он встречается внутри имён деталей.
 _SPLIT_RE = re.compile(r"[,\n;+&]|(?:^|\s)[-–—•*]\s")
+#: Нумерация пунктов списка: «1.», «2)», «3 -». Это разметка перечня, а не деталь.
+_LIST_MARK_RE = re.compile(r"^\s*\d{1,2}\s*[.)\-–]\s*")
 _YEAR_RE = re.compile(r"^(19[5-9]\d|20[0-4]\d)$")
-_CHASSIS_RE = re.compile(r"^[a-z]{1,2}\d{2,3}$")
+#: Код кузова/платформы: «W211», «E90», «B5», «F30».
+_CHASSIS_RE = re.compile(r"^[a-z]{1,2}\d{1,3}$")
+#: Объём/тип двигателя. Нормализация выбрасывает точку, поэтому «1.8t»
+#: приходит как «1 8t»; сравниваем по форме без пробелов — «18t».
+_ENGINE_SPEC_RE = re.compile(r"^\d{1,3}(?:t|td|tdi|tsi|cdi|crdi|d|i|v)$")
 
-_ATTRIBUTE_WORDS = SIDE_WORDS | POSITION_WORDS | QUANTITY_WORDS
-_DROPPABLE = _ATTRIBUTE_WORDS | NOISE_WORDS | CONJUNCTIONS
+#: Порог, выше которого фрагмент считается запросом детали даже без знакомого
+#: слова (опечатки). Ниже него у поставленного ретривера остаётся только
+#: нечёткое совпадение, которое одинаково цепляется за любой текст.
+_PART_LIKE_MIN_SCORE = 0.95
+
+_ATTRIBUTE_WORDS = SIDE_WORDS_NA | POSITION_WORDS_NA | QUANTITY_WORDS_NA
+_DROPPABLE = _ATTRIBUTE_WORDS | NOISE_WORDS_NA | CONJUNCTIONS_NA
 
 
 def _is_vehicle_token(tok: str, retriever: RetrieverV2) -> bool:
@@ -60,11 +82,14 @@ def _is_vehicle_token(tok: str, retriever: RetrieverV2) -> bool:
     Страховка от ложных срабатываний: если слово есть в словаре запчастей, оно
     НЕ вырезается, чем бы оно ни выглядело.
     """
-    if tok in retriever._postings:
+    # Страховка: слово, известное словарю запчастей, не вырезается никогда.
+    if retriever.is_known_word(tok):
         return False
-    return (tok in VEHICLE_BRANDS
-            or bool(_YEAR_RE.match(tok))
-            or bool(_CHASSIS_RE.match(tok)))
+    compact = tok.replace(" ", "")
+    return (tok in VEHICLE_BRANDS_NA
+            or bool(_YEAR_RE.match(compact))
+            or bool(_CHASSIS_RE.match(compact))
+            or bool(_ENGINE_SPEC_RE.match(compact)))
 
 
 class Layer0:
@@ -99,9 +124,10 @@ class Layer0:
                 raw_fragments=raw_fragments,
             )
 
-        units = self._attach_attribute_only(fragments)
+        units = self._attach_attribute_only(fragments, text)
         units = self._expand_ellipsis(units)
         units = self._merge_same_head(units)
+        units = self._mark_non_part_units(units)
 
         items: list[Layer0Item] = []
         for i, unit in enumerate(units):
@@ -112,6 +138,7 @@ class Layer0:
                 reason=unit["reason"],
                 side_hint=unit["side"],
                 position_hint=unit["position"],
+                is_part_request=unit.get("is_part_request", True),
                 source_fragments=unit["fragments"],
             ))
 
@@ -129,9 +156,12 @@ class Layer0:
         chunks = [c.strip() for c in _SPLIT_RE.split(text) if c and c.strip()]
         out: list[str] = []
         for chunk in chunks:
+            chunk = _LIST_MARK_RE.sub("", chunk).strip()
+            if not chunk:
+                continue
             current: list[str] = []
             for word in chunk.split():
-                if az_lower(word.strip(".!?:()")) in CONJUNCTIONS:
+                if az_lower(word.strip(".!?:()")) in CONJUNCTIONS_NA:
                     if current:
                         out.append(" ".join(current))
                         current = []
@@ -152,14 +182,59 @@ class Layer0:
                 kept.append(word)
         return " ".join(kept), vehicle
 
-    def _attach_attribute_only(self, fragments: list[str]) -> list[dict]:
+    def _mark_non_part_units(self, units: list[dict]) -> list[dict]:
+        """Пометить куски, похожие на комментарий, а не на запрос детали.
+
+        В живых заявках попадаются хвосты вроде «Hər birinin firma adı»
+        («марку каждого») — это примечание, а не деталь.
+
+        Пометка **ничего не выбрасывает**: помеченный кусок проходит конвейер
+        как обычно и честно заканчивается UNKNOWN. Ошибиться в пометке дёшево,
+        а потерять реальный запрос — нет, поэтому пометка носит справочный
+        характер и нужна только для отчёта.
+        """
+        if len(units) < 2:
+            return units
+        looks_like_part = [self._looks_like_part(u["text"]) for u in units]
+        if not any(looks_like_part):
+            return units
+        for unit, is_part in zip(units, looks_like_part):
+            if not is_part:
+                unit["is_part_request"] = False
+                unit["reason"] = "looks_like_comment_not_a_part"
+        return units
+
+    def _looks_like_part(self, text: str) -> bool:
+        """Похож ли фрагмент на запрос детали.
+
+        Достаточно любого из трёх: во фрагменте есть номер детали, словарь
+        знает слово из фрагмента, либо ретривер нашёл кандидата уверенно
+        (опечатка вроде «abirsofka» вместо «abrisofka» знакомым словом не
+        считается, но кандидата даёт).
+
+        Номер проверяем первым: по правилу 9 промпта сегментера заявка из
+        одного лишь артикула — это полноценный запрос детали.
+        """
+        from .oem import extract_numbers
+        if extract_numbers(text)[0]:
+            return True
+        if any(self.retriever.is_known_word(t) for t in content_tokens(text)):
+            return True
+        result = self.retriever.retrieve(text)
+        return bool(result.candidates
+                    and result.candidates[0].score >= _PART_LIKE_MIN_SCORE)
+
+    def _attach_attribute_only(self, fragments: list[str],
+                               original_text: str) -> list[dict]:
         """Фрагмент из одних атрибутов не предмет — он прилипает к соседнему."""
         units: list[dict] = []
         pending: list[str] = []
 
         def new_unit(text: str, fragments_: list[str], reason: str) -> dict:
             return {"text": text, "fragments": list(fragments_),
-                    "side": None, "position": None, "reason": reason}
+                    "side": None, "position": None, "reason": reason,
+                    "is_part_request": True,
+                    "conjunction_before_next": False}
 
         for frag in fragments:
             toks = [t for t in tokens(frag)]
@@ -169,7 +244,12 @@ class Layer0:
                 continue
             text = " ".join(pending + [frag]) if pending else frag
             reason = "attribute_prefix_merged" if pending else "split"
-            units.append(new_unit(text, pending + [frag], reason))
+            unit = new_unit(text, pending + [frag], reason)
+            # Помним, отделён ли следующий фрагмент союзом: только через союз
+            # имеет смысл восстанавливать опущенное слово.
+            unit["conjunction_before_next"] = _followed_by_conjunction(
+                original_text, frag)
+            units.append(unit)
             pending = []
 
         if pending:
@@ -194,16 +274,44 @@ class Layer0:
             right_tokens = content_tokens(right["text"])
             if not left_tokens or len(left_tokens) > 2 or len(right_tokens) < 2:
                 continue
-            # Единственная защита от выдумывания — сама проверка на точный ключ:
-            # расширение принимается, только если такая запись в словаре есть.
-            # Самый короткий хвост берём первым: «mühərrik» + «yastıqları».
+            # Эллипсис — явление ОДНОЙ фразы: «X və Y-nin Z-i». Через перевод
+            # строки, запятую или пункт списка слово не опускают, там просто
+            # перечислены разные детали, поэтому расширяем только через союз.
+            if not left.get("conjunction_before_next"):
+                continue
+
+            # Защита от выдумывания. Расширение принимается, если его
+            # подтверждает сам словарь: либо это точный термин, либо на нём
+            # срабатывает КОНТЕКСТНОЕ ПРАВИЛО словаря («muherrik+yasti» →
+            # опора двигателя). Контекстные правила — выверенные данные
+            # проекта, они не могут породить несуществующую деталь.
+            #
+            # Просто «высокий score» тут не годится: «Qabaq abirsofka» +
+            # «...parkradari» тоже даёт 0.999, но лишь потому, что слово
+            # parkradari нашлось само по себе, а к левому фрагменту это
+            # отношения не имеет.
             for k in range(len(right_tokens) - 1, 0, -1):
                 candidate = " ".join(left_tokens + right_tokens[k:])
                 if self.retriever.is_exact_key(candidate):
                     left["text"] = candidate
-                    left["reason"] = "ellipsis_expanded"
+                    left["reason"] = "ellipsis_expanded_exact_term"
+                    break
+                if self._context_rule_fires(candidate):
+                    left["text"] = candidate
+                    left["reason"] = "ellipsis_expanded_context_rule"
                     break
         return units
+
+    def _context_rule_fires(self, text: str) -> bool:
+        """Сработало ли на фразе контекстное правило словаря.
+
+        В поставленном ретривере такой кандидат помечается причиной
+        ``context:<правило>`` — это значит, что сочетание слов внесено в
+        словарь проекта как значащее, а не подобрано похожестью.
+        """
+        result = self.retriever.retrieve(text)
+        return bool(result.candidates
+                    and result.candidates[0].reason.startswith("context:"))
 
     def _merge_same_head(self, units: list[dict]) -> list[dict]:
         """Слить предметы, которые описывают одну и ту же каноническую деталь.
@@ -223,7 +331,7 @@ class Layer0:
 
         for unit in units:
             stripped = tuple(_strip_attributes(unit["text"]))
-            head = self.retriever.head_part_ids(unit["text"])
+            head = self.retriever.head_codes(unit["text"])
             signature = (stripped, frozenset(head) if head else None)
 
             target = None
@@ -247,9 +355,24 @@ class Layer0:
 
         for unit in merged:
             unit["text"] = _trim_noise(unit["text"]) or unit["text"]
-            unit["side"] = _detect_words(unit["text"], SIDE_WORDS)
-            unit["position"] = _detect_words(unit["text"], POSITION_WORDS)
+            unit["side"] = _detect_words(unit["text"], SIDE_WORDS_NA)
+            unit["position"] = _position_words_in(unit["text"])
         return merged
+
+
+def _followed_by_conjunction(original_text: str, fragment: str) -> bool:
+    """Идёт ли сразу после фрагмента союз («və», «ve», «и»).
+
+    Смотрим в исходный текст: перевод строки, запятая или пункт списка союзом
+    не являются, и через них эллипсис не восстанавливается.
+    """
+    position = original_text.find(fragment)
+    if position < 0:
+        return False
+    tail = original_text[position + len(fragment):].lstrip()
+    if not tail:
+        return False
+    return az_lower(tail.split()[0].strip(".,!?:()")) in CONJUNCTIONS_NA
 
 
 def _strip_attributes(text: str) -> list[str]:
@@ -265,15 +388,35 @@ def _trim_noise(text: str) -> str:
     остаются внутри ``item_raw``, а середина фразы не трогается вовсе.
     """
     words = text.split()
-    while words and az_lower(words[0].strip(".,!?:()")) in NOISE_WORDS:
+    while words and az_lower(words[0].strip(".,!?:()")) in NOISE_WORDS_NA:
         words.pop(0)
-    while words and az_lower(words[-1].strip(".,!?:()")) in NOISE_WORDS:
+    while words and az_lower(words[-1].strip(".,!?:()")) in NOISE_WORDS_NA:
         words.pop()
     return " ".join(words).strip()
 
 
-def _detect_words(text: str, vocabulary: set[str]) -> str | None:
+def _detect_words(text: str, vocabulary) -> str | None:
     found = [t for t in tokens(text) if t in vocabulary]
+    return ",".join(dict.fromkeys(found)) if found else None
+
+
+def _position_words_in(text: str) -> str | None:
+    """Слова позиции с разбором «on»: перёд или числительное «10».
+
+    После снятия диакритики «ön» (перёд) и «on» (10) — одно слово. Считаем его
+    позицией, только если следом не идёт счётное слово: «on ədəd» — это
+    «10 штук», а не «передние».
+    """
+    words = tokens(text)
+    found: list[str] = []
+    for i, word in enumerate(words):
+        if word not in POSITION_WORDS_NA:
+            continue
+        if word == AMBIGUOUS_FRONT:
+            following = words[i + 1] if i + 1 < len(words) else ""
+            if following in QUANTITY_WORDS_NA:
+                continue
+        found.append(word)
     return ",".join(dict.fromkeys(found)) if found else None
 
 

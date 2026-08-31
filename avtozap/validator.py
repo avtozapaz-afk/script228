@@ -13,7 +13,7 @@ V3           DOWNGRADE  запрошенного объекта нет — вы�
 V4           DOWNGRADE  конфликт OEM с выбранной деталью не разрешён безопасно
 V5           REJECT     Layer 0 оставил в предмете несколько разных типов деталей
 V6           REJECT     состояние конвейера внутренне противоречиво
-V7           DOWNGRADE  уверенность ниже порога (точность важнее полноты)
+V7           DOWNGRADE  уверенность `low` (точность важнее полноты)
 ===========  =========  ==========================================================
 
 REJECT переводит итог в ``UNKNOWN``, DOWNGRADE — в ``REVIEW``.
@@ -21,7 +21,7 @@ REJECT переводит итог в ``UNKNOWN``, DOWNGRADE — в ``REVIEW``.
 
 from __future__ import annotations
 
-from .config import MIN_CONFIDENCE_FOR_SELECT
+from .config import ACCEPTED_CONFIDENCE
 from .retriever import RetrieverV2
 from .types import (
     ARB_CLARIFY,
@@ -42,10 +42,10 @@ from .types import (
 
 class Validator:
     def __init__(self, retriever: RetrieverV2,
-                 min_confidence: float = MIN_CONFIDENCE_FOR_SELECT,
+                 accepted_confidence=frozenset(ACCEPTED_CONFIDENCE),
                  layer0=None):
         self.retriever = retriever
-        self.min_confidence = min_confidence
+        self.accepted_confidence = frozenset(accepted_confidence)
         self.layer0 = layer0
 
     def validate(self, item: Layer0Item, arbiter: ArbiterDecision,
@@ -57,9 +57,10 @@ class Validator:
         if arbiter.decision not in {ARB_SELECT, ARB_UNKNOWN, ARB_CLARIFY}:
             return ValidatorResult(VAL_REJECT, "V6",
                                    f"неизвестное решение арбитра: {arbiter.decision!r}")
-        if arbiter.decision != ARB_SELECT and arbiter.part_id:
-            return ValidatorResult(VAL_REJECT, "V6",
-                                   f"решение {arbiter.decision} с непустым part_id")
+        if arbiter.decision != ARB_SELECT and arbiter.external_code:
+            return ValidatorResult(
+                VAL_REJECT, "V6",
+                f"решение {arbiter.decision} с непустым external_code")
 
         # --- V5: Layer 0 не доделил предмет ----------------------------------
         multi = self._still_multiple_items(item)
@@ -72,51 +73,54 @@ class Validator:
             return ValidatorResult(VAL_PASS, "",
                                    f"арбитр не выбирал деталь ({arbiter.decision})")
 
-        part_id = arbiter.part_id or ""
+        code = arbiter.external_code or ""
 
         # --- V1: код существует в словаре ------------------------------------
-        if part_id not in self.retriever.dict.parts:
-            return ValidatorResult(VAL_REJECT, "V1",
-                                   f"part_id {part_id!r} отсутствует в словаре")
+        if code not in self.retriever.dict:
+            return ValidatorResult(
+                VAL_REJECT, "V1",
+                f"external_code {code!r} отсутствует в словаре 541")
 
         # --- V2: код был среди разрешённых кандидатов -------------------------
-        if part_id not in set(retriever.part_ids):
+        if code not in set(retriever.codes):
             return ValidatorResult(
                 VAL_REJECT, "V2",
-                f"part_id {part_id!r} не входит в список кандидатов ретривера")
+                f"external_code {code!r} не входит в shortlist ретривера")
 
         # --- V4: неразрешённый конфликт OEM ------------------------------------
-        if oem.status == OEM_CONFLICT and oem.resolved_part_id != part_id:
+        if oem.status == OEM_CONFLICT and oem.resolved_external_code != code:
             return ValidatorResult(
                 VAL_DOWNGRADE, "V4",
-                f"OEM указывает на {oem.resolved_part_id}, а выбрана {part_id} — "
+                f"OEM указывает на {oem.resolved_external_code}, а выбран {code} — "
                 "конфликт не разрешён")
 
         # --- V3: выбран родитель/сосед вместо запрошенного объекта ------------
-        if not self._supported(item, part_id, oem):
+        if not self._supported(item, code, oem):
             return ValidatorResult(
                 VAL_DOWNGRADE, "V3",
-                f"в тексте запроса нет опоры для {part_id} — похоже на "
+                f"в тексте запроса нет опоры для {code} — похоже на "
                 "родительский/соседний узел, а не на запрошенную деталь")
 
         # --- V7: слишком низкая уверенность -----------------------------------
-        confidence = arbiter.confidence
-        if confidence is None:
+        confidence = (arbiter.confidence or "").lower()
+        if not confidence:
             return ValidatorResult(VAL_DOWNGRADE, "V7",
                                    "арбитр не сообщил уверенность")
-        if confidence < self.min_confidence:
+        if confidence not in self.accepted_confidence:
             return ValidatorResult(
                 VAL_DOWNGRADE, "V7",
-                f"уверенность {confidence:.2f} ниже порога {self.min_confidence:.2f}")
+                f"уверенность {confidence!r} ниже принимаемого уровня "
+                f"({'/'.join(sorted(self.accepted_confidence))})")
 
         return ValidatorResult(VAL_PASS, "", "все проверки пройдены")
 
     # ── внутреннее ──────────────────────────────────────────────────────────
-    def _supported(self, item: Layer0Item, part_id: str, oem: OemEvidence) -> bool:
+    def _supported(self, item: Layer0Item, code: str, oem: OemEvidence) -> bool:
         """Есть ли у выбранной детали опора в тексте, номере или фото."""
-        if oem.resolved_part_id == part_id:
+        if oem.resolved_external_code == code:
             return True
-        return self.retriever.lexical_support(item.item_raw, part_id)
+        text = " ".join([item.item_raw, *item.search_phrases])
+        return self.retriever.lexical_support(text, code)
 
     def _still_multiple_items(self, item: Layer0Item) -> list[str] | None:
         """Разбивается ли ``item_raw`` сегментатором ещё раз.

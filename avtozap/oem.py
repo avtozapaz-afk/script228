@@ -23,7 +23,7 @@
 нет, любой извлечённый номер честно получает ``UNRESOLVED``: выдумывать
 соответствие номера детали запрещено. Формат файла, когда он появится::
 
-    {"06A115561B": {"part_id": "MU-028"}, "1K0615301AA": {"part_id": "EY-002"}}
+    {"06A115561B": {"external_code": "MU-028"}, "1K0615301AA": {"external_code": "EY-002"}}
 """
 
 from __future__ import annotations
@@ -32,9 +32,22 @@ import json
 import os
 import re
 
-from slovar_matcher.normalize import az_lower
-
 from .retriever import RetrieverV2
+
+# Азербайджанские заглавные, которые str.lower() обрабатывает неверно.
+_AZ_LOWER = str.maketrans({
+    "İ": "i", "I": "ı", "Ə": "ə", "Ç": "ç", "Ş": "ş", "Ğ": "ğ", "Ö": "ö", "Ü": "ü",
+})
+
+
+def az_lower(text: str) -> str:
+    """Нижний регистр С СОХРАНЕНИЕМ пунктуации.
+
+    Номера деталей и типоразмеры шин разбираются вместе со слэшами, точками и
+    дефисами («205/55R16», «1K0-615-301»), поэтому здесь нельзя использовать
+    словарную нормализацию: она вычищает все небуквенные знаки.
+    """
+    return str(text or "").translate(_AZ_LOWER).lower()
 from .types import OEM_CONFLICT, OEM_MATCH, OEM_NONE, OEM_UNRESOLVED, OemEvidence
 
 # Кандидат в номер: «слово» из букв/цифр/разделителей, где есть хотя бы одна цифра.
@@ -168,17 +181,17 @@ class OemResolver:
         # Номер ищем во всём сообщении: покупатель часто пишет его отдельной
         # строкой, вне фразы с названием детали.
         numbers, rejected = extract_numbers(original_text)
-        text_head = self.retriever.head_part_ids(item_raw)
+        text_head = self.retriever.head_codes(item_raw)
 
         if not numbers:
             return OemEvidence(status=OEM_NONE, numbers=[], rejected=rejected,
-                               text_head_part_ids=text_head,
+                               text_head_codes=text_head,
                                reason="номер детали в сообщении не найден")
 
         if not self.catalog:
             return OemEvidence(
                 status=OEM_UNRESOLVED, numbers=numbers, rejected=rejected,
-                text_head_part_ids=text_head,
+                text_head_codes=text_head,
                 reason="каталог OEM не подключён — номер не с чем сопоставлять",
             )
 
@@ -186,33 +199,33 @@ class OemResolver:
             entry = self.catalog.get(number)
             if not entry:
                 continue
-            part_id = entry.get("part_id")
-            part = self.retriever.dict.parts.get(part_id) if part_id else None
+            code = entry.get("external_code") or entry.get("part_id")
+            part = self.retriever.dict.get(code) if code else None
             if part is None:
                 # Номер есть в каталоге, но ведёт на part_id вне словаря —
                 # это не совпадение, а рассинхронизация данных.
                 return OemEvidence(
                     status=OEM_UNRESOLVED, numbers=numbers, rejected=rejected,
-                    text_head_part_ids=text_head,
-                    reason=f"каталог указывает на {part_id!r}, которого нет в словаре",
+                    text_head_codes=text_head,
+                    reason=f"каталог указывает на {code!r}, которого нет в словаре",
                 )
-            agrees = self._agrees(part_id, text_head)
+            agrees = self._agrees(code, text_head)
             return OemEvidence(
                 status=OEM_MATCH if agrees else OEM_CONFLICT,
                 numbers=numbers, rejected=rejected,
-                resolved_part_id=part_id,
+                resolved_external_code=code,
                 resolved_name=part.name_ru,
-                text_head_part_ids=text_head,
+                text_head_codes=text_head,
                 reason=("номер и текст указывают на один объект" if agrees else
-                        f"номер даёт {part_id} ({part.name_ru}), "
+                        f"номер даёт {code} ({part.name_ru}), "
                         f"текст — {text_head or 'объект не распознан'}"),
             )
 
         return OemEvidence(status=OEM_UNRESOLVED, numbers=numbers, rejected=rejected,
-                           text_head_part_ids=text_head,
+                           text_head_codes=text_head,
                            reason="номера нет в каталоге OEM")
 
-    def _agrees(self, part_id: str, text_head: list[str]) -> bool:
+    def _agrees(self, code: str, text_head: list[str]) -> bool:
         """Согласуются ли объект по номеру и объект по тексту.
 
         Если текст не дал однозначного объекта, конфликта нет — противоречить
@@ -220,8 +233,10 @@ class OemResolver:
         """
         if not text_head:
             return True
-        if part_id in text_head:
+        if code in text_head:
             return True
+        # Соседняя деталь того же листа словаря — не конфликт, а уточнение
+        # внутри группы.
         parts = self.retriever.dict.parts
-        leaf = parts[part_id].leaf_code
-        return any(parts[p].leaf_code == leaf for p in text_head if p in parts)
+        leaf = parts[code].category
+        return any(parts[c].category == leaf for c in text_head if c in parts)

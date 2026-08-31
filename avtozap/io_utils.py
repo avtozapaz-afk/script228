@@ -5,7 +5,7 @@
 
 ``rfq_id``            идентификатор запроса (иначе подставляется ``row-N``);
 ``image_path`` / ``image_url``  фото для слоя фото-доказательств;
-``expected_part_id``  эталон; включает разбор ошибок по слоям в отчёте.
+``expected_external_code``  эталон; включает разбор ошибок по слоям в отчёте.
 
 Выход пишется по одной записи на атомарный предмет и сразу сбрасывается на
 диск: прогон можно прервать в любой момент, ничего не потеряв.
@@ -22,18 +22,20 @@ TEXT_FIELDS = ("original_text", "text", "request", "message", "запрос", "�
 
 CSV_COLUMNS = [
     "source_index", "rfq_id", "original_text",
-    "item_index", "item_raw", "layer0_status", "layer0_reason", "layer0_item_count",
+    "item_index", "item_raw", "search_phrases", "is_part_request",
+    "layer0_source", "layer0_status", "layer0_reason", "layer0_item_count",
     "vehicle_context",
-    "oem_numbers", "oem_status", "oem_resolved_part_id", "oem_resolved_name",
+    "oem_numbers", "oem_status", "oem_resolved_code", "oem_resolved_name",
     "oem_reason", "oem_rejected",
     "photo_status", "photo_summary",
-    "retriever_status", "retriever_candidate_ids", "retriever_candidate_names",
+    "retriever_status", "retriever_candidate_codes", "retriever_candidate_names",
     "retriever_scores", "retriever_reasons", "retriever_query_keys",
-    "arbiter_decision", "arbiter_part_id", "arbiter_confidence", "arbiter_reason",
-    "arbiter_model", "arbiter_attempts", "arbiter_error",
+    "arbiter_decision", "arbiter_external_code", "arbiter_confidence",
+    "arbiter_reason", "arbiter_clarification", "arbiter_model",
+    "arbiter_attempts", "arbiter_error",
     "validator_status", "validator_code", "validator_reason",
-    "final_part_id", "final_status",
-    "expected_part_id", "failure_layer", "latency_ms", "error",
+    "final_external_code", "final_status",
+    "expected_external_code", "failure_layer", "latency_ms", "error",
 ]
 
 
@@ -188,13 +190,16 @@ def flatten_record(record: dict[str, Any]) -> dict[str, Any]:
         "original_text": record.get("original_text"),
         "item_index": record.get("item_index"),
         "item_raw": record.get("item_raw"),
+        "search_phrases": " | ".join(record.get("search_phrases") or []),
+        "is_part_request": record.get("is_part_request"),
+        "layer0_source": record.get("layer0_source"),
         "layer0_status": record.get("layer0_status"),
         "layer0_reason": record.get("layer0_reason"),
         "layer0_item_count": record.get("layer0_item_count"),
         "vehicle_context": record.get("vehicle_context"),
         "oem_numbers": " | ".join(oem.get("numbers") or []),
         "oem_status": oem.get("status"),
-        "oem_resolved_part_id": oem.get("resolved_part_id"),
+        "oem_resolved_code": oem.get("resolved_external_code"),
         "oem_resolved_name": oem.get("resolved_name"),
         "oem_reason": oem.get("reason"),
         "oem_rejected": " | ".join(f"{r.get('token')}({r.get('reason')})"
@@ -202,24 +207,26 @@ def flatten_record(record: dict[str, Any]) -> dict[str, Any]:
         "photo_status": photo.get("status"),
         "photo_summary": photo.get("summary"),
         "retriever_status": retr.get("status"),
-        "retriever_candidate_ids": " | ".join(c.get("part_id", "") for c in candidates),
+        "retriever_candidate_codes": " | ".join(c.get("external_code", "")
+                                                for c in candidates),
         "retriever_candidate_names": " | ".join(c.get("name_ru", "") for c in candidates),
         "retriever_scores": " | ".join(str(c.get("score", "")) for c in candidates),
         "retriever_reasons": " | ".join(c.get("reason", "") for c in candidates),
         "retriever_query_keys": " | ".join(retr.get("query_keys") or []),
         "arbiter_decision": arb.get("decision"),
-        "arbiter_part_id": arb.get("part_id"),
+        "arbiter_external_code": arb.get("external_code"),
         "arbiter_confidence": arb.get("confidence"),
         "arbiter_reason": arb.get("reason"),
+        "arbiter_clarification": arb.get("clarification_text"),
         "arbiter_model": arb.get("model"),
         "arbiter_attempts": arb.get("attempts"),
         "arbiter_error": arb.get("error"),
         "validator_status": val.get("status"),
         "validator_code": val.get("code"),
         "validator_reason": val.get("reason"),
-        "final_part_id": record.get("final_part_id"),
+        "final_external_code": record.get("final_external_code"),
         "final_status": record.get("final_status"),
-        "expected_part_id": record.get("expected_part_id"),
+        "expected_external_code": record.get("expected_external_code"),
         "failure_layer": record.get("failure_layer"),
         "latency_ms": record.get("latency_ms"),
         "error": record.get("error"),

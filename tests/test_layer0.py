@@ -28,9 +28,11 @@ def test_two_different_part_types_split(layer0, message):
 
 def test_engine_and_gearbox_mounts_are_two_mounts(layer0):
     """Эллипсис: «mühərrik və …» — это опора двигателя, а не двигатель."""
-    items = texts(layer0.segment("mühərrik və sürətlər qutusunun yastıqları"))
-    assert items[0] == "mühərrik yastıqları"
+    result = layer0.segment("mühərrik və sürətlər qutusunun yastıqları")
+    items = texts(result)
+    assert "yastiq" in items[0].lower() or "yastıq" in items[0].lower()
     assert "sürətlər qutusunun yastıqları" in items[1]
+    assert "ellipsis_expanded" in result.items[0].reason
 
 
 def test_ellipsis_expands_only_to_a_real_dictionary_entry(layer0):
@@ -47,19 +49,19 @@ def test_comma_separated_list_splits(layer0):
 def test_front_and_rear_of_one_part_stay_one_item(layer0):
     result = layer0.segment("ön və arxa bufer")
     assert len(result.items) == 1
-    assert result.items[0].position_hint == "ön,arxa"
+    assert result.items[0].position_hint == "on,arxa"
 
 
 def test_left_and_right_of_one_part_stay_one_item(layer0):
     result = layer0.segment("sol və sağ güzgü")
     assert len(result.items) == 1
-    assert result.items[0].side_hint == "sol,sağ"
+    assert result.items[0].side_hint == "sol,sag"
 
 
 def test_repeated_head_with_positions_merges(layer0):
     result = layer0.segment("ön bufer və arxa bufer")
     assert len(result.items) == 1
-    assert result.items[0].position_hint == "ön,arxa"
+    assert result.items[0].position_hint == "on,arxa"
 
 
 def test_different_parts_with_positions_do_not_merge(layer0):
@@ -93,3 +95,42 @@ def test_empty_message(layer0):
 def test_message_without_any_part_word_still_yields_one_item(layer0):
     result = layer0.segment("BMW 2010")
     assert len(result.items) == 1        # разбор не выдумывается, текст едет целиком
+
+
+# ── дефекты, найденные на реальном fresh-300 ────────────────────────────────
+def test_list_numbering_is_not_part_of_the_item(layer0):
+    """«1. Qabaq arxa apornu» — «1.» это разметка перечня, а не деталь."""
+    items = texts(layer0.segment("1. Qabaq arxa apornu\n2. Babin"))
+    assert all(not i.strip().startswith(("1.", "2.")) for i in items)
+
+
+def test_ellipsis_does_not_fuse_parts_from_different_lines(layer0):
+    """Через перевод строки слово не опускают — это разные заявки.
+
+    Регрессия с живых данных: «Qabaq abirsofka» и «...parkradari» склеивались
+    в несуществующий предмет «abirsofka parkradari».
+    """
+    items = texts(layer0.segment(
+        "Qabaq bufer\nQabaq abirsofka\nQabaq sol terefin 2 parkradari"))
+    assert not any("abirsofka" in i and "parkradari" in i for i in items)
+
+
+def test_commentary_is_flagged_but_never_dropped(layer0):
+    """Хвост «Hər birinin firma adı» помечается, но предмет не исчезает."""
+    result = layer0.segment(
+        "Qabaq sağ stupitsa podşipniki\nHər birinin firma adı")
+    assert len(result.items) == 2
+    flags = [i.is_part_request for i in result.items]
+    assert flags[0] is True and flags[1] is False
+
+
+def test_a_misspelled_real_part_is_not_flagged_as_commentary(layer0):
+    """«abirsofka» — опечатка реальной детали, а не примечание."""
+    result = layer0.segment("Qabaq bufer\nQabaq abirsofka")
+    assert all(i.is_part_request for i in result.items)
+
+
+def test_numeral_ten_is_not_mistaken_for_front(layer0):
+    """После снятия диакритики «ön» и «on» (10) совпадают — «on ədəd» это «10 шт»."""
+    result = layer0.segment("naklatka on ədəd")
+    assert result.items[0].position_hint is None

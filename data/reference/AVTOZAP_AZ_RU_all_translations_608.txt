@@ -1,0 +1,1579 @@
+AVTOZAP — ЕДИНЫЙ СПИСОК ПЕРЕВОДОВ AZ → RU
+Собрано из всех сегодняшних списков. Для позиций 1–331 сразу использованы исправленные варианты после повторной проверки.
+
+====================
+ПРЕДВАРИТЕЛЬНЫЙ СПИСОК
+====================
+
+P1. AZ: Sol qapı əlcək üsdündə baıaca plasmas lazımdır
+RU: Маленькая пластиковая деталь над ручкой левой двери.
+
+P2. AZ: Zbor Kallektor veya kepeneyleri
+RU: Впускной коллектор в сборе или его заслонки.
+
+P3. AZ: Qabağ setka qara şəkildə olan setkadan lazımdır
+RU: Нужна передняя чёрная решётка.
+
+P4. AZ: Salon orta ramkası
+RU: Средняя рамка салона.
+
+====================
+СПИСОК 1–331
+====================
+
+1. [5c41d1b7] AZ: Sol güzgüdə olan işığ
+RU: Свет в левом зеркале
+
+2. [99cfaa54] AZ: Baqaj üçün keçe lazimdir
+RU: Нужен войлок для багажника
+
+3. [b0ef660a] AZ: Geri qaytarma klapanı
+RU: Обратный клапан
+
+4. [305a4778] AZ: Guzgu pavarotnik sol
+RU: Левый поворотник зеркала
+
+5. [59b9d3ca] AZ: Radiator
+RU: Радиатор
+
+6. [35df02d1] AZ: Matorun usdunde olan plasmas qoruyucu
+RU: Пластиковая защита сверху двигателя
+
+7. [0d71b420] AZ: Kandisaner kanpressoru hunday aksent 2015 1.6 turbo dizel matoru uçun
+RU: Компрессор кондиционера для Hyundai Accent 2015, 1.6 турбодизель
+
+8. [19c98b76] AZ: qabaq sağ və sol iç və çöl qranatlar zbor
+RU: Передние правый и левый внутренние и наружные ШРУСы в сборе
+
+9. [effca7d8] AZ: Sol çöl Qranat
+RU: Левый наружный ШРУС
+
+10. [40428257] AZ: yanacaq çəninin qapağı
+RU: Крышка топливного бака
+
+11. [1c4a5fde] AZ: kodlndisonerin radiatoru
+RU: Радиатор кондиционера
+
+12. [36cb2ca4] AZ: motorun alt zasitniki
+RU: Защита двигателя снизу
+
+13. [6ef1260c] AZ: Vanuş daççiki üçün taxılan Şteker
+RU: Штекер, подключаемый к датчику VANOS
+
+14. [5248eeb2] AZ: Sağ padnoşka
+RU: Правая подножка
+
+15. [4071ed88] AZ: Antifiliz baçokunun qapağı.xaiş edirəm qiymət yazanda hem firma hem də originalının qiymətini yazın.
+RU: Крышка бачка антифриза. Пожалуйста, указывайте цену и фирмы, и оригинала.
+
+16. [76e82798] AZ: Ön sağ patkrilnik lazımdı
+RU: Нужен передний правый подкрылок
+
+17. [949a55c9] AZ: Ön şüşənin sağ tərəfi
+RU: Правая сторона лобового стекла
+
+18. [3ff620cb] AZ: Evap klapan   Rav4 2010
+RU: Клапан EVAP, RAV4 2010
+
+19. [1de421cb] AZ: Sağ tərəf iç qranat
+RU: Правый внутренний ШРУС
+
+20. [97378516] AZ: Kondisionerin kompressor datciki
+RU: Датчик компрессора кондиционера
+
+21. [b2195e27] AZ: Kulsitersen katalizatora giren setka lazımdı
+RU: Kulsitersen katalizatora giren setka lazımdı
+
+22. [123a7ed2] AZ: radiator barmaqlığ
+RU: Решётка радиатора
+
+23. [c4b85458] AZ: Orjinal dinoma remeni ve orjinal zbor natyajnoy
+RU: Оригинальный ремень генератора и оригинальный натяжитель в сборе
+
+24. [a5550bdf] AZ: Чёрные ошибки дверей
+RU: Чёрные ошибки дверей
+
+25. [e0493eee] AZ: Fara qapağı lazımdı 1 cüt
+RU: Нужна пара крышек фар
+
+26. [007d1404] AZ: Natijnik remen təkər sensoru
+RU: Натяжитель ремня, датчик колеса
+
+27. [c5a463bd] AZ: matorun üstündə zbor olur, üst kırışqa deyilir,
+RU: В сборе находится сверху двигателя, называется верхняя крышка
+
+28. [e883107e] AZ: Sağ faranın arxasında zibil baçoku zbor bütün
+RU: За правой фарой бачок в сборе, полностью
+
+29. [4d4c9eeb] AZ: Kapot altindaki peredoxranitel blokunun qapagi
+RU: Крышка блока предохранителей под капотом
+
+30. [680ae332] AZ: Radiyator ve radiyatorun peri difuzeri ile birlikde
+RU: Радиатор вместе с вентилятором и диффузором
+
+31. [0d1891c0] AZ: Arxa patkrelniklər kapron
+RU: Задние пластиковые подкрылки
+
+32. [bb3b1842] AZ: matorun alt zaşitniki
+RU: Нижняя защита двигателя
+
+33. [40bc6830] AZ: Sol ic col qranat firmasini yazin zehmet olmasa
+RU: Левый внутренний/наружный ШРУС, пожалуйста, укажите фирму
+
+34. [8708cae0] AZ: Şofer tərəf qranat
+RU: ШРУС со стороны водителя
+
+35. [4e08e489] AZ: Iç qranat lazımdır  sağ sol
+RU: Нужны внутренние ШРУСы, правый и левый
+
+36. [2423b0cd] AZ: Radiatorun qapagi
+RU: Крышка радиатора
+
+37. [9c75eb9b] AZ: Panaramanın şüşələri
+RU: Стёкла панорамы
+
+38. [e8d9d01b] AZ: Kondisaner kampressor sarxisi ve ya ikinci el tam komplekt
+RU: Шкив компрессора кондиционера или б/у компрессор полностью в сборе
+
+39. [4c820638] AZ: Pompa
+RU: Помпа
+
+40. [79681313] AZ: Katalizator daççiki 2ədəd qiymət?
+RU: Датчики катализатора, 2 штуки — цена?
+
+41. [070bcfe2] AZ: Monitor paneli
+RU: Панель монитора
+
+42. [89c023eb] AZ: W205 orijinal qoşa lupa ön fara
+RU: Оригинальная передняя фара W205 с двойной линзой
+
+43. [22cac1fd] AZ: Avtopadsos
+RU: Автоподсос
+
+44. [b401ec2e] AZ: Ic granatlar sag ve sol teref ucun
+RU: Внутренние ШРУСы для правой и левой стороны
+
+45. [c2652169] AZ: support
+RU: Суппорт
+
+46. [14ed8bf5] AZ: iç qranati
+RU: Внутренний ШРУС
+
+47. [2000d12a] AZ: ön sol qapı kilidi
+RU: Замок передней левой двери
+
+48. [3fc421f1] AZ: Qabaq sag qranat
+RU: Передний правый ШРУС
+
+49. [9ab6c3b6] AZ: pavarotnik
+RU: Поворотник
+
+50. [b089b191] AZ: Vakum klapanı e 46 kuza üçün
+RU: Вакуумный клапан для кузова E46
+
+51. [1fa60cb7] AZ: Rulavoyun almaciqi
+RU: Рулевая тяга
+
+52. [95c9626b] AZ: Nacanecnik
+RU: Наконечник
+
+53. [8165e37b] AZ: Hunday santafe Sag qranat
+RU: Правый ШРУС Hyundai Santa Fe
+
+54. [782be4fd] AZ: Sol stupsia paçevniki
+RU: Подшипник левой ступицы
+
+55. [3f7e6750] AZ: Sag yan guzgu sesi lazimdi
+RU: Нужно стекло правого бокового зеркала
+
+56. [badc6711] AZ: qabaq şofer teref yox obiri teref krlo
+RU: Переднее крыло, не со стороны водителя, а с другой стороны
+
+57. [43097e4e] AZ: Sag ic qranati   hunday verna
+RU: Правый внутренний ШРУС Hyundai Verna
+
+58. [eabe54ef] AZ: Patfanderin Starteri zbor
+RU: Стартер Pathfinder в сборе
+
+59. [131dd3b5] AZ: Baqaj
+RU: Багажник
+
+60. [b6cfa8b8] AZ: W202 on patpres ,on pavarodnikler cüt.orjinal
+RU: W202: лобовое стекло, передние поворотники — пара, оригинал
+
+61. [ae64ce3d] AZ: Podpresin şüşə silənin motoru.
+RU: Мотор стеклоочистителя лобового стекла
+
+62. [7ebe4875] AZ: blokdan Turboya geden patrubka
+RU: Патрубок от блока к турбине
+
+63. [259c71cc] AZ: radar buferin asagisinda radar
+RU: Радар под бампером
+
+64. [116134b8] AZ: Karopkanin  çöl salniki lazimdi sol teref qranat qiren yerde olan
+RU: Нужен наружный сальник коробки с левой стороны, в месте входа ШРУСа
+
+65. [af9caaf2] AZ: Kardan muftası
+RU: Муфта кардана
+
+66. [419bdbf2] AZ: Gidrouslitel, şlankı
+RU: Шланг гидроусилителя
+
+67. [21ad1928] AZ: Yanacaq filtiri dizel mühərrik  hava filtiri
+RU: Топливный фильтр для дизельного двигателя, воздушный фильтр
+
+68. [29640466] AZ: Robot karopka
+RU: Роботизированная коробка передач
+
+69. [ce77b4c1] AZ: Süretler qutusunun komplekt salnik praklatka sistemi
+RU: Полный комплект сальников и прокладок коробки передач
+
+70. [78e22e43] AZ: lan yan padnoşkalar
+RU: Боковые подножки
+
+71. [784fe343] AZ: arxa buferin xrom diffuzeri
+RU: Хромированный диффузор заднего бампера
+
+72. [ebf90e53] AZ: Hoverin suret qutusu mexanikadır
+RU: Механическая коробка передач Hover
+
+73. [edfe270b] AZ: Rulavoyun sağ butulkasi bu kodda olan 57735-1u000 Lazımdır
+RU: Нужна правая втулка рулевого с кодом 57735-1U000
+
+74. [4cb0b7bf] AZ: krивой рычаг(ön əyri asqı qolu)
+RU: Кривой рычаг (передний изогнутый рычаг подвески)
+
+75. [e159dd91] AZ: Sevralet epika 2007 sag ic qranat
+RU: Chevrolet Epica 2007, правый внутренний ШРУС
+
+76. [1a9d06d2] AZ: Kondisaner kompresorun təziq daciki
+RU: Датчик давления компрессора кондиционера
+
+77. [d5043433] AZ: Dizel filtirinin korpusu(Padkaçka)
+RU: Корпус дизельного фильтра (подкачка)
+
+78. [7379a735] AZ: Hyundai  Tucson 2021 benzin qapaq kilidi
+RU: Hyundai Tucson 2021, замок крышки бензобака
+
+79. [a06cf216] AZ: qabağ abirçofka
+RU: Передняя обшивка
+
+80. [4f4fde32] AZ: qabaq donme faralari
+RU: Передние поворотники
+
+81. [6524767f] AZ: Evp daççik katalizator daççiki sol ön təkərin abs daççiki
+RU: Датчик EVAP, датчик катализатора, датчик ABS переднего левого колеса
+
+82. [9d6dafe6] AZ: Nissan teana j31 2 3 mator 2004 benzin sep başqa kamplekt
+RU: Nissan Teana J31, мотор 2.3, 2004, бензин, цепь — другой комплект
+
+83. [8cff55a3] AZ: Qapi qulpu
+RU: Дверная ручка
+
+84. [b1f613b2] AZ: Arxa stoplar led olan
+RU: Задние LED-фонари
+
+85. [96f653fb] AZ: Silindr gilzası
+RU: Гильза цилиндра
+
+86. [1ede718d] AZ: Klapan itələyicisi
+RU: Толкатель клапана
+
+87. [ca0b0f86] AZ: Mühərrik üst kriskanin prokladkasi
+RU: Прокладка верхней крышки двигателя
+
+88. [ca46b7b8] AZ: feredo çaşka
+RU: feredo çaşka
+
+89. [c54b4440] AZ: ön şüşə (patpres)
+RU: Лобовое стекло
+
+90. [7ff12315] AZ: Passat 2008 benzin farsunkanin salnikləri lazmdır 4 ədəd
+RU: Passat 2008, бензин — нужны 4 уплотнительных кольца форсунок
+
+91. [d66ff348] AZ: Dönmə işıqları
+RU: Поворотники
+
+92. [7a59a1af] AZ: Hava şlanqı (plastik qofra şlanq)
+RU: Воздушный шланг (пластиковый гофрированный шланг)
+
+93. [5f30e131] AZ: Sol kənar park radarı və klemması
+RU: Левый крайний парковочный радар и его клемма
+
+94. [3454f05e] AZ: Hyunday sonata 2007 ci il 2 matora qlavnı silindir lazımdı
+RU: Hyundai Sonata 2007, мотор 2.0 — нужен главный цилиндр
+
+95. [892b4e16] AZ: Sağ tərəf güzgü lazımdı, güzgünün özü, Gəncədə lazımdır
+RU: Нужно правое зеркало, само зеркало. Нужно в Гяндже
+
+96. [819e63e4] AZ: girousiliteli
+RU: Гидроусилитель
+
+97. [5a914f41] AZ: kardanlari balans etməyi bacaran var?
+RU: Есть кто-нибудь, кто умеет балансировать карданы?
+
+98. [3776162c] AZ: Motor zbor
+RU: Двигатель в сборе
+
+99. [b1d1078f] AZ: kolsa kladiş
+RU: Кольца, вкладыши
+
+100. [16ff1f67] AZ: MERCEDES C250 - 4 ədəd hər bir təkər üçün təkər təzyiq datçiki(sensor)
+RU: Mercedes C250 — 4 датчика давления шин, по одному на каждое колесо
+
+101. [8b1ae15e] AZ: Radiator barmağlığı
+RU: Решётка радиатора
+
+102. [cea6d66a] AZ: Sag onsuse qaldiran mexanizim var??
+RU: Есть механизм стеклоподъёмника передней правой двери?
+
+103. [f76edb53] AZ: Evap sensoruda lazımdı benzin vurandan sonra maşın sönür hava benzin qarışığın düz nizamlamır
+RU: Нужен датчик EVAP: после заправки машина глохнет, неправильно регулирует смесь воздуха и бензина
+
+104. [6bfbd456] AZ: Ön sol qranat
+RU: Передний левый ШРУС
+
+105. [934f69e7] AZ: Arxa qapı pərdələri dorest
+RU: Шторки задних дверей, дорестайлинг
+
+106. [6d27977f] AZ: Baqaj jaluzi
+RU: Шторка багажника
+
+107. [c8134e48] AZ: Qlapan salnikləri
+RU: Сальники клапанов
+
+108. [ecaa331f] AZ: Сальник для шруса
+RU: Сальник для ШРУСа
+
+109. [e24ea07d] AZ: Qabag sol qapi spoiler şokalat rəngdə
+RU: Спойлер передней левой двери, шоколадного цвета
+
+110. [51c893e2] AZ: Bakıdakı abratni klapan
+RU: Обратный клапан в Баку
+
+111. [29347abf] AZ: Arxa nakladka ve arxa apornu
+RU: Задняя накладка и задний опорный диск
+
+112. [c5e0d0a1] AZ: arxa  baqajın aynası
+RU: Стекло задней двери багажника
+
+113. [79754ecf] AZ: sağ tərəf arxa ayna
+RU: Правое заднее стекло
+
+114. [271e63ef] AZ: Zaşitnik
+RU: Защитник
+
+115. [37e5899a] AZ: Şüşə qaldıran blokunun zbor knofkaları
+RU: Кнопки блока стеклоподъёмников в сборе
+
+116. [49ddeaa0] AZ: Qabag sag patkrelnik
+RU: Передний правый подкрылок
+
+117. [d5e1df3c] AZ: Qapı kilidi mühərrikinin motoru (vakuum motoru)
+RU: Мотор замка двери (вакуумный мотор)
+
+118. [43d8bc77] AZ: Qlavni silindir tormozu
+RU: Главный тормозной цилиндр
+
+119. [69f834f7] AZ: Lupali Led H7
+RU: Линзованная LED H7
+
+120. [eb1d2c68] AZ: Left side curtain airbag 1-2-3 row together
+RU: Левая шторка безопасности, 1–2–3 ряд вместе
+
+121. [f941f3a3] AZ: arxa qazan
+RU: Задняя банка глушителя
+
+122. [f2b5c549] AZ: Radiator barmağlığı tuning üçün
+RU: Решётка радиатора для тюнинга
+
+123. [98daf8a6] AZ: İç qranat
+RU: Внутренний ШРУС
+
+124. [4ffca450] AZ: On podpresin surucu teref kanti.(col hissedeki)
+RU: Наружный молдинг лобового стекла со стороны водителя
+
+125. [8e967ae5] AZ: датчик давления топлива A0061536028
+RU: Датчик давления топлива A0061536028
+
+126. [bb238d66] AZ: Sükan da olan multirulun ustundə
+RU: На руле, сверху мультируля
+
+127. [3c65515f] AZ: Razvalnilər
+RU: Развальные втулки / сайлентблоки
+
+128. [84e3d99c] AZ: Elantra 2018 Limited led Stoplari
+RU: LED-стопы Elantra 2018 Limited
+
+129. [31c3028f] AZ: Qabag top stupiciya support
+RU: Передняя шаровая опора, ступица, суппорт
+
+130. [6bf5dd61] AZ: Su çəni - aynasilənin
+RU: Бачок стеклоомывателя
+
+131. [481d8450] AZ: vozduxamer deyirlər nə deyirlər hava datçiki lazımdı benzin hava miqdarın nizamlayan lazımdı
+RU: Нужен расходомер воздуха, датчик, регулирующий количество воздуха и бензина
+
+132. [5ee96db0] AZ: Nakaneçnik
+RU: Наконечник
+
+133. [b988413e] AZ: Orijinal ön sol Stupitsa və stupitsa podşipniki
+RU: Оригинальная передняя левая ступица и ступичный подшипник
+
+134. [bd737b0d] AZ: Orijinal ön sol Ön yarımox/ŞRUS
+RU: Оригинальная передняя левая полуось / ШРУС
+
+135. [830d480c] AZ: Ближние Led фары
+RU: Ближние LED-фары
+
+136. [4ceb3c37] AZ: qapı spoller
+RU: Спойлер двери
+
+137. [47f0f72f] AZ: Rulavoydan ses gelir Zbor rulavoy
+RU: Из рулевой идёт шум, нужна рулевая в сборе
+
+138. [4315e64c] AZ: arxa bufer
+RU: Задний бампер
+
+139. [8d57bd13] AZ: Matorun yag krisqasi qapagi
+RU: Крышка маслозаливной горловины двигателя
+
+140. [25318a2c] AZ: Monitor jostiki
+RU: Джойстик монитора
+
+141. [2d9408f1] AZ: monitor jostiki lazimdi
+RU: Нужен джойстик монитора
+
+142. [bdbb7499] AZ: Hyundai Sanata Fe Usa 2025 sag faranin ustundeki salacka     92152-R6000 kodu budur
+RU: Hyundai Santa Fe USA 2025, планка над правой фарой, код 92152-R6000
+
+143. [4ef64f3e] AZ: su çəni . kia k5 2022
+RU: Бачок воды, Kia K5 2022
+
+144. [dc03292b] AZ: Sağ iç qranat
+RU: Правый внутренний ШРУС
+
+145. [d798d751] AZ: Şin opel astra h
+RU: Шина Opel Astra H
+
+146. [9da57b3a] AZ: Sol fara 2 lupa
+RU: Левая фара, 2 линзы
+
+147. [10a8b4e9] AZ: Qabaq abirsofka
+RU: Передняя обшивка
+
+148. [8a74f3d5] AZ: Qabaq sol terefin 2 parkradari
+RU: 2 парктроника передней левой стороны
+
+149. [45a69b39] AZ: passat 2008 benzin farsunkanin salniki
+RU: Сальник форсунки Passat 2008 бензин
+
+150. [cfa58db1] AZ: İç və çöl qranat
+RU: Внутренний и наружный ШРУС
+
+151. [64958dfe] AZ: Kompressorun daçiki
+RU: Датчик компрессора
+
+152. [c6126ce1] AZ: W203 3.2 benzin hava girish xortumu lazimdir
+RU: W203 3.2 бензин, нужен шланг впуска воздуха
+
+153. [e9408bf3] AZ: Patpres lazımdı
+RU: Нужно лобовое стекло
+
+154. [a23af9af] AZ: Sevralet epica sag ic qranat
+RU: Chevrolet Epica, правый внутренний ШРУС
+
+155. [52769cf9] AZ: Feredo
+RU: Диск сцепления
+
+156. [4e247b6f] AZ: Opel astra 1.8l benzin motor qalofkası
+RU: Opel Astra 1.8 бензин, головка двигателя
+
+157. [a8d78a1a] AZ: Benzin filter
+RU: Бензиновый фильтр
+
+158. [6c786110] AZ: Sağ qranat
+RU: Правый ШРУС
+
+159. [f33412c5] AZ: amartizator pocevniki
+RU: Подшипник амортизатора
+
+160. [f77aee1c] AZ: Radiator qapağı ariginal
+RU: Оригинальная крышка радиатора
+
+161. [5993851b] AZ: Benzin nasos, filtiri ilə birlikdə
+RU: Бензонасос вместе с фильтром
+
+162. [49c2bb91] AZ: caşka feredo vijimnoy desti
+RU: Корзина сцепления, диск сцепления, выжимной комплект
+
+163. [e07e1df4] AZ: Baqaj obivka, sol tərəf
+RU: Обшивка багажника, левая сторона
+
+164. [e1a2f576] AZ: interkuller datçiki
+RU: Датчик интеркулера
+
+165. [896e7e54] AZ: Paket Radiator
+RU: Пакет радиаторов
+
+166. [047faa4b] AZ: Kapmplekt lazimdi farsunka abratka slanqi plasmaslari ile bir yerde
+RU: Нужен комплект: обратный шланг форсунок вместе с пластиковыми деталями
+
+167. [234fd8b7] AZ: Arxa baqaj kurcoku lazimdi
+RU: Нужен крючок заднего багажника
+
+168. [00f32036] AZ: Ön patpres
+RU: Переднее лобовое стекло
+
+169. [d2774abf] AZ: Balkanin razvalnisi ( arxa balka )
+RU: Развальная втулка / сайлентблок задней балки
+
+170. [f800aab9] AZ: Sağ sol çakalar zbor
+RU: Правый и левый «çakalar» в сборе
+
+171. [d28dc860] AZ: Ic qranat
+RU: Внутренний ШРУС
+
+172. [6537a249] AZ: Fiyaletvi patpres lazimdi
+RU: Нужно фиолетовое лобовое стекло
+
+173. [110d073b] AZ: Acura sürətlər qutusu sellektoru lazımdı
+RU: Нужен селектор коробки передач Acura
+
+174. [8814469e] AZ: Turbo katrici
+RU: Картридж турбины
+
+175. [3c732af6] AZ: reykanin başındakı abratnı klapan
+RU: Обратный клапан в начале рулевой рейки
+
+176. [b3e64c5b] AZ: BMW sep basmaq
+RU: Башмак / направляющая цепи BMW
+
+177. [7d23c277] AZ: rulavoy lazımdı elektrondu
+RU: Нужна электронная рулевая
+
+178. [23db5a57] AZ: Stabilizator qabaq qolun rezini paduşkası
+RU: Резиновая подушка переднего рычага стабилизатора
+
+179. [8ad62082] AZ: Surucu teref arxa hava yastigi
+RU: Задняя подушка безопасности со стороны водителя
+
+180. [ada9668c] AZ: Salon hava filtri
+RU: Салонный фильтр
+
+181. [763aae3e] AZ: arxa şuşe silen
+RU: Задний стеклоочиститель
+
+182. [82c6dd21] AZ: Rulavoy zbor prius 20 gövdə
+RU: Рулевая в сборе Prius 20 кузов
+
+183. [e150067b] AZ: Santafe tehlukesizlik yastiqi sernishin teref
+RU: Подушка безопасности Santa Fe со стороны пассажира
+
+184. [446fd2da] AZ: Hundai elantra qazan
+RU: Банка глушителя Hyundai Elantra
+
+185. [a93c01f5] AZ: Rlavoy
+RU: Рулевая
+
+186. [134a137c] AZ: Baqaj sürgüsü sağ tərəf
+RU: Правая направляющая багажника
+
+187. [3361f476] AZ: radiatordan termostat krişkasına gedən 2 ədəd patrubkalar
+RU: 2 патрубка от радиатора к крышке термостата
+
+188. [339d2aef] AZ: Turbo daçiki
+RU: Датчик турбины
+
+189. [65605714] AZ: Salon filtiri
+RU: Салонный фильтр
+
+190. [b00750b4] AZ: sağ sol iç və çöl qranat lazımdır
+RU: Нужны правые и левые внутренние и наружные ШРУСы
+
+191. [82d49526] AZ: Kia serato arxa bagac bufer bagacin icinin kapronu metalik reng olsun
+RU: Kia Cerato: задний багажник, бампер и пластиковая обшивка внутри багажника, металлического цвета
+
+192. [183ad2a8] AZ: start stopun beyni lazimdir.yeni ve yaxud ikinci el
+RU: Нужен блок Start-Stop, новый или б/у
+
+193. [4e507676] AZ: Orijinal rulovoy
+RU: Оригинальная рулевая
+
+194. [9e10f67a] AZ: Orijinal ön sol amortizatorun üst dayağı
+RU: Оригинальная верхняя опора переднего левого амортизатора
+
+195. [e8d88e41] AZ: Katalizator Dacciki Ön
+RU: Передний датчик катализатора
+
+196. [2deae8c8] AZ: Sol nakoneçnik
+RU: Левый наконечник
+
+197. [e5d99046] AZ: Feredo çaşka dəsti lazımdı original valeo
+RU: Нужен оригинальный комплект: диск и корзина сцепления Valeo
+
+198. [a2b3e010] AZ: Vanus
+RU: VANOS
+
+199. [29d46bc3] AZ: sağ eynək lt bufer sadəcə diod işığı olan eynək
+RU: Правый «eynak» LT-бампера, только с диодной подсветкой
+
+200. [37db6067] AZ: arxa baqaj qapisina rucka lazımdır bej rengde
+RU: Нужна ручка задней двери багажника, бежевого цвета
+
+201. [5af508bf] AZ: Zbor rulavoy
+RU: Рулевая в сборе
+
+202. [41d7ec76] AZ: Zbor tavan işıqı lazmdır
+RU: Нужен потолочный светильник в сборе
+
+203. [79c525f5] AZ: Podfarnik
+RU: Подфарник
+
+204. [c1085f97] AZ: Vintilyatorun datçiki
+RU: Датчик вентилятора
+
+205. [e582fe57] AZ: zavod yan qapı altı kantlar
+RU: Заводские боковые накладки под дверями
+
+206. [5b22dda5] AZ: içqranati
+RU: Внутренний ШРУС
+
+207. [b1acdb89] AZ: Təkər yay genişləndiricisi
+RU: Расширитель колёсной арки
+
+208. [7fa97973] AZ: klapan salnikləri
+RU: Сальники клапанов
+
+209. [7b65f522] AZ: Opel insigna yarasa güzgu qapaqi
+RU: Крышка зеркала «летучая мышь» Opel Insignia
+
+210. [b86a67d4] AZ: On alin susesi (patpres)
+RU: Переднее лобовое стекло
+
+211. [fa59a3bf] AZ: alt zasitnik
+RU: Нижняя защита
+
+212. [99cf3264] AZ: Zbor benzanasos
+RU: Бензонасос в сборе
+
+213. [95b29f38] AZ: Radiator krishkasi
+RU: Крышка радиатора
+
+214. [e1648864] AZ: Guzgunun qollar sag ve sol guzgu
+RU: Кронштейны зеркал, правый и левый
+
+215. [aaee5f5e] AZ: Ön alin şüşəsi
+RU: Переднее лобовое стекло
+
+216. [775b788b] AZ: kardanın padrisnoyu (ara dayagı)
+RU: Подвесной подшипник кардана (промежуточная опора)
+
+217. [4b2d4a09] AZ: Ön fara lupalı və ya sadə bosch firması
+RU: Передняя фара линзованная или обычная, фирмы Bosch
+
+218. [b5a40fe7] AZ: Qabağ parpres cruz 2016
+RU: Переднее лобовое стекло Cruze 2016
+
+219. [ede4074a] AZ: panel
+RU: Панель
+
+220. [73ad11bb] AZ: Porşen üzükləri
+RU: Поршневые кольца
+
+221. [7dbe59b7] AZ: Şatun yatağı
+RU: Шатунный вкладыш
+
+222. [2a745894] AZ: Germetik
+RU: Герметик
+
+223. [b6a8a262] AZ: Sağ tərəf nokanecnik
+RU: Правый наконечник
+
+224. [6cbb0073] AZ: Chevrolet cruze 1.4 kompressor maqinit
+RU: Chevrolet Cruze 1.4, магнит компрессора
+
+225. [bb080f75] AZ: Vıjıçnoy feredol çaşka ilə birlikdə
+RU: Выжимной, диск сцепления вместе с корзиной
+
+226. [fb674d3a] AZ: Sol qranatai lazimdir
+RU: Нужен левый ШРУС
+
+227. [7aa635ab] AZ: Nakanecnik rezini sag sol
+RU: Резинки наконечников, правая и левая
+
+228. [d2583213] AZ: Qidravlik ğücləndiricinin (uselitelin) kompressoru
+RU: Насос гидроусилителя
+
+229. [38bfc9cd] AZ: hyundai accent starter vilkası
+RU: Вилка стартера Hyundai Accent
+
+230. [30c27daa] AZ: Su radiatorunun probkasi lazımdır
+RU: Нужна пробка радиатора охлаждения
+
+231. [e5f42875] AZ: Arxa park radari
+RU: Задний парктроник
+
+232. [372d286b] AZ: Qlavnı silindir tormuzun
+RU: Главный тормозной цилиндр
+
+233. [55543660] AZ: On buferin altinda, distronic datcikin arxasinda yerlesen, masini pultla ireli geri hereket etdiren antena 95460L0010
+RU: Антенна под передним бампером, за датчиком Distronic, которая отвечает за движение машины вперёд-назад с пульта, код 95460L0010
+
+234. [797333eb] AZ: Qabaq dönmə işıqları (sag+sol)
+RU: Передние поворотники, правый + левый
+
+235. [90c9b0a3] AZ: boyuk qolun razvanlisi lazimdir arxasi ceken di oem kod budur 31126855743
+RU: Сайлентблок (гидроопора) большого рычага заднего привода, OEM 31126855743
+
+236. [6728f410] AZ: Qabaq sol qapı süsə qaldıran trosu və şüşə qaldıran mexanizm şestrnasi
+RU: Трос переднего левого стеклоподъёмника и шестерня механизма стеклоподъёмника
+
+237. [76fde4e6] AZ: Hyundai accent 2017 amerkanka buksir yerinin qapaqi
+RU: Hyundai Accent 2017 американка, крышка места буксировочного крюка
+
+238. [521e8d6a] AZ: benzin nasosunun üstündə olan filtri
+RU: Фильтр, находящийся на бензонасосе
+
+239. [8e757316] AZ: Kardan
+RU: Кардан
+
+240. [be0d2eb4] AZ: Arxa sol sürücü tərəfdən qranat
+RU: Задний левый ШРУС со стороны водителя
+
+241. [615c6c7c] AZ: Volkswagen polo 2013 1.6  radiator fani
+RU: Volkswagen Polo 2013 1.6, вентилятор радиатора
+
+242. [97efcb78] AZ: Bezin nasos zbor
+RU: Бензонасос в сборе
+
+243. [f19e06b4] AZ: sol ic qranat
+RU: Левый внутренний ШРУС
+
+244. [bb59955c] AZ: Salon airbaq sağ tərəf
+RU: Правая салонная подушка безопасности
+
+245. [f46bfb10] AZ: Bmw g05 radar
+RU: Радар BMW G05
+
+246. [aa4bcf2d] AZ: Arxa sağ tərəf stop. Həm dönmə işığı həm arxa (zadni) var ?
+RU: Правый задний фонарь. Есть вариант и с поворотником, и с фонарём заднего хода?
+
+247. [3359e979] AZ: benzin nasos
+RU: Бензонасос
+
+248. [eb50b6ac] AZ: Maşın alt qoruyucusu tam qoruyucu tək bufer altlığı yox
+RU: Полная защита днища автомобиля, не только защита под бампером
+
+249. [5f650370] AZ: arxa balka rezinler
+RU: Резинки задней балки
+
+250. [b6f275cb] AZ: Hyundai accent 2016 kuza arxa park radar varınızdı.
+RU: Есть задний парктроник на Hyundai Accent 2016 кузов?
+
+251. [2f505e45] AZ: Sag fara guzguzu
+RU: Отражатель правой фары
+
+252. [194b4d2b] AZ: Antifiriz radiatorunun probkasi lazimdir
+RU: Нужна пробка радиатора антифриза
+
+253. [27626cd9] AZ: Arxa şüşə qaldıran matoru
+RU: Мотор заднего стеклоподъёмника
+
+254. [b9a84ed4] AZ: patpres
+RU: Лобовое стекло
+
+255. [62f55af7] AZ: Çöl qranat
+RU: Наружный ШРУС
+
+256. [0b26677c] AZ: Ön support lazımdır (işlənmiş üzərindən çıxma)
+RU: Нужен передний суппорт, б/у с разборки
+
+257. [7a04e550] AZ: Səsboğucu başlığı
+RU: Насадка глушителя
+
+258. [27b69fc7] AZ: Sonata 2022 aexa patpres
+RU: Sonata 2022, заднее лобовое стекло
+
+259. [8b8cd33b] AZ: Arxa sağ fara
+RU: Задний правый фонарь
+
+260. [5a7b4a9f] AZ: Salonda ön panelin cib hissəsindəki işarələdiyim gizli işıq
+RU: Скрытая подсветка в кармане передней панели салона, которую я отметил
+
+261. [a120cbe8] AZ: kondisaner kompressorun maqniti
+RU: Магнит компрессора кондиционера
+
+262. [5bc30abe] AZ: Sol tərəf granat karopkadan tekere qədər
+RU: Левый ШРУС целиком, от коробки до колеса
+
+263. [eac25980] AZ: sep desti
+RU: Комплект цепи
+
+264. [145529b2] AZ: Arxa bufer sağ dönmə işığı
+RU: Правый поворотник заднего бампера
+
+265. [cc5940e2] AZ: Sol nakanesnik
+RU: Левый наконечник
+
+266. [9be4c00e] AZ: Radiatorun peri
+RU: Вентилятор радиатора
+
+267. [b2d2c8d1] AZ: arxa sol stopun şüşəsi
+RU: Стекло заднего левого фонаря
+
+268. [b88f9aa6] AZ: Benzin nasosu komplekt qiymət?
+RU: Цена бензонасоса в сборе?
+
+269. [5392ecb3] AZ: surucu teref amartizatorun ust rezini lazimdir, kapotu acanda amartizatorun basina kecen rezin
+RU: Нужна верхняя резинка амортизатора со стороны водителя, которая надевается сверху на амортизатор под капотом
+
+270. [51cf6afa] AZ: arxa orjinal banan şüşə silən vae
+RU: Задний оригинальный стеклоочиститель «банан»
+
+271. [ac066133] AZ: Sol qranat zbor. Diş 26/30
+RU: Левый ШРУС в сборе. Шлицы 26/30
+
+272. [6d42b20f] AZ: Kompressor şkfi
+RU: Шкив компрессора
+
+273. [20241d0c] AZ: daxili iç qranat sağ tərəf
+RU: Правый внутренний ШРУС
+
+274. [8b5f2c76] AZ: Termostat korpusu zbor
+RU: Корпус термостата в сборе
+
+275. [4617ea2f] AZ: Arxa sağ pəncərə trosu
+RU: Трос заднего правого стеклоподъёмника
+
+276. [f53097c3] AZ: Susə qaldıranların avtomatı 4lü podyomnik zbor olur
+RU: Блок из 4 кнопок стеклоподъёмников в сборе
+
+277. [d15f72a6] AZ: Baqaj aynasının amazatoru sağ sol
+RU: Амортизаторы стекла багажника, правый и левый
+
+278. [1ce2d277] AZ: qabaq m bufer buksir yerinin kantı
+RU: Окантовка места буксировочного крюка переднего M-бампера
+
+279. [b6cf0832] AZ: Hyundai tucson 2006 2 motor  benzin yagğnasosu
+RU: Hyundai Tucson 2006, 2.0 бензин, масляный насос
+
+280. [1a64d6c2] AZ: Ön qranatlar
+RU: Передние ШРУСы
+
+281. [0e233cde] AZ: dinamonun shkifi
+RU: Шкив генератора
+
+282. [b8f2576f] AZ: Qabaq sol eyri qolun razvalnisi
+RU: Развальный сайлентблок / втулка переднего левого кривого рычага
+
+283. [4272561b] AZ: Hyundai Avante AD 2019, 1.6 benzin üçün orginal hyundain ön və arxa əyləc kolodkası istəyirəm.
+RU: Hyundai Avante AD 2019, 1.6 бензин — нужны оригинальные передние и задние тормозные колодки Hyundai
+
+284. [ffb073ee] AZ: mitsubishi airtrek on sol  ve sağ şüşə qaldıran
+RU: Mitsubishi Airtrek, передний левый и правый стеклоподъёмники
+
+285. [45675f55] AZ: ON SALNIK
+RU: Передний сальник
+
+286. [02b382c2] AZ: Əl tormozu, bmw 320 kupe
+RU: Ручной тормоз, BMW 320 Coupe
+
+287. [7706914b] AZ: Suport arxa sag
+RU: Задний правый суппорт
+
+288. [d7fd3fb4] AZ: Əl əyləcin arxa kolodkaları
+RU: Задние колодки ручного тормоза
+
+289. [0d8783ff] AZ: Çöl qranad 1 eded
+RU: Наружный ШРУС, 1 штука
+
+290. [4dd6a780] AZ: Ön buferin alt qoruyucu, zaşitnik
+RU: Нижняя защита переднего бампера
+
+291. [e18ed326] AZ: Tormuzun qlavnı silindiri
+RU: Главный тормозной цилиндр
+
+292. [10b96297] AZ: Wolswagen Tuareg sol qapı qulpu
+RU: Volkswagen Touareg, ручка левой двери
+
+293. [c2957da0] AZ: 2AZ FE klapan kök möhürləri 16 eded
+RU: Маслосъёмные колпачки 2AZ-FE, 16 штук
+
+294. [e0035902] AZ: Rulavoy pacevnik
+RU: Подшипник рулевого
+
+295. [8b0e73f0] AZ: amartizatorun paduskalari
+RU: Подушки амортизаторов
+
+296. [27351593] AZ: Alın şüşə fiallet
+RU: Фиолетовое лобовое стекло
+
+297. [b82e61d9] AZ: iç qranat sağ tərəf
+RU: Правый внутренний ШРУС
+
+298. [7a925770] AZ: Kia k5lxs  2020 sərnişin tərəf Fara 4 lupa
+RU: Kia K5 LXS 2020, пассажирская фара, 4 линзы
+
+299. [be248d6e] AZ: tesla monitor
+RU: Монитор Tesla
+
+300. [997e0cfe] AZ: Bmw f30 2012 328 n20 mator benzin nasos
+RU: BMW F30 2012 328, двигатель N20, бензонасос
+
+301. [623396a1] AZ: Tayota Prado Zavod Tavan Manitoru
+RU: Заводской потолочный монитор Toyota Prado
+
+302. [7fe6057d] AZ: Ayna qaldiran mator
+RU: Мотор стеклоподъёмника
+
+303. [1b9577cc] AZ: zbor plata
+RU: Плата в сборе
+
+304. [4043a366] AZ: Toyota Frontlander 2024 mühərrikin üst Qapağının prokladksı var?
+RU: Есть прокладка верхней крышки двигателя Toyota Frontlander 2024?
+
+305. [a794ce8b] AZ: soyutma pəri
+RU: Вентилятор охлаждения
+
+306. [f820378e] AZ: ekran
+RU: Экран
+
+307. [bb802a6a] AZ: задний швелер под бампер
+RU: Задний швеллер под бампер
+
+308. [8238f6c9] AZ: su çəni
+RU: Бачок воды
+
+309. [cb184f86] AZ: PCV klapan
+RU: Клапан PCV
+
+310. [e9654efe] AZ: sol qabaq oturacaq mator ( arxa qabaq veren ve yuxari asaqi (
+RU: Мотор переднего левого сиденья, двигающий вперёд-назад и вверх-вниз
+
+311. [58702b7d] AZ: 25411-3S110 Patrufka
+RU: Патрубок 25411-3S110
+
+312. [6e3ae6b2] AZ: Şüşə qaldıran bloku
+RU: Блок стеклоподъёмников
+
+313. [d6c4f7e8] AZ: qabaq alt zaşitnik
+RU: Передняя нижняя защита
+
+314. [66912ad5] AZ: Qabaq sol fara (sürücü tərəf) şüşəsi lazımdır
+RU: Нужно стекло передней левой фары, со стороны водителя
+
+315. [bf23c819] AZ: On nacanecnik
+RU: Передний наконечник
+
+316. [213fdac6] AZ: Sag ic qranat
+RU: Правый внутренний ШРУС
+
+317. [b63757c2] AZ: Farsunkanın abratkası
+RU: Обратка форсунки
+
+318. [f0dc894f] AZ: Orta qazan
+RU: Средняя банка глушителя
+
+319. [dfcbdda6] AZ: Qabaq alin susesi patpres
+RU: Переднее лобовое стекло
+
+320. [ea939970] AZ: Ön şüşə,patpres qabag
+RU: Переднее лобовое стекло
+
+321. [67c01202] AZ: Zaslonka borusu
+RU: Трубка заслонки
+
+322. [14df4c17] AZ: mustuk
+RU: Муштук
+
+323. [8c74feb5] AZ: Krlonun üstündə olan benzin qapağı ağ rəng
+RU: Белый лючок бензобака на крыле
+
+324. [23a8a480] AZ: Radiatorun krişkası lazımdı
+RU: Нужна крышка радиатора
+
+325. [c5486598] AZ: Hyundai Santafe 2025 USA sag faranin ustundeki salacka altindaki yox ustundeki
+RU: Hyundai Santa Fe 2025 USA, планка над правой фарой — именно верхняя, не нижняя
+
+326. [55ae7278] AZ: turbonun daçiki
+RU: Датчик турбины
+
+327. [cd16fdc8] AZ: hunday elantra 2017 təkərin içində olan hava təzyiqi yoxlayan datçik
+RU: Hyundai Elantra 2017, датчик давления воздуха в шине
+
+328. [b4cb0781] AZ: rulyovoy şturval
+RU: Рулевой штурвал
+
+329. [19551099] AZ: qabaq on faralar her iksi zbor
+RU: Обе передние фары в сборе
+
+330. [0087c62a] AZ: Arxa tiyaganin razvalni boltu
+RU: Развальный болт задней тяги
+
+331. [cf88855b] AZ: Qapı qulpu   elantra
+RU: Дверная ручка Elantra
+
+====================
+ГРУППА А
+====================
+
+A1. [473d312d] AZ: Arxa stop
+RU: Задний фонарь
+A2. [f14ada7f] AZ: Chevrolet malibu ön bufer
+RU: Передний бампер Chevrolet Malibu
+A3. [881cb499] AZ: BMW m5 Qabag bufer
+RU: Передний бампер BMW M5
+A4. [7c17bcb2] AZ: muherik yastığı
+RU: Подушка двигателя
+A5. [3ab3d013] AZ: Qabaq sağ sol çaşka lenforderle
+RU: Передние правая и левая чашки Lemförder
+A6. [29ef6cf4] AZ: Ön arxa nakladka apornu
+RU: Передние и задние колодки, тормозные диски
+A7. [8efc9a59] AZ: padkrilnik
+RU: Подкрылок
+A8. [d5f182d3] AZ: sag və sol padkrilniklər
+RU: Правый и левый подкрылки
+A9. [6589b718] AZ: gidrousulitel mazda
+RU: Гидроусилитель Mazda
+A10. [7e18b739] AZ: Mator qapaginin ustundeki yag salnikleri
+RU: Масляные сальники на крышке двигателя
+A11. [347677e5] AZ: Arxa bufer
+RU: Задний бампер
+A12. [9c8e2490] AZ: Arxa amortizator 2 ədəd
+RU: Задние амортизаторы, 2 штуки
+A13. [ec988729] AZ: sürətlər qutusunun yastıqlarının
+RU: Подушки коробки передач
+A14. [9ad2b434] AZ: Matorun Paduşqaları
+RU: Подушки двигателя
+A15. [a933c302] AZ: Sol fara(qaşsız)
+RU: Левая фара (без реснички)
+A16. [710967d6] AZ: Dumanniy fara sag sol
+RU: Противотуманные фары, правая и левая
+A17. [053b7678] AZ: Led fara lupalı
+RU: Линзованная LED-фара
+A18. [f68fb7d9] AZ: Audi Q5 qabag bufer 201w 2013
+RU: Передний бампер Audi Q5 2011–2013
+A19. [539c845b] AZ: Fara sağ sol
+RU: Фары, правая и левая
+A20. [25adce41] AZ: Muherrik
+RU: Двигатель
+A21. [319fc45b] AZ: Elektron Zaslonka
+RU: Электронная заслонка
+A22. [52ca9438] AZ: ABS bloku 58500 - N6000
+RU: Блок ABS 58500-N6000
+A23. [2bf00dc7] AZ: Kapot
+RU: Капот
+A24. [6d311be2] AZ: Radiator
+RU: Радиатор
+A25. [80aa8be7] AZ: Ön əyləc bəndi (naklatla)
+RU: Передние тормозные колодки
+A26. [ee487ff0] AZ: Qapı (polotno)
+RU: Дверь (полотно)
+A27. [3aeb6db4] AZ: Turbo
+RU: Турбина
+A28. [b992708c] AZ: ön ekran morda
+RU: Передняя панель («морда»)
+A29. [12da18fd] AZ: Ön patpres
+RU: Переднее лобовое стекло
+A30. [0015b4c2] AZ: Subaro forester sola arxa stop
+RU: Subaru Forester, левый задний фонарь
+A31. [6e557ac4] AZ: Matorun Sol ve arxa paduskasi
+RU: Левая и задняя подушки двигателя
+A32. [cef3f0c3] AZ: Karter matorun
+RU: Картер двигателя
+A33. [7140c398] AZ: Qabaq amarizator və paduşqalar qabaqlar
+RU: Передние амортизаторы и подушки
+A34. [c9491da2] AZ: Sveca
+RU: Свеча
+A35. [62ec84a0] AZ: Arxa əyləc bəndi (arxa naklatka)
+RU: Задние тормозные колодки
+A36. [c88c1bbd] AZ: Bütöv arxa kardan
+RU: Задний кардан целиком
+A37. [8d8350c0] AZ: antifiriz
+RU: Антифриз
+A38. [9438f1e9] AZ: Sonata abş 2022 üsdən cıxma stop lazımdı (sag)
+RU: Sonata USA 2022, нужен б/у правый задний фонарь
+A39. [fb7c3154] AZ: Sol arxa supportun porsen pulniki
+RU: Пыльник поршня левого заднего суппорта
+A40. [20d6c785] AZ: mator padushkasi sag teref
+RU: Правая подушка двигателя
+A41. [ac7dab2f] AZ: Orijinal ön sol krılo
+RU: Оригинальное переднее левое крыло
+A42. [2b02f2a5] AZ: Avtomat karobka
+RU: Автоматическая коробка передач
+A43. [94ba7d18] AZ: Üst krişka praklatkası
+RU: Прокладка верхней крышки
+A44. [72e08908] AZ: kapot trosu qulpu ile birlikde
+RU: Трос капота вместе с ручкой
+A45. [d1ffde92] AZ: Qabaq sağ fara Europa
+RU: Передняя правая европейская фара
+A46. [c45e7a4a] AZ: ayaq alti
+RU: Коврик под ноги
+A47. [0dda17d1] AZ: Torpedo boz reng
+RU: Торпедо серого цвета
+A48. [fe6c92d0] AZ: Eylec bendleri
+RU: Тормозные колодки
+A49. [425105a8] AZ: Ön bufer
+RU: Передний бампер
+A50. [4a0930bb] AZ: Sükan çarxı multi düymələrlə
+RU: Руль с мультимедийными кнопками
+A51. [1e14a9c4] AZ: KONDISIONERIN KOMPRESSORU
+RU: Компрессор кондиционера
+A52. [9a4956d6] AZ: Qabaq ve arxa nakladka
+RU: Передние и задние колодки
+A53. [46a72c66] AZ: Batareya
+RU: Аккумулятор
+A54. [847a0dcf] AZ: lyuk işləmir trosdadır prablem varsada lyuk trosu lazımdır
+RU: Люк не работает, проблема в тросе — нужен трос люка
+A55. [0c74ee1a] AZ: pecin radioatoru
+RU: Радиатор печки
+A56. [f3fd37af] AZ: Mator karter
+RU: Картер двигателя
+A57. [7db6983d] AZ: Fara angeli arginal restaling 2014 dü
+RU: Оригинальная фара Angel, рестайлинг 2014
+A58. [d5fd8bff] AZ: Rulovoy kolonka
+RU: Рулевая колонка
+A59. [190a49ac] AZ: Arxa bufer m hisseli odenisle gotrmek olarmi?
+RU: Задний M-бампер. Можно взять с оплатой частями?
+A60. [3b77d240] AZ: Orginal ön sağ və sol Fara
+RU: Оригинальные передние правая и левая фары
+A61. [bfac1ca0] AZ: Su radiatoru (tecili original ve yaxud yaxșısi)
+RU: Радиатор охлаждения — срочно, оригинал или хороший аналог
+A62. [61b26adc] AZ: Orijinal ön sol fara
+RU: Оригинальная передняя левая фара
+A63. [6abe8949] AZ: Hava Kollektoru
+RU: Воздушный коллектор
+A64. [8561970e] AZ: Qabaq lip
+RU: Передняя губа
+A65. [cb728e33] AZ: 1.5 eco blu mator qalofka praklatkası
+RU: Прокладка головки двигателя 1.5 EcoBlue
+A66. [e7c0e99a] AZ: Amerikanka sağ fara 8 qaş (lupa)
+RU: Правая американская фара, 8 «ресничек» (линза)
+A67. [b9d992d9] AZ: iç qranatlar
+RU: Внутренние ШРУСы
+A68. [6fe66648] AZ: Sarlotda bufer
+RU: Sarlotda bufer
+A69. [478058cd] AZ: Babin
+RU: Катушка зажигания
+A70. [9f79e7b2] AZ: Qabag bufer
+RU: Передний бампер
+A71. [4cc3e9c3] AZ: Ford focus 2007 1.6 benzin matorun özü
+RU: Ford Focus 2007 1.6 бензин, двигатель целиком
+A72. [48df3319] AZ: Bmw 116i 2008 ci il, ön alın şüşəsi (padpres) lazımdı
+RU: BMW 116i 2008, нужно переднее лобовое стекло
+A73. [414e725f] AZ: Radiator bacokun qapaqi
+RU: Крышка бачка радиатора
+A74. [76b46f1e] AZ: Bufer
+RU: Бампер
+A75. [31b267a2] AZ: Nakladka arxa və qabag
+RU: Передние и задние колодки
+A76. [5a168b5e] AZ: Fara
+RU: Фара
+A77. [37adc3c3] AZ: Dinamo
+RU: Генератор
+A78. [cb0b7592] AZ: Şüşə silen matoru
+RU: Мотор стеклоочистителя
+A79. [0460da8d] AZ: Spoyler
+RU: Спойлер
+A80. [936a1470] AZ: 4 matikdi qabaq sağ tərəf qranat
+RU: 4Matic, передний правый ШРУС
+A81. [e611e402] AZ: sol yan güzgünün dönmə işıq stopu
+RU: Поворотник левого бокового зеркала
+A82. [6be56aa8] AZ: Surucunun altindaki zasitnik
+RU: Защита под водителем
+A83. [3a16dd46] AZ: İç qranatlar
+RU: Внутренние ШРУСы
+A84. [1782e321] AZ: Qalofka Praklatka
+RU: Прокладка головки блока
+A85. [a303a9d0] AZ: Sol güzgü
+RU: Левое зеркало
+A86. [25a16b2d] AZ: Porşen
+RU: Поршень
+A87. [aff3125e] AZ: Su pompası
+RU: Водяная помпа
+A88. [ae299ad3] AZ: Arxa baqaj
+RU: Задняя дверь багажника
+A89. [63f03566] AZ: Əl əyləci bəndləri
+RU: Колодки ручного тормоза
+A90. [d78a7958] AZ: Hyundai avante 1.6 dizel mühərrik lazımdır
+RU: Нужен дизельный двигатель Hyundai Avante 1.6
+A91. [14d25bdc] AZ: Sol ön stupsia paçevniki
+RU: Подшипник передней левой ступицы
+A92. [d8649fb5] AZ: qabax sag fara
+RU: Передняя правая фара
+A93. [883d74a6] AZ: Ön və arxa əyləc bəndləri neçəyədir? Büdcə dostu məhsul olsun
+RU: Сколько стоят передние и задние тормозные колодки? Нужен бюджетный вариант
+A94. [eba71e2f] AZ: zaslonka
+RU: Заслонка
+A95. [e6b44d81] AZ: Klapan
+RU: Клапан
+A96. [b687e6df] AZ: Qabağ setka lt buferin abilsofka
+RU: Передняя сетка, облицовка LT-бампера
+A97. [caf3a47a] AZ: Katalizatorun daciki
+RU: Датчик катализатора
+A98. [73419c12] AZ: yağ filteri
+RU: Масляный фильтр
+A99. [a3aa1788] AZ: Vozduxamer
+RU: Расходомер воздуха
+A100. [83749afc] AZ: Rulavoy kalonka lazimdir kimdə varsa yazsın və foto gondersin
+RU: Нужна рулевая колонка. У кого есть — напишите и отправьте фото
+A101. [1ccda5dd] AZ: turbo aktivatoru Hyndai vercruz
+RU: Актуатор турбины Hyundai Veracruz
+A102. [be01a7fc] AZ: hava xortumu
+RU: Воздушный шланг
+A103. [599799fa] AZ: Stop
+RU: Задний фонарь
+A104. [4201cf08] AZ: Benzin nasos
+RU: Бензонасос
+A105. [01d31461] AZ: sport yay
+RU: Спортивная пружина
+A106. [052e099b] AZ: Ön əyləc diski
+RU: Передний тормозной диск
+A107. [be41d8fc] AZ: bufer göy
+RU: Синий бампер
+A108. [fac93317] AZ: 99 c 230 2.3 k ucun kondisonerin kopressoru
+RU: Компрессор кондиционера для C230 1999, 2.3K
+A109. [cb80a4ea] AZ: Arxa əyləc bəndi
+RU: Задние тормозные колодки
+A110. [09b6c7a8] AZ: Hava filtri
+RU: Воздушный фильтр
+A111. [bcdcb1c3] AZ: Mercedes logo
+RU: Логотип Mercedes
+A112. [c02be76a] AZ: Naklatka (əyləc bəndi)
+RU: Тормозная колодка
+A113. [f12a1125] AZ: Sürətlər qutusu mexanika
+RU: Механическая коробка передач
+A114. [f65dfee5] AZ: Qabaq çöl qranat piknik
+RU: Передний наружный ШРУС, Picnic
+A115. [ac04eb9c] AZ: Amartizator on ve arxa
+RU: Передние и задние амортизаторы
+A116. [83587aac] AZ: qabaq bufer salaskası
+RU: Планка переднего бампера
+A117. [c49819d7] AZ: Zaslonka  (göy etiket)
+RU: Заслонка (синяя этикетка)
+A118. [ac21e447] AZ: gidrousilitel
+RU: Гидроусилитель
+A119. [7dcb812a] AZ: Muherrik yastiqi
+RU: Подушка двигателя
+A120. [58d6ee41] AZ: Çaşka feredo
+RU: Корзина и диск сцепления
+A121. [4b9e654c] AZ: Fara şüşəsi lazımdır
+RU: Нужно стекло фары
+A122. [6efe4ba0] AZ: Ön əyləc bəndi
+RU: Передние тормозные колодки
+A123. [fe5521f9] AZ: Arxa stop ledli
+RU: Задний LED-фонарь
+A124. [75513b8a] AZ: Ön alın şüşəsi
+RU: Переднее лобовое стекло
+A125. [c9d0c337] AZ: qabağ kamera (99250L0000)
+RU: Передняя камера (99250L0000)
+A126. [c65d52eb] AZ: Sağ tərəf almacıq
+RU: Правая рулевая тяга
+A127. [fb7e6543] AZ: Park radar - 96890-A5000YAC
+RU: Парктроник — 96890-A5000YAC
+A128. [8e14b73a] AZ: Sağ amartizator original veya ustden cixma firmada olar
+RU: Правый амортизатор — оригинал или б/у с машины
+A129. [a14fc6ff] AZ: Mator paduşkalar
+RU: Подушки двигателя
+A130. [603a0899] AZ: qabaq bufer
+RU: Передний бампер
+A131. [1e2079f6] AZ: toyota prius 20 govde sag teref padkrilnik
+RU: Toyota Prius 20 кузов, правый подкрылок
+A132. [d7accd8b] AZ: Рулевая калонка
+RU: Рулевая колонка
+A133. [0ad64069] AZ: Qabaq sağ stupitsa podşipniki
+RU: Подшипник передней правой ступицы
+
+====================
+ГРУППА Б
+====================
+
+B1. [451361cb] AZ: Əyləc
+RU: Тормоз
+B2. [b6245807] AZ: Kanpilekt mator sepi
+RU: Комплект цепи двигателя
+B3. [104dbae2] AZ: SAG TƏRƏF QAPILARIN ALTININ KANTLATI
+RU: Накладки снизу дверей с правой стороны
+B4. [36c03777] AZ: guzcunun altindaki qapaq
+RU: Крышка под зеркалом
+B5. [689430be] AZ: alışdırma şamları
+RU: Свечи зажигания
+B6. [a2be1567] AZ: Miquin 5*30 dizel üçün 6 litir neçəyədir
+RU: Сколько стоят 6 литров Meguin 5W-30 для дизеля?
+B7. [ea919eba] AZ: Arxa sol qapin alt plasmasi
+RU: Пластик снизу задней левой двери
+B8. [53199dff] AZ: Teker qabi
+RU: Кожух колеса
+B9. [8ae8e3a1] AZ: Təkərin qırağında olan plasmas
+RU: Пластик вокруг колеса
+B10. [3ac08835] AZ: N74B60
+RU: N74B60
+B11. [6ff3d95b] AZ: Bu patrufkadan lazimdi
+RU: Нужен этот патрубок
+B12. [1ca6fb3f] AZ: 2017 kia sorento qabaq podpresin qiraq kanti lazimdir ( surucu teref)
+RU: Kia Sorento 2017, нужен наружный молдинг переднего лобового стекла со стороны водителя
+B13. [75279107] AZ: Peredok sisdemi lazımdı.
+RU: Нужна система передней подвески
+B14. [6412d5a1] AZ: Giriş kollektorun  prokladkası( boğaz rezini) Yalnız Orijinal
+RU: Прокладка впускного коллектора (резинка горловины), только оригинал
+B15. [57f5f5fa] AZ: 272 mator
+RU: Двигатель 272
+B16. [9154ffa0] AZ: Arxa nömrə plafonu
+RU: Плафон подсветки заднего номера
+B17. [00d87813] AZ: Уплотняющее кольцо
+RU: Уплотнительное кольцо
+B18. [4516962e] AZ: 4goz 2001 modeline qapilarin pirsosu lazimdir
+RU: Для модели «4-глазки» 2001 нужны присосы дверей
+B19. [3175389e] AZ: Yan kantlar
+RU: Боковые накладки
+B20. [5f711b01] AZ: avtopasos orginal
+RU: Оригинальный автоподсос
+B21. [755660d4] AZ: arxa poduwka lazimdi, kodu 1237127020
+RU: Нужна задняя подушка, код 1237127020
+B22. [3a22d33c] AZ: Peçin şlanqlarındakı plasamas traynik lazımdı. Qabaqla arxa peçi birləşdirən.
+RU: Нужен пластиковый тройник на шлангах печки, соединяющий переднюю и заднюю печку
+B23. [c255f023] AZ: Hər iki tərəfin putulkası
+RU: Втулки с обеих сторон
+B24. [f7052215] AZ: 3 çıxışlı tranik
+RU: Тройник с тремя выходами
+B25. [1e26dec9] AZ: partklenikler sag sol qabağ
+RU: Передние правый и левый подкрылки
+B26. [763b54b7] AZ: ABŞ daççiki qabağdan sol tərəf, uzunluğu 1 metr 20 santıdır
+RU: Датчик ABS, передний левый, длина 1 м 20 см
+B27. [053a1f03] AZ: Soyutma şlanqları
+RU: Шланги охлаждения
+B28. [8fc38a8e] AZ: Shell 5w40  1letr
+RU: Shell 5W-40, 1 литр
+B29. [c97487db] AZ: защитник
+RU: Защита
+B30. [dcb7cfe8] AZ: Qabağ kirişka sine demiri
+RU: Qabağ kirişka sine demiri
+B31. [60b39291] AZ: 61664849598
+RU: 61664849598
+B32. [19b6e50d] AZ: Sdenka
+RU: Стенка
+B33. [669263fd] AZ: Üst putulka
+RU: Верхняя втулка
+B34. [8cc31af1] AZ: Karopka(elektron)
+RU: Электронная коробка передач
+B35. [a1763574] AZ: KAROPKANIN PPSI LAZIMDI
+RU: Нужен PPS коробки передач
+B36. [0a5b068b] AZ: Plasmaz
+RU: Пластмасса
+B37. [4184e105] AZ: 2024600319 Kodlu detal / Mayatnik
+RU: Деталь с кодом 2024600319 / маятник
+B38. [af932818] AZ: Piribor
+RU: Приборная панель
+B39. [d2405e4c] AZ: Detalı kodu budu 71800-T20-A00; sağ sərnişin tərəfdən çöl plastik podnojka
+RU: Код детали 71800-T20-A00; наружная пластиковая подножка с правой пассажирской стороны
+B40. [e6fecc36] AZ: Демфер 06c141065с
+RU: Демпфер 06C141065C
+B41. [a6c160ff] AZ: Membirandan cixan bu slank
+RU: Этот шланг, выходящий из мембраны
+B42. [829d3b14] AZ: 976742S000
+RU: 976742S000
+B43. [e27c22d6] AZ: 39180-2A400
+RU: 39180-2A400
+B44. [24124e1e] AZ: 11519455978 pompa
+RU: Помпа 11519455978
+B45. [9fe730be] AZ: bobinin konnektoru
+RU: Коннектор катушки зажигания
+B46. [15ce2bfa] AZ: jitks
+RU: jitks
+B47. [49f9c781] AZ: Kampressorun kranşteyni
+RU: Кронштейн компрессора
+B48. [94e10da2] AZ: QAPININ ÜSTÜ NİKEL KANTLAR
+RU: Никелированные накладки сверху дверей
+B49. [1c8b78ee] AZ: adsorber
+RU: Адсорбер
+B50. [6cde7d09] AZ: rulavoy vutulka
+RU: Втулка рулевой
+B51. [f53d7dc9] AZ: Natejnoy
+RU: Натяжитель
+B52. [4f6030d5] AZ: İnjektor arxa sensor
+RU: Задний датчик инжектора
+B53. [bc42a3bd] AZ: faranin altı plasmas tək satılır? zəhmət olmasa ən ucuz haradan və neçəyə taparam?
+RU: Пластик под фарой продаётся отдельно? Где можно найти дешевле и сколько стоит?
+B54. [1ba0709d] AZ: krank mili sensoru
+RU: Датчик коленвала
+B55. [622b5c40] AZ: 92800A5100TX bu hissədən lazımdı işlənmiş və ya təzə
+RU: Нужна деталь 92800A5100TX, б/у или новая
+B56. [98bf5d53] AZ: Ön bujer
+RU: Передняя свеча
+B57. [946d6f35] AZ: çit izolent 1 ədəd
+RU: çit izolent, 1 штука
+B58. [aaadb7c2] AZ: Tnvd proklatkaları
+RU: Прокладки ТНВД
+B59. [dcb420b9] AZ: Sol arxa top
+RU: Левая задняя шаровая
+B60. [a9164c55] AZ: Prakladka
+RU: Прокладка
+B61. [6d64dc58] AZ: Xrom detal
+RU: Хромированная деталь
+B62. [493ceeae] AZ: şüşə silən yeri olmadan
+RU: Без места для стеклоочистителя
+B63. [e81ab480] AZ: Arxa demir,qeza qoruyucu
+RU: Задняя металлическая защита от удара
+B64. [a2e72ed4] AZ: Asqı sistemi
+RU: Система подвески
+B65. [d5c5e1ab] AZ: Meguin 0/20
+RU: Meguin 0W-20
+B66. [a0c34be9] AZ: vaqaj s class w220 Və s500 yazısı
+RU: Надписи S-Class W220 и S500 на багажник
+B67. [bca1ded7] AZ: Suse silen
+RU: Стеклоочиститель
+B68. [513d872d] AZ: Pad udarniklər
+RU: Отбойники
+B69. [d4cbb2aa] AZ: keçə
+RU: Войлок
+B70. [274fa6cb] AZ: Sol təkər
+RU: Левое колесо
+B71. [5ea73514] AZ: Dumanlı sağ teref üstden çixma yada pad arginal
+RU: Правая противотуманная фара, б/у или оригинал
+B72. [5041fbb6] AZ: Sərnişin tərəf arxa plastiki
+RU: Задний пластик со стороны пассажира
+B73. [6fc7f77d] AZ: sitde olan hissə
+RU: Деталь, находящаяся на щите
+B74. [b6b1349b] AZ: G12 paket reystallinqe yiqmaq isteyirem
+RU: Хочу собрать G12 пакет под рестайлинг
+B75. [a1b671fb] AZ: karobkada şəklini yerləşdirdiyim ehtiyyat hissəsi
+RU: Запчасть в коробке передач, которую я показал на фото
+B76. [67ac66ef] AZ: Karopka yağı
+RU: Масло коробки передач
+B77. [f2b57b10] AZ: Hava filitirinin şlanqı
+RU: Шланг воздушного фильтра
+B78. [457ceb16] AZ: Rulavuy
+RU: Рулевая
+B79. [6381cee0] AZ: Ön buferin üst paneli
+RU: Верхняя панель переднего бампера
+B80. [e43b2c57] AZ: 30939070 Bu kodlu mehsul lazmdi amma sumqayit erazisonde
+RU: Нужна деталь с кодом 30939070, желательно в Сумгаите
+B81. [6fae84bf] AZ: Bu qapağ lazımdır nə bu rəng
+RU: Нужна эта крышка именно такого цвета
+B82. [53a24262] AZ: Sağ ön qabının mebel plasması
+RU: Пластик правой передней части
+B83. [4928666f] AZ: Orijinal ön sol Sükan dartısı və sükan ucluğu
+RU: Оригинальная передняя левая рулевая тяга и рулевой наконечник
+B84. [a8056cfe] AZ: Kondosaner Kamoressorunun Klapanları
+RU: Клапаны компрессора кондиционера
+B85. [98b4a0af] AZ: 252122F000, 252882F000, 252872F000, 252812F000, 252852F000
+RU: 252122F000, 252882F000, 252872F000, 252812F000, 252852F000
+B86. [471a8143] AZ: Сеп мотора
+RU: Цепь двигателя
+B87. [6c97a70b] AZ: Cilamete control
+RU: Климат-контроль
+B88. [0ce37985] AZ: Aktatur
+RU: Актуатор
+B89. [006768b8] AZ: Reduktor yagi origina byd
+RU: Оригинальное масло редуктора BYD
+B90. [2014f25e] AZ: Link Limforder
+RU: Link Lemförder
+B91. [8b7d425e] AZ: arxa bgaj nahiyəsinin tok sistemi
+RU: Электрическая система задней части багажника
+B92. [3ed953cc] AZ: ремен 7PK1870
+RU: Ремень 7PK1870
+B93. [c29ba440] AZ: Другая запчасть
+RU: Другая запчасть
+B94. [0cd94e53] AZ: Arxa naklatka
+RU: Задние колодки
+B95. [bd767e44] AZ: Podlokotnik
+RU: Подлокотник
+B96. [92fedfe0] AZ: Teker razmerleri olan nakleyka. Qapinin ic terefinde
+RU: Наклейка с размерами шин, на внутренней стороне двери
+B97. [0301d7c3] AZ: Aktaturun beyini
+RU: Блок управления актуатором
+B98. [fe327c9c] AZ: matorun sepi remeni
+RU: Цепь/ремень двигателя
+B99. [a2189af1] AZ: Qaranlıq sensoru. Şitin üstundə olan.
+RU: Датчик света, находящийся сверху панели
+B100. [2719d927] AZ: 254603E700
+RU: 254603E700
+B101. [3c76e10d] AZ: Qapağ
+RU: Крышка
+B102. [58e56dea] AZ: Sifeçaların başliq muşduyler
+RU: Наконечники свечей
+B103. [8e8038d8] AZ: e60 ccc dvd blok
+RU: Блок CCC DVD E60
+B104. [53f09ae0] AZ: Yanacaq tənzimləyən
+RU: Регулятор топлива
+B105. [4bfe7fbe] AZ: Rulavoy
+RU: Рулевая
+B106. [c4157506] AZ: Afdopasos
+RU: Автоподсос
+B107. [01987a68] AZ: kondisioner turbasin da olan balaca şpilka lazımdır
+RU: Нужна маленькая шпилька на трубке кондиционера
+B108. [4eb18435] AZ: Üst kantlar
+RU: Верхние накладки
+B109. [0f030f3b] AZ: Przavikler
+RU: Przavikler
+B110. [a680523c] AZ: 311110M000 Kantli sonatanin 2 motor benzonasos Nasosun ozu lazimdi
+RU: 311110M000, бензонасос Sonata 2.0 — нужен только сам насос
+B111. [32bf290a] AZ: Turbonun Patrubkası
+RU: Патрубок турбины
+B112. [16ec1eb0] AZ: BHN950340
+RU: BHN950340
+B113. [1b7ddb64] AZ: Alt parça
+RU: Нижняя часть
+B114. [3c19342a] AZ: Lopus
+RU: Lopus
+B115. [fc506d2a] AZ: New Hyundai Kia Tire Mobility Kit 09130-C1000
+RU: Новый комплект Hyundai/Kia Tire Mobility Kit 09130-C1000
+B116. [0b214b96] AZ: Kia rio ust patrufqasi
+RU: Верхний патрубок Kia Rio
+B117. [334d5aae] AZ: Pribor lazımdır
+RU: Нужна приборная панель
+B118. [881816d0] AZ: 58323 2H300
+RU: 58323 2H300
+B119. [7f84272d] AZ: salonun parçadan olan siymelu gunkecirmezi lukun alt hissesinde olur
+RU: Тканевая солнцезащитная шторка салона, находится под люком
+B120. [998efafc] AZ: Тихий датчик
+RU: Тихий датчик
+B121. [315fb277] AZ: Ön şüşənin aşağısında ki plasmas
+RU: Пластик под передним лобовым стеклом
+B122. [757d288b] AZ: A 1633500653
+RU: A 1633500653
+B123. [a50f2c7e] AZ: Prista ultra plus 5w-40 neciyedi qiymeti
+RU: Сколько стоит Prista Ultra Plus 5W-40?
+B124. [29609557] AZ: Bmw m50 avtopasos
+RU: BMW M50, автоподсос
+B125. [7d2ecd72] AZ: şnuru
+RU: Шнур
+B126. [58251275] AZ: Spoiler
+RU: Спойлер
+B127. [f19f98d8] AZ: Şüşəsilənlər (dvornik)
+RU: Стеклоочистители (дворники)
+B128. [d328e3c9] AZ: Qabaq buferin paxlava ablisovka
+RU: Ромбовидная облицовка переднего бампера
+B129. [d703ead6] AZ: Inlet water
+RU: Впуск воды
+B130. [9cc52d1c] AZ: Umumi col qara qantlar lazimdir krulolqrin usdu qapilarin alti cem sekilinde lazimdir
+RU: Нужен полный комплект наружных чёрных накладок: над крыльями и под дверями
+B131. [9cdced7f] AZ: 97606L0000
+RU: 97606L0000
+B132. [615f6221] AZ: Qapinin nikkel kantlari
+RU: Никелированные накладки дверей
+B133. [8c552db1] AZ: 28212 3A000
+RU: 28212 3A000
+B134. [531829e4] AZ: Orta hava yeri
+RU: Центральный воздуховод
+B135. [5c3d13d2] AZ: Stalancik
+RU: Stalancik
+B136. [23a1ff14] AZ: Sol kirla
+RU: Левое крыло
+B137. [57ad5f1b] AZ: Su baçoku
+RU: Бачок воды
+B138. [31205414] AZ: Arxa buferin iceri icliyi qara hissəsi
+RU: Внутренняя чёрная часть заднего бампера
+B139. [8c1123ab] AZ: Klipsa 858593S500
+RU: Клипса 858593S500
+B140. [e298e07f] AZ: Передняя опора двигателя
+RU: Передняя опора двигателя
+B141. [8f38e8a2] AZ: Alt dummanı
+RU: Нижняя противотуманная фара
+B142. [2f58edd8] AZ: 8K0941286N urvin datciki qabaq sag
+RU: Передний правый датчик уровня 8K0941286N
+B143. [ee46af8f] AZ: 32700-3K070 — PEDAL ASSY - ACCELERATOR
+RU: Педаль акселератора в сборе 32700-3K070
+B144. [c77a1e76] AZ: Kamutator
+RU: Коммутатор
