@@ -1,0 +1,17 @@
+// СИНТЕТИЧЕСКИЙ дымовой набор — НЕ оценочная выборка.
+// Реальные 300 свежих запросов в проект не передавались; положите их в
+// data/requests_300.jsonl в этом же формате и запускайте без --input.
+// Поля: rfq_id, original_text (обязательно), expected_part_id (необязательно),
+//        image_path / image_url (необязательно).
+{"rfq_id": "smoke-001", "original_text": "Naklatka və tormuz disk", "expected_part_id": "EY-001"}
+{"rfq_id": "smoke-002", "original_text": "babin və sveça", "expected_part_id": "MU-025"}
+{"rfq_id": "smoke-003", "original_text": "mühərrik və sürətlər qutusunun yastıqları", "expected_part_id": "MU-017"}
+{"rfq_id": "smoke-004", "original_text": "ön və arxa bufer", "expected_part_id": "KZ-001"}
+{"rfq_id": "smoke-005", "original_text": "sol və sağ güzgü", "expected_part_id": "KZ-020"}
+{"rfq_id": "smoke-006", "original_text": "Salam, radiator var?", "expected_part_id": "SO-001"}
+{"rfq_id": "smoke-007", "original_text": "Mercedes W211 2005 üçün ön bufer lazımdır", "expected_part_id": "KZ-001"}
+{"rfq_id": "smoke-008", "original_text": "stupitsa podsipniki", "expected_part_id": "AS-007"}
+{"rfq_id": "smoke-009", "original_text": "amortizator, naklatka, hava filtri"}
+{"rfq_id": "smoke-010", "original_text": "1K0 615 301 AA əyləc diski", "expected_part_id": "EY-002"}
+{"rfq_id": "smoke-011", "original_text": "əyləc altlığı", "expected_part_id": "EY-001"}
+{"rfq_id": "smoke-012", "original_text": "qwerty zxcvbn", "expected_part_id": "UNKNOWN"}
