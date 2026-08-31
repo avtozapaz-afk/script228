@@ -73,6 +73,8 @@ class Layer0Item:
     oem_code: str | None = None
     # Просьба о ремонте/услуге, а не о детали (правило 6 промпта сегментера).
     is_part_request: bool = True
+    # Заполнено, если текст предмета пришёл с испорченной кодировкой.
+    encoding_warning: str | None = None
     # Позиционные/сторонние атрибуты, собранные при слиянии фрагментов
     side_hint: str | None = None
     position_hint: str | None = None
@@ -195,6 +197,7 @@ class ItemRecord:
     final_status: str
     search_phrases: list[str] = field(default_factory=list)
     is_part_request: bool = True
+    encoding_warning: str | None = None
     expected_external_code: str | None = None
     failure_layer: str = LAYER_NONE
     latency_ms: int = 0

@@ -23,6 +23,7 @@ TEXT_FIELDS = ("original_text", "text", "request", "message", "запрос", "�
 CSV_COLUMNS = [
     "source_index", "rfq_id", "original_text",
     "item_index", "item_raw", "search_phrases", "is_part_request",
+    "encoding_warning",
     "layer0_source", "layer0_status", "layer0_reason", "layer0_item_count",
     "vehicle_context",
     "oem_numbers", "oem_status", "oem_resolved_code", "oem_resolved_name",
@@ -192,6 +193,7 @@ def flatten_record(record: dict[str, Any]) -> dict[str, Any]:
         "item_raw": record.get("item_raw"),
         "search_phrases": " | ".join(record.get("search_phrases") or []),
         "is_part_request": record.get("is_part_request"),
+        "encoding_warning": record.get("encoding_warning"),
         "layer0_source": record.get("layer0_source"),
         "layer0_status": record.get("layer0_status"),
         "layer0_reason": record.get("layer0_reason"),

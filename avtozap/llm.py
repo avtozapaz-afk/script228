@@ -24,12 +24,27 @@ class LlmError(RuntimeError):
     """Вызов не удался после всех попыток."""
 
 
+class TruncatedResponse(LlmError):
+    """Модель упёрлась в лимит вывода, ответ оборван на полуслове.
+
+    Отдельный класс, потому что диагноз тут другой: это не сбой сети и не
+    испорченный JSON, а слишком маленький ``max_tokens``. В живом прогоне такие
+    случаи выглядели как «ошибка разбора JSON» и уводили расследование не туда.
+    """
+
+
 @dataclass
 class LlmResponse:
     text: str
     model: str
     latency_ms: int
     attempts: int
+    #: ``length`` означает, что модель упёрлась в лимит и ответ оборван.
+    finish_reason: str = ""
+
+    @property
+    def truncated(self) -> bool:
+        return self.finish_reason == "length"
 
 
 def _is_retryable(exc: BaseException) -> bool:
@@ -86,7 +101,13 @@ class LlmClient:
     def complete(self, model: str, messages: list[dict[str, Any]],
                  temperature: float = 0.0,
                  json_mode: bool = True,
-                 max_tokens: int | None = 700) -> LlmResponse:
+                 max_tokens: int | None = None) -> LlmResponse:
+        """Один вызов чат-комплишена с ретраями.
+
+        ``max_tokens=None`` — не ограничивать вывод своим лимитом. Заявка на
+        десять деталей даёт длинный JSON, и жёсткий потолок обрывал его на
+        полуслове; вызывающая сторона задаёт лимит осознанно.
+        """
         kwargs: dict[str, Any] = {
             "model": model,
             "messages": messages,
@@ -102,13 +123,24 @@ class LlmClient:
         for attempt in range(1, self.max_retries + 1):
             try:
                 response = self._client.chat.completions.create(**kwargs)
-                text = (response.choices[0].message.content or "").strip()
+                choice = response.choices[0]
+                text = (choice.message.content or "").strip()
+                finish_reason = getattr(choice, "finish_reason", "") or ""
+                if finish_reason == "length":
+                    # Повторять смысла нет: при тех же параметрах ответ
+                    # оборвётся снова. Сообщаем причину честно.
+                    raise TruncatedResponse(
+                        f"ответ оборван по лимиту вывода (max_tokens="
+                        f"{max_tokens or 'по умолчанию модели'})")
                 return LlmResponse(
                     text=text,
                     model=getattr(response, "model", model),
                     latency_ms=int((time.time() - started) * 1000),
                     attempts=attempt,
+                    finish_reason=finish_reason,
                 )
+            except TruncatedResponse:
+                raise                                    # ретраи не помогут
             except Exception as exc:                     # noqa: BLE001
                 last = exc
                 if attempt >= self.max_retries or not _is_retryable(exc):

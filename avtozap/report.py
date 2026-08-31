@@ -44,6 +44,7 @@ def build_summary(records: list[dict[str, Any]],
 
     layer0_failures = [r for r in records
                        if r.get("layer0_status") in (L0_EMPTY, L0_FALLBACK)]
+    corrupted = [r for r in records if r.get("encoding_warning")]
     oem_conflicts = [r for r in records
                      if (r.get("oem") or {}).get("status") == OEM_CONFLICT]
     oem_unresolved = [r for r in records
@@ -120,6 +121,7 @@ def build_summary(records: list[dict[str, Any]],
             "ERROR": finals.get(FINAL_ERROR, 0),
         },
         "layer0_failures": len(layer0_failures),
+        "encoding_corrupted_items": len(corrupted),
         "oem_conflicts": len(oem_conflicts),
         "oem_unresolved": len(oem_unresolved),
         "retriever_no_candidates": len(retriever_empty),
@@ -159,9 +161,22 @@ def render_markdown(summary: dict[str, Any], config_note: str = "") -> str:
     def pct(n: int) -> str:
         return f"{n} ({n / total_items * 100:.1f}%)"
 
+    corrupted = summary.get("encoding_corrupted_items", 0)
     lines = [
         "# AVTOZAP — сводка прогона",
         "",
+    ]
+    if corrupted:
+        # Порча кодировки обесценивает прогон целиком: по живым данным доля
+        # select на испорченных строках была на 13 п.п. ниже, чем на чистых.
+        lines += [
+            f"> ⛔ **ПРОГОН НЕПРИГОДЕН ДЛЯ ОЦЕНКИ КАЧЕСТВА.** У {corrupted} "
+            "предмет(ов) текст испорчен кодировкой (UTF-8 прочитан как "
+            "latin-1). Почините кодировку и перезапустите — цифры ниже "
+            "занижены и сравнивать их не с чем.",
+            "",
+        ]
+    lines += [
         f"* сырых запросов во входе: **{summary['total_raw_requests']}**",
         f"* обработано запросов: **{summary['processed_raw_requests']}**",
         f"* атомарных предметов после Layer 0: **{summary['total_atomic_items']}**",
@@ -180,6 +195,7 @@ def render_markdown(summary: dict[str, Any], config_note: str = "") -> str:
         "| показатель | значение |",
         "|---|---|",
         f"| сбои Layer 0 | {summary['layer0_failures']} |",
+        f"| предметов с битой кодировкой | {summary.get('encoding_corrupted_items', 0)} |",
         f"| конфликты OEM | {summary['oem_conflicts']} |",
         f"| неразрешённые номера OEM | {summary['oem_unresolved']} |",
         f"| ретривер не дал кандидатов | {summary['retriever_no_candidates']} |",

@@ -70,7 +70,8 @@ class MockArbiter:
     def decide(self, original_text: str, item_raw: str, oem: OemEvidence,
                photo: PhotoEvidence, retriever: RetrieverResult,
                vehicle_context: str = "", translation: str | None = None,
-               search_phrases: list[str] | None = None) -> ArbiterDecision:
+               search_phrases: list[str] | None = None,
+               other_items: list[str] | None = None) -> ArbiterDecision:
         candidates = retriever.candidates
         if not candidates:
             return ArbiterDecision(decision=ARB_UNKNOWN, confidence="low",
@@ -134,22 +135,90 @@ class Pipeline:
                 expected_external_code=expected, failure_layer=LAYER_L0,
             )]
 
+        # Предмет, в котором осталось две разные детали, дорезаем ДО арбитра:
+        # иначе правило MULTI-PART GUARD вернёт clarify, и запрос будет потерян.
+        layer0.items = self._resplit_multi_part(layer0.items)
+
         # Фото относится ко всему запросу — считаем один раз на сообщение.
         photo = self.photo.analyze(image_ref)
 
+        # Остальные предметы сообщения передаются арбитру как факт: ими
+        # занимаются свои запуски. Без этого правило MULTI-PART GUARD
+        # срабатывало на целом сообщении и отказывало по уже разрезанным
+        # предметам (11 из 12 таких отказов в живом прогоне).
+        all_items = [i.item_raw for i in layer0.items]
+
         records: list[ItemRecord] = []
         for item in layer0.items:
+            others = [t for j, t in enumerate(all_items) if j != item.item_index]
             records.append(self._process_item(
-                source_index, rfq_id, original_text, layer0, item, photo, expected))
+                source_index, rfq_id, original_text, layer0, item, photo,
+                expected, others))
         # Эталон задан на весь запрос, а предметов у запроса может быть несколько,
         # поэтому слабое звено определяем по запросу целиком, а не по предмету.
         attribute_failures(records, expected_ids)
         return records
 
+    def _resplit_multi_part(self, items: list[Layer0Item]) -> list[Layer0Item]:
+        """Дорезать предмет, в котором остались две РАЗНЫЕ детали.
+
+        Проверяем детерминированным сегментатором и режем только тогда, когда
+        куски указывают на разные группы словаря. «ön bufer arxa bufer» — одна
+        деталь в двух положениях, куски дают одну группу, и он остаётся целым;
+        «Qabaq arxa apornu ve naklatka» — диск и колодка, разные группы, режем.
+
+        Без этого арбитр честно отвечает clarify по правилу MULTI-PART GUARD, а
+        заявка уходит в никуда: в живом прогоне так терялись реальные детали.
+        """
+        out: list[Layer0Item] = []
+        for item in items:
+            pieces = self._split_into_distinct_parts(item)
+            if not pieces:
+                out.append(item)
+                continue
+            for piece in pieces:
+                out.append(Layer0Item(
+                    item_index=len(out),
+                    item_raw=piece,
+                    status=item.status,
+                    reason=f"{item.reason}; resplit_multi_part",
+                    search_phrases=item.search_phrases,
+                    oem_code=item.oem_code,
+                    is_part_request=item.is_part_request,
+                    encoding_warning=item.encoding_warning,
+                    side_hint=item.side_hint,
+                    position_hint=item.position_hint,
+                    source_fragments=list(item.source_fragments),
+                ))
+        # Перенумеровать, если ничего не резалось — индексы уже верные.
+        for index, item in enumerate(out):
+            item.item_index = index
+        return out
+
+    def _split_into_distinct_parts(self, item: Layer0Item) -> list[str] | None:
+        """Куски предмета, если он распадается на РАЗНЫЕ детали, иначе None."""
+        again = self.fallback_layer0.segment(item.item_raw)
+        if len(again.items) < 2:
+            return None
+        groups: set[str] = set()
+        pieces: list[str] = []
+        for piece in again.items:
+            codes = self.retriever.head_codes(piece.item_raw)
+            if not codes:
+                result = self.retriever.retrieve(piece.item_raw)
+                codes = result.codes[:1]
+            if not codes:
+                return None                  # кусок ни на что не указывает
+            part = self.retriever.dict.get(codes[0])
+            groups.add(part.category if part else codes[0])
+            pieces.append(piece.item_raw)
+        return pieces if len(groups) > 1 else None
+
     # ── один атомарный предмет ──────────────────────────────────────────────
     def _process_item(self, source_index: int, rfq_id: str, original_text: str,
                       layer0, item: Layer0Item, photo: PhotoEvidence,
-                      expected: str | None) -> ItemRecord:
+                      expected: str | None,
+                      other_items: list[str] | None = None) -> ItemRecord:
         started = time.time()
 
         def record(oem, retrieved, arbiter, validated, final_id, final_status,
@@ -165,6 +234,7 @@ class Pipeline:
                 final_status=final_status, expected_external_code=expected,
                 search_phrases=list(item.search_phrases),
                 is_part_request=item.is_part_request,
+                encoding_warning=item.encoding_warning,
                 failure_layer=failure_layer,
                 latency_ms=int((time.time() - started) * 1000), error=error,
             )
@@ -178,7 +248,8 @@ class Pipeline:
                 original_text=original_text, item_raw=item.item_raw,
                 oem=oem, photo=photo, retriever=retrieved,
                 vehicle_context=layer0.vehicle_context,
-                search_phrases=item.search_phrases)
+                search_phrases=item.search_phrases,
+                other_items=other_items)
             validated = self.validator.validate(item, arbiter, retrieved, oem)
         except Exception as exc:                          # noqa: BLE001
             # Один сломанный запрос не должен ронять прогон из 300 кейсов.

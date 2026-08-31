@@ -24,12 +24,13 @@ import os
 from typing import Any
 
 from .config import (
+    ARBITER_MAX_TOKENS,
     ARBITER_PROMPT_PATH,
     ARBITER_PROMPT_SHA_PATH,
     DEFAULT_ARBITER_MODEL,
     DEFAULT_TEMPERATURE,
 )
-from .llm import LlmClient, LlmError
+from .llm import LlmClient, LlmError, TruncatedResponse
 from .types import (
     ARB_CLARIFY,
     ARB_ERROR,
@@ -67,11 +68,25 @@ def build_user_message(original_text: str, item_raw: str,
                        retriever: RetrieverResult,
                        vehicle_context: str = "",
                        translation: str | None = None,
-                       search_phrases: list[str] | None = None) -> str:
-    """Вход арбитра. Список кандидатов — единственный источник допустимых кодов."""
+                       search_phrases: list[str] | None = None,
+                       other_items: list[str] | None = None) -> str:
+    """Вход арбитра. Список кандидатов — единственный источник допустимых кодов.
+
+    Порядок полей не косметика. Промпт V3 судит **item_raw** («If item_raw
+    itself clearly contains TWO DIFFERENT requested part types… return
+    clarify»), но про ``original_text`` в нём не сказано ни слова — это поле
+    добавляет харнесс. В живом прогоне из 12 отказов «в запросе две разные
+    детали» 11 пришлись на предметы, которые Layer 0 уже разрезал верно:
+    ``item_raw="tormuz disk"`` получал clarify со ссылкой на «Naklatka и tormuz
+    disk», то есть модель применяла правило к целому сообщению.
+
+    Поэтому ``item_raw`` идёт первым, а остальные предметы того же сообщения
+    передаются отдельным полем — как факт, что ими занимаются свои запуски.
+    Это данные, а не указания: замороженный промпт не меняется.
+    """
     payload: dict[str, Any] = {
-        "original_text": original_text,
         "item_raw": item_raw,
+        "original_text": original_text,
         "candidates": [
             {
                 "external_code": c.external_code,
@@ -85,6 +100,8 @@ def build_user_message(original_text: str, item_raw: str,
             for c in retriever.candidates
         ],
     }
+    if other_items:
+        payload["other_items_in_same_message"] = other_items
     if translation:
         payload["translation"] = translation
     if search_phrases:
@@ -152,7 +169,8 @@ class ArbiterV3:
     def decide(self, original_text: str, item_raw: str, oem: OemEvidence,
                photo: PhotoEvidence, retriever: RetrieverResult,
                vehicle_context: str = "", translation: str | None = None,
-               search_phrases: list[str] | None = None) -> ArbiterDecision:
+               search_phrases: list[str] | None = None,
+               other_items: list[str] | None = None) -> ArbiterDecision:
         allowed = set(retriever.codes)
         if not allowed:
             # Кандидатов нет — выбирать не из чего, звать модель незачем.
@@ -163,13 +181,19 @@ class ArbiterV3:
             raise LlmError("клиент OpenAI не сконфигурирован")
 
         user = build_user_message(original_text, item_raw, oem, photo, retriever,
-                                  vehicle_context, translation, search_phrases)
+                                  vehicle_context, translation, search_phrases,
+                                  other_items)
         try:
             response = self.client.complete(
                 model=self.model,
                 messages=[{"role": "system", "content": self.system_prompt},
                           {"role": "user", "content": user}],
-                temperature=self.temperature)
+                temperature=self.temperature,
+                max_tokens=ARBITER_MAX_TOKENS)
+        except TruncatedResponse as exc:
+            return ArbiterDecision(decision=ARB_ERROR, model=self.model,
+                                   reason=f"ответ арбитра оборван: {exc}",
+                                   error=str(exc))
         except LlmError as exc:
             return ArbiterDecision(decision=ARB_ERROR, model=self.model,
                                    reason="ошибка вызова API", error=str(exc))

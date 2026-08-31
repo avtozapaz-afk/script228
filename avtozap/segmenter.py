@@ -18,8 +18,13 @@ import json
 import os
 from typing import Any
 
-from .config import SEGMENTER_PROMPT_PATH, SEGMENTER_PROMPT_SHA_PATH
-from .llm import LlmClient, LlmError
+from .encoding_guard import check as check_encoding
+from .config import (
+    SEGMENTER_MAX_TOKENS,
+    SEGMENTER_PROMPT_PATH,
+    SEGMENTER_PROMPT_SHA_PATH,
+)
+from .llm import LlmClient, LlmError, TruncatedResponse
 from .types import L0_FALLBACK, L0_OK, Layer0Item, Layer0Result
 
 #: Источник разбиения — попадает в отчёт, чтобы ошибки Layer 0 были различимы.
@@ -108,7 +113,11 @@ class Segmenter:
                 model=self.model,
                 messages=[{"role": "system", "content": self.system_prompt},
                           {"role": "user", "content": text}],
-                temperature=self.temperature)
+                temperature=self.temperature,
+                max_tokens=SEGMENTER_MAX_TOKENS)
+        except TruncatedResponse as exc:
+            # Заявка на десяток деталей не уместилась в лимит вывода.
+            return self._fallback(text, f"ответ оборван по лимиту: {exc}")
         except LlmError as exc:
             return self._fallback(text, f"ошибка API: {exc}")
 
@@ -118,6 +127,10 @@ class Segmenter:
 
         items: list[Layer0Item] = []
         for index, entry in enumerate(data["items"]):
+            # Текст пришёл извне: если он испорчен кодировкой, дальше считать
+            # бессмысленно — но и молча портить прогон нельзя, поэтому факт
+            # фиксируется в записи и попадает в сводку.
+            warning = check_encoding(entry["raw"], "ответ сегментера")
             items.append(Layer0Item(
                 item_index=index,
                 item_raw=entry["raw"],
@@ -127,6 +140,7 @@ class Segmenter:
                 search_phrases=entry["search_phrases"],
                 oem_code=entry["oem_code"],
                 is_part_request=entry["is_part_request"],
+                encoding_warning=warning,
                 source_fragments=[entry["raw"]],
             ))
         return Layer0Result(

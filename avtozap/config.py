@@ -39,7 +39,13 @@ DEFAULT_ARBITER_MODEL = os.environ.get("AVTOZAP_ARBITER_MODEL", "gpt-4.1-mini")
 DEFAULT_VISION_MODEL = os.environ.get("AVTOZAP_VISION_MODEL", "gpt-4.1-mini")
 DEFAULT_SEGMENTER_MODEL = os.environ.get("AVTOZAP_SEGMENTER_MODEL", "gpt-4.1-mini")
 DEFAULT_TEMPERATURE = 0.0
-DEFAULT_TIMEOUT_S = 60.0
+DEFAULT_TIMEOUT_S = 90.0
+
+# Лимиты вывода. В живом прогоне три заявки на десяток деталей оборвались на
+# полуслове и выглядели как «ошибка разбора JSON»: сегментер должен уместить
+# JSON со всеми предметами и их подсказками, поэтому лимит у него щедрый.
+SEGMENTER_MAX_TOKENS = 4000
+ARBITER_MAX_TOKENS = 500
 DEFAULT_MAX_RETRIES = 5
 DEFAULT_BACKOFF_BASE_S = 2.0
 DEFAULT_BACKOFF_CAP_S = 60.0
