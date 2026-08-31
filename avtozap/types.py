@@ -195,6 +195,11 @@ class ItemRecord:
     validator: ValidatorResult
     final_external_code: str | None
     final_status: str
+    # Что делать по правилу заказчика: ответить, переспросить, попросить фото
+    # или отдать заявку магазинам сырым текстом.
+    action: str = ""
+    action_reason: str = ""
+    buyer_question: str | None = None
     search_phrases: list[str] = field(default_factory=list)
     is_part_request: bool = True
     encoding_warning: str | None = None

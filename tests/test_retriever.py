@@ -63,15 +63,22 @@ def test_shortlist_reproduces_the_projects_own_reference(retriever, devset):
 
     Ссылочные списки посчитаны поставленным Retriever V2. Расхождение означало
     бы, что адаптер исказил работу проектного кода.
+
+    Обе стороны приводятся к каноническим кодам: ссылка собиралась до того, как
+    проект объявил RG-04, MU-012 и SO-025 дублями, а конвейер теперь намеренно
+    отдаёт вместо них MU-089, MU-078 и SO-005. Это единственное осознанное
+    отличие, и сверять надо после него.
     """
+    canonical = retriever.dict.canonical
     checked = mismatched = 0
     for case in devset:
-        reference = [c["external_code"] for c in case.get("candidates") or []]
+        reference = {canonical(c["external_code"])
+                     for c in case.get("candidates") or []}
         if not reference:
             continue
         checked += 1
-        mine = set(retriever.retrieve(case["item_raw"]).codes)
-        if not set(reference) <= mine:
+        mine = {canonical(code) for code in retriever.retrieve(case["item_raw"]).codes}
+        if not reference <= mine:
             mismatched += 1
     assert checked >= 250
     assert mismatched == 0, f"{mismatched} из {checked} shortlist разошлись со ссылкой"
@@ -83,13 +90,15 @@ def test_recall_of_the_old_production_code_stays_at_the_measured_level(retriever
     Проект измерял ~90% на боевом экспорте; на fresh-300 получается ~93%.
     Порог 90% ловит регрессию интеграции, а не качество арбитра.
     """
+    canonical = retriever.dict.canonical
     total = hits = 0
     for case in devset:
         old = case.get("old_external_code")
         if not old:
             continue
         total += 1
-        if old in retriever.retrieve(case["item_raw"]).codes:
+        codes = {canonical(code) for code in retriever.retrieve(case["item_raw"]).codes}
+        if canonical(old) in codes:
             hits += 1
     assert total >= 200
     assert hits / total >= 0.90, f"полнота упала до {hits / total:.1%}"

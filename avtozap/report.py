@@ -45,6 +45,7 @@ def build_summary(records: list[dict[str, Any]],
     layer0_failures = [r for r in records
                        if r.get("layer0_status") in (L0_EMPTY, L0_FALLBACK)]
     corrupted = [r for r in records if r.get("encoding_warning")]
+    actions = Counter(r.get("action") for r in records if r.get("action"))
     oem_conflicts = [r for r in records
                      if (r.get("oem") or {}).get("status") == OEM_CONFLICT]
     oem_unresolved = [r for r in records
@@ -122,6 +123,7 @@ def build_summary(records: list[dict[str, Any]],
         },
         "layer0_failures": len(layer0_failures),
         "encoding_corrupted_items": len(corrupted),
+        "actions": dict(actions),
         "oem_conflicts": len(oem_conflicts),
         "oem_unresolved": len(oem_unresolved),
         "retriever_no_candidates": len(retriever_empty),
@@ -189,6 +191,16 @@ def render_markdown(summary: dict[str, Any], config_note: str = "") -> str:
         f"| UNKNOWN | {pct(f['UNKNOWN'])} |",
         f"| REVIEW | {pct(f['REVIEW'])} |",
         f"| ERROR | {pct(f['ERROR'])} |",
+        "",
+        "## Что делаем по правилу заказчика",
+        "",
+        "| действие | предметов |",
+        "|---|---|",
+    ] + [
+        f"| {name} | {count} |"
+        for name, count in sorted((summary.get("actions") or {}).items(),
+                                  key=lambda kv: -kv[1])
+    ] + [
         "",
         "## По слоям",
         "",

@@ -77,12 +77,20 @@ class RetrieverV2:
                                    reason="пустой запрос после нормализации")
 
         candidates: list[Candidate] = []
-        for code, (score, reason) in best.items():
+        seen: set[str] = set()
+        for code, (score, reason) in sorted(best.items(),
+                                            key=lambda kv: (-kv[1][0], kv[0])):
+            # Код-дубль заменяем каноническим: предлагать арбитру исчезающий
+            # код нельзя, а две карточки одной детали в списке только сбивают.
+            code = self.dict.canonical(code)
+            if code in seen:
+                continue
             part = self.dict.get(code)
             if part is None:
                 # Ретривер не может выдать код вне словаря, но если это
                 # случится — молча пропускаем, а не выдумываем деталь.
                 continue
+            seen.add(code)
             candidates.append(_candidate(part, score, reason))
 
         candidates.sort(key=lambda c: (-c.score, c.external_code))
@@ -103,7 +111,7 @@ class RetrieverV2:
         for key in _query_keys(item_raw):
             codes = self.dict.exact_codes(key)
             if codes:
-                return codes
+                return list(dict.fromkeys(self.dict.canonical(c) for c in codes))
         return []
 
     def is_known_word(self, word: str) -> bool:

@@ -17,6 +17,7 @@ from .layer0 import Layer0
 from .llm import LlmClient
 from .oem import OemResolver
 from .photo import PhotoLayer
+from .policy import decide_action, question_for
 from .retriever import RetrieverV2, content_tokens
 from .segmenter import Segmenter
 from .types import (
@@ -38,6 +39,7 @@ from .types import (
     LAYER_RETRIEVER,
     LAYER_VALIDATOR,
     OEM_CONFLICT,
+    PHOTO_OK,
     VAL_DOWNGRADE,
     VAL_PASS,
     VAL_REJECT,
@@ -223,6 +225,10 @@ class Pipeline:
 
         def record(oem, retrieved, arbiter, validated, final_id, final_status,
                    failure_layer, error=None) -> ItemRecord:
+            action, action_reason = decide_action(
+                final_status, arbiter, validated, original_text,
+                attempt=self.config.attempt,
+                has_photo=photo.status == PHOTO_OK)
             return ItemRecord(
                 source_index=source_index, rfq_id=rfq_id,
                 original_text=original_text, item_index=item.item_index,
@@ -232,6 +238,8 @@ class Pipeline:
                 oem=oem, photo=photo, retriever=retrieved, arbiter=arbiter,
                 validator=validated, final_external_code=final_id,
                 final_status=final_status, expected_external_code=expected,
+                action=action, action_reason=action_reason,
+                buyer_question=question_for(action, action_reason),
                 search_phrases=list(item.search_phrases),
                 is_part_request=item.is_part_request,
                 encoding_warning=item.encoding_warning,
@@ -261,6 +269,8 @@ class Pipeline:
                 error=f"{type(exc).__name__}: {exc}")
 
         final_id, final_status = _finalize(arbiter, validated)
+        # Наружу отдаём только канонический код: дубль исчезнет из словаря.
+        final_id = self.retriever.dict.canonical(final_id)
         # Слабое звено проставит attribute_failures(), когда будут готовы все
         # предметы запроса; здесь фиксируем только безусловные случаи.
         failure = (LAYER_PIPELINE_ERROR if final_status == FINAL_ERROR else LAYER_NONE)

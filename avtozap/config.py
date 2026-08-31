@@ -165,4 +165,7 @@ class RunConfig:
     mock: bool = False
     enable_photo: bool = False
     max_requests: int | None = None
+    # Какой это заход по заявке. На втором непонятном заходе правило заказчика
+    # велит отдать сырой текст магазинам, а не переспрашивать снова.
+    attempt: int = 1
     resume: bool = True

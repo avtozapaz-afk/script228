@@ -14,8 +14,13 @@ from __future__ import annotations
 
 import os
 import sys
+import json
 from dataclasses import dataclass, field
 from functools import lru_cache
+
+DUPLICATE_CODES_PATH = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "data", "duplicate_codes.json")
 
 VENDOR_DIR = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
@@ -51,6 +56,19 @@ class Dictionary:
     parts: dict[str, Part] = field(default_factory=dict)
     # нормализованный термин -> коды деталей (терминов ~5690)
     term_index: dict[str, set[str]] = field(default_factory=dict)
+    # код-дубль -> канонический код, на который переезжают карточки
+    duplicates: dict[str, str] = field(default_factory=dict)
+
+    def canonical(self, code: str | None) -> str | None:
+        """Канонический код детали.
+
+        В словаре есть подтверждённые дубли (RG-04 и MU-089 — один и тот же
+        воздушный патрубок). Наружу конвейер обязан отдавать только тот код,
+        который останется, иначе ответ протухнет вместе с дублем.
+        """
+        if not code:
+            return code
+        return self.duplicates.get(code, code)
 
     def __contains__(self, code: object) -> bool:
         return code in self.parts
@@ -113,4 +131,13 @@ def load() -> Dictionary:
             requires_location=flag(row.get("requires_location")),
         )
     term_index = {term: set(codes) for term, codes in legacy.IDX.items()}
-    return Dictionary(parts=parts, term_index=term_index)
+    return Dictionary(parts=parts, term_index=term_index,
+                      duplicates=load_duplicates())
+
+
+def load_duplicates(path: str = DUPLICATE_CODES_PATH) -> dict[str, str]:
+    """Карта «код-дубль → канонический код»."""
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as fh:
+        return dict(json.load(fh).get("codes") or {})

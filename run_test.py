@@ -86,6 +86,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
                    help="попыток на один вызов API")
     p.add_argument("--max-requests", type=int, default=None,
                    help="обработать только первые N сырых запросов (дымовой тест)")
+    p.add_argument("--attempt", type=int, default=1, choices=(1, 2),
+                   help="какой это заход по заявке: на втором непонятном "
+                        "заходе сырой текст уходит магазинам, а не покупателю")
     p.add_argument("--enable-photo", action="store_true",
                    help="включить слой фото (нужны image_path/image_url и vision-модель)")
     p.add_argument("--mock", action="store_true",
@@ -174,6 +177,7 @@ def main(argv: list[str] | None = None) -> int:
         max_retries=args.max_retries, limit=args.limit,
         accepted_confidence=accepted, mock=args.mock or args.dry_run,
         enable_photo=args.enable_photo, max_requests=args.max_requests,
+        attempt=args.attempt,
         resume=not args.no_resume,
     )
 
