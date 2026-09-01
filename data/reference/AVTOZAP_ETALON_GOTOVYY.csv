@@ -1,0 +1,471 @@
+﻿id,raw_text,translation,expected_external_code,name_ru,name_az,source
+С1,Sol güzgüdə olan işığ,Свет в левом зеркале,KZ-069,Повторитель поворотника в зеркале,Güzgüdə povorotnik (təkrarlayıcı),подтверждено второй проверкой
+С2,Baqaj üçün keçe lazimdir,Нужен войлок для багажника,AK-005,Коврик/подстилка багажника,Baqaj xalçası/keçəsi,подтверждено вручную
+С3,Geri qaytarma klapanı,Обратный клапан,YA-009,Обратный клапан топлива,Geri qaytarma klapanı (obratka),подтверждено вручную
+С4,Guzgu pavarotnik sol,Левый поворотник зеркала,KZ-069,Повторитель поворотника в зеркале,Güzgüdə povorotnik (təkrarlayıcı),подтверждено вручную
+С5,Radiator,Радиатор,SO-001,Радиатор охлаждения,Su radiatoru,подтверждено вручную
+С6,Matorun usdunde olan plasmas qoruyucu,Пластиковая защита сверху двигателя,MU-074,Крышка двигателя (декоративная),Mühərrik qapağı (dekorativ),подтверждено второй проверкой
+С7,Kandisaner kanpressoru hunday aksent 2015 1.6 turbo dizel matoru uçun,"Компрессор кондиционера для Hyundai Accent 2015, 1.6 турбодизель",SO-012,Компрессор кондиционера,Kondisioner kompressoru,подтверждено вручную
+С8,qabaq sağ və sol iç və çöl qranatlar zbor,Передние правый и левый внутренние и наружные ШРУСы в сборе,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С9,Sol çöl Qranat,Левый наружный ШРУС,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С10,yanacaq çəninin qapağı,Крышка топливного бака,YA-005,Крышка топливного бака,Benzin bakı qapağı,подтверждено вручную
+С11,kodlndisonerin radiatoru,Радиатор кондиционера,SO-010,Радиатор кондиционера (конденсер),Kondisioner radiatoru,подтверждено вручную
+С12,motorun alt zasitniki,Защита двигателя снизу,MU-053,Защита картера двигателя,Mühərrik alt qoruyucusu,подтверждено вручную
+С13,Vanuş daççiki üçün taxılan Şteker,"Штекер, подключаемый к датчику VANOS",EL-032,Проводка/разъёмы,Naqillər/ştekerlər (provodka),подтверждено второй проверкой
+С14,Sağ padnoşka,Правая подножка,TY-001,Порог-подножка (running board),Padnoşka (pilləkən),подтверждено вручную
+С15,Antifiliz baçokunun qapağı.xaiş edirəm qiymət yazanda hem firma hem də originalının qiymətini yazın.,Крышка бачка антифриза,SO-032,Крышка бачка,Baçok qapağı,подтверждено вручную
+С16,Ön sağ patkrilnik lazımdı,Нужен передний правый подкрылок,KZ-029,Подкрылок (локер),Podkrilnik,подтверждено вручную
+С18,Evap klapan   Rav4 2010,"Клапан EVAP, RAV4 2010",YA-007,Система EVAP (адсорбер),EVAP sistemi/klapanı (yanacaq kömürü),подтверждено вручную
+С19,Sağ tərəf iç qranat,Правый внутренний ШРУС,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С20,Kondisionerin kompressor datciki,Датчик компрессора кондиционера,EL-020,Датчик кондиционера,Kondisioner datçiki,подтверждено вручную
+С22,radiator barmaqlığ,Решётка радиатора,KZ-028,Решётка радиатора,Radiator barmaqlığı,подтверждено вручную
+С27,"matorun üstündə zbor olur, üst kırışqa deyilir,","В сборе находится сверху двигателя, верхняя крышка",MU-013,Клапанная крышка,Üst krişka (klapan qapağı),подтверждено второй проверкой
+С28,Sağ faranın arxasında zibil baçoku zbor bütün,"За правой фарой бачок в сборе, полностью",EL-057,Бачок омывателя стекла,Yuyucu su baçoku,подтверждено второй проверкой
+С29,Kapot altindaki peredoxranitel blokunun qapagi,Крышка блока предохранителей под капотом,RG-10,Крышка блока предохранителей,Qoruyucu bloku qapağı,подтверждено вручную
+С31,Arxa patkrelniklər kapron,Задние пластиковые подкрылки,KZ-029,Подкрылок (локер),Podkrilnik,подтверждено вручную
+С32,matorun alt zaşitniki,Нижняя защита двигателя,MU-053,Защита картера двигателя,Mühərrik alt qoruyucusu,подтверждено вручную
+С33,Sol ic col qranat firmasini yazin zehmet olmasa,Левый внутренний/наружный ШРУС,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С34,Şofer tərəf qranat,ШРУС со стороны водителя,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С35,Iç qranat lazımdır  sağ sol,"Нужны внутренние ШРУСы, правый и левый",AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С36,Radiatorun qapagi,Крышка радиатора,SO-039,Крышка радиатора,Radiator qapağı,подтверждено вручную
+С37,Panaramanın şüşələri,Стёкла панорамы,KZ-014,Стекло люка,Lyuk şüşəsi,подтверждено вручную
+С40,Katalizator daççiki 2ədəd qiymət?,"Датчики катализатора, 2 штуки",EG-002,Датчик катализатора / кислородный датчик (лямбда-зонд),Katalizator/oksigen datçiki (lambda zond),подтверждено вручную
+С42,W205 orijinal qoşa lupa ön fara,Оригинальная передняя фара W205 с двойной линзой,KZ-005,Фара головного света,Fara (baş fara),подтверждено вручную
+С43,Avtopadsos,Автоподсос,MU-088,Датчик холостого хода,Boş gediş datçiki,подтверждено второй проверкой
+С44,Ic granatlar sag ve sol teref ucun,Внутренние ШРУСы для правой и левой стороны,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С45,support,Суппорт,EY-003,Тормозной суппорт,Support (suport),подтверждено вручную
+С46,iç qranati,Внутренний ШРУС,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С47,ön sol qapı kilidi,Замок передней левой двери,KZ-017,Замок двери,Qapı zamoku,подтверждено вручную
+С48,Qabaq sag qranat,Передний правый ШРУС,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С49,pavarotnik,Поворотник,KZ-008,Поворотник,Dönmə işığı (povorotnik),подтверждено вручную
+С51,Rulavoyun almaciqi,Рулевая тяга,SU-002,Рулевая тяга,Sükan dartısı,подтверждено вручную
+С52,Nacanecnik,Наконечник,SU-001,Наконечник рулевой тяги,Nakonechnik (sükan dartısı ucluğu),подтверждено вручную
+С53,Hunday santafe Sag qranat,Правый ШРУС Hyundai Santa Fe,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С54,Sol stupsia paçevniki,Подшипник левой ступицы,AS-007,Подшипник ступицы,Stupitsa podşipniki,подтверждено вручную
+С55,Sag yan guzgu sesi lazimdi,Стекло правого бокового зеркала,KZ-021,Стекло зеркала,Güzgü şüşəsi,подтверждено вручную
+С56,qabaq şofer teref yox obiri teref krlo,"Переднее крыло, не со стороны водителя",KZ-027,Крыло,Krılo (qanad),подтверждено вручную
+С57,Sag ic qranati   hunday verna,Правый внутренний ШРУС Hyundai Verna,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С58,Patfanderin Starteri zbor,Стартер Pathfinder в сборе,MU-048,Стартер,Starter,подтверждено вручную
+С59,Baqaj,Багажник,KZ-033,Крышка багажника,Baqaj qapısı,подтверждено второй проверкой
+С61,Podpresin şüşə silənin motoru.,Мотор стеклоочистителя лобового стекла,EL-072,Моторчик стеклоочистителя (дворников),Şüşə silənin motoru (dvornik motoru),подтверждено вручную
+С62,blokdan Turboya geden patrubka,Патрубок от блока к турбине,MU-089,Патрубок воздуховода,Hava borusu (patrubok),поправлено при второй проверке
+С64,Karopkanin  çöl salniki lazimdi sol teref qranat qiren yerde olan,"Наружный сальник коробки слева, в месте входа ШРУСа",TR-014,Сальник коробки/полуоси,Karopka salniki (val salniki),подтверждено вручную
+С65,Kardan muftası,Муфта кардана,TR-013,Эластичная муфта (гибкая связь карданного вала),Elastik mufta,подтверждено вручную
+С66,"Gidrouslitel, şlankı",Шланг гидроусилителя,SU-013,Шланг ГУР (гидравлика),Rulevoy şlanqı,поправлено при второй проверке
+С68,Robot karopka,Роботизированная коробка передач,TR-001,Коробка передач в сборе,Sürətlər qutusu,подтверждено вручную
+С70,lan yan padnoşkalar,Боковые подножки,TY-001,Порог-подножка (running board),Padnoşka (pilləkən),подтверждено вручную
+С71,arxa buferin xrom diffuzeri,Хромированный диффузор заднего бампера,TY-004,Диффузор заднего бампера,Arxa bufer diffuzoru,подтверждено вручную
+С72,Hoverin suret qutusu mexanikadır,Механическая коробка передач Hover,TR-001,Коробка передач в сборе,Sürətlər qutusu,подтверждено вручную
+С74,krивой рычаг(ön əyri asqı qolu),Кривой рычаг (передний изогнутый рычаг подвески),AS-015,Рычаг подвески,Ling/Qol (əyri/düz/banan),подтверждено вручную
+С75,Sevralet epika 2007 sag ic qranat,"Chevrolet Epica 2007, правый внутренний ШРУС",AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С76,Kondisaner kompresorun təziq daciki,Датчик давления компрессора кондиционера,EL-020,Датчик кондиционера,Kondisioner datçiki,подтверждено вручную
+С77,Dizel filtirinin korpusu(Padkaçka),Корпус дизельного фильтра (подкачка),YA-024,Корпус дизельного топливного насоса (ТНВД),Dizel yanacaq nasosunun korpusu,поправлено при второй проверке
+С78,Hyundai  Tucson 2021 benzin qapaq kilidi,"Hyundai Tucson 2021, замок крышки бензобака",EL-021,Актуатор багажника/лючка бензобака,Baqaj/yanacaq qapağı aktuatoru (prisos),подтверждено вручную
+С79,qabağ abirçofka,Передняя облицовка,KZ-003,Облицовка/накладка бампера,Bufer üzlüyü (abrisofka),подтверждено второй проверкой
+С80,qabaq donme faralari,Передние поворотники,KZ-008,Поворотник,Dönmə işığı (povorotnik),подтверждено вручную
+С82,Nissan teana j31 2 3 mator 2004 benzin sep başqa kamplekt,"Nissan Teana J31 2004, цепь — другой комплект",MU-055,Цепь ГРМ,Zəncir (vaxtlama zənciri),подтверждено второй проверкой
+С83,Qapi qulpu,Дверная ручка,KZ-016,Ручка двери,Qapı ruçkası,подтверждено вручную
+С84,Arxa stoplar led olan,Задние LED-фонари,KZ-007,Задний фонарь,Stop (arxa fənər),подтверждено вручную
+С85,Silindr gilzası,Гильза цилиндра,MU-011,Гильза цилиндра,Silindr gilzası,подтверждено вручную
+С86,Klapan itələyicisi,Толкатель клапана,MU-099,Толкатель клапана,Klapan itələyici,подтверждено вручную
+С87,Mühərrik üst kriskanin prokladkasi,Прокладка верхней крышки двигателя,MU-014,Прокладка клапанной крышки,Üst krişka praklatkası,подтверждено вручную
+С88,feredo çaşka,Диск/корзина сцепления (feredo caska),TR-032,Комплект сцепления,Mufta dəsti,подтверждено вручную
+С89,ön şüşə (patpres),Лобовое стекло,KZ-011,Лобовое стекло,Ön şüşə (patpres),подтверждено вручную
+С91,Dönmə işıqları,Поворотники,KZ-008,Поворотник,Dönmə işığı (povorotnik),подтверждено вручную
+С92,Hava şlanqı (plastik qofra şlanq),Воздушный шланг (пластиковый гофрированный),MU-089,Патрубок воздуховода,Hava borusu (patrubok),подтверждено вручную
+С93,Sol kənar park radarı və klemması,Левый крайний парковочный радар и его клемма,AK-028,Парковочные датчики,Park datçikləri,подтверждено вручную
+С94,Hyunday sonata 2007 ci il 2 matora qlavnı silindir lazımdı,Hyundai Sonata 2007 2.0 — главный цилиндр,EY-007,Главный тормозной цилиндр,Qlavnı silindir,подтверждено второй проверкой
+С95,"Sağ tərəf güzgü lazımdı, güzgünün özü, Gəncədə lazımdır","Правое зеркало, само зеркало",KZ-020,Боковое зеркало,Güzgü (yan güzgü),подтверждено вручную
+С96,girousiliteli,Гидроусилитель,SU-005,Гидроусилитель руля,Rulevoy usilitel (gidrousilitel),подтверждено вручную
+С98,Motor zbor,Двигатель в сборе,MU-001,Двигатель в сборе,Mühərrik,подтверждено вручную
+С100,MERCEDES C250 - 4 ədəd hər bir təkər üçün təkər təzyiq datçiki(sensor),Mercedes C250 — 4 датчика давления шин,TK-005,Датчик давления в шине (TPMS),TPMS sensoru (təkər hava sensoru),подтверждено вручную
+С101,Radiator barmağlığı,Решётка радиатора,KZ-028,Решётка радиатора,Radiator barmaqlığı,подтверждено вручную
+С102,Sag onsuse qaldiran mexanizim var??,Механизм стеклоподъёмника передней правой двери,KZ-045,Механизм стеклоподъёмника,Şüşəqaldıran mexanizm,подтверждено вручную
+С103,Evap sensoruda lazımdı benzin vurandan sonra maşın sönür hava benzin qarışığın düz nizamlamır,Датчик EVAP: после заправки машина глохнет,YA-025,Датчик давления топливного бака (система EVAP),Yanacaq çəni təzyiq sensoru (EVAP təzyiqi),подтверждено вручную
+С104,Ön sol qranat,Передний левый ШРУС,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С105,Arxa qapı pərdələri dorest,"Шторки задних дверей, дорестайлинг",AK-042,Солнцезащитная шторка бокового стекла,Günəş pərdəsi (yan şüşə),подтверждено вручную
+С106,Baqaj jaluzi,Шторка багажника,KZ-070,Шторка/жалюзи багажника,Baqaj jaluzu (pərdəsi),подтверждено вручную
+С107,Qlapan salnikləri,Сальники клапанов,MU-016,Маслосъёмный колпачок,Klapan salniyi,подтверждено вручную
+С108,Сальник для шруса,Сальник для ШРУСа,TR-014,Сальник коробки/полуоси,Karopka salniki (val salniki),подтверждено второй проверкой
+С110,Bakıdakı abratni klapan,Обратный клапан,YA-009,Обратный клапан топлива,Geri qaytarma klapanı (obratka),подтверждено вручную
+С112,arxa  baqajın aynası,Стекло задней двери багажника,KZ-012,Заднее стекло,Arxa şüşə,подтверждено вручную
+С113,sağ tərəf arxa ayna,Правое заднее стекло,KZ-012,Заднее стекло,Arxa şüşə,подтверждено вручную
+С115,Şüşə qaldıran blokunun zbor knofkaları,Кнопки блока стеклоподъёмников в сборе,EL-003,Кнопка/блок стеклоподъёмника,Şüşəqaldıran düyməsi/blok,подтверждено вручную
+С116,Qabag sag patkrelnik,Передний правый подкрылок,KZ-029,Подкрылок (локер),Podkrilnik,подтверждено вручную
+С117,Qapı kilidi mühərrikinin motoru (vakuum motoru),Мотор замка двери (вакуумный мотор),EL-041,Моторчик замка двери (привод ЦЗ),Qapı kilid mühərriyi,поправлено при второй проверке
+С118,Qlavni silindir tormozu,Главный тормозной цилиндр,EY-007,Главный тормозной цилиндр,Qlavnı silindir,подтверждено вручную
+С119,Lupali Led H7,Линзованная LED H7,EL-025,Лампа,Lampa,подтверждено вручную
+С120,Left side curtain airbag 1-2-3 row together,"Левая шторка безопасности, 1-2-3 ряд",EL-062,Шторка безопасности (боковая подушка),Pərdə airbag,подтверждено вручную
+С121,arxa qazan,Задняя банка глушителя,EG-004,Резонатор (средняя/задняя банка),Qazan (rezonator),подтверждено вручную
+С122,Radiator barmağlığı tuning üçün,Решётка радиатора для тюнинга,KZ-028,Решётка радиатора,Radiator barmaqlığı,подтверждено вручную
+С123,İç qranat,Внутренний ШРУС,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С124,On podpresin surucu teref kanti.(col hissedeki),Наружный молдинг лобового стекла со стороны водителя,KZ-095,Кант лобового стекла (молдинг),Ön şüşə kantı (moldinq),поправлено при второй проверке
+С127,Razvalnilər,Развальные втулки / сайлентблоки,AS-013,Втулка развала,Razvalni vtulka,подтверждено вручную
+С128,Elantra 2018 Limited led Stoplari,LED-стопы Elantra 2018 Limited,KZ-007,Задний фонарь,Stop (arxa fənər),подтверждено вручную
+С130,Su çəni - aynasilənin,Бачок стеклоомывателя,EL-057,Бачок омывателя стекла,Yuyucu su baçoku,подтверждено вручную
+С131,vozduxamer deyirlər nə deyirlər hava datçiki lazımdı benzin hava miqdarın nizamlayan lazımdı,Расходомер воздуха,MU-033,Датчик расхода воздуха (ДМРВ),Vozduxamer (MAF sensoru),подтверждено вручную
+С132,Nakaneçnik,Наконечник,SU-001,Наконечник рулевой тяги,Nakonechnik (sükan dartısı ucluğu),подтверждено вручную
+С134,Orijinal ön sol Ön yarımox/ŞRUS,Оригинальная передняя левая полуось / ШРУС,AS-023,Приводной вал (полуось),Ötürücü val (yarımox),подтверждено вручную
+С135,Ближние Led фары,Ближние LED-фары,KZ-005,Фара головного света,Fara (baş fara),подтверждено вручную
+С137,Rulavoydan ses gelir Zbor rulavoy,"Из рулевой идёт шум, нужна рулевая в сборе",SU-006,Рулевая рейка,Rulevoy reyka (dişli qutusu),подтверждено второй проверкой
+С138,arxa bufer,Задний бампер,KZ-001,Бампер,Bufer,подтверждено вручную
+С139,Matorun yag krisqasi qapagi,Крышка маслозаливной горловины двигателя,MU-057,Крышка маслозаливной горловины,Yağ qapağı (maslozalivnaya qapaq),подтверждено вручную
+С144,Sağ iç qranat,Правый внутренний ШРУС,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С145,Şin opel astra h,Шина Opel Astra H,TK-001,Шина (покрышка),Şin (təkərin rezini),подтверждено вручную
+С146,Sol fara 2 lupa,"Левая фара, 2 линзы",KZ-005,Фара головного света,Fara (baş fara),подтверждено вручную
+С147,Qabaq abirsofka,Передняя обшивка,KZ-003,Облицовка/накладка бампера,Bufer üzlüyü (abrisofka),подтверждено второй проверкой
+С148,Qabaq sol terefin 2 parkradari,2 парктроника передней левой стороны,AK-028,Парковочные датчики,Park datçikləri,подтверждено вручную
+С150,İç və çöl qranat,Внутренний и наружный ШРУС,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С151,Kompressorun daçiki,Датчик компрессора,EL-020,Датчик кондиционера,Kondisioner datçiki,подтверждено вручную
+С152,W203 3.2 benzin hava girish xortumu lazimdir,"W203 3.2 бензин, шланг впуска воздуха",MU-089,Патрубок воздуховода,Hava borusu (patrubok),подтверждено вручную
+С153,Patpres lazımdı,Лобовое стекло,KZ-011,Лобовое стекло,Ön şüşə (patpres),подтверждено вручную
+С154,Sevralet epica sag ic qranat,"Chevrolet Epica, правый внутренний ШРУС",AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С155,Feredo,Диск сцепления,TR-006,Диск сцепления,Feredo (mufta diski),подтверждено вручную
+С156,Opel astra 1.8l benzin motor qalofkası,"Opel Astra 1.8 бензин, головка двигателя",MU-062,Головка блока цилиндров (ГБЦ),Baş (silindr blokunun başı),подтверждено вручную
+С157,Benzin filter,Бензиновый фильтр,SR-010,Топливный фильтр,Benzin/Yanacaq filtri,подтверждено вручную
+С158,Sağ qranat,Правый ШРУС,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С159,amartizator pocevniki,Подшипник амортизатора,AS-003,Подшипник опоры амортизатора,Amortizator dayaq podşipniki,подтверждено вручную
+С160,Radiator qapağı ariginal,Оригинальная крышка радиатора,SO-039,Крышка радиатора,Radiator qapağı,подтверждено вручную
+С161,"Benzin nasos, filtiri ilə birlikdə",Бензонасос вместе с фильтром,YA-001,Топливный насос,Benzin nasosu (yanacaq nasosu),подтверждено вручную
+С162,caşka feredo vijimnoy desti,"Корзина сцепления, диск сцепления, выжимной комплект",TR-032,Комплект сцепления,Mufta dəsti,подтверждено вручную
+С163,"Baqaj obivka, sol tərəf","Обшивка багажника, левая сторона",KZ-034,Пластик обшивки багажника,Baqaj daxili plastikləri,подтверждено вручную
+С164,interkuller datçiki,Датчик интеркулера,MU-075,Датчик давления наддува турбины,Turbo (nadduv) datçiki,подтверждено второй проверкой
+С166,Kapmplekt lazimdi farsunka abratka slanqi plasmaslari ile bir yerde,Комплект: обратный шланг форсунок с пластиковыми деталями,YA-027,Обратка форсунок,Farsunkanın abratkası,подтверждено вручную
+С168,Ön patpres,Переднее лобовое стекло,KZ-011,Лобовое стекло,Ön şüşə (patpres),подтверждено вручную
+С169,Balkanin razvalnisi ( arxa balka ),Развальная втулка / сайлентблок задней балки,AS-025,Сайлентблок задней балки,Balka silentbloku,подтверждено вручную
+С171,Ic qranat,Внутренний ШРУС,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С172,Fiyaletvi patpres lazimdi,Фиолетовое лобовое стекло,KZ-011,Лобовое стекло,Ön şüşə (patpres),подтверждено вручную
+С173,Acura sürətlər qutusu sellektoru lazımdı,Селектор коробки передач Acura,TR-015,Селектор (рычаг переключения передач),Rıçaq (sellektor),подтверждено вручную
+С174,Turbo katrici,Картридж турбины,MU-091,Картридж турбины,Turbo kartrici,подтверждено вручную
+С176,BMW sep basmaq,Башмак / направляющая цепи BMW,MU-061,Башмак/успокоитель цепи ГРМ,Zəncir başmağı (sep başmağı),подтверждено вручную
+С177,rulavoy lazımdı elektrondu,Электронная рулевая,SU-006,Рулевая рейка,Rulevoy reyka (dişli qutusu),подтверждено второй проверкой
+С178,Stabilizator qabaq qolun rezini paduşkası,Резиновая подушка переднего рычага стабилизатора,AS-012,Втулка стабилизатора,Stabilizator rezini,подтверждено вручную
+С180,Salon hava filtri,Салонный фильтр,SR-004,Салонный фильтр,Salon filtri (kondisioner filtri),подтверждено вручную
+С181,arxa şuşe silen,Задний стеклоочиститель,AK-010,Щётка стеклоочистителя,Şüşə silən (əl/pərdə),подтверждено вручную
+С182,Rulavoy zbor prius 20 gövdə,Рулевая в сборе Prius 20 кузов,SU-006,Рулевая рейка,Rulevoy reyka (dişli qutusu),подтверждено второй проверкой
+С183,Santafe tehlukesizlik yastiqi sernishin teref,Подушка безопасности Santa Fe со стороны пассажира,EL-009,Подушка безопасности,Airbag (yastıq),подтверждено вручную
+С184,Hundai elantra qazan,Банка глушителя Hyundai Elantra,EG-004,Резонатор (средняя/задняя банка),Qazan (rezonator),подтверждено вручную
+С185,Rlavoy,Рулевая,SU-006,Рулевая рейка,Rulevoy reyka (dişli qutusu),подтверждено второй проверкой
+С187,radiatordan termostat krişkasına gedən 2 ədəd patrubkalar,2 патрубка от радиатора к крышке термостата,SO-009,Патрубок системы охлаждения,"Soyutma şlanqı (su, antifriz)",подтверждено вручную
+С188,Turbo daçiki,Датчик турбины,MU-075,Датчик давления наддува турбины,Turbo (nadduv) datçiki,подтверждено второй проверкой
+С189,Salon filtiri,Салонный фильтр,SR-004,Салонный фильтр,Salon filtri (kondisioner filtri),подтверждено вручную
+С190,sağ sol iç və çöl qranat lazımdır,Правые и левые внутренние и наружные ШРУСы,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С193,Orijinal rulovoy,Оригинальная рулевая,SU-006,Рулевая рейка,Rulevoy reyka (dişli qutusu),подтверждено второй проверкой
+С194,Orijinal ön sol amortizatorun üst dayağı,Оригинальная верхняя опора переднего левого амортизатора,AS-002,Опора амортизатора (верхняя),Amortizator dayaq yastığı (opora),подтверждено вручную
+С195,Katalizator Dacciki Ön,Передний датчик катализатора,EG-002,Датчик катализатора / кислородный датчик (лямбда-зонд),Katalizator/oksigen datçiki (lambda zond),подтверждено вручную
+С196,Sol nakoneçnik,Левый наконечник,SU-001,Наконечник рулевой тяги,Nakonechnik (sükan dartısı ucluğu),подтверждено вручную
+С197,Feredo çaşka dəsti lazımdı original valeo,Оригинальный комплект: диск и корзина сцепления Valeo,TR-032,Комплект сцепления,Mufta dəsti,подтверждено вручную
+С198,Vanus,VANOS,MU-050,Соленоид VANOS/VVT,Vanos (VVT solenoidi),подтверждено вручную
+С200,arxa baqaj qapisina rucka lazımdır bej rengde,"Ручка задней двери багажника, бежевая",KZ-016,Ручка двери,Qapı ruçkası,подтверждено вручную
+С201,Zbor rulavoy,Рулевая в сборе,SU-006,Рулевая рейка,Rulevoy reyka (dişli qutusu),подтверждено второй проверкой
+С202,Zbor tavan işıqı lazmdır,Потолочный светильник в сборе,EL-024,Плафон освещения салона,Salon plafonu,подтверждено вручную
+С203,Podfarnik,Подфарник,KZ-008,Поворотник,Dönmə işığı (povorotnik),подтверждено вручную
+С204,Vintilyatorun datçiki,Датчик вентилятора,SO-016,Датчик температуры охлаждающей жидкости,Su temperaturu datçiki,подтверждено второй проверкой
+С205,zavod yan qapı altı kantlar,Заводские боковые накладки под дверями,KZ-092,Кант порога под дверью,Qapı altı kantı,подтверждено вручную
+С206,içqranati,Внутренний ШРУС,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С207,Təkər yay genişləndiricisi,Расширитель колёсной арки,KZ-055,Расширитель арки / накладка бокового обвеса,Qanad genişləndiricisi (arka),подтверждено вручную
+С208,klapan salnikləri,Сальники клапанов,MU-016,Маслосъёмный колпачок,Klapan salniyi,подтверждено вручную
+С209,Opel insigna yarasa güzgu qapaqi,Крышка зеркала «летучая мышь» Opel Insignia,KZ-022,Корпус зеркала,Güzgü korpusu,подтверждено вручную
+С210,On alin susesi (patpres),Переднее лобовое стекло,KZ-011,Лобовое стекло,Ön şüşə (patpres),подтверждено вручную
+С211,alt zasitnik,Нижняя защита,MU-053,Защита картера двигателя,Mühərrik alt qoruyucusu,подтверждено второй проверкой
+С212,Zbor benzanasos,Бензонасос в сборе,YA-001,Топливный насос,Benzin nasosu (yanacaq nasosu),подтверждено вручную
+С213,Radiator krishkasi,Крышка радиатора,SO-039,Крышка радиатора,Radiator qapağı,подтверждено вручную
+С215,Ön alin şüşəsi,Переднее лобовое стекло,KZ-011,Лобовое стекло,Ön şüşə (patpres),подтверждено вручную
+С216,kardanın padrisnoyu (ara dayagı),Подвесной подшипник кардана,TR-022,Подвесной подшипник карданного вала,Kardan valının yastığı (podvesnoy yastıq),подтверждено вручную
+С217,Ön fara lupalı və ya sadə bosch firması,"Передняя фара линзованная или обычная, Bosch",KZ-005,Фара головного света,Fara (baş fara),подтверждено вручную
+С218,Qabağ parpres cruz 2016,Переднее лобовое стекло Cruze 2016,KZ-011,Лобовое стекло,Ön şüşə (patpres),подтверждено вручную
+С220,Porşen üzükləri,Поршневые кольца,MU-005,Поршневые кольца,Kolsa,подтверждено вручную
+С221,Şatun yatağı,Шатунный вкладыш,MU-006,Вкладыши,Vkladış,подтверждено вручную
+С222,Germetik,Герметик,SR-015,Герметик,Germetik,подтверждено вручную
+С223,Sağ tərəf nokanecnik,Правый наконечник,SU-001,Наконечник рулевой тяги,Nakonechnik (sükan dartısı ucluğu),подтверждено вручную
+С224,Chevrolet cruze 1.4 kompressor maqinit,"Chevrolet Cruze 1.4, магнит компрессора",SO-033,Муфта компрессора кондиционера,Kompressor muftası (maqnit),подтверждено вручную
+С225,Vıjıçnoy feredol çaşka ilə birlikdə,"Выжимной, диск сцепления с корзиной",TR-032,Комплект сцепления,Mufta dəsti,подтверждено вручную
+С226,Sol qranatai lazimdir,Левый ШРУС,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С227,Nakanecnik rezini sag sol,"Резинки наконечников, правая и левая",SU-017,Пыльник наконечника,Nakonechnik pılniki,подтверждено вручную
+С228,Qidravlik ğücləndiricinin (uselitelin) kompressoru,Насос гидроусилителя,SU-005,Гидроусилитель руля,Rulevoy usilitel (gidrousilitel),подтверждено вручную
+С230,Su radiatorunun probkasi lazımdır,Пробка радиатора охлаждения,SO-038,Сливная пробка радиатора,Radiator probkası,подтверждено вручную
+С231,Arxa park radari,Задний парктроник,AK-028,Парковочные датчики,Park datçikləri,подтверждено вручную
+С232,Qlavnı silindir tormuzun,Главный тормозной цилиндр,EY-007,Главный тормозной цилиндр,Qlavnı silindir,подтверждено вручную
+С234,Qabaq dönmə işıqları (sag+sol),"Передние поворотники, правый + левый",KZ-008,Поворотник,Dönmə işığı (povorotnik),подтверждено вручную
+С235,boyuk qolun razvanlisi lazimdir arxasi ceken di oem kod budur 31126855743,"Сайлентблок (гидроопора) большого рычага, OEM 31126855743",AS-014,Сайлентблок рычага,Silentblok (qolun),подтверждено вручную
+С237,Hyundai accent 2017 amerkanka buksir yerinin qapaqi,"Hyundai Accent 2017, крышка места буксировочного крюка",KZ-079,Заглушка буксировочного крюка,Buksir yeri qapağı,подтверждено вручную
+С239,Kardan,Кардан,TR-012,Карданный вал,Kardan (ötürücü kardan valı),подтверждено вручную
+С240,Arxa sol sürücü tərəfdən qranat,Задний левый ШРУС,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С241,Volkswagen polo 2013 1.6  radiator fani,"VW Polo 2013 1.6, вентилятор радиатора",SO-002,Вентилятор радиатора (электровентилятор),Radiator ventilyatoru (elektroventilyator),подтверждено вручную
+С242,Bezin nasos zbor,Бензонасос в сборе,YA-001,Топливный насос,Benzin nasosu (yanacaq nasosu),подтверждено вручную
+С243,sol ic qranat,Левый внутренний ШРУС,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С244,Salon airbaq sağ tərəf,Правая салонная подушка безопасности,EL-009,Подушка безопасности,Airbag (yastıq),подтверждено вручную
+С246,Arxa sağ tərəf stop. Həm dönmə işığı həm arxa (zadni) var ?,Правый задний фонарь,KZ-007,Задний фонарь,Stop (arxa fənər),подтверждено вручную
+С247,benzin nasos,Бензонасос,YA-001,Топливный насос,Benzin nasosu (yanacaq nasosu),подтверждено вручную
+С248,Maşın alt qoruyucusu tam qoruyucu tək bufer altlığı yox,Полная защита днища,MU-053,Защита картера двигателя,Mühərrik alt qoruyucusu,подтверждено второй проверкой
+С249,arxa balka rezinler,Резинки задней балки,AS-025,Сайлентблок задней балки,Balka silentbloku,подтверждено вручную
+С250,Hyundai accent 2016 kuza arxa park radar varınızdı.,Задний парктроник Hyundai Accent 2016,AK-028,Парковочные датчики,Park datçikləri,подтверждено вручную
+С252,Antifiriz radiatorunun probkasi lazimdir,Пробка радиатора антифриза,SO-038,Сливная пробка радиатора,Radiator probkası,подтверждено вручную
+С253,Arxa şüşə qaldıran matoru,Мотор заднего стеклоподъёмника,EL-001,Мотор стеклоподъёмника,Şüşəqaldıran motoru,подтверждено вручную
+С254,patpres,Лобовое стекло,KZ-011,Лобовое стекло,Ön şüşə (patpres),подтверждено вручную
+С255,Çöl qranat,Наружный ШРУС,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С256,Ön support lazımdır (işlənmiş üzərindən çıxma),"Передний суппорт, б/у",EY-003,Тормозной суппорт,Support (suport),подтверждено вручную
+С257,Səsboğucu başlığı,Насадка глушителя,EG-009,Насадка глушителя,Səsboğucu ucluğu (müştük),подтверждено вручную
+С258,Sonata 2022 aexa patpres,"Sonata 2022, заднее стекло",KZ-012,Заднее стекло,Arxa şüşə,подтверждено вручную
+С259,Arxa sağ fara,Задний правый фонарь,KZ-007,Задний фонарь,Stop (arxa fənər),подтверждено вручную
+С261,kondisaner kompressorun maqniti,Магнит компрессора кондиционера,SO-033,Муфта компрессора кондиционера,Kompressor muftası (maqnit),подтверждено вручную
+С262,Sol tərəf granat karopkadan tekere qədər,"Левый ШРУС целиком, от коробки до колеса",AS-023,Приводной вал (полуось),Ötürücü val (yarımox),подтверждено вручную
+С263,sep desti,Комплект цепи,MU-055,Цепь ГРМ,Zəncir (vaxtlama zənciri),подтверждено вручную
+С264,Arxa bufer sağ dönmə işığı,Правый поворотник заднего бампера,KZ-008,Поворотник,Dönmə işığı (povorotnik),подтверждено вручную
+С265,Sol nakanesnik,Левый наконечник,SU-001,Наконечник рулевой тяги,Nakonechnik (sükan dartısı ucluğu),подтверждено вручную
+С266,Radiatorun peri,Вентилятор радиатора,SO-002,Вентилятор радиатора (электровентилятор),Radiator ventilyatoru (elektroventilyator),подтверждено вручную
+С267,arxa sol stopun şüşəsi,Стекло заднего левого фонаря,KZ-048,Стекло заднего фонаря,Stop şüşəsi,подтверждено вручную
+С268,Benzin nasosu komplekt qiymət?,Бензонасос в сборе,YA-001,Топливный насос,Benzin nasosu (yanacaq nasosu),подтверждено вручную
+С269,"surucu teref amartizatorun ust rezini lazimdir, kapotu acanda amartizatorun basina kecen rezin",Верхняя резинка амортизатора со стороны водителя,AS-002,Опора амортизатора (верхняя),Amortizator dayaq yastığı (opora),подтверждено вручную
+С270,arxa orjinal banan şüşə silən vae,Задний оригинальный стеклоочиститель «банан»,AK-010,Щётка стеклоочистителя,Şüşə silən (əl/pərdə),подтверждено вручную
+С271,Sol qranat zbor. Diş 26/30,"Левый ШРУС в сборе, шлицы 26/30",AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С272,Kompressor şkfi,Шкив компрессора,SO-033,Муфта компрессора кондиционера,Kompressor muftası (maqnit),подтверждено второй проверкой
+С273,daxili iç qranat sağ tərəf,Правый внутренний ШРУС,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С274,Termostat korpusu zbor,Корпус термостата в сборе,SO-025,Корпус термостата,Termostat korpusu,подтверждено вручную
+С276,Susə qaldıranların avtomatı 4lü podyomnik zbor olur,Блок из 4 кнопок стеклоподъёмников,EL-003,Кнопка/блок стеклоподъёмника,Şüşəqaldıran düyməsi/blok,подтверждено вручную
+С277,Baqaj aynasının amazatoru sağ sol,Амортизаторы стекла багажника,KZ-042,Амортизатор/упор багажника,Baqaj amortizatoru,подтверждено вручную
+С279,Hyundai tucson 2006 2 motor  benzin yagğnasosu,"Hyundai Tucson 2006 2.0, масляный насос",MU-027,Масляный насос,Yağ nasosu,подтверждено вручную
+С280,Ön qranatlar,Передние ШРУСы,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С281,dinamonun shkifi,Шкив генератора,MU-021,Шкив,Şkif,подтверждено вручную
+С282,Qabaq sol eyri qolun razvalnisi,Развальный сайлентблок переднего левого кривого рычага,AS-013,Втулка развала,Razvalni vtulka,подтверждено второй проверкой
+С283,"Hyundai Avante AD 2019, 1.6 benzin üçün orginal hyundain ön və arxa əyləc kolodkası istəyirəm.","Hyundai Avante AD 2019, передние и задние тормозные колодки",EY-001,Тормозная колодка,Naklatka (əyləc bəndi),подтверждено вручную
+С284,mitsubishi airtrek on sol  ve sağ şüşə qaldıran,"Mitsubishi Airtrek, передние стеклоподъёмники",KZ-045,Механизм стеклоподъёмника,Şüşəqaldıran mexanizm,подтверждено вручную
+С285,ON SALNIK,Передний сальник,MU-086,Сальник,Salnik,подтверждено второй проверкой
+С287,Suport arxa sag,Задний правый суппорт,EY-003,Тормозной суппорт,Support (suport),подтверждено вручную
+С288,Əl əyləcin arxa kolodkaları,Задние колодки ручного тормоза,EY-001,Тормозная колодка,Naklatka (əyləc bəndi),подтверждено вручную
+С289,Çöl qranad 1 eded,"Наружный ШРУС, 1 штука",AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С290,"Ön buferin alt qoruyucu, zaşitnik",Нижняя защита переднего бампера,KZ-076,Нижняя юбка бампера,Bufer altlığı (ətək),подтверждено вручную
+С291,Tormuzun qlavnı silindiri,Главный тормозной цилиндр,EY-007,Главный тормозной цилиндр,Qlavnı silindir,подтверждено вручную
+С292,Wolswagen Tuareg sol qapı qulpu,"VW Touareg, ручка левой двери",KZ-016,Ручка двери,Qapı ruçkası,подтверждено вручную
+С293,2AZ FE klapan kök möhürləri 16 eded,"Маслосъёмные колпачки 2AZ-FE, 16 штук",MU-016,Маслосъёмный колпачок,Klapan salniyi,подтверждено вручную
+С294,Rulavoy pacevnik,Подшипник рулевого,RG-03,Рулевой подшипник,Rulavoy pacevnik,подтверждено вручную
+С295,amartizatorun paduskalari,Подушки амортизаторов,AS-002,Опора амортизатора (верхняя),Amortizator dayaq yastığı (opora),подтверждено вручную
+С296,Alın şüşə fiallet,Фиолетовое лобовое стекло,KZ-011,Лобовое стекло,Ön şüşə (patpres),подтверждено вручную
+С297,iç qranat sağ tərəf,Правый внутренний ШРУС,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С298,Kia k5lxs  2020 sərnişin tərəf Fara 4 lupa,"Kia K5 LXS 2020, пассажирская фара, 4 линзы",KZ-005,Фара головного света,Fara (baş fara),подтверждено вручную
+С299,tesla monitor,Монитор Tesla,EL-023,Мультимедийный экран,Manitor (multimedia ekranı),подтверждено вручную
+С300,Bmw f30 2012 328 n20 mator benzin nasos,"BMW F30 328 N20, бензонасос",YA-001,Топливный насос,Benzin nasosu (yanacaq nasosu),подтверждено вручную
+С301,Tayota Prado Zavod Tavan Manitoru,Заводской потолочный монитор Toyota Prado,EL-023,Мультимедийный экран,Manitor (multimedia ekranı),подтверждено второй проверкой
+С302,Ayna qaldiran mator,Мотор стеклоподъёмника,EL-001,Мотор стеклоподъёмника,Şüşəqaldıran motoru,подтверждено вручную
+С304,Toyota Frontlander 2024 mühərrikin üst Qapağının prokladksı var?,Прокладка верхней крышки двигателя Toyota Frontlander 2024,MU-014,Прокладка клапанной крышки,Üst krişka praklatkası,подтверждено вручную
+С305,soyutma pəri,Вентилятор охлаждения,SO-002,Вентилятор радиатора (электровентилятор),Radiator ventilyatoru (elektroventilyator),подтверждено вручную
+С306,ekran,Экран,EL-023,Мультимедийный экран,Manitor (multimedia ekranı),подтверждено второй проверкой
+С307,задний швелер под бампер,Задний швеллер под бампер,KZ-043,Усилитель бампера (силовая балка),Bufer gücləndiricisi (arma),подтверждено вручную
+С309,PCV klapan,Клапан PCV,MU-051,Мембрана PCV-клапана (маслоотделитель),Membran (PCV klapanı),подтверждено вручную
+С311,25411-3S110 Patrufka,Патрубок 25411-3S110,SO-009,Патрубок системы охлаждения,"Soyutma şlanqı (su, antifriz)",подтверждено второй проверкой
+С312,Şüşə qaldıran bloku,Блок стеклоподъёмников,EL-003,Кнопка/блок стеклоподъёмника,Şüşəqaldıran düyməsi/blok,подтверждено вручную
+С313,qabaq alt zaşitnik,Передняя нижняя защита,MU-053,Защита картера двигателя,Mühərrik alt qoruyucusu,подтверждено вручную
+С314,Qabaq sol fara (sürücü tərəf) şüşəsi lazımdır,Стекло передней левой фары,KZ-010,Стекло фары,Fara şüşəsi,подтверждено вручную
+С315,On nacanecnik,Передний наконечник,SU-001,Наконечник рулевой тяги,Nakonechnik (sükan dartısı ucluğu),подтверждено вручную
+С316,Sag ic qranat,Правый внутренний ШРУС,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+С317,Farsunkanın abratkası,Обратка форсунки,YA-027,Обратка форсунок,Farsunkanın abratkası,подтверждено вручную
+С318,Orta qazan,Средняя банка глушителя,EG-004,Резонатор (средняя/задняя банка),Qazan (rezonator),подтверждено вручную
+С319,Qabaq alin susesi patpres,Переднее лобовое стекло,KZ-011,Лобовое стекло,Ön şüşə (patpres),подтверждено вручную
+С320,"Ön şüşə,patpres qabag",Переднее лобовое стекло,KZ-011,Лобовое стекло,Ön şüşə (patpres),подтверждено вручную
+С322,mustuk,Муштук (насадка глушителя),EG-009,Насадка глушителя,Səsboğucu ucluğu (müştük),подтверждено вручную
+С323,Krlonun üstündə olan benzin qapağı ağ rəng,Белый лючок бензобака на крыле,KZ-083,Лючок топливного бака (зарядного порта),Yanacaq doldurma qapağı,подтверждено вручную
+С324,Radiatorun krişkası lazımdı,Крышка радиатора,SO-039,Крышка радиатора,Radiator qapağı,подтверждено вручную
+С326,turbonun daçiki,Датчик турбины,MU-075,Датчик давления наддува турбины,Turbo (nadduv) datçiki,подтверждено второй проверкой
+С327,hunday elantra 2017 təkərin içində olan hava təzyiqi yoxlayan datçik,"Hyundai Elantra 2017, датчик давления в шине",TK-005,Датчик давления в шине (TPMS),TPMS sensoru (təkər hava sensoru),подтверждено вручную
+С328,rulyovoy şturval,Рулевой штурвал,SU-011,Руль (рулевое колесо),Rul (sükan çarxı),подтверждено вручную
+С329,qabaq on faralar her iksi zbor,Обе передние фары в сборе,KZ-005,Фара головного света,Fara (baş fara),подтверждено вручную
+С331,Qapı qulpu   elantra,Дверная ручка Elantra,KZ-016,Ручка двери,Qapı ruçkası,подтверждено вручную
+А1,Arxa stop,Задний фонарь,KZ-007,Задний фонарь,Stop (arxa fənər),подтверждено вручную
+А2,Chevrolet malibu ön bufer,Передний бампер Chevrolet Malibu,KZ-001,Бампер,Bufer,подтверждено вручную
+А3,BMW m5 Qabag bufer,Передний бампер BMW M5,KZ-001,Бампер,Bufer,подтверждено вручную
+А4,muherik yastığı,Подушка двигателя,MU-017,Подушка двигателя,Mühərrik yastığı,подтверждено вручную
+А5,Qabaq sağ sol çaşka lenforderle,Передние правая и левая чашки Lemforder,AS-029,Нижняя опорная чашка пружины амортизатора,Purjun alt çaşkası,подтверждено вручную
+А7,padkrilnik,Подкрылок,KZ-029,Подкрылок (локер),Podkrilnik,подтверждено вручную
+А8,sag və sol padkrilniklər,Правый и левый подкрылки,KZ-029,Подкрылок (локер),Podkrilnik,подтверждено вручную
+А9,gidrousulitel mazda,Гидроусилитель Mazda,SU-005,Гидроусилитель руля,Rulevoy usilitel (gidrousilitel),подтверждено вручную
+А11,Arxa bufer,Задний бампер,KZ-001,Бампер,Bufer,подтверждено вручную
+А12,Arxa amortizator 2 ədəd,"Задние амортизаторы, 2 штуки",AS-001,Амортизатор,Amortizator,подтверждено вручную
+А13,sürətlər qutusunun yastıqlarının,Подушки коробки передач,MU-018,Подушка коробки передач,Karopka yastığı,подтверждено вручную
+А14,Matorun Paduşqaları,Подушки двигателя,MU-017,Подушка двигателя,Mühərrik yastığı,подтверждено вручную
+А15,Sol fara(qaşsız),Левая фара (без реснички),KZ-005,Фара головного света,Fara (baş fara),подтверждено вручную
+А16,Dumanniy fara sag sol,"Противотуманные фары, правая и левая",KZ-006,Противотуманная фара,Duman fara,подтверждено вручную
+А17,Led fara lupalı,Линзованная LED-фара,KZ-005,Фара головного света,Fara (baş fara),подтверждено вручную
+А18,Audi Q5 qabag bufer 201w 2013,Передний бампер Audi Q5 2011-2013,KZ-001,Бампер,Bufer,подтверждено вручную
+А19,Fara sağ sol,"Фары, правая и левая",KZ-005,Фара головного света,Fara (baş fara),подтверждено вручную
+А20,Muherrik,Двигатель,MU-001,Двигатель в сборе,Mühərrik,подтверждено вручную
+А21,Elektron Zaslonka,Электронная заслонка,MU-034,Дроссельная заслонка,Zaslonka,подтверждено вручную
+А22,ABS bloku 58500 - N6000,Блок ABS 58500-N6000,EY-010,Блок ABS (гидроблок с насосом),ABS bloku,подтверждено вручную
+А23,Kapot,Капот,KZ-023,Капот,Kapot,подтверждено вручную
+А24,Radiator,Радиатор,SO-001,Радиатор охлаждения,Su radiatoru,подтверждено вручную
+А25,Ön əyləc bəndi (naklatla),Передние тормозные колодки,EY-001,Тормозная колодка,Naklatka (əyləc bəndi),подтверждено вручную
+А26,Qapı (polotno),Дверь (полотно),KZ-015,Дверь в сборе,Qapı (polotno),подтверждено вручную
+А27,Turbo,Турбина,MU-037,Турбина,Turbo,подтверждено вручную
+А28,ön ekran morda,Передняя панель (морда),KZ-032,Панель кузова,Kuzov paneli,подтверждено вручную
+А29,Ön patpres,Переднее лобовое стекло,KZ-011,Лобовое стекло,Ön şüşə (patpres),подтверждено вручную
+А30,Subaro forester sola arxa stop,"Subaru Forester, левый задний фонарь",KZ-007,Задний фонарь,Stop (arxa fənər),подтверждено вручную
+А31,Matorun Sol ve arxa paduskasi,Левая и задняя подушки двигателя,MU-017,Подушка двигателя,Mühərrik yastığı,подтверждено вручную
+А32,Karter matorun,Картер двигателя,MU-009,Картер (маслосборник),Karter,подтверждено вручную
+А34,Sveca,Свеча,SR-014,Свеча зажигания,Alışdırma şamı (sveça),подтверждено вручную
+А35,Arxa əyləc bəndi (arxa naklatka),Задние тормозные колодки,EY-001,Тормозная колодка,Naklatka (əyləc bəndi),подтверждено вручную
+А36,Bütöv arxa kardan,Задний кардан целиком,TR-012,Карданный вал,Kardan (ötürücü kardan valı),подтверждено вручную
+А37,antifiriz,Антифриз,SR-007,Антифриз (охлаждающая жидкость),Antifriz,подтверждено вручную
+А38,Sonata abş 2022 üsdən cıxma stop lazımdı (sag),"Sonata USA 2022, б/у правый задний фонарь",KZ-007,Задний фонарь,Stop (arxa fənər),подтверждено вручную
+А39,Sol arxa supportun porsen pulniki,Пыльник поршня левого заднего суппорта,EY-004,Ремкомплект суппорта (пыльники/манжеты),Support təmir dəsti (toz qoruyucusu/manjet),подтверждено вручную
+А40,mator padushkasi sag teref,Правая подушка двигателя,MU-017,Подушка двигателя,Mühərrik yastığı,подтверждено вручную
+А41,Orijinal ön sol krılo,Оригинальное переднее левое крыло,KZ-027,Крыло,Krılo (qanad),подтверждено вручную
+А42,Avtomat karobka,Автоматическая коробка передач,TR-001,Коробка передач в сборе,Sürətlər qutusu,подтверждено вручную
+А43,Üst krişka praklatkası,Прокладка верхней крышки,MU-014,Прокладка клапанной крышки,Üst krişka praklatkası,подтверждено вручную
+А44,kapot trosu qulpu ile birlikde,Трос капота вместе с ручкой,KZ-052,Тросик открывания капота/багажника,Kapot/baqaj açma trosu,подтверждено вручную
+А45,Qabaq sağ fara Europa,Передняя правая европейская фара,KZ-005,Фара головного света,Fara (baş fara),подтверждено вручную
+А46,ayaq alti,Коврик под ноги,AK-001,Коврик салона,Ayaqaltı (kovrik),подтверждено вручную
+А47,Torpedo boz reng,Торпедо серого цвета,AK-012,Торпедо (передняя панель),Torpeda (panel),подтверждено вручную
+А48,Eylec bendleri,Тормозные колодки,EY-001,Тормозная колодка,Naklatka (əyləc bəndi),подтверждено вручную
+А49,Ön bufer,Передний бампер,KZ-001,Бампер,Bufer,подтверждено вручную
+А50,Sükan çarxı multi düymələrlə,Руль с мультимедийными кнопками,SU-011,Руль (рулевое колесо),Rul (sükan çarxı),подтверждено вручную
+А51,KONDISIONERIN KOMPRESSORU,Компрессор кондиционера,SO-012,Компрессор кондиционера,Kondisioner kompressoru,подтверждено вручную
+А52,Qabaq ve arxa nakladka,Передние и задние колодки,EY-001,Тормозная колодка,Naklatka (əyləc bəndi),подтверждено вручную
+А53,Batareya,Аккумулятор,AB-001,Аккумулятор,Akkumulyator (batareya),подтверждено вручную
+А55,pecin radioatoru,Радиатор печки,SO-011,Радиатор печки (отопителя салона),Peçin radiatoru (salon isitmə radiatoru),подтверждено вручную
+А56,Mator karter,Картер двигателя,MU-009,Картер (маслосборник),Karter,подтверждено вручную
+А57,Fara angeli arginal restaling 2014 dü,"Оригинальная фара Angel, рестайлинг 2014",KZ-005,Фара головного света,Fara (baş fara),подтверждено вручную
+А58,Rulovoy kolonka,Рулевая колонка,SU-004,Рулевая колонка,Rulavoy kalonka,подтверждено вручную
+А59,Arxa bufer m hisseli odenisle gotrmek olarmi?,Задний M-бампер,KZ-001,Бампер,Bufer,подтверждено вручную
+А60,Orginal ön sağ və sol Fara,Оригинальные передние правая и левая фары,KZ-005,Фара головного света,Fara (baş fara),подтверждено вручную
+А61,Su radiatoru (tecili original ve yaxud yaxșısi),Радиатор охлаждения,SO-001,Радиатор охлаждения,Su radiatoru,подтверждено вручную
+А62,Orijinal ön sol fara,Оригинальная передняя левая фара,KZ-005,Фара головного света,Fara (baş fara),подтверждено вручную
+А63,Hava Kollektoru,Воздушный коллектор,MU-032,Впускной коллектор,Hava kollektoru,подтверждено вручную
+А64,Qabaq lip,Передняя губа,TY-005,Губа бампера (lip),Lip (bufer alt dodağı),подтверждено вручную
+А65,1.5 eco blu mator qalofka praklatkası,Прокладка головки двигателя 1.5 EcoBlue,MU-012,Прокладка ГБЦ,Qalofka praklatkası,подтверждено вручную
+А66,Amerikanka sağ fara 8 qaş (lupa),"Правая американская фара, 8 ресничек (линза)",KZ-005,Фара головного света,Fara (baş fara),подтверждено вручную
+А67,iç qranatlar,Внутренние ШРУСы,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+А68,Sarlotda bufer,Бампер (Sarlot),KZ-001,Бампер,Bufer,подтверждено вручную
+А69,Babin,Катушка зажигания,MU-025,Катушка зажигания,Babin (bobin),подтверждено вручную
+А70,Qabag bufer,Передний бампер,KZ-001,Бампер,Bufer,подтверждено вручную
+А71,Ford focus 2007 1.6 benzin matorun özü,"Ford Focus 2007 1.6 бензин, двигатель целиком",MU-001,Двигатель в сборе,Mühərrik,подтверждено вручную
+А72,"Bmw 116i 2008 ci il, ön alın şüşəsi (padpres) lazımdı","BMW 116i 2008, переднее лобовое стекло",KZ-011,Лобовое стекло,Ön şüşə (patpres),подтверждено вручную
+А73,Radiator bacokun qapaqi,Крышка бачка радиатора,SO-032,Крышка бачка,Baçok qapağı,подтверждено вручную
+А74,Bufer,Бампер,KZ-001,Бампер,Bufer,подтверждено вручную
+А75,Nakladka arxa və qabag,Передние и задние колодки,EY-001,Тормозная колодка,Naklatka (əyləc bəndi),подтверждено вручную
+А76,Fara,Фара,KZ-005,Фара головного света,Fara (baş fara),подтверждено вручную
+А77,Dinamo,Генератор,MU-047,Генератор,Dinamo (generator),подтверждено вручную
+А78,Şüşə silen matoru,Мотор стеклоочистителя,EL-072,Моторчик стеклоочистителя (дворников),Şüşə silənin motoru (dvornik motoru),подтверждено вручную
+А79,Spoyler,Спойлер,KZ-036,Спойлер,Spoyler,подтверждено вручную
+А80,4 matikdi qabaq sağ tərəf qranat,"4Matic, передний правый ШРУС",AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+А81,sol yan güzgünün dönmə işıq stopu,Поворотник левого бокового зеркала,KZ-069,Повторитель поворотника в зеркале,Güzgüdə povorotnik (təkrarlayıcı),подтверждено вручную
+А82,Surucunun altindaki zasitnik,Защита под водителем,MU-053,Защита картера двигателя,Mühərrik alt qoruyucusu,подтверждено второй проверкой
+А83,İç qranatlar,Внутренние ШРУСы,AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+А84,Qalofka Praklatka,Прокладка головки блока,MU-012,Прокладка ГБЦ,Qalofka praklatkası,подтверждено вручную
+А85,Sol güzgü,Левое зеркало,KZ-020,Боковое зеркало,Güzgü (yan güzgü),подтверждено вручную
+А86,Porşen,Поршень,MU-004,Поршень,Porşen,подтверждено вручную
+А87,Su pompası,Водяная помпа,SO-006,Водяная помпа,Su pompası,подтверждено вручную
+А88,Arxa baqaj,Задняя дверь багажника,KZ-033,Крышка багажника,Baqaj qapısı,подтверждено вручную
+А89,Əl əyləci bəndləri,Колодки ручного тормоза,EY-001,Тормозная колодка,Naklatka (əyləc bəndi),подтверждено вручную
+А90,Hyundai avante 1.6 dizel mühərrik lazımdır,Дизельный двигатель Hyundai Avante 1.6,MU-001,Двигатель в сборе,Mühərrik,подтверждено вручную
+А91,Sol ön stupsia paçevniki,Подшипник передней левой ступицы,AS-007,Подшипник ступицы,Stupitsa podşipniki,подтверждено вручную
+А92,qabax sag fara,Передняя правая фара,KZ-005,Фара головного света,Fara (baş fara),подтверждено вручную
+А93,Ön və arxa əyləc bəndləri neçəyədir? Büdcə dostu məhsul olsun,Передние и задние тормозные колодки,EY-001,Тормозная колодка,Naklatka (əyləc bəndi),подтверждено вручную
+А94,zaslonka,Заслонка,MU-034,Дроссельная заслонка,Zaslonka,подтверждено вручную
+А95,Klapan,Клапан,MU-015,Клапан (впускной/выпускной),Klapan,подтверждено вручную
+А96,Qabağ setka lt buferin abilsofka,"Передняя сетка, облицовка LT-бампера",KZ-086,Решётка бампера (нижняя),Bufer barmaqlığı,подтверждено вручную
+А97,Katalizatorun daciki,Датчик катализатора,EG-002,Датчик катализатора / кислородный датчик (лямбда-зонд),Katalizator/oksigen datçiki (lambda zond),подтверждено вручную
+А98,yağ filteri,Масляный фильтр,SR-002,Масляный фильтр,Yağ filtri,подтверждено вручную
+А99,Vozduxamer,Расходомер воздуха,MU-033,Датчик расхода воздуха (ДМРВ),Vozduxamer (MAF sensoru),подтверждено вручную
+А100,Rulavoy kalonka lazimdir kimdə varsa yazsın və foto gondersin,Рулевая колонка,SU-004,Рулевая колонка,Rulavoy kalonka,подтверждено вручную
+А101,turbo aktivatoru Hyndai vercruz,Актуатор турбины Hyundai Veracruz,MU-038,Актюатор турбины (вестгейт),Turbo aktuatoru,подтверждено вручную
+А102,hava xortumu,Воздушный шланг,RG-04,Воздушный патрубок (впускной),Hava borusu (hava filtri şlanqı),подтверждено вручную
+А103,Stop,Задний фонарь,KZ-007,Задний фонарь,Stop (arxa fənər),подтверждено вручную
+А104,Benzin nasos,Бензонасос,YA-001,Топливный насос,Benzin nasosu (yanacaq nasosu),подтверждено вручную
+А105,sport yay,Спортивная пружина,TY-013,Спортивная пружина/койловер,Sport yay/koilover,подтверждено вручную
+А106,Ön əyləc diski,Передний тормозной диск,EY-002,Тормозной диск,Apornu (əyləc diski),подтверждено вручную
+А107,bufer göy,Синий бампер,KZ-001,Бампер,Bufer,подтверждено вручную
+А108,99 c 230 2.3 k ucun kondisonerin kopressoru,Компрессор кондиционера C230 1999,SO-012,Компрессор кондиционера,Kondisioner kompressoru,подтверждено вручную
+А109,Arxa əyləc bəndi,Задние тормозные колодки,EY-001,Тормозная колодка,Naklatka (əyləc bəndi),подтверждено вручную
+А110,Hava filtri,Воздушный фильтр,SR-003,Воздушный фильтр,Hava filtri,подтверждено вручную
+А111,Mercedes logo,Логотип Mercedes,KZ-039,Эмблема/логотип,Emblema/logo,подтверждено вручную
+А112,Naklatka (əyləc bəndi),Тормозная колодка,EY-001,Тормозная колодка,Naklatka (əyləc bəndi),подтверждено вручную
+А113,Sürətlər qutusu mexanika,Механическая коробка передач,TR-001,Коробка передач в сборе,Sürətlər qutusu,подтверждено вручную
+А114,Qabaq çöl qranat piknik,"Передний наружный ШРУС, Picnic",AS-008,ШРУС,Qranat (SHRUS),подтверждено вручную
+А115,Amartizator on ve arxa,Передние и задние амортизаторы,AS-001,Амортизатор,Amortizator,подтверждено вручную
+А116,qabaq bufer salaskası,Планка переднего бампера,KZ-002,Кронштейн крепления бампера,Bufer kronşteyni (salaska),подтверждено вручную
+А117,Zaslonka  (göy etiket),Заслонка (синяя этикетка),MU-034,Дроссельная заслонка,Zaslonka,подтверждено вручную
+А118,gidrousilitel,Гидроусилитель,SU-005,Гидроусилитель руля,Rulevoy usilitel (gidrousilitel),подтверждено вручную
+А119,Muherrik yastiqi,Подушка двигателя,MU-017,Подушка двигателя,Mühərrik yastığı,подтверждено вручную
+А120,Çaşka feredo,Корзина и диск сцепления,TR-032,Комплект сцепления,Mufta dəsti,подтверждено вручную
+А121,Fara şüşəsi lazımdır,Стекло фары,KZ-010,Стекло фары,Fara şüşəsi,подтверждено вручную
+А122,Ön əyləc bəndi,Передние тормозные колодки,EY-001,Тормозная колодка,Naklatka (əyləc bəndi),подтверждено вручную
+А123,Arxa stop ledli,Задний LED-фонарь,KZ-007,Задний фонарь,Stop (arxa fənər),подтверждено вручную
+А124,Ön alın şüşəsi,Переднее лобовое стекло,KZ-011,Лобовое стекло,Ön şüşə (patpres),подтверждено вручную
+А125,qabağ kamera (99250L0000),Передняя камера (99250L0000),EL-035,Камера,Kamera,подтверждено вручную
+А126,Sağ tərəf almacıq,Правая рулевая тяга,SU-002,Рулевая тяга,Sükan dartısı,подтверждено вручную
+А127,Park radar - 96890-A5000YAC,Парктроник 96890-A5000YAC,EL-013,Датчик парктроника,Park radar sensoru (şunuru),подтверждено вручную
+А128,Sağ amartizator original veya ustden cixma firmada olar,Правый амортизатор,AS-001,Амортизатор,Amortizator,подтверждено вручную
+А129,Mator paduşkalar,Подушки двигателя,MU-017,Подушка двигателя,Mühərrik yastığı,подтверждено вручную
+А130,qabaq bufer,Передний бампер,KZ-001,Бампер,Bufer,подтверждено вручную
+А131,toyota prius 20 govde sag teref padkrilnik,"Toyota Prius 20, правый подкрылок",KZ-029,Подкрылок (локер),Podkrilnik,подтверждено вручную
+А132,Рулевая калонка,Рулевая колонка,SU-004,Рулевая колонка,Rulavoy kalonka,подтверждено вручную
+А133,Qabaq sağ stupitsa podşipniki,Подшипник передней правой ступицы,AS-007,Подшипник ступицы,Stupitsa podşipniki,подтверждено вручную
+Б2,Kanpilekt mator sepi,Комплект цепи двигателя,MU-055,Цепь ГРМ,Zəncir (vaxtlama zənciri),подтверждено вручную
+Б3,SAG TƏRƏF QAPILARIN ALTININ KANTLATI,Накладки снизу дверей справа,KZ-092,Кант порога под дверью,Qapı altı kantı,подтверждено вручную
+Б4,guzcunun altindaki qapaq,Крышка под зеркалом,KZ-022,Корпус зеркала,Güzgü korpusu,подтверждено вручную
+Б5,alışdırma şamları,Свечи зажигания,SR-014,Свеча зажигания,Alışdırma şamı (sveça),подтверждено вручную
+Б6,Miquin 5*30 dizel üçün 6 litir neçəyədir,"Масло Meguin 5W-30, 6 литров",SR-001,Моторное масло,Mühərrik yağı,подтверждено вручную
+Б9,Təkərin qırağında olan plasmas,Пластик вокруг колеса,KZ-055,Расширитель арки / накладка бокового обвеса,Qanad genişləndiricisi (arka),подтверждено второй проверкой
+Б12,2017 kia sorento qabaq podpresin qiraq kanti lazimdir ( surucu teref),"Kia Sorento 2017, наружный молдинг лобового стекла",KZ-095,Кант лобового стекла (молдинг),Ön şüşə kantı (moldinq),поправлено при второй проверке
+Б14,Giriş kollektorun  prokladkası( boğaz rezini) Yalnız Orijinal,Прокладка впускного коллектора (резинка горловины),MU-087,Прокладка коллектора,Kollektor araqatı,подтверждено вручную
+Б15,272 mator,Двигатель 272,MU-001,Двигатель в сборе,Mühərrik,подтверждено вручную
+Б20,avtopasos orginal,Оригинальный автоподсос,MU-088,Датчик холостого хода,Boş gediş datçiki,подтверждено второй проверкой
+Б22,Peçin şlanqlarındakı plasamas traynik lazımdı. Qabaqla arxa peçi birləşdirən.,Пластиковый тройник на шлангах печки,SO-035,Тройник патрубка печи,Peç troyniki,подтверждено вручную
+Б24,3 çıxışlı tranik,Тройник с тремя выходами,SO-035,Тройник патрубка печи,Peç troyniki,подтверждено второй проверкой
+Б25,partklenikler sag sol qabağ,Передние правый и левый подкрылки,KZ-029,Подкрылок (локер),Podkrilnik,подтверждено вручную
+Б26,"ABŞ daççiki qabağdan sol tərəf, uzunluğu 1 metr 20 santıdır","Датчик ABS, передний левый, 1 м 20 см",EY-011,Датчик ABS,ABS datçiki,подтверждено вручную
+Б27,Soyutma şlanqları,Шланги охлаждения,SO-009,Патрубок системы охлаждения,"Soyutma şlanqı (su, antifriz)",подтверждено вручную
+Б28,Shell 5w40  1letr,"Shell 5W-40, 1 литр",SR-001,Моторное масло,Mühərrik yağı,подтверждено вручную
+Б34,Karopka(elektron),Электронная коробка передач,TR-001,Коробка передач в сборе,Sürətlər qutusu,подтверждено вручную
+Б37,"2024600319 Kodlu detal
+Mayatnik",2024600319 / маятник,SU-018,Маятниковый рычаг,Mayatnik qolu,подтверждено второй проверкой
+Б38,Piribor,Приборная панель,EL-038,Панель приборов (щиток),Cihazlar paneli (şit),подтверждено вручную
+Б39,Detalı kodu budu 71800-T20-A00; sağ sərnişin tərəfdən çöl plastik podnojka,"71800-T20-A00, наружная пластиковая подножка справа",TY-001,Порог-подножка (running board),Padnoşka (pilləkən),подтверждено вручную
+Б44,11519455978 pompa,Помпа 11519455978,SO-006,Водяная помпа,Su pompası,подтверждено вручную
+Б45,bobinin konnektoru,Коннектор катушки зажигания,EL-032,Проводка/разъёмы,Naqillər/ştekerlər (provodka),подтверждено второй проверкой
+Б47,Kampressorun kranşteyni,Кронштейн компрессора,SO-036,Кронштейн компрессора кондиционера,Kondisioner kompressorunun kronşteyni,подтверждено вручную
+Б48,QAPININ ÜSTÜ NİKEL KANTLAR,Никелированные накладки сверху дверей,KZ-038,Хром-кант/окантовка,Kant (xrom kant),подтверждено вручную
+Б49,adsorber,Адсорбер,YA-007,Система EVAP (адсорбер),EVAP sistemi/klapanı (yanacaq kömürü),подтверждено вручную
+Б51,Natejnoy,Натяжитель,MU-022,Натяжитель ремня,Natijitel (natyajnoy),подтверждено вручную
+Б54,krank mili sensoru,Датчик коленвала,MU-040,Датчик коленвала,Kalenval datçiki,подтверждено вручную
+Б56,Ön bujer,Передняя свеча,SR-014,Свеча зажигания,Alışdırma şamı (sveça),подтверждено второй проверкой
+Б59,Sol arxa top,Левая задняя шаровая,AS-010,Шаровая опора,Şaravoy (kula opora),подтверждено вручную
+Б63,"Arxa demir,qeza qoruyucu",Задняя металлическая защита от удара,KZ-043,Усилитель бампера (силовая балка),Bufer gücləndiricisi (arma),подтверждено вручную
+Б65,Meguin 0/20,Meguin 0W-20,SR-001,Моторное масло,Mühərrik yağı,подтверждено вручную
+Б66,vaqaj s class w220 Və s500 yazısı,Надписи S-Class W220 и S500 на багажник,KZ-039,Эмблема/логотип,Emblema/logo,подтверждено вручную
+Б67,Suse silen,Стеклоочиститель,AK-010,Щётка стеклоочистителя,Şüşə silən (əl/pərdə),подтверждено вручную
+Б68,Pad udarniklər,Отбойники,AS-005,Отбойник хода сжатия,Otboynik,подтверждено вручную
+Б71,Dumanlı sağ teref üstden çixma yada pad arginal,Правая противотуманная фара,KZ-006,Противотуманная фара,Duman fara,подтверждено вручную
+Б76,Karopka yağı,Масло коробки передач,SR-005,Трансмиссионное масло,Karopka yağı (mexanika/avtomat),подтверждено вручную
+Б77,Hava filitirinin şlanqı,Шланг воздушного фильтра,MU-089,Патрубок воздуховода,Hava borusu (patrubok),подтверждено вручную
+Б78,Rulavuy,Рулевая,SU-006,Рулевая рейка,Rulevoy reyka (dişli qutusu),подтверждено второй проверкой
+Б82,Sağ ön qabının mebel plasması,Пластик правой передней части,KZ-019,Обшивка двери (карта),Qapı kartası,подтверждено вручную
+Б86,Сеп мотора,Цепь двигателя,MU-055,Цепь ГРМ,Zəncir (vaxtlama zənciri),подтверждено вручную
+Б87,Cilamete control,Климат-контроль,EL-019,Блок управления климат-контролем,Kondisioner idarəetmə bloku (klimat kontrol),подтверждено вручную
+Б89,Reduktor yagi origina byd,Масло редуктора BYD,SR-005,Трансмиссионное масло,Karopka yağı (mexanika/avtomat),подтверждено вручную
+Б90,Link Limforder,Link Lemforder,AS-011,Стойка стабилизатора,Sırğa (stabilizator lingi),подтверждено вручную
+Б92,ремен 7PK1870,Ремень 7PK1870,MU-020,Приводной (генераторный) ремень,Çöl remen (dinamo remeni),подтверждено вручную
+Б94,Arxa naklatka,Задние колодки,EY-001,Тормозная колодка,Naklatka (əyləc bəndi),подтверждено вручную
+Б95,Podlokotnik,Подлокотник,AK-033,Центральный бокс (барсетка/подлокотник-бокс),Barsetka (mərkəzi konsol qutusu),подтверждено вручную
+Б97,Aktaturun beyini,Блок управления актуатором,EL-080,Блок управления актуатором,Aktuator idarəetmə bloku,подтверждено вручную
+Б99,Qaranlıq sensoru. Şitin üstundə olan.,Датчик света сверху панели,EL-081,Датчик освещённости,İşıq sensoru,подтверждено вручную
+Б102,Sifeçaların başliq muşduyler,Наконечники свечей,MU-026,Наконечник катушки/колпачок свечи,Kalyan (bobin başlığı),подтверждено вручную
+Б103,e60 ccc dvd blok,Блок CCC DVD E60,AU-003,Магнитола (головное устройство),Maqnitafon (baş qurğu),подтверждено вручную
+Б104,Yanacaq tənzimləyən,Регулятор топлива,YA-010,Регулятор давления топлива,Yanacaq təzyiq requlyatoru,подтверждено вручную
+Б105,Rulavoy,Рулевая,SU-006,Рулевая рейка,Rulevoy reyka (dişli qutusu),подтверждено второй проверкой
+Б106,Afdopasos,Автоподсос,MU-088,Датчик холостого хода,Boş gediş datçiki,подтверждено второй проверкой
+Б110,311110M000 Kantli sonatanin 2 motor benzonasos Nasosun ozu lazimdi,"311110M000, бензонасос Sonata 2.0",YA-001,Топливный насос,Benzin nasosu (yanacaq nasosu),подтверждено вручную
+Б111,Turbonun Patrubkası,Патрубок турбины,MU-089,Патрубок воздуховода,Hava borusu (patrubok),подтверждено второй проверкой
+Б116,Kia rio ust patrufqasi,Верхний патрубок Kia Rio,SO-009,Патрубок системы охлаждения,"Soyutma şlanqı (su, antifriz)",подтверждено второй проверкой
+Б117,Pribor lazımdır,Приборная панель,EL-038,Панель приборов (щиток),Cihazlar paneli (şit),подтверждено вручную
+Б119,salonun parçadan olan siymelu gunkecirmezi lukun alt hissesinde olur,Тканевая солнцезащитная шторка салона под люком,KZ-072,Шторка люка,Lyuk pərdəsi,подтверждено вручную
+Б121,Ön şüşənin aşağısında ki plasmas,Пластик под передним лобовым стеклом,KZ-053,Водосток лобового стекла (жабо),Ön şüşə su axarı (jabo),подтверждено вручную
+Б123,Prista ultra plus 5w-40 neciyedi qiymeti,Prista Ultra Plus 5W-40,SR-001,Моторное масло,Mühərrik yağı,подтверждено вручную
+Б124,Bmw m50 avtopasos,"BMW M50, автоподсос",MU-088,Датчик холостого хода,Boş gediş datçiki,подтверждено второй проверкой
+Б126,Spoiler,Спойлер,KZ-036,Спойлер,Spoyler,подтверждено вручную
+Б127,Şüşəsilənlər (dvornik),Стеклоочистители (дворники),AK-010,Щётка стеклоочистителя,Şüşə silən (əl/pərdə),подтверждено вручную
+Б132,Qapinin nikkel kantlari,Никелированные накладки дверей,KZ-094,Молдинг двери (хромированная накладка),Qapı moldinqi (xrom naklatka),поправлено при второй проверке
+Б134,Orta hava yeri,Центральный воздуховод,KZ-057,Решётка воздуховода (дефлектор панели),Peçin barmaqlıqları (ventilyasiya barmaqlığı),подтверждено вручную
+Б136,Sol kirla,Левое крыло,KZ-027,Крыло,Krılo (qanad),подтверждено вручную
+Б140,Передняя опора двигателя,Передняя опора двигателя,MU-017,Подушка двигателя,Mühərrik yastığı,подтверждено вручную
+Б141,Alt dummanı,Нижняя противотуманная фара,KZ-006,Противотуманная фара,Duman fara,подтверждено вручную
+Б143,32700-3K070 — PEDAL ASSY - ACCELERATOR,Педаль акселератора 32700-3K070,EL-026,Электронная педаль газа,Elektron qaz pedalı,подтверждено вручную

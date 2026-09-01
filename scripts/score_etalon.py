@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Сверка конвейера с эталоном 200 заявок.
+"""Сверка конвейера с размеченными эталонами.
+
+По умолчанию берётся основной набор точности — 469 заявок
+(``data/etalon_469.jsonl``). Набор поведения на 200 заявок
+(``--etalon data/etalon_200.jsonl``) меряет другое: только в нём есть 27
+заявок, где верный ответ — отказ или переспрос, и точка отсчёта «боевая
+система права в 128 из 200».
 
 Две независимые части.
 
@@ -34,7 +40,7 @@ sys.path.insert(0, ROOT)
 from avtozap.layer0 import Layer0  # noqa: E402
 from avtozap.retriever import RetrieverV2  # noqa: E402
 
-DEFAULT_ETALON = os.path.join(ROOT, "data", "etalon_200.jsonl")
+DEFAULT_ETALON = os.path.join(ROOT, "data", "etalon_469.jsonl")
 NO_CODE = "UNKNOWN"
 #: Статусы, при которых система кода НЕ выдала.
 NO_ANSWER_STATUSES = {"UNKNOWN", "REVIEW", "ERROR"}
@@ -70,7 +76,9 @@ def retriever_ceiling(etalon: list[dict], retriever: RetrieverV2,
     замерами и есть вклад сегментации: в длинном сообщении на десяток деталей
     поиск по всему тексту нужную деталь физически не находит.
     """
-    gradable = [r for r in etalon if r["expected_external_code"] != NO_CODE]
+    gradable = [r for r in etalon
+                if r["expected_external_code"] != NO_CODE
+                and r.get("scorable", True)]
     in_list = rank1 = 0
     misses: list[dict] = []
     for row in gradable:
@@ -109,7 +117,13 @@ def score_run(etalon: list[dict], by_rfq: dict[str, list[dict]]) -> dict:
     by_confidence: dict[str, Counter] = defaultdict(Counter)
     by_action = Counter()
 
+    unscorable = 0
     for row in etalon:
+        if not row.get("scorable", True):
+            # Ожидаемого кода нет в нашей версии словаря: такую строку нельзя
+            # ни засчитать, ни провалить.
+            unscorable += 1
+            continue
         rfq_id = row["rfq_id"]
         items = by_rfq.get(rfq_id)
         if not items:
@@ -149,8 +163,9 @@ def score_run(etalon: list[dict], by_rfq: dict[str, list[dict]]) -> dict:
 
     return {
         "total": len(etalon),
-        "scored": len(etalon) - missing,
+        "scored": len(etalon) - missing - unscorable,
         "missing_from_results": missing,
+        "unscorable": unscorable,
         "correct": len(correct),
         "wrong": wrong,
         "by_confidence": {k: dict(v) for k, v in by_confidence.items()},
@@ -188,11 +203,23 @@ def main(argv: list[str] | None = None) -> int:
     baseline = sum(1 for r in etalon
                    if str(r.get("reference_production_correct", "")).lower() == "да")
     no_code = sum(1 for r in etalon if r["expected_external_code"] == NO_CODE)
+    unscorable = sum(1 for r in etalon if not r.get("scorable", True))
 
-    print(f"Эталон: {len(etalon)} заявок "
-          f"(из них {no_code} с ответом «кода быть не должно»)")
-    print(f"Точка отсчёта — боевая система: {baseline}/{len(etalon)} "
-          f"= {baseline / len(etalon) * 100:.1f}%\n")
+    print(f"Эталон: {os.path.basename(args.etalon)} — {len(etalon)} заявок")
+    if no_code:
+        print(f"  из них с ответом «кода быть не должно»: {no_code}")
+    else:
+        print("  заявок с ответом «кода быть не должно» нет — поведение "
+              "«переспроси / попроси фото» этот набор не меряет")
+    if unscorable:
+        print(f"  ⚠ вне подсчёта (код отсутствует в словаре 541): {unscorable}")
+    if baseline:
+        print(f"Точка отсчёта — боевая система: {baseline}/{len(etalon)} "
+              f"= {baseline / len(etalon) * 100:.1f}%")
+    else:
+        print("Точки отсчёта в этом наборе нет: колонки с ответом боевой "
+              "системы в нём не записано")
+    print()
 
     print("=== Потолок ретривера (API не нужен) ===")
     retriever = RetrieverV2(limit=args.limit)
@@ -208,12 +235,16 @@ def main(argv: list[str] | None = None) -> int:
           f"(вклад Layer 0: +{segmented['in_shortlist'] - raw['in_shortlist']})")
     print(f"  из них он на первом месте          : {segmented['rank1']}/{n} "
           f"= {segmented['rank1'] / n * 100:.1f}%")
+    scorable_total = len(etalon) - unscorable
+    ceiling_total = segmented["in_shortlist"] + no_code
     print(f"  ПОТОЛОК всей цепочки               : "
-          f"{segmented['in_shortlist'] + no_code}/{len(etalon)} "
-          f"= {(segmented['in_shortlist'] + no_code) / len(etalon) * 100:.1f}% "
-          f"(с учётом {no_code} заявок, где верный ответ — отказ)")
-    print(f"  запас над боевой системой          : "
-          f"+{segmented['in_shortlist'] + no_code - baseline} заявок")
+          f"{ceiling_total}/{scorable_total} "
+          f"= {ceiling_total / scorable_total * 100:.1f}%"
+          + (f" (с учётом {no_code} заявок, где верный ответ — отказ)"
+             if no_code else ""))
+    if baseline:
+        print(f"  запас над боевой системой          : "
+              f"+{ceiling_total - baseline} заявок")
     ceiling = segmented
     if ceiling["misses"]:
         print(f"\n  Ретривер потерял код в {len(ceiling['misses'])} заявк(ах):")
@@ -232,7 +263,10 @@ def main(argv: list[str] | None = None) -> int:
     scored = score_run(etalon, load_results(args.results))
     print(f"  правильно закрыто: {scored['correct']}/{scored['scored']} "
           f"= {scored['correct'] / max(scored['scored'], 1) * 100:.1f}%")
-    print(f"  боевая система   : {baseline}/{len(etalon)}")
+    if baseline:
+        print(f"  боевая система   : {baseline}/{len(etalon)}")
+    if scored.get("unscorable"):
+        print(f"  вне подсчёта     : {scored['unscorable']}")
     if scored["missing_from_results"]:
         print(f"  нет в результатах: {scored['missing_from_results']}")
 
@@ -247,6 +281,9 @@ def main(argv: list[str] | None = None) -> int:
     print("\n  Действия по правилу заказчика:")
     for action, count in sorted(scored["by_action"].items(), key=lambda kv: -kv[1]):
         print(f"    {action:14s} {count}")
+
+    if not baseline:
+        return 0
 
     comparison = compare_with_production(etalon, scored)
     print("\n  Против боевой системы на той же выборке:")

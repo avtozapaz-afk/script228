@@ -1,4 +1,4 @@
-"""Эталон 200 заявок: правило подсчёта, дубли кодов и политика порога.
+"""Эталоны: правило подсчёта, дубли кодов и политика порога.
 
 Сети не требуют.
 """
@@ -263,3 +263,89 @@ def test_a_final_code_is_always_canonical():
         for record in pipeline.process_request(
                 {"rfq_id": "t", "original_text": text}, 0):
             assert record.final_external_code not in duplicates
+
+
+# ── основной набор точности: 469 заявок ─────────────────────────────────────
+ETALON_469 = os.path.join("data", "etalon_469.jsonl")
+
+
+@pytest.fixture(scope="module")
+def etalon469() -> list[dict]:
+    with open(ETALON_469, encoding="utf-8") as fh:
+        return [json.loads(line) for line in fh if line.strip()]
+
+
+def test_the_accuracy_set_holds_469_requests(etalon469):
+    assert len(etalon469) == 469
+
+
+def test_every_request_expects_a_code(etalon469):
+    """В наборе точности заявок с ответом «кода быть не должно» нет.
+
+    Поэтому правило «переспроси / попроси фото» им не проверить — для этого
+    остаётся набор поведения на 200 заявок.
+    """
+    assert all(r["expected_external_code"] != "UNKNOWN" for r in etalon469)
+
+
+def test_the_accuracy_set_carries_raw_text_only(etalon469):
+    """Перевод и названия деталей — справка, а не вход конвейера.
+
+    Перевод во время работы взять неоткуда, а подсказать конвейеру название —
+    значит мерить не его.
+    """
+    for row in etalon469:
+        assert row["original_text"].strip()
+        assert "translation" not in row
+        assert "name_ru" not in row and "name_az" not in row
+
+
+def test_duplicate_codes_are_canonicalised_on_import(etalon469):
+    duplicates = load_duplicates()
+    assert not [r for r in etalon469
+                if r["expected_external_code"] in duplicates]
+
+
+def test_rows_pointing_outside_the_dictionary_are_excluded_from_scoring(etalon469):
+    """KZ-094 и KZ-095 появились в разметке позже нашей версии словаря.
+
+    Такую строку нельзя ни засчитать, ни провалить — она помечена
+    ``scorable: false`` и в подсчёт не идёт.
+    """
+    dictionary = load()
+    for row in etalon469:
+        expected = row["expected_external_code"]
+        assert row["scorable"] == (expected in dictionary), expected
+    assert sum(1 for r in etalon469 if not r["scorable"]) == 3
+
+
+def test_scorable_rows_all_resolve_to_real_parts(etalon469):
+    dictionary = load()
+    for row in etalon469:
+        if row["scorable"]:
+            assert dictionary.get(row["expected_external_code"]) is not None
+
+
+def test_unscorable_rows_are_skipped_by_the_scorer():
+    from scripts.score_etalon import score_run
+
+    etalon = [
+        {"rfq_id": "a", "original_text": "t", "expected_external_code": "KZ-095",
+         "scorable": False},
+        {"rfq_id": "b", "original_text": "t", "expected_external_code": "EY-002",
+         "scorable": True},
+    ]
+    results = {"b": [{"rfq_id": "b", "final_status": "SELECT",
+                      "final_external_code": "EY-002", "arbiter": {}}]}
+    scored = score_run(etalon, results)
+    assert scored["scored"] == 1 and scored["correct"] == 1
+    assert scored["unscorable"] == 1
+
+
+def test_the_behaviour_set_is_still_available(etalon):
+    """Набор на 200 заявок нельзя терять: только он меряет отказы и переспрос."""
+    assert len(etalon) == 200
+    assert sum(1 for r in etalon
+               if r["expected_external_code"] == "UNKNOWN") == 27
+    assert sum(1 for r in etalon
+               if r["reference_production_correct"].lower() == "да") == 128
