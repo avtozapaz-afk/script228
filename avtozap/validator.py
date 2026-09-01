@@ -123,15 +123,53 @@ class Validator:
         return self.retriever.lexical_support(text, code)
 
     def _still_multiple_items(self, item: Layer0Item) -> list[str] | None:
-        """Разбивается ли ``item_raw`` сегментатором ещё раз.
+        """Разбивается ли ``item_raw`` на несколько РАЗНЫХ деталей.
 
-        Прогоняем Layer 0 повторно уже по атомарному предмету: если он снова
-        распадается на несколько предметов, значит первый проход не доделил
-        работу, и такой результат нельзя отдавать как готовый.
+        Прогоняем Layer 0 повторно уже по атомарному предмету. Но самого факта
+        деления мало: правило должно ловить «наклаdka и тормозной диск», а не
+        любую заявку, которую сегментатор захотел порезать.
+
+        Живой прогон 469 показал ровно эту разницу. Заявка
+        ``32700-3K070 — PEDAL ASSY - ACCELERATOR`` — это **одна** деталь,
+        названная дважды: каталожным номером и по-английски. Сегментатор резал
+        её на три куска, правило отвергало верный ответ арбитра, и заявка
+        уходила в UNKNOWN. То же с ``ABS bloku 58500 - N6000``: номер считался
+        отдельной деталью.
+
+        Поэтому куски сначала приводятся к деталям словаря, и правило
+        срабатывает, только если разных деталей действительно несколько. Это та
+        же проверка, которой конвейер решает, дорезать предмет или нет
+        (``distinct_part_groups``), — правило одно, а не два похожих.
         """
         if self.layer0 is None:
             return None
         again = self.layer0.segment(item.item_raw)
-        if len(again.items) > 1:
-            return [i.item_raw for i in again.items]
-        return None
+        if len(again.items) < 2:
+            return None
+        pieces = [i.item_raw for i in again.items]
+        if len(distinct_part_groups(pieces, self.retriever)) < 2:
+            return None
+        return pieces
+
+
+def distinct_part_groups(pieces: list[str], retriever: RetrieverV2) -> set[str]:
+    """На сколько РАЗНЫХ деталей словаря указывают куски предмета.
+
+    Кусок, который ни на что не указывает, группой не считается: каталожный
+    номер, английская подпись к нему, обрывок вроде «- N6000» — это не деталь,
+    а способ назвать ту же самую. Считать их отдельными предметами значит
+    отвергать верные ответы на заявках, где покупатель дал и номер, и название.
+
+    Возвращает множество групп (категорий словаря); пустое — значит куски
+    ничего осмысленного не дали.
+    """
+    groups: set[str] = set()
+    for piece in pieces:
+        codes = retriever.head_codes(piece)
+        if not codes:
+            codes = retriever.retrieve(piece).codes[:1]
+        if not codes:
+            continue
+        part = retriever.dict.get(codes[0])
+        groups.add(part.category if part else codes[0])
+    return groups

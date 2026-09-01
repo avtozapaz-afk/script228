@@ -20,10 +20,13 @@ from typing import Any
 
 from .encoding_guard import check as check_encoding
 from .config import (
+    ENGINE_SPEC_WORDS_NA,
     SEGMENTER_MAX_TOKENS,
     SEGMENTER_PROMPT_PATH,
     SEGMENTER_PROMPT_SHA_PATH,
+    VEHICLE_BRANDS_NA,
 )
+from .retriever import content_tokens
 from .llm import LlmClient, LlmError, TruncatedResponse
 from .types import L0_FALLBACK, L0_OK, Layer0Item, Layer0Result
 
@@ -100,6 +103,8 @@ class Segmenter:
         self.client = client
         self.model = model
         self.fallback = fallback
+        # Словарь спрашиваем через запасной сегментатор — у него он уже есть.
+        self.retriever = getattr(fallback, "retriever", None)
         self.temperature = temperature
         self.system_prompt = load_prompt(prompt_path)
 
@@ -143,11 +148,59 @@ class Segmenter:
                 encoding_warning=warning,
                 source_fragments=[entry["raw"]],
             ))
+        vehicle_context = data.get("vehicle_context", "")
+        restored = self._restore_part_word_lost_to_vehicle(items, vehicle_context)
         return Layer0Result(
             items=items, status=L0_OK, source=SOURCE_LLM,
-            reason=f"{len(items)} предмет(ов) от сегментера",
-            vehicle_context=data.get("vehicle_context", ""),
+            reason=(f"{len(items)} предмет(ов) от сегментера"
+                    + (f"; возвращено из описания машины: {restored}" if restored
+                       else "")),
+            vehicle_context=vehicle_context,
             raw_fragments=[i.item_raw for i in items])
+
+    def _restore_part_word_lost_to_vehicle(self, items: list[Layer0Item],
+                                           vehicle_context: str) -> list[str]:
+        """Вернуть в предмет слово детали, унесённое в описание машины.
+
+        Живой прогон 469, заявка ``Chevrolet cruze 1.4 kompressor maqinit``:
+        сегментер записал в описание машины «Chevrolet Cruze 1.4 kompressor», от
+        предмета остался огрызок ``maqnit`` — и заявка на муфту компрессора
+        кондиционера ушла в магнитолу. Правильный код при этом был в shortlist,
+        поэтому разбор винил арбитра, хотя предмет ему достался уже испорченным.
+
+        Почему нельзя возвращать всё подряд. В том же прогоне таких заявок
+        одиннадцать, и в десяти сегментер прав: ``1.6 benzin``, ``2.0 dizel``,
+        ``2 motor``, ``1.4 turbo`` — это мотор, а не запрошенная деталь, хотя
+        словарь эти слова знает. Их и отсекает ``ENGINE_SPEC_WORDS``.
+
+        Ещё три условия, без которых правило слишком жадное: предмет должен
+        быть один (в перечислении неясно, к какому куску возвращать), в нём
+        должно остаться не больше двух значимых слов (у полного предмета слова
+        не терялись), и возвращаемое слово не должно быть маркой машины.
+
+        Возвращает список возвращённых слов — он попадает в причину Layer 0,
+        чтобы правку было видно в отчёте, а не только в результате.
+        """
+        if len(items) != 1 or not vehicle_context or self.retriever is None:
+            return []
+        item = items[0]
+        present = set(content_tokens(item.item_raw))
+        if len(present) > 2:
+            return []
+        restored: list[str] = []
+        for token in content_tokens(vehicle_context):
+            if token in present or len(token) < 4:
+                continue
+            if token in ENGINE_SPEC_WORDS_NA or token in VEHICLE_BRANDS_NA:
+                continue
+            if not self.retriever.is_known_word(token):
+                continue
+            restored.append(token)
+        if not restored:
+            return []
+        item.item_raw = " ".join(restored + [item.item_raw])
+        item.reason = f"{item.reason}; вернули из описания машины: {restored}"
+        return restored
 
     def _fallback(self, text: str, why: str) -> Layer0Result:
         result = self.fallback.segment(text)

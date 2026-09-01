@@ -129,6 +129,11 @@ def build_summary(records: list[dict[str, Any]],
         "retriever_no_candidates": len(retriever_empty),
         "retriever_misses_vs_expected": len(retriever_misses),
         "arbiter_refusals": len(arbiter_refusals),
+        # Сколько ответов дал точный термин словаря поверх отказа арбитра.
+        "answered_by_dictionary": sum(
+            1 for r in records
+            if (r.get("answered_by") if isinstance(r, dict)
+                else getattr(r, "answered_by", "")) == "dictionary_exact"),
         "arbiter_errors": len(arbiter_errors),
         "validator_rejections": len(validator_rejects),
         "validator_downgrades": len(validator_downgrades),
@@ -213,6 +218,7 @@ def render_markdown(summary: dict[str, Any], config_note: str = "") -> str:
         f"| ретривер не дал кандидатов | {summary['retriever_no_candidates']} |",
         f"| промахи ретривера (при известном эталоне) | {summary['retriever_misses_vs_expected']} |",
         f"| отказы арбитра (UNKNOWN/CLARIFY) | {summary['arbiter_refusals']} |",
+        f"| из них ответил точный термин словаря | {summary.get('answered_by_dictionary', 0)} |",
         f"| ошибки арбитра/API | {summary['arbiter_errors']} |",
         f"| отклонения валидатора | {summary['validator_rejections']} |",
         f"| понижения валидатора до REVIEW | {summary['validator_downgrades']} |",

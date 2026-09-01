@@ -18,6 +18,8 @@ from .llm import LlmClient
 from .oem import OemResolver
 from .photo import PhotoLayer
 from .ambiguity import load as load_ambiguity_rules
+from .dictionary_answer import SOURCE_ARBITER, SOURCE_DICTIONARY
+from .dictionary_answer import resolve as dictionary_answer
 from .policy import ACTION_ASK_BUYER, decide_action, question_for
 from .retriever import RetrieverV2, content_tokens
 from .segmenter import Segmenter
@@ -52,7 +54,7 @@ from .types import (
     RetrieverResult,
     ValidatorResult,
 )
-from .validator import Validator
+from .validator import Validator, distinct_part_groups
 
 
 class MockArbiter:
@@ -206,18 +208,8 @@ class Pipeline:
         again = self.fallback_layer0.segment(item.item_raw)
         if len(again.items) < 2:
             return None
-        groups: set[str] = set()
-        pieces: list[str] = []
-        for piece in again.items:
-            codes = self.retriever.head_codes(piece.item_raw)
-            if not codes:
-                result = self.retriever.retrieve(piece.item_raw)
-                codes = result.codes[:1]
-            if not codes:
-                return None                  # кусок ни на что не указывает
-            part = self.retriever.dict.get(codes[0])
-            groups.add(part.category if part else codes[0])
-            pieces.append(piece.item_raw)
+        pieces = [piece.item_raw for piece in again.items]
+        groups = distinct_part_groups(pieces, self.retriever)
         return pieces if len(groups) > 1 else None
 
     # ── один атомарный предмет ──────────────────────────────────────────────
@@ -238,6 +230,25 @@ class Pipeline:
                 item.item_raw, content_tokens, self.retriever.head_codes)
             if ambiguous is not None and final_status != FINAL_ERROR:
                 final_id, final_status = None, FINAL_REVIEW
+
+            # Точный термин словаря сильнее отказа арбитра. Живой прогон 469:
+            # из 20 отказов в 13 правильный код стоял первым, совпав ТОЧНЫМ
+            # термином словаря заказчика. Промпт V3 заморожен, но выбрасывать
+            # ответ, который дал сам словарь, — это потеря, а не осторожность.
+            # Правило узкое: только однодетальная заявка, только точное
+            # совпадение, покрывающее запрос, и не поверх правила
+            # неоднозначности (см. avtozap/dictionary_answer.py).
+            answered_by = SOURCE_ARBITER if final_id else ""
+            if (final_id is None and ambiguous is None
+                    and final_status in (FINAL_UNKNOWN, FINAL_REVIEW)
+                    and arbiter.decision in (ARB_UNKNOWN, ARB_CLARIFY)
+                    and len(layer0.items) == 1):
+                from_dictionary = dictionary_answer(
+                    item.item_raw, (retrieved.candidates if retrieved else []),
+                    self.retriever.dict.canonical)
+                if from_dictionary:
+                    final_id, final_status = from_dictionary, FINAL_SELECT
+                    answered_by = SOURCE_DICTIONARY
 
             action, action_reason = decide_action(
                 final_status, arbiter, validated, original_text,
@@ -265,6 +276,7 @@ class Pipeline:
                 action=action, action_reason=action_reason,
                 buyer_question=buyer_question,
                 ambiguous_term=ambiguous.term if ambiguous else None,
+                answered_by=answered_by,
                 search_phrases=list(item.search_phrases),
                 is_part_request=item.is_part_request,
                 encoding_warning=item.encoding_warning,

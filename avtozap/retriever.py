@@ -200,6 +200,11 @@ def _candidate(part: Part, score: float, reason: str) -> Candidate:
 MODIFIER_WORDS = {
     "sol", "sag", "qabaq", "on", "arxa", "alt", "ust", "ic", "col", "daxili",
     "xarici", "zbor", "komplekt", "tam", "original", "orjinal", "arginal",
+    # «Оригинал» покупатели пишут как придётся, и самое частое написание —
+    # не словарное: в 6188 живых заявках orginal встречается 103 раза против
+    # 80 у original. Слово описывает не деталь, а пожелание к ней, поэтому все
+    # частые написания служебные. Форм с окончаниями тоже хватает.
+    "orginal", "orijinal", "ariginal", "orginali", "orijinali", "originalinin",
     "lazim", "lazimdi", "lazimdir", "eded", "tere", "teref", "terefi", "ucun",
     "ve", "ile", "birlikde", "bir", "yerde", "surucu", "sernisin", "terefden",
     "salam", "xahis", "edirem", "zehmet", "olmasa", "var", "varmi", "olar",

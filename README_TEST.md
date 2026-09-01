@@ -270,7 +270,7 @@ python scripts/build_fresh300_input.py
 python -m pytest tests/ -q
 ```
 
-385 тестов, сети не требуют.
+413 тестов, сети не требуют.
 
 | файл | что покрывает |
 |---|---|
@@ -288,6 +288,7 @@ python -m pytest tests/ -q
 | `test_live_run_fixes.py` | регрессии живого прогона: обрыв, кодировка, ложные multi-part, дорезка |
 | `test_ranking_and_lubricants.py` | правило вязкости и ранжирование по головному слову |
 | `test_etalon_policy.py` | правило подсчёта эталона, дубли кодов, политика порога |
+| `test_dictionary_answer.py` | точный термин словаря сильнее отказа арбитра: порог покрытия, узость правила |
 | `test_ambiguity.py` | неоднозначные термины: сверка с листом словаря, «голый» термин, вопрос вместо ответа, деактивированные коды |
 | `test_matcher.py`, `test_category.py`, `test_integrity.py` | прежний словарный матчер (в новом конвейере не участвует) |
 
@@ -422,6 +423,7 @@ python run_test.py --max-requests 5
 PROGON_ETALON_469.py              прогон эталона 469 одной командой (точность)
 PROGON_ETALON_200.py              прогон эталона 200 одной командой (поведение + порог)
 ЗАПУСК_WINDOWS.md                 инструкция для Windows по шагам
+RAZBOR_PROGONA_469.md             разбор живого прогона: что починено и что осталось
 run_test.py                       точка входа
 avtozap/
   dictionary.py                   словарь 571 — источник истины по external_code
@@ -433,6 +435,7 @@ avtozap/
   arbiter.py                      Arbiter V3 (замороженный промпт)
   validator.py                    правила V1–V7
   ambiguity.py                    неоднозначные термины словаря: вопрос вместо кода
+  dictionary_answer.py            точный термин словаря сильнее отказа арбитра
   pipeline.py                     сборка конвейера и разбор слабого звена
   llm.py                          клиент OpenAI: ретраи, backoff, таймауты
   io_utils.py, report.py          ввод/вывод и отчёты

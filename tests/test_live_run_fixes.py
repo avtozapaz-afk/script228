@@ -291,3 +291,65 @@ def test_corrupted_text_from_the_segmenter_is_flagged_on_the_record():
         {"rfq_id": "t", "original_text": CLEAN}, 0)[0]
     assert record.encoding_warning
     assert CLEAN in record.encoding_warning
+
+# ── живой прогон 469: сегментер уносил деталь в описание машины ─────────────
+@pytest.fixture(scope="module")
+def segmenter():
+    from avtozap.layer0 import Layer0
+    from avtozap.retriever import RetrieverV2
+    from avtozap.segmenter import Segmenter
+    return Segmenter(None, "mock", fallback=Layer0(RetrieverV2()))
+
+
+def _one(raw: str):
+    from avtozap.types import Layer0Item
+    return [Layer0Item(item_index=0, item_raw=raw, status="OK", reason="llm")]
+
+
+def test_a_part_word_lost_to_the_vehicle_description_comes_back(segmenter):
+    """`Chevrolet cruze 1.4 kompressor maqinit` — муфта компрессора, не магнитола.
+
+    Сегментер записал `kompressor` в описание машины, от предмета остался
+    огрызок `maqnit`, и заявка ушла в магнитолу. Разбор винил арбитра, хотя
+    предмет достался ему уже испорченным.
+    """
+    items = _one("maqnit")
+    assert segmenter._restore_part_word_lost_to_vehicle(
+        items, "Chevrolet Cruze 1.4 kompressor") == ["kompressor"]
+    assert items[0].item_raw == "kompressor maqnit"
+
+
+@pytest.mark.parametrize("raw,vehicle", [
+    ("qlavnı silindir", "Hyunday Sonata 2007 2 motor"),
+    ("motor qalofkası", "Opel Astra 1.8l benzin"),
+    ("benzin yagğnasosu", "Hyundai Tucson 2006 2 motor benzin"),
+    ("hava girish xortumu", "W203 3.2 benzin"),
+    ("Kandisaner kanpressoru", "Hyundai Accent 2015 1.6 turbo dizel"),
+    ("sola arxa stop", "Subaru Forester"),
+])
+def test_engine_and_brand_words_stay_in_the_vehicle_description(segmenter, raw,
+                                                                vehicle):
+    """Десять из одиннадцати случаев прогона — не потеря, и трогать их нельзя.
+
+    `1.6 benzin`, `2 motor`, `1.4 turbo dizel` — это мотор, а не запрошенная
+    деталь, хотя словарь запчастей эти слова знает.
+    """
+    items = _one(raw)
+    assert segmenter._restore_part_word_lost_to_vehicle(items, vehicle) == []
+    assert items[0].item_raw == raw
+
+
+def test_nothing_is_restored_into_a_multi_part_request(segmenter):
+    """В перечислении неясно, к какому предмету возвращать слово."""
+    from avtozap.types import Layer0Item
+    items = [Layer0Item(item_index=0, item_raw="maqnit", status="OK", reason=""),
+             Layer0Item(item_index=1, item_raw="fara", status="OK", reason="")]
+    assert segmenter._restore_part_word_lost_to_vehicle(
+        items, "Chevrolet Cruze 1.4 kompressor") == []
+
+
+def test_the_restored_item_now_reaches_the_right_part():
+    """Ради чего правка: нужный код встаёт первым."""
+    from avtozap.retriever import RetrieverV2
+    retriever = RetrieverV2()
+    assert retriever.retrieve("kompressor maqnit").codes[0] == "SO-033"

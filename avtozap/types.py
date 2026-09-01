@@ -203,6 +203,11 @@ class ItemRecord:
     #: Сработавшее правило неоднозначности словаря: голый термин, по которому
     #: проект запретил выбирать код без уточнения. Пусто — правило не сработало.
     ambiguous_term: str | None = None
+    #: Кто дал итоговый код: ``arbiter`` или ``dictionary_exact``. Нужно, чтобы
+    #: в отчёте всегда было видно, сколько ответов дала модель, а сколько —
+    #: точный термин словаря поверх её отказа.
+    answered_by: str = ""
+
     search_phrases: list[str] = field(default_factory=list)
     is_part_request: bool = True
     encoding_warning: str | None = None

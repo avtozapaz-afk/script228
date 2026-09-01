@@ -151,3 +151,38 @@ def test_arbiter_refusal_passes_through(validator, retriever, decision):
                                 ArbiterDecision(decision=decision, confidence="low"),
                                 candidates_for(retriever, "EY-002"), NO_OEM)
     assert result.status == VAL_PASS
+
+
+# ── живой прогон 469: V5 отвергал верные ответы на заявках с номером ────────
+def test_v5_does_not_fire_on_a_part_named_twice(validator, retriever):
+    """Номер детали и её английское имя — это ОДНА деталь, а не три.
+
+    Обе заявки из живого прогона 469, где валидатор зарубил верный ответ
+    арбитра и отправил заявку в UNKNOWN. Сегментатор резал их на куски
+    (`32700-3K070` / `PEDAL ASSY` / `ACCELERATOR`), и правило V5 считало
+    каждый кусок отдельной деталью.
+    """
+    for text, code in (("ABS bloku 58500 - N6000", "EY-010"),
+                       ("32700-3K070 — PEDAL ASSY - ACCELERATOR", "EL-026")):
+        result = validator.validate(item(text), select(code),
+                                    candidates_for(retriever, code), NO_OEM)
+        assert result.code != "V5", f"{text}: {result.reason}"
+        assert result.status != VAL_REJECT, f"{text}: {result.reason}"
+
+
+def test_v5_still_fires_when_the_pieces_are_really_different_parts(validator,
+                                                                  retriever):
+    """Починка не должна отключить правило там, где оно нужно."""
+    result = validator.validate(item("fara ve bufer"), select("KZ-005"),
+                                candidates_for(retriever, "KZ-005"), NO_OEM)
+    assert (result.status, result.code) == (VAL_REJECT, "V5")
+
+
+def test_distinct_part_groups_ignores_a_catalogue_number():
+    """Кусок, который ни на что не указывает, деталью не считается."""
+    from avtozap.validator import distinct_part_groups
+
+    from avtozap.retriever import RetrieverV2
+    retriever = RetrieverV2()
+    assert distinct_part_groups(["32700-3K070"], retriever) == set()
+    assert len(distinct_part_groups(["fara", "bufer"], retriever)) == 2
