@@ -76,13 +76,25 @@ class AmbiguityRules:
     def terms(self) -> list[str]:
         return sorted(self._by_term)
 
-    def check(self, item_raw: str, content_tokens) -> AmbiguousTerm | None:
+    def check(self, item_raw: str, content_tokens,
+              resolve_exact=None) -> AmbiguousTerm | None:
         """Голый неоднозначный термин в запросе — или ``None``.
 
         ``content_tokens`` — та же функция, которой пользуется ретривер: она
         убирает слова положения, количества и вежливости. Что осталось, и есть
         содержание запроса; если это ровно неоднозначный термин — отвечать
         нельзя.
+
+        ``resolve_exact`` — «какие коды словарь даёт на эту фразу целиком, если
+        знает её точным термином». Нужен потому, что для одного правила слово
+        положения — мусор, а для другого оно и есть уточнение. В правиле
+        ``çaşka`` прямо сказано: ``alt`` → AS-029, ``üst`` → AS-034, и словарь
+        обе формы знает. Отбросив ``alt`` как слово положения, слой переспросил
+        бы там, где ответ уже есть.
+
+        Поэтому решает не список слов, а сам словарь: знает фразу целиком и
+        ведёт ею в одну из двух деталей правила — вопрос не нужен. Ни одного
+        слова-исключения при этом выписывать не приходится.
         """
         tokens = content_tokens(item_raw or "")
         if not tokens:
@@ -91,6 +103,11 @@ class AmbiguityRules:
         rule = self._by_term.get(key)
         if rule is None:
             return None
+        if resolve_exact is not None:
+            resolved = set(resolve_exact(item_raw) or ())
+            if resolved and resolved <= set(rule.get("codes", ())):
+                # Словарь сам развёл фразу внутри пары — спрашивать нечего.
+                return None
         return AmbiguousTerm(term=key,
                              codes=list(rule.get("codes", [])),
                              parts=list(rule.get("parts", [])),

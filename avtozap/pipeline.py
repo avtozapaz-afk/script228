@@ -234,7 +234,8 @@ class Pipeline:
             # нельзя независимо от того, насколько уверен арбитр. Проверено,
             # что уверен он бывает: движок отдаёт на «park radari» кандидата
             # со score 1.0. Вопрос берём готовый, из листа AMBIGUOUS_RULES.
-            ambiguous = self.ambiguity.check(item.item_raw, content_tokens)
+            ambiguous = self.ambiguity.check(
+                item.item_raw, content_tokens, self.retriever.head_codes)
             if ambiguous is not None and final_status != FINAL_ERROR:
                 final_id, final_status = None, FINAL_REVIEW
 

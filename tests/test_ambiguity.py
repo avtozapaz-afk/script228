@@ -47,8 +47,9 @@ def test_rules_are_extracted_from_the_dictionary_not_typed_by_hand():
     assert load_rules() == from_sheet
 
 
-def test_all_four_rules_of_the_dictionary_are_loaded(rules):
-    assert len(load_rules()) == 4
+def test_every_rule_of_the_dictionary_is_loaded(rules):
+    """Правил столько, сколько строк AMBIGUOUS в листе словаря: v7 — 4, v8 — 5."""
+    assert len(load_rules()) == 5
     for rule in load_rules():
         assert rule["question"], "правило без вопроса покупателю бесполезно"
         assert len(rule["codes"]) == 2, "неоднозначность — это ровно два кода"
@@ -64,6 +65,7 @@ def test_every_code_in_the_rules_exists_in_the_dictionary(retriever):
 # ── что считается голым термином ────────────────────────────────────────────
 @pytest.mark.parametrize("text,expected_codes", [
     ("Arxa şveller", ["KZ-030", "KZ-043"]),
+    ("çaşka", ["AS-029", "AS-034"]),
     ("şveller lazımdır", ["KZ-030", "KZ-043"]),
     ("park radari", ["EL-014", "AK-028"]),
     ("parkradari", ["EL-014", "AK-028"]),
@@ -71,9 +73,9 @@ def test_every_code_in_the_rules_exists_in_the_dictionary(retriever):
     ("təkər sensoru sol", ["EY-011", "TK-005"]),
     ("baqaj jaluzu", ["TY-016", "KZ-070"]),
 ])
-def test_bare_ambiguous_term_is_caught(rules, text, expected_codes):
+def test_bare_ambiguous_term_is_caught(rules, retriever, text, expected_codes):
     """Слова положения и вежливости голым термин быть не мешают."""
-    hit = rules.check(text, content_tokens)
+    hit = rules.check(text, content_tokens, retriever.head_codes)
     assert hit is not None, text
     assert hit.codes == expected_codes
 
@@ -86,9 +88,28 @@ def test_bare_ambiguous_term_is_caught(rules, text, expected_codes):
     "qabaq fara",
     "",
 ])
-def test_a_clarified_request_is_not_touched(rules, text):
+def test_a_clarified_request_is_not_touched(rules, retriever, text):
     """Дописал значащее слово — правило молчит, отвечает словарь."""
-    assert rules.check(text, content_tokens) is None
+    assert rules.check(text, content_tokens, retriever.head_codes) is None
+
+
+@pytest.mark.parametrize("text,code", [
+    ("alt çaşka", "AS-029"),
+    ("aşağı çaşka", "AS-029"),
+    ("üst çaşka", "AS-034"),
+])
+def test_a_position_word_that_the_dictionary_uses_as_context_is_respected(
+        rules, retriever, text, code):
+    """Разводит не список слов, а сам словарь.
+
+    Правило ``çaşka`` прямо говорит: ``alt`` → AS-029, ``üst`` → AS-034 — и
+    словарь обе формы знает точными терминами. Слов положения в общем случае
+    мы не считаем содержанием запроса, поэтому наивная проверка «остался один
+    термин» переспросила бы там, где ответ уже есть. Спрашиваем словарь: знает
+    фразу целиком и ведёт ею внутрь пары — вопрос не нужен.
+    """
+    assert rules.check(text, content_tokens, retriever.head_codes) is None
+    assert retriever.retrieve(text).codes[0] == code
 
 
 # ── зачем слой вообще нужен ─────────────────────────────────────────────────
@@ -146,3 +167,42 @@ def test_rules_file_is_valid_json_with_a_note():
               encoding="utf-8") as fh:
         payload = json.load(fh)
     assert "_note" in payload and "rules" in payload
+
+
+# ── дубли и деактивированные коды ───────────────────────────────────────────
+def test_every_deactivated_code_has_a_canonical_replacement():
+    """Деактивированный код обязан иметь замену в duplicate_codes.json.
+
+    Иначе конвейер молча потеряет деталь: код из словаря исчез, а заменить его
+    нечем. v8 деактивировал EL-013 и MU-012 — файл дублей должен был поехать
+    вместе со словарём, и этот тест следит, чтобы так было и дальше.
+    """
+    import openpyxl
+
+    from avtozap.dictionary import load_duplicates
+
+    workbook = openpyxl.load_workbook(
+        os.path.join(ROOT, "data", "AVTOZAP_slovar_FINAL_571.xlsx"),
+        read_only=True, data_only=True)
+    rows = list(workbook["parts_synonyms"].iter_rows(values_only=True))
+    header = list(rows[0])
+    code_at, active_at = header.index("external_code"), header.index("is_active")
+    deactivated = {str(row[code_at]) for row in rows[1:]
+                   if row[code_at]
+                   and str(row[active_at]).strip().lower() not in
+                   ("true", "1", "да", "yes")}
+
+    duplicates = load_duplicates()
+    assert deactivated <= set(duplicates), (
+        "деактивированы без канонической замены: "
+        f"{sorted(deactivated - set(duplicates))}")
+    # И замена обязана вести на живой код, а не на другой деактивированный.
+    assert not (set(duplicates.values()) & deactivated)
+
+
+def test_a_deactivated_code_never_reaches_the_shortlist(retriever):
+    """Проверка на живых запросах, а не только на данных."""
+    for text in ("hava xortumu", "termostat korpusu zbor", "park radari",
+                 "qalofka praklatkasi"):
+        codes = retriever.retrieve(text).codes
+        assert not ({"RG-04", "SO-025", "EL-013", "MU-012"} & set(codes)), text
