@@ -22,6 +22,8 @@ from .dictionary_answer import SOURCE_ARBITER, SOURCE_DICTIONARY
 from .dictionary_answer import resolve as dictionary_answer
 from .policy import ACTION_ASK_BUYER, decide_action, question_for
 from .retriever import RetrieverV2, content_tokens
+from .review27_guards import (no_answer_guard, resplit_known_phrase, merge_direction_tail,
+                                confirmed_context_code)
 from .segmenter import Segmenter
 from .types import (
     ARB_CLARIFY,
@@ -143,6 +145,10 @@ class Pipeline:
                 expected_external_code=expected, failure_layer=LAYER_L0,
             )]
 
+        # Ручная проверка 200 выявила отдельный хвост-направление
+        # «yuxarı aşağı», который LLM иногда выносит из мотора сиденья.
+        layer0.items = merge_direction_tail(layer0.items)
+
         # Предмет, в котором осталось две разные детали, дорезаем ДО арбитра:
         # иначе правило MULTI-PART GUARD вернёт clarify, и запрос будет потерян.
         layer0.items = self._resplit_multi_part(layer0.items)
@@ -205,6 +211,9 @@ class Pipeline:
 
     def _split_into_distinct_parts(self, item: Layer0Item) -> list[str] | None:
         """Куски предмета, если он распадается на РАЗНЫЕ детали, иначе None."""
+        manual = resplit_known_phrase(item.item_raw)
+        if manual:
+            return manual
         again = self.fallback_layer0.segment(item.item_raw)
         if len(again.items) < 2:
             return None
@@ -226,8 +235,16 @@ class Pipeline:
             # нельзя независимо от того, насколько уверен арбитр. Проверено,
             # что уверен он бывает: движок отдаёт на «park radari» кандидата
             # со score 1.0. Вопрос берём готовый, из листа AMBIGUOUS_RULES.
+            guard = (no_answer_guard(item.item_raw)
+                     or (no_answer_guard(original_text) if len(layer0.items) == 1 else None))
+            forced = confirmed_context_code(item.item_raw)
+            candidate_codes = {c.external_code for c in (retrieved.candidates if retrieved else [])}
+            if forced and forced in candidate_codes and final_status != FINAL_ERROR:
+                final_id, final_status = forced, FINAL_SELECT
             ambiguous = self.ambiguity.check(
                 item.item_raw, content_tokens, self.retriever.head_codes)
+            if guard is not None and final_status != FINAL_ERROR:
+                final_id, final_status = None, FINAL_REVIEW
             if ambiguous is not None and final_status != FINAL_ERROR:
                 final_id, final_status = None, FINAL_REVIEW
 
@@ -238,8 +255,9 @@ class Pipeline:
             # Правило узкое: только однодетальная заявка, только точное
             # совпадение, покрывающее запрос, и не поверх правила
             # неоднозначности (см. avtozap/dictionary_answer.py).
-            answered_by = SOURCE_ARBITER if final_id else ""
-            if (final_id is None and ambiguous is None
+            answered_by = ("review27_context" if forced and final_id == forced
+                           else (SOURCE_ARBITER if final_id else ""))
+            if (final_id is None and ambiguous is None and guard is None
                     and final_status in (FINAL_UNKNOWN, FINAL_REVIEW)
                     and arbiter.decision in (ARB_UNKNOWN, ARB_CLARIFY)
                     and len(layer0.items) == 1):
@@ -255,6 +273,9 @@ class Pipeline:
                 attempt=self.config.attempt,
                 has_photo=photo.status == PHOTO_OK)
             buyer_question = question_for(action, action_reason)
+            if guard is not None and action == ACTION_ASK_BUYER:
+                action_reason = f"ручное правило осторожности: {guard[0]}"
+                buyer_question = guard[1] or buyer_question
             if ambiguous is not None and action == ACTION_ASK_BUYER:
                 # Правило заказчика не меняется — переспрашиваем, как и
                 # переспрашивали. Меняется только текст: вместо общего «опишите

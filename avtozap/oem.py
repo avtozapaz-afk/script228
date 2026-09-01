@@ -94,6 +94,9 @@ def classify_number(token: str) -> str | None:
 
 #: Группа номера, записанного через пробел: «1K0 615 301 AA», «82 00 123 456».
 _GROUP_RE = re.compile(r"^[0-9A-Za-z]{1,5}$")
+# OEM из живой заявки: «58323 2H300». Первая группа — пять цифр, вторая
+# буквенно-цифровая; это стандартная запись номера через пробел, а не два объекта.
+_TWO_GROUP_OEM_RE = re.compile(r"(?<![0-9A-Za-z])([0-9]{5})\s+([0-9A-Za-z]{5})(?![0-9A-Za-z])")
 _MIN_JOINED_ALNUM = 8
 _MIN_JOINED_DIGITS = 5
 
@@ -154,6 +157,11 @@ def extract_numbers(text: str) -> tuple[list[str], list[dict[str, str]]]:
         elif reason != "нет цифр":
             rejected.append({"token": token, "reason": reason})
 
+    for m in _TWO_GROUP_OEM_RE.finditer(text or ""):
+        joined=(m.group(1)+m.group(2)).upper()
+        if joined not in accepted:
+            accepted.append(joined)
+
     for joined in _joined_candidates(text):
         # Склейка не должна дублировать уже найденный слитный номер.
         if joined not in accepted and not any(joined in a or a in joined
@@ -178,9 +186,13 @@ class OemResolver:
         return cls(retriever, catalog)
 
     def resolve(self, item_raw: str, original_text: str) -> OemEvidence:
-        # Номер ищем во всём сообщении: покупатель часто пишет его отдельной
-        # строкой, вне фразы с названием детали.
-        numbers, rejected = extract_numbers(original_text)
+        # В многострочной заявке может быть несколько OEM. Сначала берём номер,
+        # который находится прямо в текущем атомарном item; только если его там
+        # нет, смотрим всё исходное сообщение. Иначе первый OEM из сообщения
+        # ошибочно приклеивается ко второй детали (review27, etalon-067).
+        item_numbers, _ = extract_numbers(item_raw)
+        all_numbers, rejected = extract_numbers(original_text)
+        numbers = item_numbers or all_numbers
         text_head = self.retriever.head_codes(item_raw)
 
         if not numbers:
@@ -195,6 +207,7 @@ class OemResolver:
                 reason="каталог OEM не подключён — номер не с чем сопоставлять",
             )
 
+        mapped = []
         for number in numbers:
             entry = self.catalog.get(number)
             if not entry:
@@ -202,28 +215,48 @@ class OemResolver:
             code = entry.get("external_code") or entry.get("part_id")
             part = self.retriever.dict.get(code) if code else None
             if part is None:
-                # Номер есть в каталоге, но ведёт на part_id вне словаря —
-                # это не совпадение, а рассинхронизация данных.
                 return OemEvidence(
                     status=OEM_UNRESOLVED, numbers=numbers, rejected=rejected,
                     text_head_codes=text_head,
                     reason=f"каталог указывает на {code!r}, которого нет в словаре",
                 )
-            agrees = self._agrees(code, text_head)
+            mapped.append((number, code, part))
+
+        if not mapped:
+            return OemEvidence(status=OEM_UNRESOLVED, numbers=numbers, rejected=rejected,
+                               text_head_codes=text_head,
+                               reason="номера нет в каталоге OEM")
+
+        # Если в исходном сообщении несколько номеров, но item не содержит свой
+        # номер, используем текст детали, чтобы выбрать согласующийся OEM.
+        if text_head:
+            for number, code, part in mapped:
+                if self._agrees(code, text_head):
+                    return OemEvidence(
+                        status=OEM_MATCH, numbers=numbers, rejected=rejected,
+                        resolved_external_code=code, resolved_name=part.name_ru,
+                        text_head_codes=text_head,
+                        reason="номер и текст указывают на один объект",
+                    )
+
+        if len(mapped) > 1 and not item_numbers:
             return OemEvidence(
-                status=OEM_MATCH if agrees else OEM_CONFLICT,
-                numbers=numbers, rejected=rejected,
-                resolved_external_code=code,
-                resolved_name=part.name_ru,
+                status=OEM_UNRESOLVED, numbers=numbers, rejected=rejected,
                 text_head_codes=text_head,
-                reason=("номер и текст указывают на один объект" if agrees else
-                        f"номер даёт {code} ({part.name_ru}), "
-                        f"текст — {text_head or 'объект не распознан'}"),
+                reason="в сообщении несколько OEM — невозможно безопасно привязать номер к этому предмету",
             )
 
-        return OemEvidence(status=OEM_UNRESOLVED, numbers=numbers, rejected=rejected,
-                           text_head_codes=text_head,
-                           reason="номера нет в каталоге OEM")
+        number, code, part = mapped[0]
+        agrees = self._agrees(code, text_head)
+        return OemEvidence(
+            status=OEM_MATCH if agrees else OEM_CONFLICT,
+            numbers=numbers, rejected=rejected,
+            resolved_external_code=code, resolved_name=part.name_ru,
+            text_head_codes=text_head,
+            reason=("номер и текст указывают на один объект" if agrees else
+                    f"номер даёт {code} ({part.name_ru}), "
+                    f"текст — {text_head or 'объект не распознан'}"),
+        )
 
     def _agrees(self, code: str, text_head: list[str]) -> bool:
         """Согласуются ли объект по номеру и объект по тексту.

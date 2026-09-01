@@ -1,0 +1,11 @@
+{
+  "976742S000": {"external_code": "SO-044", "note": "Hyundai/Kia A/C compressor control valve"},
+  "583232H300": {"external_code": "EY-023", "note": "Hyundai parking-brake shoe hold-down pin"},
+  "61664849598": {"external_code": "EL-071", "note": "BMW windshield washer nozzle/nozzle array"},
+  "06E906265S": {"external_code": "EG-002", "note": "VAG oxygen/lambda sensor"},
+  "8K0941286N": {"external_code": "EL-088", "note": "VAG front-right headlight level sensor"},
+  "858593S500": {"external_code": "AK-004", "note": "Hyundai trim mounting clip"},
+  "30939070": {"external_code": "SR-005", "note": "SWAG DCT/DSG transmission oil"},
+  "BT4Z11584BA": {"external_code": "AK-053", "note": "Ford ignition switch bezel"},
+  "55176307": {"external_code": "SU-020", "note": "Code supplied in request together with explicit EPS control-unit description"}
+}

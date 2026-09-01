@@ -1,7 +1,7 @@
 # Клиент OpenAI — Layer 0 (сегментер), Arbiter V3 и слой фото.
 openai>=1.40,<4
 
-# Нужны поставленному Retriever V2 и словарю на 571 деталь.
+# Нужны поставленному Retriever V2 и словарю на 581 деталь.
 # rapidfuzz — нечёткое сопоставление внутри проектного ретривера;
 # openpyxl — чтение AVTOZAP_slovar_FINAL_571.xlsx.
 rapidfuzz>=3.0

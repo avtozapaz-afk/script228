@@ -56,7 +56,7 @@ ACTIONS = (ACTION_ANSWER, ACTION_ASK_BUYER, ACTION_ASK_PHOTO,
 _NO_NAME_PATTERNS = (
     r"ad[ıi]n[ıi]?\s*bilmir",          # «adını bilmirəm» — не знаю названия
     r"ad[ıi]\s*bilmirem",
-    r"basqa\s*ad[ıi]",                 # «başqa adı bilmirəm»
+    r"ba[şs]qa\s*ad[ıi]",              # «başqa/basqa adı bilmirəm»
     r"n[əe]\s*ad?lan[ıi]r",            # «nə adlanır» — как называется
     r"n[əe]dir\s*bilmirem",
     r"не\s*зна[юе][^.]{0,12}назы",     # «не знаю как называется»
@@ -86,13 +86,17 @@ def decide_action(final_status: str, arbiter: ArbiterDecision,
     if final_status == FINAL_ERROR:
         return ACTION_ERROR, f"сбой конвейера: {arbiter.reason or validator.reason}"
 
+    # Если покупатель сам говорит, что НЕ знает название детали, даже уверенный
+    # выбор модели не должен перебивать этот факт: просим фото. Review27,
+    # etalon-199 «başqa adı bilmirəm».
+    if not has_photo and buyer_says_they_do_not_know_the_name(original_text):
+        return (ACTION_ASK_PHOTO,
+                "покупатель пишет, что не знает названия — нужна фотография")
+
     if final_status == FINAL_SELECT:
         return ACTION_ANSWER, "деталь определена"
 
     # Дальше — все случаи, когда кода нет.
-    if not has_photo and buyer_says_they_do_not_know_the_name(original_text):
-        return (ACTION_ASK_PHOTO,
-                "покупатель пишет, что не знает названия — нужна фотография")
 
     if attempt >= 2:
         return (ACTION_PASS_TO_SHOP,

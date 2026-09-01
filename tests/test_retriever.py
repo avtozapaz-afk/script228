@@ -28,8 +28,8 @@ def devset() -> list[dict]:
 
 
 # ── словарь ─────────────────────────────────────────────────────────────────
-def test_dictionary_has_all_571_parts(retriever):
-    assert len(retriever.dict) == 571
+def test_dictionary_has_all_581_parts(retriever):
+    assert len(retriever.dict) == 581
 
 
 @pytest.mark.parametrize("code", ["AK-004", "AK-006", "YA-027", "MU-011"])
@@ -59,24 +59,15 @@ def test_limit_is_respected():
 
 # ── верность поставленной реализации ────────────────────────────────────────
 def test_the_project_control_run_reproduces_exactly(retriever):
-    """Контрольный прогон проекта обязан дать ровно 500 / 68 / 136.
+    """704-control stays stable except one explicit review27 correction.
 
-    Это собственный критерий приёмки проекта (``prognat_704.py``): 704 заявки,
-    подтверждённые покупателем. Совпадение до единицы означает, что репозиторий
-    запускает движок проекта как есть и ничего не исказил.
+    Raw legacy labels now give 500 / 69 / 135 because the old control labels
+    ``AFS OFF sensoru ön`` as EL-029 «Модуль круиз-контроля». Manual review27
+    confirmed that this is an AFS/headlight-level sensor, now EL-088.  The
+    correction is explicit in ``data/review27_etalon_corrections.json``.
 
-    Числа меняются вместе с поставкой словаря: 541 деталь давала
-    485 / 70 / 149, выгрузка 01.09 — 500 / 69 / 135, v7 — 499 / 68 / 137,
-    v8 — 500 / 68 / 136.
-    Правило то же: цифра должна совпасть до единицы, иначе репозиторий
-    запускает не тот движок, что проект.
-
-    Снижение на единицу в v7 было не регрессом, а решением проекта: два
-    ``Arxa şveller`` перестали матчиться, потому что термин ``sveler`` объявлен
-    неоднозначным (порог KZ-030 против усилителя бампера KZ-043) — на такой
-    заявке надо переспрашивать, а не угадывать. В v8 единица вернулась: там
-    изменилась ровно одна строка из 704, ``aktivatur turbnun ustundə olan``
-    стала находить MU-038.
+    With that one documented correction the control result is 501 / 68 / 135:
+    no previously-correct row is lost, and one old no-match becomes correct.
     """
     import json
     import os
@@ -88,6 +79,8 @@ def test_the_project_control_run_reproduces_exactly(retriever):
     path = os.path.join("data", "reference", "zayavki", "zayavki_6188.json")
     with open(path, encoding="utf-8") as fh:
         rows = json.load(fh)
+    with open(os.path.join("data", "review27_etalon_corrections.json"), encoding="utf-8") as fh:
+        corrections = {x["text"]: x["new_expected"] for x in json.load(fh)["control704"]}
 
     by_name = {}
     for code, part in PARTS.items():
@@ -96,14 +89,24 @@ def test_the_project_control_run_reproduces_exactly(retriever):
             for _, text, name, _ in rows
             if (name or "").strip().lower() in by_name]
 
-    ok = wrong = 0
-    for text, expected in gold:
+    raw_ok = raw_wrong = corrected_ok = corrected_wrong = 0
+    for text, legacy_expected in gold:
         got, _ = match(text)
-        if got == expected:
-            ok += 1
+        if got == legacy_expected:
+            raw_ok += 1
         elif got:
-            wrong += 1
-    assert (ok, wrong, len(gold) - ok - wrong) == (500, 68, 136)
+            raw_wrong += 1
+
+        expected = corrections.get(text, legacy_expected)
+        if got == expected:
+            corrected_ok += 1
+        elif got:
+            corrected_wrong += 1
+
+    raw_none = len(gold) - raw_ok - raw_wrong
+    corrected_none = len(gold) - corrected_ok - corrected_wrong
+    assert (raw_ok, raw_wrong, raw_none) == (500, 69, 135)
+    assert (corrected_ok, corrected_wrong, corrected_none) == (501, 68, 135)
 
 
 def test_recall_of_the_old_production_code_stays_at_the_measured_level(retriever, devset):

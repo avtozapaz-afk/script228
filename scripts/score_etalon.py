@@ -3,9 +3,9 @@
 
 По умолчанию берётся основной набор точности — 469 заявок
 (``data/etalon_469.jsonl``). Набор поведения на 200 заявок
-(``--etalon data/etalon_200.jsonl``) меряет другое: только в нём есть 27
-заявок, где верный ответ — отказ или переспрос, и точка отсчёта «боевая
-система права в 128 из 200».
+(``--etalon data/etalon_200.jsonl``) меряет другое: после review27 в нём
+6 чистых UNKNOWN/переспросов и 21 исправленная старая UNKNOWN-разметка;
+историческая точка отсчёта — «боевая система права в 128 из 200».
 
 Две независимые части.
 
@@ -18,9 +18,9 @@
 которую надо ставить рядом с боевыми 128, плюс разбивка по уверенности
 арбитра — по ней и выбирается порог, ниже которого не угадывать.
 
-Правило подсчёта то же, что в разметке: у 27 заявок правильный ответ —
-**пусто**. Выдала система код — ошибка; переспросила, попросила фото или
-отказалась — попадание.
+Для 6 подтверждённых UNKNOWN правильный ответ — **пусто**: выдала система код —
+ошибка; переспросила, попросила фото или отказалась — попадание. Остальные
+21 старых UNKNOWN после ручной проверки имеют явные ожидаемые коды.
 
     python scripts/score_etalon.py                      # только потолок
     python scripts/score_etalon.py --results out/results.jsonl
@@ -39,6 +39,10 @@ sys.path.insert(0, ROOT)
 
 from avtozap.layer0 import Layer0  # noqa: E402
 from avtozap.retriever import RetrieverV2  # noqa: E402
+from avtozap.oem import OemResolver  # noqa: E402
+from avtozap.config import OEM_CATALOG_PATH  # noqa: E402
+from avtozap.review27_guards import resplit_known_phrase  # noqa: E402
+from avtozap.types import OEM_MATCH  # noqa: E402
 
 DEFAULT_ETALON = os.path.join(ROOT, "data", "etalon_469.jsonl")
 NO_CODE = "UNKNOWN"
@@ -72,6 +76,11 @@ def load_results(path: str) -> dict[str, list[dict]]:
     return by_rfq
 
 
+def _expected_codes(raw: str) -> list[str]:
+    """Один или несколько ожидаемых кодов, записанных через запятую."""
+    return [x.strip() for x in str(raw or "").split(",") if x.strip()]
+
+
 # ── потолок ретривера ───────────────────────────────────────────────────────
 def retriever_ceiling(etalon: list[dict], retriever: RetrieverV2,
                       layer0: Layer0 | None = None) -> dict:
@@ -90,25 +99,41 @@ def retriever_ceiling(etalon: list[dict], retriever: RetrieverV2,
                 and r.get("scorable", True)]
     in_list = rank1 = 0
     misses: list[dict] = []
+    oem = OemResolver.from_file(retriever, OEM_CATALOG_PATH)
     for row in gradable:
-        want = row["expected_external_code"]
+        wants = _expected_codes(row["expected_external_code"])
         if layer0 is None:
-            per_item = [retriever.retrieve(row["original_text"]).codes]
+            item_texts = [row["original_text"]]
         else:
-            per_item = [retriever.retrieve(item.item_raw).codes
-                        for item in layer0.segment(row["original_text"]).items]
-        found = any(want in codes for codes in per_item)
+            item_texts = []
+            for item in layer0.segment(row["original_text"]).items:
+                manual = resplit_known_phrase(item.item_raw)
+                item_texts.extend(manual or [item.item_raw])
+
+        per_item = []
+        for item_text in item_texts:
+            codes = list(retriever.retrieve(item_text).codes)
+            evidence = oem.resolve(item_text, row["original_text"])
+            if (evidence.status == OEM_MATCH and evidence.resolved_external_code
+                    and evidence.resolved_external_code not in codes):
+                codes.insert(0, evidence.resolved_external_code)
+            per_item.append(codes)
+        available = {code for codes in per_item for code in codes}
+        missing_wants = [want for want in wants if want not in available]
+        found = not missing_wants
         if found:
             in_list += 1
-            if any(codes and codes[0] == want for codes in per_item):
+            if all(any(codes and codes[0] == want for codes in per_item) for want in wants):
                 rank1 += 1
         else:
             flat: list[str] = []
             for codes in per_item:
                 flat.extend(codes)
-            misses.append({"rfq_id": row["rfq_id"], "expected": want,
+            misses.append({"rfq_id": row["rfq_id"],
+                           "expected": ",".join(wants),
+                           "missing": missing_wants,
                            "text": row["original_text"][:70],
-                           "got": flat[:5]})
+                           "got": flat[:8]})
     return {
         "gradable": len(gradable),
         "in_shortlist": in_list,
@@ -141,17 +166,17 @@ def score_run(etalon: list[dict], by_rfq: dict[str, list[dict]]) -> dict:
             continue
 
         scored_ids.append(rfq_id)
-        want = row["expected_external_code"]
+        wants = _expected_codes(row["expected_external_code"])
         produced = {i.get("final_external_code") for i in items
                     if i.get("final_external_code")}
         statuses = {i.get("final_status") for i in items}
         answered = statuses - NO_ANSWER_STATUSES
 
-        if want == NO_CODE:
+        if wants == [NO_CODE]:
             # Правильный ответ — «кода быть не должно».
             hit = not answered
         else:
-            hit = want in produced
+            hit = all(want in produced for want in wants)
 
         for item in items:
             confidence = (item.get("arbiter") or {}).get("confidence") or "—"
@@ -165,7 +190,7 @@ def score_run(etalon: list[dict], by_rfq: dict[str, list[dict]]) -> dict:
         else:
             wrong.append({
                 "rfq_id": rfq_id,
-                "expected": want,
+                "expected": ",".join(wants),
                 "produced": sorted(produced) or ["—"],
                 "statuses": sorted(statuses),
                 "text": row["original_text"][:70],
@@ -214,6 +239,45 @@ def compare_with_production(etalon: list[dict], scored: dict) -> dict:
     }
 
 
+
+def production_baseline(etalon: list[dict], canonical=None) -> dict:
+    """Точка отсчёта: сколько заявок боевая система закрыла верно.
+
+    Считаем её **по текущей разметке**, а не по колонке «система_права».
+    Колонка проставлялась при первой разметке, и после ручной перепроверки 27
+    заявок она устарела: там, где верным ответом был отказ, молчание боевой
+    системы засчитывалось ей в плюс, а теперь у этих строк есть конкретный код,
+    и молчание стало ошибкой.
+
+    Разница не косметическая: на наборе 200 это 128 против 112. Сравнивать наш
+    результат на новой разметке со старыми 128 значит завышать отрыв на
+    шестнадцать заявок.
+
+    Возвращает обе цифры, чтобы расхождение было видно, а не спрятано.
+    """
+    canonical = canonical or (lambda code: code)
+    recorded = sum(1 for r in etalon
+                   if str(r.get("reference_production_correct", "")).lower() == "да")
+    recomputed = 0
+    flipped: list[str] = []
+    has_answers = False
+    for row in etalon:
+        code = (row.get("reference_production_code") or "").strip()
+        status = (row.get("reference_production_status") or "").strip()
+        if code or status:
+            has_answers = True
+        produced = canonical(code) if code else ""
+        answered = bool(produced) and status != "no_match"
+        wants = _expected_codes(row["expected_external_code"])
+        hit = (not answered) if wants == [NO_CODE] else all(
+            want == produced for want in wants) and bool(produced)
+        if hit:
+            recomputed += 1
+        if hit != (str(row.get("reference_production_correct", "")).lower() == "да"):
+            flipped.append(row["rfq_id"])
+    return {"recorded": recorded, "recomputed": recomputed,
+            "flipped": flipped, "available": has_answers}
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--etalon", default=DEFAULT_ETALON)
@@ -224,8 +288,9 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     etalon = load_etalon(args.etalon)
-    baseline = sum(1 for r in etalon
-                   if str(r.get("reference_production_correct", "")).lower() == "да")
+    from avtozap.dictionary import load as load_dictionary
+    production = production_baseline(etalon, load_dictionary().canonical)
+    baseline = production["recomputed"] if production["available"] else 0
     no_code = sum(1 for r in etalon if r["expected_external_code"] == NO_CODE)
     unscorable = sum(1 for r in etalon if not r.get("scorable", True))
 
@@ -240,6 +305,11 @@ def main(argv: list[str] | None = None) -> int:
     if baseline:
         print(f"Точка отсчёта — боевая система: {baseline}/{len(etalon)} "
               f"= {baseline / len(etalon) * 100:.1f}%")
+        if production["flipped"]:
+            print(f"  пересчитано по текущей разметке; в исходной колонке было "
+                  f"{production['recorded']} "
+                  f"({len(production['flipped'])} заявок поменяли оценку после "
+                  f"ручной перепроверки)")
     else:
         print("Точки отсчёта в этом наборе нет: колонки с ответом боевой "
               "системы в нём не записано")

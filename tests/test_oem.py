@@ -91,3 +91,16 @@ def test_catalog_pointing_outside_the_dictionary_is_unresolved(retriever):
         "əyləc diski", "1K0615301AA əyləc diski")
     assert evidence.status == OEM_UNRESOLVED
     assert "ZZ-999" in evidence.reason
+
+
+def test_two_oems_in_one_message_are_bound_to_their_own_items(retriever):
+    catalog = {
+        "06E906265S": {"external_code": "EG-002"},
+        "8K0941286N": {"external_code": "EL-088"},
+    }
+    resolver = OemResolver(retriever, catalog)
+    original = "06E906265S katalizator datciki\n8K0941286N urvin datciki qabaq sag"
+    first = resolver.resolve("06E906265S katalizator datciki", original)
+    second = resolver.resolve("8K0941286N urvin datciki qabaq sag", original)
+    assert first.status == OEM_MATCH and first.resolved_external_code == "EG-002"
+    assert second.status == OEM_MATCH and second.resolved_external_code == "EL-088"

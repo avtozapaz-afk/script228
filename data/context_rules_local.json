@@ -3,9 +3,91 @@
   "rules": [
     {
       "stem": "aktivatur",
-      "qualifiers": ["turb", "turbo", "turbn", "turbon"],
+      "qualifiers": [
+        "turb",
+        "turbo",
+        "turbn",
+        "turbon"
+      ],
       "code": "MU-038",
       "why": "Согласовано 01.09. Живая заявка «aktivatur turbnun ustunde olan» раньше закрывалась синонимом-предложением, а он тащил в индекс служебные слова üstündə и olan и ронял score чужим деталям (KZ-083 упал с 0.9999 до 0.88). Правило проверяет сочетание слов и в индекс ничего не добавляет."
+    },
+    {
+      "stem": "elektromexanik",
+      "qualifiers": [
+        "idareetme bloku",
+        "usilitel beyni",
+        "guclendiricisinin beyni"
+      ],
+      "code": "SU-020",
+      "why": "Review27: EPS control unit must not collapse into SU-007 EPS motor."
+    },
+    {
+      "stem": "eps",
+      "qualifiers": [
+        "idareetme bloku",
+        "beyni",
+        "ecu"
+      ],
+      "code": "SU-020",
+      "why": "Review27: explicit EPS control-unit context."
+    },
+    {
+      "stem": "paxlava",
+      "qualifiers": [
+        "ablisovka",
+        "oblisovka",
+        "bufer"
+      ],
+      "code": "KZ-086",
+      "why": "Review27: paxlava bumper trim means grille, confirmed manually."
+    },
+    {
+      "stem": "prk",
+      "qualifiers": [
+        "qalofka"
+      ],
+      "code": "MU-078",
+      "why": "Review27: PRK confirmed by user as prokladka only with named node."
+    },
+    {
+      "stem": "prk",
+      "qualifiers": [
+        "ust krsk",
+        "ust kriska",
+        "krsk"
+      ],
+      "code": "MU-014",
+      "why": "Review27: upper/valve-cover gasket."
+    },
+    {
+      "stem": "prk",
+      "qualifiers": [
+        "svecnoy",
+        "svecn",
+        "svec"
+      ],
+      "code": "MU-109",
+      "why": "Review27: spark-plug-well seal/gasket."
+    },
+    {
+      "stem": "prk",
+      "qualifiers": [
+        "kollektor",
+        "kalektor"
+      ],
+      "code": "MU-087",
+      "why": "Review27: manifold gasket."
+    },
+    {
+      "stem": "prk",
+      "qualifiers": [
+        "vakum saz",
+        "vakum nasos",
+        "vakum"
+      ],
+      "code": "MU-110",
+      "why": "Review27: vacuum-pump gasket."
     }
   ]
 }

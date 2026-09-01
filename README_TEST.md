@@ -62,7 +62,7 @@ python run_test.py --max-requests 5
 
 | файл | что в нём на самом деле | используется |
 |---|---|---|
-| `AVTOZAP_slovar_v8_FINAL.xlsx` (поставка v8 + согласованная правка MU-038) | **571 деталь**, 4666 терминов, 5 правил `AMBIGUOUS_RULES` | **да — источник истины**, лежит как `data/AVTOZAP_slovar_FINAL_571.xlsx` |
+| `AVTOZAP_slovar_v8_FINAL.xlsx` (поставка v8 + согласованная правка MU-038) | **581 деталь** после review27, 5 правил `AMBIGUOUS_RULES` + review27 guards | **да — источник истины**, лежит как `data/AVTOZAP_slovar_FINAL_571.xlsx` |
 | `02_DATA/SLOVAR_FINAL_541_REFERENCE.txt` | вопреки имени — **435 деталей**, без флагов side/position | нет |
 | `02_DATA/parts_synonyms_cleaned_v2.xlsx` | **537 деталей** — та самая «старая» версия | нет |
 | `01_PIPELINE/ARBITER_V3_PROMPT.txt` | настоящий V3 | **да, байт в байт** |
@@ -274,7 +274,7 @@ python -m pytest tests/ -q
 
 | файл | что покрывает |
 |---|---|
-| `test_dictionary.py` | 571 деталь, недостающие коды, индекс терминов |
+| `test_dictionary.py` | 581 деталь, недостающие коды, индекс терминов |
 | `test_vendor_integrity.py` | код проекта в `vendor/` не переписан |
 | `test_retriever.py` | воспроизведение ссылочных shortlist, полнота ≥ 90%, реальность кандидатов |
 | `test_segmenter.py` | заморозка промпта Layer 0, разбор, запасной вариант |
@@ -358,7 +358,7 @@ python scripts/score_etalon.py --results out/results.jsonl
 ретривера не осталось; три оставшихся на наборе 200 разобраны в
 `ETALON_REPORT.md`. Методика подсчёта — в `METODIKA.md`.
 
-У 27 заявок набора 200 правильный ответ — **пусто**, и это считается ответом:
+После review27 из старых 27 UNKNOWN только 6 остаются **пусто/переспрос**; остальные 21 получили явные ожидаемые коды:
 выдала система код — ошибка, переспросила или отказалась — попадание.
 
 ### Правило заказчика: не угадывать

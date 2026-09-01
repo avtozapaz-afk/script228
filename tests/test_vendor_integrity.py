@@ -61,11 +61,11 @@ def test_context_rules_still_carry_the_known_issue_guards():
     assert '"MU-017"' in source          # muherrik + yastiq = опора двигателя
 
 
-def test_vendor_is_importable_and_loads_the_571_dictionary():
+def test_vendor_is_importable_and_loads_the_581_dictionary():
     from avtozap.dictionary import _ensure_vendor_on_path
     _ensure_vendor_on_path()
     import avtozap_matcher_engine as legacy
-    assert len(legacy.PARTS) == 571
+    assert len(legacy.PARTS) == 581
 
 
 def test_the_september_engine_carries_its_new_rules():

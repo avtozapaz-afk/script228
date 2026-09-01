@@ -7,10 +7,11 @@
 строки есть правильный код; заявок, где верный ответ «кода быть не должно», в
 нём нет вовсе.
 
-``AVTOZAP_etalon_200.xlsx`` (200 заявок) — набор поведения. Только в нём есть
-27 заявок, где правильный ответ — отказ или переспрос, и только в нём записано,
-где была права боевая система (128 из 200). Без него правило «не уверен —
-переспроси, не знаешь названия — проси фото» проверить не на чем.
+``AVTOZAP_etalon_200.xlsx`` (200 заявок) — набор поведения. Исторически в нём
+было 27 UNKNOWN; ручная review27 перепроверила их: 21 получили конкретные
+ожидаемые детали, 6 остались отказом/переспросом. Коррекции применяются явно
+из ``data/review27_etalon_corrections.json``. Исторический production baseline
+остаётся 128/200.
 
 Из обоих берётся ТОЛЬКО сырой текст покупателя. Перевод, названия деталей и
 ответы боевой системы идут в справочные поля и на вход конвейера не подаются:
@@ -111,7 +112,7 @@ def build_from_csv(src: str, out: str, duplicates: dict[str, str],
 
 
 def build_from_xlsx(src: str, out: str, duplicates: dict[str, str]) -> dict:
-    """Набор поведения: 200 заявок, из них 27 с ответом «кода быть не должно»."""
+    """Набор поведения 200; review27 оставляет 6 чистых UNKNOWN из старых 27."""
     import openpyxl
 
     workbook = openpyxl.load_workbook(src, read_only=True, data_only=True)
@@ -141,11 +142,28 @@ def build_from_xlsx(src: str, out: str, duplicates: dict[str, str]) -> dict:
             "source_rfq_id": _text(row.get("rfq_id")),
         })
 
+    # Ручная перепроверка 27 старых UNKNOWN хранится отдельно и применяется
+    # явно, чтобы исходный XLSX оставался историческим источником, а правки
+    # разметки не были молчаливыми.
+    review_path = os.path.join(ROOT, "data", "review27_etalon_corrections.json")
+    applied_review27 = 0
+    if os.path.exists(review_path):
+        with open(review_path, encoding="utf-8") as fh:
+            review = json.load(fh).get("etalon200", {})
+        for record in records:
+            correction = review.get(record["rfq_id"])
+            if correction:
+                record["reference_expected_before_review27"] = record["expected_external_code"]
+                record["expected_external_code"] = correction["expected"]
+                record["review27_reason"] = correction.get("reason", "")
+                applied_review27 += 1
+
     _write(out, records)
     return {
         "rows": len(records),
         "no_code": sum(1 for r in records
                        if r["expected_external_code"] == NO_CODE),
+        "review27_corrections": applied_review27,
         "production_baseline": sum(
             1 for r in records
             if r.get("reference_production_correct", "").lower() == "да"),

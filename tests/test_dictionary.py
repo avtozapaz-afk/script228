@@ -1,4 +1,4 @@
-"""Словарь на 541 деталь — источник истины по external_code."""
+"""Словарь AVTOZAP — источник истины по external_code."""
 
 import pytest
 
@@ -10,9 +10,9 @@ def dictionary():
     return load()
 
 
-def test_exactly_571_parts(dictionary):
-    """571 деталь — словарь проекта в версии от 01.09.2026."""
-    assert len(dictionary) == 571
+def test_exactly_581_parts(dictionary):
+    """581 деталь после подтверждённого ручного review27 от 01.09.2026."""
+    assert len(dictionary) == 581
 
 
 @pytest.mark.parametrize("code,name", [

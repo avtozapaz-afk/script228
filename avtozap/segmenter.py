@@ -34,7 +34,7 @@ from .types import L0_FALLBACK, L0_OK, Layer0Item, Layer0Result
 SOURCE_LLM = "llm_segmenter_v1"
 SOURCE_FALLBACK = "deterministic_fallback"
 
-MAX_ITEMS = 12
+MAX_ITEMS = 24
 
 
 def load_prompt(path: str = SEGMENTER_PROMPT_PATH) -> str:

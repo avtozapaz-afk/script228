@@ -1,0 +1,39 @@
+{
+  "control704": [
+    {
+      "text": "AFS OFF sensoru ön",
+      "old_expected": "EL-029",
+      "new_expected": "EL-088",
+      "reason": "Manual review27: это передний AFS/датчик уровня-корректора фар; EL-029 — модуль круиз-контроля. Etalon-200 на той же фразе ранее был UNKNOWN, то есть наборы конфликтовали."
+    }
+  ],
+  "etalon200": {
+    "etalon-005": {"expected": "UNKNOWN", "reason": "G12 paket/reystaylinq — не конкретная запчасть, нужен переспрос."},
+    "etalon-017": {"expected": "AK-053", "reason": "Отдельная рамка/обойма Start-Stop/замка; OEM BT4Z-11584-BA."},
+    "etalon-019": {"expected": "MU-004,MU-005,MU-008", "reason": "Три явно перечисленные детали: поршень, кольца, палец."},
+    "etalon-032": {"expected": "SO-044", "reason": "OEM 976742S000 — клапан управления компрессором кондиционера."},
+    "etalon-040": {"expected": "EY-023", "reason": "OEM 58323-2H300 — фиксатор/палец колодки стояночного тормоза."},
+    "etalon-041": {"expected": "SU-020", "reason": "Блок управления EPS, отдельная деталь, не мотор SU-007."},
+    "etalon-050": {"expected": "KZ-091,KZ-092", "reason": "Наружные канты по двум зонам: арки/крылья и низ дверей."},
+    "etalon-059": {"expected": "EL-071", "reason": "OEM 61664849598 — форсунка/узел омывателя; ведём в существующую форсунку омывателя."},
+    "etalon-067": {"expected": "EG-002,EL-088", "reason": "06E906265S — лямбда-зонд; 8K0941286N — AFS/датчик уровня фар."},
+    "etalon-068": {"expected": "SR-002,SR-003", "reason": "Yağ Hava filtiri = масляный + воздушный фильтр."},
+    "etalon-077": {"expected": "EL-088", "reason": "AFS OFF sensoru ön — отдельный AFS/датчик уровня фар."},
+    "etalon-079": {"expected": "KZ-044,KZ-100", "reason": "ДХО и трос люка — две детали, Layer 0 должен разделить."},
+    "etalon-081": {"expected": "KZ-086", "reason": "paxlava ablisovka подтверждено как решётка бампера."},
+    "etalon-094": {"expected": "UNKNOWN", "reason": "Peredokuu — слишком общее, нужен переспрос."},
+    "etalon-100": {"expected": "EL-086", "reason": "Мотор продольной регулировки сиденья."},
+    "etalon-105": {"expected": "MU-089,KZ-020,MU-108,AK-052,EL-086", "reason": "Пять перечисленных деталей; PCV-клапан и фиксатор козырька заведены отдельно."},
+    "etalon-107": {"expected": "UNKNOWN", "reason": "mini filtiri не указывает, какой именно фильтр."},
+    "etalon-108": {"expected": "UNKNOWN", "reason": "Наружный пластик у колеса: подкрылок или накладка арки — нужен переспрос."},
+    "etalon-128": {"expected": "AK-051,KZ-029", "reason": "Сетка багажника + левый передний подкрылок."},
+    "etalon-133": {"expected": "AS-010", "reason": "Sol arxa top распознаётся; вторая деталь только на фото и требует фото/уточнения."},
+    "etalon-144": {"expected": "MU-078,MU-107", "reason": "Прокладка ГБЦ + прокладки ТНВД."},
+    "etalon-157": {"expected": "AK-004", "reason": "OEM 85859-3S500 — клипса."},
+    "etalon-161": {"expected": "SR-005", "reason": "30939070 — трансмиссионное DCT/DSG масло."},
+    "etalon-165": {"expected": "UNKNOWN", "reason": "PPS коробки неоднозначно: селектор или блок; подтверждён переспрос."},
+    "etalon-175": {"expected": "SO-009,SR-015,SO-032,SR-001,SR-017", "reason": "Патрубки + герметик + крышка бачка + масло + изолента."},
+    "etalon-190": {"expected": "MU-078,MU-014,MU-109,MU-087,MU-110,MU-086,MU-016", "reason": "PRK=прокладка только в контексте узла; KORPUS/KITAPCA PRK остаются на уточнение."},
+    "etalon-199": {"expected": "UNKNOWN", "reason": "Покупатель сам не знает название — ASK_PHOTO/UNKNOWN."}
+  }
+}

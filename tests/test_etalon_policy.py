@@ -59,10 +59,11 @@ def test_the_production_baseline_is_128(etalon):
     assert baseline == 128
 
 
-def test_27_requests_expect_no_code_at_all(etalon):
-    """Пустой правильный код — это ответ, а не пропуск разметки."""
+def test_review27_leaves_only_6_pure_no_code_requests(etalon):
+    """После ручной проверки из старых 27 UNKNOWN чистыми UNKNOWN остались 6."""
     assert sum(1 for r in etalon
-               if r["expected_external_code"] == "UNKNOWN") == 27
+               if r["expected_external_code"] == "UNKNOWN") == 6
+    assert sum(1 for r in etalon if r.get("review27_reason")) == 27
 
 
 def test_the_input_carries_raw_text_only(etalon):
@@ -75,17 +76,24 @@ def test_the_input_carries_raw_text_only(etalon):
 
 def test_expected_codes_exist_in_the_dictionary(etalon):
     dictionary = load()
-    unknown = [r["expected_external_code"] for r in etalon
-               if r["expected_external_code"] != "UNKNOWN"
-               and r["expected_external_code"] not in dictionary]
-    assert unknown == [], f"кодов нет в словаре 541: {sorted(set(unknown))}"
+    missing = []
+    for row in etalon:
+        for code in str(row["expected_external_code"]).split(","):
+            code = code.strip()
+            if code and code != "UNKNOWN" and code not in dictionary:
+                missing.append(code)
+    assert missing == [], f"кодов нет в словаре 581: {sorted(set(missing))}"
 
 
 def test_no_expected_code_is_a_known_duplicate(etalon):
     """Разметка должна ссылаться на канонические коды, а не на исчезающие."""
     duplicates = load_duplicates()
-    bad = [r["expected_external_code"] for r in etalon
-           if r["expected_external_code"] in duplicates]
+    bad = []
+    for row in etalon:
+        for code in str(row["expected_external_code"]).split(","):
+            code = code.strip()
+            if code in duplicates:
+                bad.append(code)
     assert bad == []
 
 
@@ -225,7 +233,7 @@ def _scored(expected: str, final_status: str, code: str | None) -> int:
 
 
 def test_refusing_when_no_code_is_expected_counts_as_a_hit():
-    """У 27 заявок правильный ответ — отказ. Отказались — попали."""
+    """Для подтверждённого UNKNOWN отказ/переспрос считается попаданием."""
     assert _scored("UNKNOWN", "UNKNOWN", None) == 1
     assert _scored("UNKNOWN", "REVIEW", None) == 1
 
@@ -343,10 +351,11 @@ def test_unscorable_rows_are_skipped_by_the_scorer():
 
 
 def test_the_behaviour_set_is_still_available(etalon):
-    """Набор на 200 заявок нельзя терять: только он меряет отказы и переспрос."""
+    """Набор 200 сохраняется; 27 старых UNKNOWN явно перепроверены review27."""
     assert len(etalon) == 200
+    assert sum(1 for r in etalon if r.get("review27_reason")) == 27
     assert sum(1 for r in etalon
-               if r["expected_external_code"] == "UNKNOWN") == 27
+               if r["expected_external_code"] == "UNKNOWN") == 6
     assert sum(1 for r in etalon
                if r["reference_production_correct"].lower() == "да") == 128
 
@@ -412,3 +421,57 @@ def test_an_unfinished_run_does_not_credit_itself_with_unscored_rows():
     assert comparison["both_correct"] == 1
     assert comparison["only_ours"] == []
     assert comparison["only_production"] == [], "c не посчитана — её тут быть не должно"
+
+
+# ── точка отсчёта после ручной перепроверки 27 ──────────────────────────────
+def test_the_production_baseline_is_recomputed_not_read_from_a_stale_column():
+    """Колонка «система_права» устарела после переразметки — считаем заново.
+
+    Там, где верным ответом был отказ, молчание боевой системы засчитывалось ей
+    в плюс. После ручной перепроверки у этих строк появился конкретный код, и
+    молчание стало ошибкой. Сравнивать наш результат на новой разметке со
+    старой цифрой значит завышать отрыв.
+    """
+    import sys
+    import os as _os
+
+    sys.path.insert(0, _os.path.join(
+        _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))), "scripts"))
+    from score_etalon import production_baseline
+
+    etalon = [
+        # Раньше «кода быть не должно», система молчала и была права.
+        # Теперь код есть — молчание стало ошибкой.
+        {"rfq_id": "a", "expected_external_code": "KZ-001",
+         "reference_production_code": "", "reference_production_status": "no_match",
+         "reference_production_correct": "да"},
+        # Здесь ничего не менялось: ответила верно и осталась правой.
+        {"rfq_id": "b", "expected_external_code": "KZ-002",
+         "reference_production_code": "KZ-002",
+         "reference_production_status": "single_match",
+         "reference_production_correct": "да"},
+        # Верный ответ — отказ, и система молчит: попадание.
+        {"rfq_id": "c", "expected_external_code": "UNKNOWN",
+         "reference_production_code": "", "reference_production_status": "no_match",
+         "reference_production_correct": "да"},
+    ]
+    result = production_baseline(etalon)
+    assert result["recorded"] == 3, "в колонке разметки записано три попадания"
+    assert result["recomputed"] == 2, "по текущей разметке их два"
+    assert result["flipped"] == ["a"]
+
+
+def test_a_multi_part_row_needs_every_code_from_the_production_system_too():
+    """Многодетальная заявка засчитывается, только если найдены ВСЕ коды."""
+    import sys
+    import os as _os
+
+    sys.path.insert(0, _os.path.join(
+        _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))), "scripts"))
+    from score_etalon import production_baseline
+
+    etalon = [{"rfq_id": "m", "expected_external_code": "SR-002,SR-003",
+               "reference_production_code": "SR-002",
+               "reference_production_status": "single_match",
+               "reference_production_correct": "да"}]
+    assert production_baseline(etalon)["recomputed"] == 0
