@@ -309,11 +309,81 @@ def test_only_terms_listed_in_the_file_widen_beyond_the_bare_form(rules,
                        retriever.head_codes) is None
 
 
-def test_qualifiers_are_data_with_a_stated_ground():
-    """Слова-уточнители — данные с основанием, а не константа в коде."""
+def _qualifier_file() -> dict:
     with open(os.path.join(ROOT, "data", "ambiguity_qualifiers.json"),
               encoding="utf-8") as fh:
-        payload = json.load(fh)
-    for term, body in payload["terms"].items():
-        assert body["qualifiers"], term
+        return json.load(fh)
+
+
+def test_qualifiers_are_data_with_a_stated_ground():
+    """Слова-контекст — данные с основанием, а не константа в коде."""
+    for term, body in _qualifier_file()["terms"].items():
         assert body["confirmed"], term
+        assert body.get("resolves") or body.get("exits_pair"), term
+
+
+def test_the_two_kinds_of_context_are_kept_apart():
+    """Различие записано в данных, а не только в голове.
+
+    ``resolves`` выбирают сторону ВНУТРИ пары, ``exits_pair`` выводят запрос из
+    пары целиком. Обе группы снимают переспрос, но означают разное, и путать их
+    нельзя: иначе через полгода никто не поймёт, почему ``feredo`` стоит рядом
+    с ``alt``.
+    """
+    body = _qualifier_file()["terms"]["caska"]
+    inside = {word for code, words in body["resolves"].items()
+              if isinstance(words, list) for word in words}
+    outside = set(body["exits_pair"]["words"])
+    assert inside and outside
+    assert not (inside & outside), "слово не может быть и тем и другим"
+
+
+@pytest.mark.parametrize("text,code", [
+    # Формы, которые словарь действительно знает; синтетическое «purjun çaşka»
+    # его записью не является, и требовать от него первого места нельзя.
+    ("alt çaşka", "AS-029"),
+    ("aşağı çaşka", "AS-029"),
+    ("purjun alt çaşkası", "AS-029"),
+    ("üst çaşka", "AS-034"),
+    ("amortizator çaşkası", "AS-034"),
+])
+def test_context_that_picks_a_side_lands_inside_the_pair(retriever, rules,
+                                                         text, code):
+    """``resolves``: вопрос снят, и ответ — одна из двух деталей правила."""
+    assert rules.check(text, content_tokens, retriever.head_codes) is None
+    assert retriever.retrieve(text).codes[0] == code
+
+
+def test_every_side_picking_word_at_least_reaches_its_own_side(retriever,
+                                                               rules):
+    """Каждое слово из ``resolves`` обязано снимать вопрос и держать свою деталь
+    в shortlist — даже если первым местом словарь ставит другую деталь узла
+    (``opora çaşka`` → «опора», и это не ошибка)."""
+    for code, words in _qualifier_file()["terms"]["caska"]["resolves"].items():
+        if not isinstance(words, list):
+            continue
+        for word in words:
+            text = f"{word} çaşka"
+            assert rules.check(text, content_tokens,
+                               retriever.head_codes) is None, text
+            assert code in retriever.retrieve(text).codes, text
+
+
+@pytest.mark.parametrize("text", [
+    "Çaşka feredo",
+    "caşka feredo vijimnoy desti",
+    "Feredo çaşka dəsti original valeo",
+    "Vıjıçnoy feredol çaşka ilə birlikdə",
+])
+def test_context_that_exits_the_pair_hands_over_to_the_dictionary(
+        retriever, rules, text):
+    """``exits_pair``: речь о сцеплении, а не о чашке — вопроса быть не должно.
+
+    Все четыре — реальные заявки прогона 469, размеченные как TR-032. Слова
+    ``feredo`` и ``vijimnoy`` не выбирают между AS-029 и AS-034: они выводят
+    запрос из этой пары целиком, и дальше отрабатывает словарь.
+    """
+    assert rules.check(text, content_tokens, retriever.head_codes) is None
+    codes = retriever.retrieve(text).codes
+    assert "TR-032" in codes, codes
+    assert not ({"AS-029", "AS-034"} & set(codes[:2])), codes

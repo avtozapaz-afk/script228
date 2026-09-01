@@ -154,11 +154,33 @@ def load_rules(path: str = RULES_PATH) -> list[dict]:
 
 
 def load_qualifiers(path: str = QUALIFIERS_PATH) -> dict[str, list[str]]:
+    """Слова, при которых переспрос по термину не нужен.
+
+    В файле их два вида, и они означают разное, хотя оба снимают вопрос:
+
+    ``resolves``    — выбирают сторону ВНУТРИ пары (``alt çaşka`` → AS-029);
+    ``exits_pair``  — выводят запрос из пары целиком (``feredo çaşka`` — это
+                      сцепление, а не чашка ни пружины, ни амортизатора; дальше
+                      отвечает словарь, TR-032).
+
+    Для проверки «спрашивать или нет» разницы нет — оба снимают вопрос, — но
+    записаны они раздельно намеренно: иначе через полгода никто не поймёт,
+    почему ``feredo`` стоит рядом с ``alt``.
+    """
     if not os.path.exists(path):
         return {}
     with open(path, encoding="utf-8") as fh:
         terms = json.load(fh).get("terms", {})
-    return {term: list(body.get("qualifiers", [])) for term, body in terms.items()}
+    out: dict[str, list[str]] = {}
+    for term, body in terms.items():
+        words: list[str] = list(body.get("qualifiers", []))
+        for code, side in (body.get("resolves") or {}).items():
+            if isinstance(side, list):
+                words += side
+        exits = (body.get("exits_pair") or {}).get("words") or []
+        words += list(exits)
+        out[term] = words
+    return out
 
 
 @lru_cache(maxsize=1)
