@@ -120,9 +120,17 @@ class RetrieverV2:
         # Проход по головному слову: «çəninin qapağı» — это крышка, а не бак.
         # Работает ДО обрезки по limit, чтобы нужная деталь успела подняться.
         if self.head_ranking:
-            rerank(candidates,
-                   head_token(content_tokens(item_raw), self.is_known_word),
-                   self._name_tokens, _tokens_match)
+            heads = [head_token(content_tokens(item_raw), self.is_known_word)]
+            if lubricant:
+                # Подсказка по вязкости — такая же поисковая фраза, и голова у
+                # неё своя. Без неё «Meguin 0/20» не даёт словарю ни одного
+                # знакомого слова, а в «Prista ultra plus 5w-40» головой
+                # становится марка (``ultra`` случайно есть в синонимах) —
+                # и «двигатель» с «моторным маслом» разводятся по алфавиту,
+                # то есть случайно.
+                heads.append(head_token(content_tokens(lubricant),
+                                        self.is_known_word))
+            rerank(candidates, heads, self._name_tokens, _tokens_match)
         candidates = candidates[: self.limit]
         if not candidates:
             return RetrieverResult(status="EMPTY", query_keys=used,
@@ -195,7 +203,7 @@ MODIFIER_WORDS = {
     "lazim", "lazimdi", "lazimdir", "eded", "tere", "teref", "terefi", "ucun",
     "ve", "ile", "birlikde", "bir", "yerde", "surucu", "sernisin", "terefden",
     "salam", "xahis", "edirem", "zehmet", "olmasa", "var", "varmi", "olar",
-    "olarmi", "qiymet", "qiymeti", "necedir", "nece", "please",
+    "olarmi", "qiymet", "qiymeti", "necedir", "nece", "please", "her",
     "здравствуйте", "привет", "нужен", "нужна", "нужно", "нужны", "есть",
     "для", "пожалуйста", "спасибо", "цена", "сколько", "стоит", "и",
     "левый", "правый", "передний", "задний", "перед", "зад", "лево", "право",

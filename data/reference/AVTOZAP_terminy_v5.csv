@@ -5709,16 +5709,11 @@ KZ-006,Duman fara,synonym,dumanni fara
 KZ-006,Duman fara,synonym,dumanniy fara
 AS-011,Sırğa (stabilizator lingi),synonym,sirga
 AS-011,Sırğa (stabilizator lingi),synonym,sirqa
-EG-003,Qluşitel (susdurucu),synonym,qazan
-EG-003,Qluşitel (susdurucu),synonym,arxa qazan
-EG-003,Qluşitel (susdurucu),synonym,orta qazan
 SR-005,Karopka yağı,synonym,karopka yagi
 SR-005,Karopka yağı,synonym,karopkanin yagi
 AS-011,Sırğa,synonym,sirgadir
 AS-011,Sırğa,synonym,sirqadir
 AS-011,Sırğa,synonym,sirgalar
-TR-006,Feredo,synonym,feredo casqa
-TR-006,Feredo,synonym,feredo caska
 TR-032,Mufta dəsti,synonym,feredo casqa desti
 TR-032,Mufta dəsti,synonym,casqa feredo vijimnoy
 KZ-016,Qapı qulpu,synonym,rucqa
@@ -5876,9 +5871,7 @@ MU-104,Hidrokompensator (klapan itələyicisi),synonym,hidrokompensator (klapan 
 MU-104,Hidrokompensator (klapan itələyicisi),synonym,гидрокомпенсатор
 MU-104,Hidrokompensator (klapan itələyicisi),synonym,hidrokompensator
 MU-104,Hidrokompensator (klapan itələyicisi),synonym,gidrokompensator
-MU-104,Hidrokompensator (klapan itələyicisi),synonym,klapan iteleyicisi
 MU-104,Hidrokompensator (klapan itələyicisi),synonym,gidrokompensatory
-MU-104,Hidrokompensator (klapan itələyicisi),synonym,tolkatel klapana
 SO-041,Köməkçi su nasosu (elektrikli),synonym,köməkçi su nasosu (elektrikli)
 SO-041,Köməkçi su nasosu (elektrikli),synonym,дополнительная помпа (электрическая)
 SO-041,Köməkçi su nasosu (elektrikli),synonym,komekci su nasosu
@@ -6118,3 +6111,318 @@ TK-002,,synonym,diski
 TK-002,,synonym,diskleri
 MU-013,,synonym,ust kriska
 MU-013,,synonym,ust krisqa
+TR-032,Mufta dəsti,synonym,feredo casqa
+TR-032,Mufta dəsti,synonym,feredo caska
+TR-032,Mufta dəsti,synonym,casqa feredo
+EG-004,Qazan (rezonator),synonym,arxa qazan
+EG-004,Qazan (rezonator),synonym,orta qazan
+EG-004,Qazan (rezonator),synonym,qazan
+EY-015,Vakum nasosu,synonym,vakum sazdatel
+EY-015,Vakum nasosu,synonym,vakum sazdetel
+EY-015,Vakum nasosu,synonym,vakuum sozdatel
+MU-099,,synonym,klapan iteleyicisi
+MU-099,,synonym,tolkatel klapana
+MU-099,,synonym,iteleyici
+YA-009,,synonym,abratni klapan
+YA-009,,synonym,abratniy klapan
+YA-009,,synonym,geri qaytarma klapani
+YA-009,,synonym,obratniy klapan
+YA-007,,synonym,evap klapan
+YA-007,,synonym,evap klapani
+YA-025,,synonym,evap sensor
+YA-025,,synonym,evap sensoru
+YA-025,,synonym,evap datciki
+MU-033,,synonym,vozduxamer
+MU-033,,synonym,vazduxamer
+MU-033,,synonym,hava datciki
+EL-062,,synonym,curtain airbag
+EL-062,,synonym,side curtain
+EL-062,,synonym,perde airbag
+SU-013,,synonym,gidrouslitel slanki
+SU-013,,synonym,gidrousilitel slanki
+SU-013,,synonym,gur slanki
+SO-010,,synonym,kondisioner radiatoru
+SO-010,,synonym,kondisionerin radiatoru
+SO-010,,synonym,kodlndisonerin radiatoru
+SO-010,,synonym,kondisaner radiatoru
+KZ-028,,synonym,radiator barmaqligi
+KZ-028,,synonym,radiator barmaqlig
+KZ-028,,synonym,radiator barmagligi
+KZ-008,,synonym,donme faralari
+KZ-008,,synonym,donme isiqlari
+KZ-008,,synonym,donme isigi
+KZ-008,,synonym,pavarotnikler
+EL-057,,synonym,aynasilenin su ceni
+EL-057,,synonym,su ceni aynasilenin
+EL-057,,synonym,zibil bacoku
+TR-001,,synonym,suret qutusu mexanika
+TR-001,,synonym,mexaniki suret qutusu
+TR-001,,synonym,mexanika karopka
+TK-005,,synonym,teker ucun datcik
+TK-005,,synonym,her teker ucun datcik
+MU-016,,synonym,qlapan salnikleri
+MU-016,,synonym,klapan salnikleri
+MU-016,,synonym,klapan salniki
+TR-014,,synonym,karopkanin col salniki
+TR-014,,synonym,karopkanin salniki
+TR-014,,synonym,sruz salniki
+TR-014,,synonym,сальник для шруса
+AS-003,,synonym,amartizator pocevniki
+AS-003,,synonym,amortizator pacevniki
+AS-003,,synonym,amortizator podsipniki
+AK-005,,synonym,baqaj kecesi
+AK-005,,synonym,baqaj ucun kece
+AK-005,,synonym,baqaj koviri
+KZ-070,,synonym,baqaj jaluzi
+KZ-070,,synonym,baqaj jaluzu
+KZ-070,,synonym,baqaj perdesi
+KZ-034,,synonym,baqaj obivka
+KZ-034,,synonym,baqaj obivkasi
+KZ-034,,synonym,baqaj plasmasi
+TY-004,,synonym,buferin diffuzeri
+TY-004,,synonym,bufer diffuzeri
+TY-004,,synonym,arxa bufer diffuzer
+TR-013,,synonym,kardan muftasi
+TR-013,,synonym,kardan mufta
+RG-10,,synonym,peredoxranitel blokunun qapagi
+RG-10,,synonym,predoxranitel blokunun qapagi
+EG-002,,synonym,katalizator datciki
+EG-002,,synonym,katalizator daccik
+EG-002,,synonym,katalizator daccikleri
+MU-057,,synonym,yag krisqasi qapagi
+MU-057,,synonym,yag krisqasi
+MU-057,,synonym,yag qapagi
+MU-089,,synonym,hava slanqi
+MU-089,,synonym,hava giris xortumu
+MU-089,,synonym,hava xortumu
+MU-089,,synonym,qofra slanq
+KZ-069,,synonym,guzgu isigi
+KZ-069,,synonym,guzgude olan isiq
+KZ-069,,synonym,guzgu pavarotnik
+KZ-069,,synonym,guzgu pavarotniki
+KZ-021,,synonym,guzgu sesi
+KZ-021,,synonym,guzgu susesi
+KZ-021,,synonym,guzgunun susesi
+EL-020,,synonym,kompressor datciki
+EL-020,,synonym,kompressor daciki
+EL-020,,synonym,kompressorun teziq daciki
+MU-014,,synonym,ust kriskanin prokladkasi
+MU-014,,synonym,kriska prokladkasi
+MU-014,,synonym,kriskanin prokladkasi
+MU-074,,synonym,usdunde olan plasmas
+MU-074,,synonym,matorun usdunde plasmas
+MU-074,,synonym,ust plasmas qoruyucu
+KZ-014,,synonym,panaramanin suseleri
+KZ-014,,synonym,panorama susesi
+KZ-014,,synonym,panarama susesi
+AS-008,,synonym,ic granat
+AS-008,,synonym,granat
+AS-008,,synonym,granatlar
+AS-008,,synonym,qranad
+AS-008,,synonym,col qranad
+KZ-008,,synonym,pavarotnik
+KZ-008,,synonym,pavarodnik
+KZ-008,,synonym,podfarnik
+KZ-008,,synonym,padfarnik
+SU-001,,synonym,nacanecnik
+SU-001,,synonym,nakanecnik
+SU-001,,synonym,nokanecnik
+SU-001,,synonym,nakanesnik
+SU-001,,synonym,nakonesnik
+SU-017,,synonym,nakanecnik rezini
+SU-017,,synonym,nakonecnik rezini
+SU-017,,synonym,nakanecnik pilniki
+TR-001,,synonym,robot karopka
+TR-001,,synonym,robot karobka
+TR-001,,synonym,karopka elektron
+TR-001,,synonym,elektron karopka
+KZ-003,,synonym,abircofka
+KZ-003,,synonym,abirsofka
+MU-055,,synonym,mator sepi
+MU-055,,synonym,matorun sepi
+MU-055,,synonym,kanpilekt mator sepi
+MU-055,,synonym,сеп мотора
+MU-055,,synonym,сеп
+AK-028,,synonym,park radari
+AK-028,,synonym,park radarlari
+AK-028,,synonym,parkradari
+AK-028,,synonym,kenar park radari
+MU-001,,synonym,motor zbor
+MU-001,,synonym,mator zbor
+MU-001,,synonym,272 mator
+TK-001,,synonym,sin
+TK-001,,synonym,sinler
+MU-062,,synonym,motor qalofkasi
+MU-062,,synonym,mator qalofkasi
+MU-062,,synonym,qalofka
+SO-016,,synonym,vintilyatorun datciki
+SO-016,,synonym,ventilyator datciki
+SO-016,,synonym,per datciki
+YA-001,,synonym,benzanasos
+YA-001,,synonym,zbor benzanasos
+YA-001,,synonym,benzonasos
+YA-001,,synonym,benzin nasos
+KZ-011,,synonym,parpres
+KZ-011,,synonym,qabaq parpres
+KZ-011,,synonym,alin suse
+KZ-011,,synonym,alin susesi
+AK-010,,synonym,banan suse silen
+AK-010,,synonym,suse silen
+AK-010,,synonym,susesilen
+AK-010,,synonym,susesilenler
+AK-010,,synonym,dvornik
+AK-010,,synonym,dvornikler
+EY-001,,synonym,kolodka
+EY-001,,synonym,kolodkalar
+EY-001,,synonym,kolodkalari
+EY-001,,synonym,tormoz kolodkalari
+EY-001,,synonym,arxa kolodkalari
+EL-023,,synonym,tavan manitoru
+EL-023,,synonym,tavan monitoru
+EL-023,,synonym,zavod tavan manitoru
+SO-009,,synonym,patrufka
+SO-009,,synonym,patrufqasi
+SO-009,,synonym,ust patrufqasi
+SO-009,,synonym,soyutma slanqlari
+SO-009,,synonym,soyutma slanqi
+KZ-022,,synonym,guzcunun altindaki qapaq
+KZ-022,,synonym,guzgunun qapagi
+KZ-022,,synonym,guzgu qapaqi
+KZ-022,,synonym,yarasa guzgu qapaqi
+SR-014,,synonym,alisdirma samlari
+SR-014,,synonym,alisdirma sami
+MU-087,,synonym,giris kollektorun prokladkasi
+MU-087,,synonym,kollektorun prokladkasi
+MU-087,,synonym,kollektor prokladkasi
+KZ-029,,synonym,partklenik
+KZ-029,,synonym,partklenikler
+EY-011,,synonym,abs daciki
+EY-011,,synonym,abs datciki
+EY-011,,synonym,abs sensoru
+SU-018,,synonym,mayatnik
+SU-018,,synonym,mayatnik ricaqi
+SO-036,,synonym,kampressorun kransteyni
+SO-036,,synonym,kompressor kransteyni
+SO-036,,synonym,kompressorun kronsteyni
+MU-022,,synonym,natejnoy
+MU-022,,synonym,natyajnoy
+MU-022,,synonym,natijnik
+MU-040,,synonym,krank mili sensoru
+MU-040,,synonym,krank sensoru
+MU-040,,synonym,kolenval datciki
+KZ-043,,synonym,arxa demir
+KZ-043,,synonym,qeza qoruyucu
+KZ-043,,synonym,arxa demir qeza qoruyucu
+MU-089,,synonym,hava filitirinin slanqi
+MU-089,,synonym,hava filtrinin slanqi
+MU-089,,synonym,turbonun patrubkasi
+MU-089,,synonym,turbo patrubkasi
+EL-019,,synonym,cilamete control
+EL-019,,synonym,climate control
+EL-019,,synonym,klimat kontrol
+SR-005,,synonym,reduktor yagi
+MU-020,,synonym,remen 7pk
+MU-020,,synonym,ремен
+MU-020,,synonym,ремень
+EL-081,,synonym,qaranliq sensoru
+EL-081,,synonym,isiq sensoru
+MU-026,,synonym,sam musduyu
+MU-026,,synonym,sifecalarin basliq
+MU-026,,synonym,sam basligi
+YA-010,,synonym,yanacaq tenzimleyen
+YA-010,,synonym,yanacaq tenzimleyici
+KZ-072,,synonym,gunkecirmez
+KZ-072,,synonym,lukun perdesi
+KZ-053,,synonym,on susenin asagisinda plasmas
+KZ-053,,synonym,suse alti plasmas
+KZ-036,,synonym,spoiler
+KZ-036,,synonym,spoyler
+KZ-027,,synonym,kirla
+KZ-027,,synonym,kirlo
+MU-017,,synonym,передняя опора двигателя
+MU-017,,synonym,опора двигателя
+EL-026,,synonym,pedal assy accelerator
+EL-026,,synonym,accelerator pedal
+KZ-069,,synonym,guzgude olan isig
+KZ-069,,synonym,guzgude olan isiq
+MU-074,,synonym,usdunde olan plasmas qoruyucu
+SO-012,,synonym,kandisaner kanpressoru
+SO-012,,synonym,kondisaner kanpressoru
+SO-012,,synonym,kanpressor
+MU-053,,synonym,alt zasitnik
+MU-053,,synonym,qabaq alt zasitnik
+MU-053,,synonym,altindaki zasitnik
+MU-053,,synonym,alt qoruyucusu tam
+EL-032,,synonym,taxilan steker
+EL-032,,synonym,steker
+EL-057,,synonym,zibil bacoku
+EL-057,,synonym,zibil bacoku zbor
+YA-024,,synonym,dizel filtirinin korpusu
+YA-024,,synonym,padkacka
+YA-025,,synonym,evap sensoru
+KZ-005,,synonym,led fara
+KZ-005,,synonym,led faralar
+KZ-005,,synonym,ближние led фары
+AS-025,,synonym,balkanin razvalnisi
+AS-025,,synonym,arxa balka rezinler
+AS-025,,synonym,balka rezinleri
+TR-015,,synonym,suretler qutusu sellektoru
+TR-015,,synonym,sellektoru
+AS-012,,synonym,stabilizator qolun rezini
+AS-012,,synonym,stabilizator rezini paduska
+SR-004,,synonym,salon hava filtri
+SR-004,,synonym,salon filtiri
+SR-004,,synonym,salon filtri
+AK-010,,synonym,arxa suse silen
+AS-002,,synonym,amortizatorun ust dayagi
+AS-002,,synonym,amartizatorun ust rezini
+AS-002,,synonym,amartizatorun paduskalari
+AS-002,,synonym,amortizator paduskasi
+EL-024,,synonym,tavan isiqi
+EL-024,,synonym,zbor tavan isiqi
+KZ-092,,synonym,qapi alti kantlar
+KZ-092,,synonym,qapilarin altinin kantlari
+KZ-092,,synonym,yan qapi alti kantlar
+KZ-055,,synonym,teker yay genislendiricisi
+KZ-055,,synonym,yay genislendiricisi
+SO-039,,synonym,radiator kriskasi
+SO-039,,synonym,radiatorun kriskasi
+SO-039,,synonym,radiator krishkasi
+SO-033,,synonym,kompressor maqniti
+SO-033,,synonym,kompressorun maqniti
+SO-033,,synonym,kompressor skfi
+SO-033,,synonym,kompressor skifi
+TR-032,,synonym,vijicnoy feredol caska
+TR-032,,synonym,feredol caska
+SU-005,,synonym,qidravlik guclendirici
+SU-005,,synonym,uselitel
+SO-002,,synonym,radiator fani
+SO-002,,synonym,radiator fan
+KZ-048,,synonym,stopun susesi
+KZ-048,,synonym,stop susesi
+EL-003,,synonym,suse qaldiranlarin avtomati
+EL-003,,synonym,4lu podyomnik
+MU-021,,synonym,dinamonun shkifi
+MU-021,,synonym,dinamo skifi
+MU-021,,synonym,skif
+KZ-076,,synonym,buferin alt qoruyucu
+KZ-076,,synonym,bufer alt zasitnik
+MU-016,,synonym,klapan kok mohurleri
+MU-016,,synonym,kok mohurleri
+MU-014,,synonym,muherrikin ust kriska prokladkasi
+MU-051,,synonym,pcv klapan
+MU-051,,synonym,pcv
+KZ-083,,synonym,krlonun ustunde benzin qapagi
+KZ-083,,synonym,krilo benzin qapagi
+KZ-032,,synonym,morda
+SU-004,,synonym,rulovoy kolonka
+SU-004,,synonym,rulavoy kolonka
+SO-032,,synonym,radiator bacokun qapaqi
+SO-032,,synonym,bacokun qapagi
+SO-032,,synonym,bacok qapagi
+KZ-086,,synonym,lt buferin abilsofka
+KZ-086,,synonym,qabag setka bufer
+KZ-038,,synonym,qapinin ustu nikel kantlar
+KZ-038,,synonym,nikel kantlar
+KZ-094,,synonym,qapinin nikkel kantlari
+KZ-094,,synonym,qapi nikel kantlari

@@ -310,8 +310,11 @@ class Layer0:
         словарь проекта как значащее, а не подобрано похожестью.
         """
         result = self.retriever.retrieve(text)
-        return bool(result.candidates
-                    and result.candidates[0].reason.startswith("context:"))
+        # Ищем правило по всему shortlist, а не только на первом месте.
+        # В выгрузке 01.09 «mühərrik» стал точным термином (двигатель в сборе)
+        # и обгоняет по score опору двигателя, на которой правило и срабатывает.
+        # Нам важно, что правило существует, а не какое место оно заняло.
+        return any(c.reason.startswith("context:") for c in result.candidates)
 
     def _merge_same_head(self, units: list[dict]) -> list[dict]:
         """Слить предметы, которые описывают одну и ту же каноническую деталь.
