@@ -52,13 +52,22 @@ def load_etalon(path: str) -> list[dict]:
 
 
 def load_results(path: str) -> dict[str, list[dict]]:
+    """Прочитать результаты прогона.
+
+    Битые строки пропускаем: прогон возобновляемый, и если его убили посреди
+    записи, в файле остаётся обрывок. Харнесс такую строку переживает, значит
+    и подсчёт должен — иначе прерванный прогон нельзя было бы досчитать.
+    """
     by_rfq: dict[str, list[dict]] = defaultdict(list)
     with open(path, encoding="utf-8") as fh:
         for line in fh:
             line = line.strip()
             if not line:
                 continue
-            record = json.loads(line)
+            try:
+                record = json.loads(line)
+            except json.JSONDecodeError:
+                continue
             by_rfq[str(record.get("rfq_id"))].append(record)
     return by_rfq
 

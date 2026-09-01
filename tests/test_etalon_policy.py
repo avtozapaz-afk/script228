@@ -349,3 +349,28 @@ def test_the_behaviour_set_is_still_available(etalon):
                if r["expected_external_code"] == "UNKNOWN") == 27
     assert sum(1 for r in etalon
                if r["reference_production_correct"].lower() == "да") == 128
+
+
+# ── запускаемый файл для прогона ────────────────────────────────────────────
+def test_the_runnable_script_exists_and_compiles():
+    """Один файл, который заказчик запускает со своим ключом."""
+    import py_compile
+    py_compile.compile("PROGON_ETALON_469.py", doraise=True)
+
+
+def test_the_scorer_survives_a_run_killed_mid_write(tmp_path):
+    """Прогон возобновляемый, значит в файле может остаться обрывок строки.
+
+    Харнесс его переживает — подсчёт обязан тоже, иначе прерванный прогон
+    нельзя было бы досчитать.
+    """
+    from scripts.score_etalon import load_results
+
+    path = tmp_path / "results.jsonl"
+    path.write_text(
+        '{"rfq_id": "a", "final_external_code": "EY-002"}\n'
+        '{"rfq_id": "оборв\n'                       # процесс убили здесь
+        '{"rfq_id": "b", "final_external_code": "KZ-001"}\n',
+        encoding="utf-8")
+    loaded = load_results(str(path))
+    assert sorted(loaded) == ["a", "b"]
