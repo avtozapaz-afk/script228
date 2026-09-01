@@ -11,14 +11,14 @@ from __future__ import annotations
 import time
 from typing import Any
 
-from .arbiter import ArbiterV3
+from .arbiter import ArbiterV3, build_arbiter
 from .config import RunConfig
 from .layer0 import Layer0
 from .llm import LlmClient
 from .oem import OemResolver
 from .photo import PhotoLayer
 from .ambiguity import load as load_ambiguity_rules
-from .dictionary_answer import SOURCE_ARBITER, SOURCE_DICTIONARY
+from .dictionary_answer import SOURCE_ARBITER, SOURCE_DICTIONARY, SOURCE_OEM
 from .dictionary_answer import resolve as dictionary_answer
 from .policy import ACTION_ASK_BUYER, decide_action, question_for
 from .retriever import RetrieverV2, content_tokens
@@ -44,6 +44,7 @@ from .types import (
     LAYER_RETRIEVER,
     LAYER_VALIDATOR,
     OEM_CONFLICT,
+    OEM_MATCH,
     PHOTO_OK,
     VAL_DOWNGRADE,
     VAL_PASS,
@@ -118,8 +119,9 @@ class Pipeline:
         if config.mock:
             self.arbiter: Any = MockArbiter()
         else:
-            self.arbiter = ArbiterV3(client, model=config.model,
-                                     temperature=config.temperature)
+            self.arbiter = build_arbiter(config.arbiter_version, client,
+                                         model=config.model,
+                                         temperature=config.temperature)
 
     def process_request(self, row: dict[str, Any], source_index: int) -> list[ItemRecord]:
         rfq_id = str(row.get("rfq_id") or f"row-{source_index}")
@@ -257,6 +259,25 @@ class Pipeline:
             # неоднозначности (см. avtozap/dictionary_answer.py).
             answered_by = ("review27_context" if forced and final_id == forced
                            else (SOURCE_ARBITER if final_id else ""))
+
+            # Каталожный номер сильнее всего остального, включая переспрос.
+            # Живой прогон 200 показал дефект, а не спорную семантику: номера
+            # 976742S000, 58323-2H300, 61664849598, 30939070 ЕСТЬ в каталоге,
+            # резолвер честно даёт MATCH — а заявки всё равно уходили в
+            # UNKNOWN, потому что итог собирался только из решения арбитра.
+            # Номер детали — не догадка и не «похожая по теме» деталь: если
+            # покупатель прислал артикул и он найден, спрашивать нечего.
+            # Конфликт номера с выбором арбитра сюда НЕ попадает: он остаётся
+            # у правила V4 валидатора и по-прежнему уводит заявку в разбор.
+            if (oem.status == OEM_MATCH and oem.resolved_external_code
+                    and final_status != FINAL_ERROR
+                    and final_id != oem.resolved_external_code
+                    and (final_id is None
+                         or final_status in (FINAL_UNKNOWN, FINAL_REVIEW))):
+                final_id = self.retriever.dict.canonical(
+                    oem.resolved_external_code)
+                final_status = FINAL_SELECT
+                answered_by = SOURCE_OEM
             if (final_id is None and ambiguous is None and guard is None
                     and final_status in (FINAL_UNKNOWN, FINAL_REVIEW)
                     and arbiter.decision in (ARB_UNKNOWN, ARB_CLARIFY)

@@ -37,6 +37,7 @@ from typing import Any
 from avtozap.config import (
     ACCEPTED_CONFIDENCE,
     DEFAULT_ARBITER_MODEL,
+    DEFAULT_ARBITER_VERSION,
     DEFAULT_MAX_RETRIES,
     DEFAULT_SEGMENTER_MODEL,
     DEFAULT_TIMEOUT_S,
@@ -54,7 +55,8 @@ from avtozap.io_utils import (
     read_results,
     write_csv,
 )
-from avtozap.report import build_summary, write_failure_analysis, write_summary
+from avtozap.report import (build_summary, write_failure_analysis,
+                            write_pilot_queue, write_summary)
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -91,6 +93,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
                         "заходе сырой текст уходит магазинам, а не покупателю")
     p.add_argument("--enable-photo", action="store_true",
                    help="включить слой фото (нужны image_path/image_url и vision-модель)")
+    p.add_argument("--arbiter", default=DEFAULT_ARBITER_VERSION,
+                   choices=("v3", "v4"),
+                   help="версия арбитра: v3 (заморожен) или v4")
     p.add_argument("--mock", action="store_true",
                    help="без сети: заглушка вместо Arbiter V3")
     p.add_argument("--dry-run", action="store_true",
@@ -128,9 +133,13 @@ def build_report(out_dir: str, jsonl_path: str, total_requests: int,
     summary = build_summary(records, total_requests)
     json_path, md_path = write_summary(summary, out_dir, config_note)
     analysis_path = write_failure_analysis(records, summary, out_dir)
+    # Очередь пилота: заявки, где система переспросила или ошиблась.
+    # На живом потоке это и есть эталон, который сам себя пополняет.
+    queue_path = write_pilot_queue(records, out_dir)
     f = summary["final_status"]
     print(f"\nЗаписано: {csv_path}\n          {json_path}\n          {md_path}"
-          f"\n          {analysis_path}")
+          f"\n          {analysis_path}"
+          f"\n          {queue_path}")
     print(f"Итог: предметов {summary['total_atomic_items']} · "
           f"SELECT {f['SELECT']} · UNKNOWN {f['UNKNOWN']} · "
           f"REVIEW {f['REVIEW']} · ERROR {f['ERROR']}")
@@ -160,7 +169,15 @@ def main(argv: list[str] | None = None) -> int:
 
     accepted = frozenset(c.strip().lower() for c in args.accept_confidence.split(",")
                          if c.strip())
+    # Версия арбитра и хеш его промпта — в каждый отчёт. Без них два прогона
+    # нельзя сопоставить: одинаковые цифры могут оказаться от разных правил.
+    from avtozap.arbiter import ARBITERS, prompt_sha256
+    arbiter_note = "mock"
+    if not args.mock:
+        _, prompt_path, _ = ARBITERS[args.arbiter]
+        arbiter_note = f"{args.arbiter} (промпт {prompt_sha256(prompt_path)[:12]})"
     config_note = (f"Модель: `{'mock' if args.mock else args.model}` · "
+                   f"Арбитр: `{arbiter_note}` · "
                    f"Layer 0: `{'детерминированный' if args.mock else args.segmenter_model}` · "
                    f"shortlist={args.limit} · принимаем confidence="
                    f"{'/'.join(sorted(accepted))}")
@@ -178,6 +195,7 @@ def main(argv: list[str] | None = None) -> int:
         accepted_confidence=accepted, mock=args.mock or args.dry_run,
         enable_photo=args.enable_photo, max_requests=args.max_requests,
         attempt=args.attempt,
+        arbiter_version=args.arbiter,
         resume=not args.no_resume,
     )
 

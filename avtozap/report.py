@@ -405,3 +405,66 @@ def write_failure_analysis(records: list[dict[str, Any]], summary: dict[str, Any
     with open(path, "w", encoding="utf-8") as fh:
         fh.write(render_failure_analysis(records, summary))
     return path
+
+
+# ── очередь пилота: заявки, на которых система не справилась ────────────────
+def build_pilot_queue(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Заявки, которые надо посмотреть глазами. Будущий эталон.
+
+    В пилоте самая ценная выборка — не та, что мы разметили заранее, а та, где
+    система запнулась на живом потоке. Сюда попадают два вида заявок:
+
+    * система **переспросила** или отказалась — значит уверенности не хватило;
+    * система **ответила неверно** — это видно только там, где ожидаемый код
+      известен, то есть на эталонных прогонах.
+
+    Заявка, закрытая верно и без вопросов, сюда не попадает: смотреть её незачем.
+
+    У каждой записи есть пустое поле ``correct_external_code`` — его заполняет
+    человек. Заполненный файл и есть пополнение эталона: формат тот же, что у
+    входа прогона, так что его можно скормить обратно без переделки.
+    """
+    queue: list[dict[str, Any]] = []
+    for record in records:
+        expected = record.get("expected_external_code")
+        produced = record.get("final_external_code")
+        action = record.get("action") or ""
+        asked = action not in ("ANSWER", "")
+        wrong = bool(expected) and expected != "UNKNOWN" and produced != expected
+        if not (asked or wrong):
+            continue
+        arbiter = record.get("arbiter") or {}
+        queue.append({
+            "rfq_id": record.get("rfq_id"),
+            "item_index": record.get("item_index"),
+            "original_text": record.get("original_text"),
+            "item_raw": record.get("item_raw"),
+            # Что сделала система.
+            "action": action,
+            "final_status": record.get("final_status"),
+            "final_external_code": produced,
+            "answered_by": record.get("answered_by") or "",
+            "buyer_question": record.get("buyer_question"),
+            "arbiter_confidence": arbiter.get("confidence"),
+            "arbiter_reason": arbiter.get("reason"),
+            "shortlist": [c.get("external_code") for c in
+                          (record.get("retriever") or {}).get("candidates", [])][:8],
+            "why_here": "переспросили" if asked else "ответили неверно",
+            # Что было известно заранее — на живом потоке пусто.
+            "expected_external_code": expected,
+            # Заполняет человек.
+            "correct_external_code": "",
+            "comment": "",
+        })
+    return queue
+
+
+def write_pilot_queue(records: list[dict[str, Any]], out_dir: str) -> str:
+    """Записать очередь пилота рядом с остальными отчётами."""
+    os.makedirs(out_dir, exist_ok=True)
+    path = os.path.join(out_dir, "pilot_queue.jsonl")
+    queue = build_pilot_queue(records)
+    with open(path, "w", encoding="utf-8") as fh:
+        for entry in queue:
+            fh.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    return path

@@ -27,6 +27,8 @@ from .config import (
     ARBITER_MAX_TOKENS,
     ARBITER_PROMPT_PATH,
     ARBITER_PROMPT_SHA_PATH,
+    ARBITER_V4_PROMPT_PATH,
+    ARBITER_V4_PROMPT_SHA_PATH,
     DEFAULT_ARBITER_MODEL,
     DEFAULT_TEMPERATURE,
 )
@@ -215,3 +217,60 @@ class ArbiterV3:
                                 if data.get("clarification_text") else None),
             model=response.model, latency_ms=response.latency_ms,
             attempts=response.attempts, raw_response=response.text[:2000])
+
+
+class ArbiterV4(ArbiterV3):
+    """Arbiter V4 — та же механика вызова, другой системный промпт.
+
+    Заказчик разрешил менять промпт и логику арбитра, но менять их надо
+    **рядом с V3**, а не вместо него: иначе сравнить две версии будет не с чем.
+    Поэтому V4 наследует весь обвес — сборку сообщения, разбор ответа, контракт
+    и обработку ошибок, — и отличается ровно тем, чем должен: текстом правил.
+
+    Промпт V4 не заморожен, но его контрольная сумма ведётся и попадает в
+    отчёт: любая правка обязана быть видимой, иначе два прогона нельзя будет
+    сопоставить.
+
+    Что изменено против V3 и почему — каждое изменение отвечает измеренному
+    классу ошибок живого прогона 200, а не отдельной заявке:
+
+    * **Судить только ``item_raw``.** Из отказов «в запросе две детали» часть
+      приходилась на предметы, которые Layer 0 уже разрезал верно: модель
+      применяла правило к целому сообщению. В V4 сказано прямо, что остальные
+      предметы разбираются своими запусками.
+    * **Первый кандидат — ответ по умолчанию.** В восьми ошибках верный код
+      стоял первым, и модель уходила от него к «более типичной» детали. Теперь
+      уйти от первого можно, только назвав слово из запроса, которое покрывает
+      другой кандидат.
+    * **Точный термин и OEM — факты, а не подсказки.** В payload уже лежат
+      ``retrieval_reason`` вида ``exact:`` / ``context:`` и разрешённый номер
+      OEM; V3 про них не знал и называл ранг «лишь подсказкой».
+    * **Отказ на «пакет/марка/не знаю названия».** Два опасных ответа прогона
+      были именно там, где деталь не названа вовсе.
+    """
+
+    def __init__(self, client, model: str = DEFAULT_ARBITER_MODEL,
+                 temperature: float = DEFAULT_TEMPERATURE,
+                 prompt_path: str = ARBITER_V4_PROMPT_PATH):
+        super().__init__(client, model=model, temperature=temperature,
+                         prompt_path=prompt_path)
+        self.version = "v4"
+
+
+#: Версия арбитра -> (класс, путь к промпту, путь к контрольной сумме).
+ARBITERS = {
+    "v3": (ArbiterV3, ARBITER_PROMPT_PATH, ARBITER_PROMPT_SHA_PATH),
+    "v4": (ArbiterV4, ARBITER_V4_PROMPT_PATH, ARBITER_V4_PROMPT_SHA_PATH),
+}
+
+
+def build_arbiter(version: str, client, model: str = DEFAULT_ARBITER_MODEL,
+                  temperature: float = DEFAULT_TEMPERATURE):
+    """Собрать арбитра нужной версии. Неизвестная версия — ошибка, не догадка."""
+    key = (version or "v3").strip().lower()
+    if key not in ARBITERS:
+        raise ValueError(f"неизвестная версия арбитра: {version!r}; "
+                         f"есть {sorted(ARBITERS)}")
+    cls, prompt_path, _ = ARBITERS[key]
+    return cls(client, model=model, temperature=temperature,
+               prompt_path=prompt_path)

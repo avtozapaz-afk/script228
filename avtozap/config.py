@@ -54,6 +54,15 @@ DEFAULT_BACKOFF_CAP_S = 60.0
 # Точность важнее навязанной полноты. Промпт V3 отдаёт уверенность словом,
 # поэтому порог — множество уровней, которые считаются достаточными для SELECT.
 # «low» сюда не входит: такой ответ понижается до REVIEW.
+#: Промпт Arbiter V4. В отличие от V3 он НЕ заморожен: заказчик разрешил
+#: менять его и логику арбитра. Контрольная сумма всё равно ведётся — чтобы
+#: правка была видимой и попадала в отчёт прогона.
+ARBITER_V4_PROMPT_PATH = os.path.join(PROMPT_DIR, "arbiter_v4.txt")
+ARBITER_V4_PROMPT_SHA_PATH = os.path.join(PROMPT_DIR, "arbiter_v4.sha256")
+
+#: Какая версия арбитра работает по умолчанию: "v3" или "v4".
+DEFAULT_ARBITER_VERSION = "v3"
+
 ACCEPTED_CONFIDENCE = {"high", "medium"}
 
 #: Точный термин словаря сильнее отказа арбитра — какую долю значимых слов
@@ -185,6 +194,8 @@ class RunConfig:
     max_retries: int = DEFAULT_MAX_RETRIES
     limit: int = RETRIEVER_LIMIT
     accepted_confidence: frozenset = frozenset(ACCEPTED_CONFIDENCE)
+    #: Версия арбитра: "v3" (заморожен) или "v4".
+    arbiter_version: str = DEFAULT_ARBITER_VERSION
     mock: bool = False
     enable_photo: bool = False
     max_requests: int | None = None

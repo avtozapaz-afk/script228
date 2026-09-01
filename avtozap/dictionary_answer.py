@@ -59,6 +59,8 @@ _EXACT_REASON = re.compile(r"exact:([^|]+)")
 #: Метка источника ответа в отчёте.
 SOURCE_ARBITER = "arbiter"
 SOURCE_DICTIONARY = "dictionary_exact"
+#: Ответ пришёл из каталога OEM по номеру детали.
+SOURCE_OEM = "oem_catalog"
 
 
 def exact_phrase(reason: str) -> str | None:

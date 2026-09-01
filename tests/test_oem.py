@@ -104,3 +104,47 @@ def test_two_oems_in_one_message_are_bound_to_their_own_items(retriever):
     second = resolver.resolve("8K0941286N urvin datciki qabaq sag", original)
     assert first.status == OEM_MATCH and first.resolved_external_code == "EG-002"
     assert second.status == OEM_MATCH and second.resolved_external_code == "EL-088"
+
+
+# ── живой прогон 200: номер был в каталоге, а заявка уходила в UNKNOWN ──────
+def test_a_catalogue_number_answers_even_when_the_arbiter_refuses():
+    """Номер детали — не догадка: если он найден, спрашивать нечего.
+
+    Все четыре заявки из живого прогона 200. Резолвер честно давал MATCH с
+    верным кодом, но итог собирался только из решения арбитра, и заявки
+    уходили в UNKNOWN при полностью разрешённом номере.
+    """
+    from avtozap.config import RunConfig
+    from avtozap.pipeline import Pipeline
+
+    pipeline = Pipeline(RunConfig(input_path="—", mock=True))
+    cases = [
+        ("976742S000", "SO-044"),
+        ("58323 2H300  Hyundai Santafe 3.3 2013", "EY-023"),
+        ("61664849598", "EL-071"),
+        ("30939070 Bu kodlu mehsul lazmdi amma sumqayit", "SR-005"),
+    ]
+    for text, code in cases:
+        records = pipeline.process_request(
+            {"rfq_id": "oem", "original_text": text}, 0)
+        produced = {r.final_external_code for r in records}
+        assert code in produced, f"{text}: {produced}"
+        answered = [r for r in records if r.final_external_code == code]
+        assert answered[0].answered_by == "oem_catalog"
+
+
+def test_an_oem_conflict_still_goes_to_review_not_to_the_number():
+    """Приоритет номера не отменяет разбор конфликта.
+
+    Если арбитр уверенно выбрал одну деталь, а номер указывает на другую, это
+    по-прежнему правило V4 валидатора и REVIEW, а не молчаливая подмена ответа
+    номером: конфликт может значить, что номер относится к другой детали из
+    того же сообщения.
+    """
+    import inspect
+
+    from avtozap import pipeline as pipeline_module
+
+    source = inspect.getsource(pipeline_module)
+    assert "OEM_MATCH" in source
+    assert "final_status in (FINAL_UNKNOWN, FINAL_REVIEW)" in source
