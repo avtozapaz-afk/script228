@@ -270,7 +270,7 @@ python scripts/build_fresh300_input.py
 python -m pytest tests/ -q
 ```
 
-413 тестов, сети не требуют.
+421 тест, сети не требуют.
 
 | файл | что покрывает |
 |---|---|

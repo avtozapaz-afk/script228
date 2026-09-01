@@ -220,7 +220,8 @@ def test_the_long_phrase_is_gone_from_the_dictionary():
     sys.path.insert(0, os.path.join(ROOT, "scripts"))
     from apply_agreed_dictionary_edits import apply
 
-    assert apply(check_only=True) == {"terms_removed": 0, "synonyms_trimmed": 0}
+    assert apply(check_only=True) == {"terms_removed": 0, "synonyms_trimmed": 0,
+                                      "terms_added": 0}
 
 
 def test_the_context_rule_replaced_it_in_the_projects_own_structure():
@@ -262,3 +263,57 @@ def test_local_rules_are_a_data_file_not_code():
     assert payload["rules"]
     for rule in payload["rules"]:
         assert {"stem", "qualifiers", "code", "why"} <= set(rule)
+
+
+# ── подтверждённое заказчиком правило çaşka ─────────────────────────────────
+def test_caska_asks_unless_the_confirmed_qualifier_is_present(rules, retriever):
+    """Решение заказчика 01.09: переспрос без явного alt/aşağı/purjun или
+    üst/amortizator/opora — даже когда термин стоит внутри длинной фразы.
+
+    Голая форма ловилась и раньше. Новое здесь — `Qabaq sağ çaşka lenforderle`:
+    марка в хвосте голой формой быть мешает, а уточнения в заявке нет.
+    """
+    for text in ("çaşka", "Qabaq sağ çaşka lenforderle", "sag caska"):
+        hit = rules.check(text, content_tokens, retriever.head_codes)
+        assert hit is not None, text
+        assert hit.codes == ["AS-029", "AS-034"]
+
+
+@pytest.mark.parametrize("text,code", [
+    ("alt çaşka", "AS-029"),
+    ("aşağı çaşka", "AS-029"),
+    ("purjun alt çaşkası", "AS-029"),
+    ("üst çaşka", "AS-034"),
+    ("amortizator çaşkası", "AS-034"),
+])
+def test_a_confirmed_qualifier_hands_the_answer_back_to_the_dictionary(
+        rules, retriever, text, code):
+    assert rules.check(text, content_tokens, retriever.head_codes) is None
+    assert retriever.retrieve(text).codes[0] == code
+
+
+def test_only_terms_listed_in_the_file_widen_beyond_the_bare_form(rules,
+                                                                  retriever):
+    """Остальные четыре правила работают по-прежнему: только голая форма.
+
+    Заказчик подтвердил «park radar оставляем с переспросом» — то есть как
+    было. Расширять его на `park radari bloku` мы не должны.
+    """
+    assert rules.check("park radari", content_tokens,
+                       retriever.head_codes) is not None
+    assert rules.check("park radari bloku", content_tokens,
+                       retriever.head_codes) is None
+    assert rules.check("arxa şveller", content_tokens,
+                       retriever.head_codes) is not None
+    assert rules.check("porog sveleri", content_tokens,
+                       retriever.head_codes) is None
+
+
+def test_qualifiers_are_data_with_a_stated_ground():
+    """Слова-уточнители — данные с основанием, а не константа в коде."""
+    with open(os.path.join(ROOT, "data", "ambiguity_qualifiers.json"),
+              encoding="utf-8") as fh:
+        payload = json.load(fh)
+    for term, body in payload["terms"].items():
+        assert body["qualifiers"], term
+        assert body["confirmed"], term

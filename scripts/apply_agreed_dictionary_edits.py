@@ -35,6 +35,25 @@ REMOVE_TERMS = (
     ("MU-038", "aktivatur turbnun ustunde olan"),
 )
 
+#: (код детали, форма) — согласованные добавления, ещё не вошедшие в поставку.
+#:
+#: Живой прогон 469, заявка ``Sag onsuse qaldiran mexanizim``: правильный код
+#: KZ-045 стоял в shortlist первым, но точного термина с приставкой ``ön`` в
+#: словаре нет, и арбитр отказался, прочитав ``onsuse`` как подвеску. Формы без
+#: приставки (``suse qaldiran mexanizimi``) в словаре есть, добавляются только
+#: варианты с ``ön``/``on``.
+#:
+#: ``afdopasos`` сюда НЕ добавлен намеренно: он в словаре уже есть у MU-088, и
+#: ретривер ставит MU-088 первым. Та заявка провалилась по другой причине —
+#: арбитр выбрал RG-13 вопреки кандидату на первом месте.
+ADD_TERMS = (
+    ("KZ-045", "onsuse qaldiran mexanizim"),
+    ("KZ-045", "on suse qaldiran mexanizm"),
+    ("KZ-045", "ön şüşə qaldıran mexanizm"),
+    ("KZ-045", "onsuse qaldiran"),
+    ("KZ-045", "on suse qaldirici"),
+)
+
 
 def _synonym_forms(value: str, form: str) -> str:
     """Убрать форму из строки синонимов, сохранив разделители."""
@@ -53,10 +72,17 @@ def apply(path: str = DICT, check_only: bool = False) -> dict:
     term_at = header.index("term") + 1
 
     doomed: list[int] = []
+    present: set[tuple[str, str]] = set()
+    type_at = header.index("term_type") + 1 if "term_type" in header else None
+    name_at = header.index("name_az") + 1 if "name_az" in header else None
     for row in range(2, terms.max_row + 1):
         pair = (terms.cell(row, code_at).value, terms.cell(row, term_at).value)
+        present.add((str(pair[0]), str(pair[1])))
         if pair in REMOVE_TERMS:
             doomed.append(row)
+
+    missing = [(code, term) for code, term in ADD_TERMS
+               if (code, term) not in present]
 
     parts = workbook["parts_synonyms"]
     parts_header = [cell.value for cell in parts[1]]
@@ -75,12 +101,29 @@ def apply(path: str = DICT, check_only: bool = False) -> dict:
                 if not check_only:
                     cell.value = trimmed
 
-    if not check_only and (doomed or synonym_edits):
+    if not check_only and (doomed or synonym_edits or missing):
         for row in reversed(doomed):
             terms.delete_rows(row)
+        # Имя детали берём из уже существующей строки того же кода, чтобы новая
+        # запись ничем не отличалась от соседних.
+        names = {}
+        if name_at:
+            for row in range(2, terms.max_row + 1):
+                code = terms.cell(row, code_at).value
+                if code and code not in names:
+                    names[code] = terms.cell(row, name_at).value
+        for code, term in missing:
+            row = terms.max_row + 1
+            terms.cell(row, code_at).value = code
+            terms.cell(row, term_at).value = term
+            if name_at:
+                terms.cell(row, name_at).value = names.get(code)
+            if type_at:
+                terms.cell(row, type_at).value = "synonym"
         workbook.save(path)
 
-    return {"terms_removed": len(doomed), "synonyms_trimmed": len(synonym_edits)}
+    return {"terms_removed": len(doomed), "synonyms_trimmed": len(synonym_edits),
+            "terms_added": len(missing)}
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -92,18 +135,25 @@ def main(argv: list[str] | None = None) -> int:
 
     stats = apply(args.dict, check_only=args.check)
     if args.check:
-        if stats["terms_removed"] or stats["synonyms_trimmed"]:
+        pending = (stats["terms_removed"] + stats["synonyms_trimmed"]
+                   + stats["terms_added"])
+        if pending:
             print("правки ещё НЕ применены: "
                   f"терминов к удалению {stats['terms_removed']}, "
-                  f"синонимов к правке {stats['synonyms_trimmed']}")
+                  f"синонимов к правке {stats['synonyms_trimmed']}, "
+                  f"терминов к добавлению {stats['terms_added']}")
             return 1
-        print("правки применены — убирать нечего")
+        print("правки применены — делать нечего")
         return 0
     print(f"удалено терминов: {stats['terms_removed']}, "
-          f"поправлено строк синонимов: {stats['synonyms_trimmed']}")
+          f"поправлено строк синонимов: {stats['synonyms_trimmed']}, "
+          f"добавлено терминов: {stats['terms_added']}")
     for code, form in REMOVE_TERMS:
-        print(f"  {code}: убрана форма {form!r}")
-    print("Замена работает контекстным правилом из data/context_rules_local.json")
+        print(f"  − {code}: убрана форма {form!r}")
+    for code, form in ADD_TERMS:
+        print(f"  + {code}: {form!r}")
+    print("Замена MU-038 работает контекстным правилом из "
+          "data/context_rules_local.json")
     return 0
 
 

@@ -35,8 +35,11 @@ from functools import lru_cache
 
 from .dictionary import normalize
 
-RULES_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                          "data", "ambiguous_rules.json")
+_DATA = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                     "data")
+RULES_PATH = os.path.join(_DATA, "ambiguous_rules.json")
+#: Слова-уточнители к отдельным правилам — см. data/ambiguity_qualifiers.json.
+QUALIFIERS_PATH = os.path.join(_DATA, "ambiguity_qualifiers.json")
 
 
 class AmbiguousTerm:
@@ -59,7 +62,12 @@ class AmbiguousTerm:
 class AmbiguityRules:
     """Правила неоднозначности словаря."""
 
-    def __init__(self, rules: list[dict]) -> None:
+    def __init__(self, rules: list[dict],
+                 qualifiers: dict[str, list[str]] | None = None) -> None:
+        # Уточнители по нормализованному термину: с ними термин разрешается,
+        # без них — переспрашиваем, даже если в заявке есть другие слова.
+        self._qualifiers = {normalize(term): {normalize(word) for word in words}
+                            for term, words in (qualifiers or {}).items()}
         # Нормализованный вариант термина -> правило. Нормализация та же, что у
         # словаря, поэтому «şveller» и «sveller» — одно и то же.
         self._by_term: dict[str, dict] = {}
@@ -75,6 +83,24 @@ class AmbiguityRules:
     @property
     def terms(self) -> list[str]:
         return sorted(self._by_term)
+
+    def _find_qualified_term(self, tokens: list[str]):
+        """Термин с уточнителями внутри фразы — если ни одного уточнителя нет.
+
+        Возвращает ``(термин, правило)`` или ``(None, None)``. Правило с
+        уточнителями применяется шире голой формы намеренно: заказчик
+        подтвердил, что ``çaşka`` без ``alt``/``aşağı``/``purjun`` или
+        ``üst``/``amortizator``/``opora`` — это переспрос, а не догадка.
+        """
+        present = set(tokens)
+        for term, allowed in self._qualifiers.items():
+            rule = self._by_term.get(term)
+            if rule is None or term not in present:
+                continue
+            if present & allowed:
+                return None, None        # уточнитель есть — разводит словарь
+            return term, rule
+        return None, None
 
     def check(self, item_raw: str, content_tokens,
               resolve_exact=None) -> AmbiguousTerm | None:
@@ -102,7 +128,12 @@ class AmbiguityRules:
         key = " ".join(tokens)
         rule = self._by_term.get(key)
         if rule is None:
-            return None
+            # Термин с явными уточнителями ловим и внутри длинной фразы:
+            # по решению заказчика «çaşka» без alt/üst — это переспрос, даже
+            # если рядом стоит марка («Qabaq sağ çaşka lenforderle»).
+            key, rule = self._find_qualified_term(tokens)
+            if rule is None:
+                return None
         if resolve_exact is not None:
             resolved = set(resolve_exact(item_raw) or ())
             if resolved and resolved <= set(rule.get("codes", ())):
@@ -122,6 +153,14 @@ def load_rules(path: str = RULES_PATH) -> list[dict]:
         return json.load(fh).get("rules", [])
 
 
+def load_qualifiers(path: str = QUALIFIERS_PATH) -> dict[str, list[str]]:
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as fh:
+        terms = json.load(fh).get("terms", {})
+    return {term: list(body.get("qualifiers", [])) for term, body in terms.items()}
+
+
 @lru_cache(maxsize=1)
 def load(path: str = RULES_PATH) -> AmbiguityRules:
-    return AmbiguityRules(load_rules(path))
+    return AmbiguityRules(load_rules(path), load_qualifiers())

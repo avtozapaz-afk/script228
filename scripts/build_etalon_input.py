@@ -39,25 +39,50 @@ XLSX_OUT = os.path.join(ROOT, "data", "etalon_200.jsonl")
 #: Ответ «кода быть не должно» кодируется этим значением.
 NO_CODE = "UNKNOWN"
 
+#: Поправки к разметке, подтверждённые заказчиком.
+CORRECTIONS_PATH = os.path.join(ROOT, "data", "etalon_corrections.json")
+
+
+def load_corrections(path: str = CORRECTIONS_PATH) -> dict[str, dict]:
+    """Поправки по точному тексту заявки.
+
+    Разметка иногда расходится со словарём или со второй размеченной выборкой
+    того же проекта. Молча подстраивать её нельзя — метрика перестанет что-либо
+    значить. Поэтому поправка живёт отдельным файлом, несёт основание и
+    печатается при каждой сборке входа.
+    """
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as fh:
+        payload = json.load(fh)
+    return {c["match_text"].strip().casefold(): c
+            for c in payload.get("corrections", [])}
+
 
 def _text(value: object) -> str:
     return str(value).strip() if value is not None else ""
 
 
 def build_from_csv(src: str, out: str, duplicates: dict[str, str],
-                   known_codes: set[str]) -> dict:
+                   known_codes: set[str],
+                   corrections: dict[str, dict] | None = None) -> dict:
     """Основной набор точности: 469 заявок, у каждой есть правильный код."""
     with open(src, encoding="utf-8-sig", newline="") as fh:
         rows = list(csv.DictReader(fh))
 
     records: list[dict] = []
     unknown_codes: dict[str, int] = {}
+    applied: list[tuple[str, dict]] = []
     canonicalised = 0
     for index, row in enumerate(rows):
         text = _text(row.get("raw_text"))
         if not text:
             continue
         expected = _text(row.get("expected_external_code"))
+        fix = (corrections or {}).get(text.strip().casefold())
+        if fix and expected == fix["from"]:
+            expected = fix["to"]
+            applied.append((text, fix))
         if expected in duplicates:
             expected = duplicates[expected]
             canonicalised += 1
@@ -81,7 +106,7 @@ def build_from_csv(src: str, out: str, duplicates: dict[str, str],
 
     _write(out, records)
     return {"rows": len(records), "canonicalised": canonicalised,
-            "unknown_codes": unknown_codes,
+            "unknown_codes": unknown_codes, "corrections": applied,
             "unscorable": sum(1 for r in records if not r["scorable"])}
 
 
@@ -147,10 +172,16 @@ def main(argv: list[str] | None = None) -> int:
 
     duplicates = load_duplicates()
     known = set(load().parts)
+    corrections = load_corrections()
 
     if os.path.exists(args.csv_src):
-        stats = build_from_csv(args.csv_src, args.csv_out, duplicates, known)
+        stats = build_from_csv(args.csv_src, args.csv_out, duplicates, known,
+                               corrections)
         print(f"{args.csv_out}: {stats['rows']} заявок (набор точности)")
+        for text, fix in stats.get("corrections", []):
+            print(f"  поправка разметки: {text[:44]!r} "
+                  f"{fix['from']} -> {fix['to']}")
+            print(f"      основание: {fix['why']}")
         if stats["canonicalised"]:
             print(f"  кодов-дублей приведено к каноническим: "
                   f"{stats['canonicalised']}")
