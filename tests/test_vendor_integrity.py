@@ -39,7 +39,7 @@ def test_retrieval_algorithm_is_untouched():
 def test_only_the_dictionary_path_was_adjusted_in_the_engine():
     source = read("avtozap_matcher_engine.py")
     assert "ЕДИНСТВЕННАЯ правка вендорного кода" in source
-    assert "AVTOZAP_slovar_FINAL_541.xlsx" in source
+    assert "AVTOZAP_slovar_FINAL_571.xlsx" in source
     # Логика движка на месте.
     for marker in ("def phrases", "def match", "PREFER", "fuzzy_blocked"):
         assert marker in source, marker
@@ -61,8 +61,15 @@ def test_context_rules_still_carry_the_known_issue_guards():
     assert '"MU-017"' in source          # muherrik + yastiq = опора двигателя
 
 
-def test_vendor_is_importable_and_loads_the_541_dictionary():
+def test_vendor_is_importable_and_loads_the_571_dictionary():
     from avtozap.dictionary import _ensure_vendor_on_path
     _ensure_vendor_on_path()
     import avtozap_matcher_engine as legacy
-    assert len(legacy.PARTS) == 541
+    assert len(legacy.PARTS) == 571
+
+
+def test_the_september_engine_carries_its_new_rules():
+    """Разбор окончаний и односложных заявок — главное, что добавила версия 01.09."""
+    source = read("avtozap_matcher_engine.py")
+    for marker in ("def _stem", "def _lookup", "SUF"):
+        assert marker in source, marker

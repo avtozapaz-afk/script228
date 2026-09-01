@@ -10,8 +10,8 @@ DATA_DIR = os.path.join(ROOT, "data")
 OUT_DIR = os.path.join(ROOT, "out")
 PROMPT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "prompts")
 
-# Словарь на 541 деталь — единственный источник истины по external_code.
-SLOVAR_XLSX_PATH = os.path.join(DATA_DIR, "AVTOZAP_slovar_FINAL_541.xlsx")
+# Словарь на 571 деталь — единственный источник истины по external_code.
+SLOVAR_XLSX_PATH = os.path.join(DATA_DIR, "AVTOZAP_slovar_FINAL_571.xlsx")
 # Старый текстовый словарь репозитория (438 деталей) оставлен только для
 # ранее существовавшего slovar_matcher и в новом конвейере НЕ используется.
 SLOVAR_PATH = os.path.join(DATA_DIR, "SLOVAR_FINAL.txt")

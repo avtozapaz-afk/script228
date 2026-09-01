@@ -155,7 +155,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"  кодов-дублей приведено к каноническим: "
                   f"{stats['canonicalised']}")
         if stats["unknown_codes"]:
-            print(f"  ⚠ строк с кодом вне словаря 541: {stats['unscorable']}")
+            print(f"  ⚠ строк с кодом вне словаря 571: {stats['unscorable']}")
             for code, count in sorted(stats["unknown_codes"].items()):
                 print(f"      {code} — {count} строк(и); в подсчёт не идут")
 

@@ -212,7 +212,7 @@ def main(argv: list[str] | None = None) -> int:
         print("  заявок с ответом «кода быть не должно» нет — поведение "
               "«переспроси / попроси фото» этот набор не меряет")
     if unscorable:
-        print(f"  ⚠ вне подсчёта (код отсутствует в словаре 541): {unscorable}")
+        print(f"  ⚠ вне подсчёта (код отсутствует в словаре 571): {unscorable}")
     if baseline:
         print(f"Точка отсчёта — боевая система: {baseline}/{len(etalon)} "
               f"= {baseline / len(etalon) * 100:.1f}%")

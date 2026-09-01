@@ -306,17 +306,17 @@ def test_duplicate_codes_are_canonicalised_on_import(etalon469):
                 if r["expected_external_code"] in duplicates]
 
 
-def test_rows_pointing_outside_the_dictionary_are_excluded_from_scoring(etalon469):
-    """KZ-094 и KZ-095 появились в разметке позже нашей версии словаря.
+def test_every_row_is_scorable_against_the_september_dictionary(etalon469):
+    """KZ-094 и KZ-095 приехали со словарём 571 — все 469 строк считаются.
 
-    Такую строку нельзя ни засчитать, ни провалить — она помечена
-    ``scorable: false`` и в подсчёт не идёт.
+    Механизм ``scorable`` остаётся: если разметка снова обгонит словарь, такие
+    строки не будут ни засчитаны, ни провалены.
     """
     dictionary = load()
     for row in etalon469:
         expected = row["expected_external_code"]
         assert row["scorable"] == (expected in dictionary), expected
-    assert sum(1 for r in etalon469 if not r["scorable"]) == 3
+    assert sum(1 for r in etalon469 if not r["scorable"]) == 0
 
 
 def test_scorable_rows_all_resolve_to_real_parts(etalon469):

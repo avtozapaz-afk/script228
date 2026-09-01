@@ -10,14 +10,19 @@ def dictionary():
     return load()
 
 
-def test_exactly_541_parts(dictionary):
-    """541 деталь — целевой словарь проекта.
+def test_exactly_571_parts(dictionary):
+    """571 деталь — словарь проекта в версии от 01.09.2026."""
+    assert len(dictionary) == 571
 
-    Из поставки это число даёт ТОЛЬКО ``AVTOZAP_slovar_FINAL_31avg_v4.xlsx``
-    (внутри архива Retriever V2). В ``02_DATA/SLOVAR_FINAL_541_REFERENCE.txt``
-    вопреки имени 435 деталей, в ``parts_synonyms_cleaned_v2.xlsx`` — 537.
-    """
-    assert len(dictionary) == 541
+
+@pytest.mark.parametrize("code,name", [
+    ("KZ-094", "Молдинг двери"),
+    ("KZ-095", "Кант лобового стекла"),
+])
+def test_parts_added_in_the_september_dictionary(dictionary, code, name):
+    """Из-за их отсутствия три строки эталона раньше нельзя было засчитать."""
+    part = dictionary.get(code)
+    assert part is not None and name in part.name_ru
 
 
 @pytest.mark.parametrize("code", ["AK-004", "AK-006", "YA-027", "MU-011"])
@@ -41,7 +46,7 @@ def test_codes_look_like_project_identifiers(dictionary):
 
 
 def test_term_index_is_populated(dictionary):
-    assert len(dictionary.term_index) > 3000
+    assert len(dictionary.term_index) > 4000
 
 
 def test_exact_lookup_uses_project_normalisation(dictionary):

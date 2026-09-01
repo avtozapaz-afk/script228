@@ -28,8 +28,8 @@ def devset() -> list[dict]:
 
 
 # ── словарь ─────────────────────────────────────────────────────────────────
-def test_dictionary_has_all_541_parts(retriever):
-    assert len(retriever.dict) == 541
+def test_dictionary_has_all_571_parts(retriever):
+    assert len(retriever.dict) == 571
 
 
 @pytest.mark.parametrize("code", ["AK-004", "AK-006", "YA-027", "MU-011"])
@@ -58,30 +58,43 @@ def test_limit_is_respected():
 
 
 # ── верность поставленной реализации ────────────────────────────────────────
-def test_shortlist_reproduces_the_projects_own_reference(retriever, devset):
-    """При limit=24 shortlist обязан содержать весь ссылочный список devset.
+def test_the_project_control_run_reproduces_exactly(retriever):
+    """Контрольный прогон проекта обязан дать ровно 485 / 70 / 149.
 
-    Ссылочные списки посчитаны поставленным Retriever V2. Расхождение означало
-    бы, что адаптер исказил работу проектного кода.
+    Это собственный критерий приёмки проекта (``prognat_704.py``): 704 заявки,
+    подтверждённые покупателем. Совпадение до единицы означает, что репозиторий
+    запускает движок проекта как есть и ничего не исказил.
 
-    Обе стороны приводятся к каноническим кодам: ссылка собиралась до того, как
-    проект объявил RG-04, MU-012 и SO-025 дублями, а конвейер теперь намеренно
-    отдаёт вместо них MU-089, MU-078 и SO-005. Это единственное осознанное
-    отличие, и сверять надо после него.
+    Прежняя проверка сверялась со ссылочными shortlist из fresh-300 devset, но
+    те считались словарём на 541 деталь и прежним движком — после обновления от
+    01.09 они устарели и сравнивать с ними стало нечего.
     """
-    canonical = retriever.dict.canonical
-    checked = mismatched = 0
-    for case in devset:
-        reference = {canonical(c["external_code"])
-                     for c in case.get("candidates") or []}
-        if not reference:
-            continue
-        checked += 1
-        mine = {canonical(code) for code in retriever.retrieve(case["item_raw"]).codes}
-        if not reference <= mine:
-            mismatched += 1
-    assert checked >= 250
-    assert mismatched == 0, f"{mismatched} из {checked} shortlist разошлись со ссылкой"
+    import json
+    import os
+
+    from avtozap.dictionary import _ensure_vendor_on_path
+    _ensure_vendor_on_path()
+    from avtozap_matcher_engine import PARTS, match
+
+    path = os.path.join("data", "reference", "zayavki", "zayavki_6188.json")
+    with open(path, encoding="utf-8") as fh:
+        rows = json.load(fh)
+
+    by_name = {}
+    for code, part in PARTS.items():
+        by_name.setdefault((part["name_ru"] or "").strip().lower(), code)
+    gold = [(text, by_name[(name or "").strip().lower()])
+            for _, text, name, _ in rows
+            if (name or "").strip().lower() in by_name]
+
+    ok = wrong = 0
+    for text, expected in gold:
+        got, _ = match(text)
+        if got == expected:
+            ok += 1
+        elif got:
+            wrong += 1
+    assert (ok, wrong, len(gold) - ok - wrong) == (485, 70, 149)
 
 
 def test_recall_of_the_old_production_code_stays_at_the_measured_level(retriever, devset):

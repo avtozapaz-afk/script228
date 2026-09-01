@@ -50,6 +50,9 @@ CONTEXT_RULES = [
     ("qapi", ["kilid", "zamok"], "KZ-017"),
     ("qapi", ["qulp", "rucka"], "KZ-016"),
     ("qapi", ["suse", "sise"], "KZ-013"),
+    # Уплотнитель проёма (в кузове) отличать от уплотнителя самой двери:
+    # решают слова "yer", "yuva", "proyem" рядом.
+    ("qapi", ["yerinin rezin", "yeri rezin", "yuvasinin rezin", "proyem"], "KZ-098"),
     ("qapi", ["rezin", "uplotnit"], "KZ-018"),
     ("qapi", ["petle", "menteşe", "mentese"], "KZ-041"),
     ("qapi", ["dinamik", "kolonk"], "AU-001"),
@@ -75,6 +78,16 @@ CONTEXT_RULES = [
     ("suport", ["pulnik", "pilnik", "remkomplekt", "manjet"], "EY-004"),
     ("suport", ["porsen", "porshen"], "EY-004"),
 
+    # Подушка двигателя, а не подушка безопасности: слово yastiq/paduska
+    # рядом со словом мотор всегда означает опору двигателя.
+    ("mator",     ["yastiq", "yastigi", "yastiqlari", "paduska", "paduskalari", "pasuskalari"], "MU-017"),
+    ("motor",     ["yastiq", "yastigi", "yastiqlari", "paduska", "paduskalari"], "MU-017"),
+    ("muherrik",  ["yastiq", "yastigi", "yastiqlari", "paduska", "paduskalari"], "MU-017"),
+    ("karopka",   ["yastiq", "yastigi", "yastiqlari", "paduska", "paduskalari"], "MU-018"),
+    # Мотор замка двери — это EL-041, а не сам замок KZ-017.
+    ("qapi", ["kilidi muherrikinin motoru", "kilid motoru", "kilidin motoru"], "EL-041"),
+    # Стекло задней двери багажника — это заднее стекло KZ-012, а не сама дверь.
+    ("baqaj", ["aynasi", "susesi", "patpres"], "KZ-012"),
     # turbo
     ("turbo", ["datcik", "dacik", "datchik", "dacnik", "dachik", "sensor"], "MU-075"),
     ("turbo", ["aktuator", "aktator", "aktivator"], "MU-038"),

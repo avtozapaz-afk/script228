@@ -79,7 +79,7 @@ class Validator:
         if code not in self.retriever.dict:
             return ValidatorResult(
                 VAL_REJECT, "V1",
-                f"external_code {code!r} отсутствует в словаре 541")
+                f"external_code {code!r} отсутствует в словаре 571")
 
         # --- V2: код был среди разрешённых кандидатов -------------------------
         if code not in set(retriever.codes):

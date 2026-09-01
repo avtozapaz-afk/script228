@@ -5,7 +5,7 @@
 репозиторий как есть (правились только пути к файлам). Этот модуль:
 
 * приводит его вывод к типам конвейера (``Candidate`` / ``RetrieverResult``),
-  добавляя из словаря 541 имена, категорию и синонимы;
+  добавляя из словаря 571 имена, категорию и синонимы;
 * даёт слоям выше три справки, которые им нужны от словаря:
   ``head_codes`` (точная «голова» предмета), ``is_exact_key`` и
   ``lexical_support`` (есть ли у выбранной детали опора в тексте запроса).
@@ -16,13 +16,15 @@
 дороже, чем удалить его.
 
 Кандидатом может стать только реальный код словаря: список кодов приходит от
-поставленного ретривера, а метаданные — из словаря 541.
+поставленного ретривера, а метаданные — из словаря 571.
 """
 
 from __future__ import annotations
 
 from .config import RETRIEVER_LIMIT as DEFAULT_LIMIT
 from .dictionary import Dictionary, Part, _ensure_vendor_on_path, load, normalize
+from .head_ranking import head_token, rerank
+from .lubricants import hint_for as lubricant_hint
 from .types import Candidate, RetrieverResult
 
 
@@ -34,18 +36,34 @@ def _vendor_retriever():
 
 class RetrieverV2:
     def __init__(self, limit: int = DEFAULT_LIMIT,
-                 dictionary: Dictionary | None = None):
+                 dictionary: Dictionary | None = None,
+                 head_ranking: bool = True):
         self.dict = dictionary or load()
         self.limit = limit
+        # Проход по головному слову можно выключить, чтобы замерить его вклад.
+        self.head_ranking = head_ranking
         self._vendor = _vendor_retriever()()
         self._known_words = {tok for term in self.dict.term_index
                              for tok in term.split() if len(tok) >= 2}
+        self._name_token_cache: dict[str, set[str]] = {}
 
     # Совместимость с прежним конструктором конвейера.
     @classmethod
     def from_file(cls, path: str | None = None, limit: int = DEFAULT_LIMIT,
                   **_ignored) -> "RetrieverV2":
         return cls(limit=limit)
+
+    def _name_tokens(self, code: str) -> set[str]:
+        """Слова собственного ИМЕНИ детали, без синонимов листа."""
+        cached = self._name_token_cache.get(code)
+        if cached is None:
+            part = self.dict.get(code)
+            cached = set()
+            if part is not None:
+                for name in (part.name_az, part.name_ru):
+                    cached |= set(normalize(name).split())
+            self._name_token_cache[code] = cached
+        return cached
 
     # ── публичный API ───────────────────────────────────────────────────────
     def retrieve(self, item_raw: str, search_phrases: list[str] | None = None,
@@ -57,7 +75,12 @@ class RetrieverV2:
         всё равно приходят только от ретривера и только из словаря.
         """
         queries = [item_raw]
-        for extra in list(search_phrases or []) + list(extra_hints or []):
+        # Масло покупатель называет маркой, которой в словаре нет и быть не
+        # должно. Зато вязкость («5w-40», «0/20») — это формат, а не словарь:
+        # по ней добавляем поисковую подсказку. Код всё равно придёт из словаря.
+        lubricant = lubricant_hint(item_raw)
+        for extra in ([lubricant] if lubricant else []) \
+                + list(search_phrases or []) + list(extra_hints or []):
             if extra and extra not in queries:
                 queries.append(extra)
 
@@ -94,6 +117,12 @@ class RetrieverV2:
             candidates.append(_candidate(part, score, reason))
 
         candidates.sort(key=lambda c: (-c.score, c.external_code))
+        # Проход по головному слову: «çəninin qapağı» — это крышка, а не бак.
+        # Работает ДО обрезки по limit, чтобы нужная деталь успела подняться.
+        if self.head_ranking:
+            rerank(candidates,
+                   head_token(content_tokens(item_raw), self.is_known_word),
+                   self._name_tokens, _tokens_match)
         candidates = candidates[: self.limit]
         if not candidates:
             return RetrieverResult(status="EMPTY", query_keys=used,
