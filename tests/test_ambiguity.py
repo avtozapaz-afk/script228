@@ -206,3 +206,59 @@ def test_a_deactivated_code_never_reaches_the_shortlist(retriever):
                  "qalofka praklatkasi"):
         codes = retriever.retrieve(text).codes
         assert not ({"RG-04", "SO-025", "EL-013", "MU-012"} & set(codes)), text
+
+
+# ── согласованная правка MU-038 ─────────────────────────────────────────────
+def test_the_long_phrase_is_gone_from_the_dictionary():
+    """Форма-предложение убрана из словаря, и убрана скриптом.
+
+    ``--check`` возвращает 0, только если убирать больше нечего. Если словарь
+    переставят новой поставкой и правку забудут применить, тест это поймает.
+    """
+    import sys
+
+    sys.path.insert(0, os.path.join(ROOT, "scripts"))
+    from apply_agreed_dictionary_edits import apply
+
+    assert apply(check_only=True) == {"terms_removed": 0, "synonyms_trimmed": 0}
+
+
+def test_the_context_rule_replaced_it_in_the_projects_own_structure():
+    """Правило подано в CONTEXT_RULES проекта, а вендорный файл не тронут."""
+    from avtozap.dictionary import _ensure_vendor_on_path
+
+    _ensure_vendor_on_path()
+    import avtozap_ambiguity_layer as vendor_layer
+
+    assert ("aktivatur", ["turb", "turbo", "turbn", "turbon"],
+            "MU-038") in vendor_layer.CONTEXT_RULES
+
+
+def test_the_turbo_actuator_is_still_found(retriever):
+    """Ради чего правка делалась, часть первая."""
+    for text in ("Hunday sonata 1.7 dizel aktivatur  turbnun ustundə olan",
+                 "aktivatur turbnun ustunde olan",
+                 "turbo aktivaturu"):
+        assert retriever.retrieve(text).codes[0] == "MU-038", text
+
+
+def test_the_fuel_flap_no_longer_sinks(retriever):
+    """Ради чего правка делалась, часть вторая.
+
+    KZ-083 в словаре не менялся вовсе, но проседал с 0.9999 до 0.88 из-за
+    служебных слов, попавших в индекс вместе с формой-предложением.
+    """
+    candidates = retriever.retrieve(
+        "Krlonun üstündə olan benzin qapağı ağ rəng").candidates
+    assert candidates[0].external_code == "KZ-083"
+    assert candidates[0].score > 0.99
+
+
+def test_local_rules_are_a_data_file_not_code():
+    """Правило должно читаться как данные — чтобы проект мог забрать его к себе."""
+    with open(os.path.join(ROOT, "data", "context_rules_local.json"),
+              encoding="utf-8") as fh:
+        payload = json.load(fh)
+    assert payload["rules"]
+    for rule in payload["rules"]:
+        assert {"stem", "qualifiers", "code", "why"} <= set(rule)

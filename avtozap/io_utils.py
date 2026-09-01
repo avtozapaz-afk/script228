@@ -36,7 +36,7 @@ CSV_COLUMNS = [
     "arbiter_attempts", "arbiter_error",
     "validator_status", "validator_code", "validator_reason",
     "final_external_code", "final_status",
-    "action", "action_reason", "buyer_question",
+    "action", "action_reason", "buyer_question", "ambiguous_term",
     "expected_external_code", "failure_layer", "latency_ms", "error",
 ]
 
@@ -232,6 +232,7 @@ def flatten_record(record: dict[str, Any]) -> dict[str, Any]:
         "action": record.get("action"),
         "action_reason": record.get("action_reason"),
         "buyer_question": record.get("buyer_question"),
+        "ambiguous_term": record.get("ambiguous_term"),
         "expected_external_code": record.get("expected_external_code"),
         "failure_layer": record.get("failure_layer"),
         "latency_ms": record.get("latency_ms"),

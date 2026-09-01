@@ -374,3 +374,41 @@ def test_the_scorer_survives_a_run_killed_mid_write(tmp_path):
         encoding="utf-8")
     loaded = load_results(str(path))
     assert sorted(loaded) == ["a", "b"]
+
+
+# ── сравнение с боевой системой на неполном прогоне ─────────────────────────
+def test_an_unfinished_run_does_not_credit_itself_with_unscored_rows():
+    """Непосчитанная заявка не может быть записана нам в актив.
+
+    Раньше сравнение считало правыми всех, кого нет в списке ошибок, — включая
+    тех, до кого прогон не дошёл. На оборванном прогоне картина получалась тем
+    красивее, чем меньше успели посчитать.
+    """
+    import sys
+    import os as _os
+
+    sys.path.insert(0, _os.path.join(
+        _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))), "scripts"))
+    from score_etalon import compare_with_production, score_run
+
+    etalon = [
+        {"rfq_id": "a", "expected_external_code": "KZ-001",
+         "original_text": "bufer", "reference_production_correct": "да"},
+        {"rfq_id": "b", "expected_external_code": "KZ-002",
+         "original_text": "kapot", "reference_production_correct": "нет"},
+        {"rfq_id": "c", "expected_external_code": "KZ-003",
+         "original_text": "fara", "reference_production_correct": "да"},
+    ]
+    # Прогон дошёл только до первой заявки, и та закрыта верно.
+    results = {"a": [{"final_external_code": "KZ-001", "final_status": "SELECT"}]}
+
+    scored = score_run(etalon, results)
+    assert scored["correct"] == 1
+    assert scored["missing_from_results"] == 2
+
+    comparison = compare_with_production(etalon, scored)
+    assert comparison["considered"] == 1
+    assert comparison["ours_correct"] == 1, "только посчитанная заявка"
+    assert comparison["both_correct"] == 1
+    assert comparison["only_ours"] == []
+    assert comparison["only_production"] == [], "c не посчитана — её тут быть не должно"

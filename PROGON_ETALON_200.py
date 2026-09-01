@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
-"""AVTOZAP — прогон эталона 469 и результат одной командой.
+"""AVTOZAP — прогон эталона 200 и результат одной командой.
 
-    python3 PROGON_ETALON_469.py
+    python3 PROGON_ETALON_200.py
 
 Скрипт сам:
 
 1. проверит, что всё на месте (зависимости, словарь, эталон);
 2. спросит ключ OpenAI, если его нет в переменной окружения;
-3. прогонит все 469 размеченных заявок через конвейер;
+3. прогонит все 200 размеченных заявок через конвейер;
 4. сверит с эталоном и напечатает результат.
+
+Этот набор меряет **поведение**, а не только точность. Только в нём есть 27
+заявок, где верный ответ — «кода быть не должно»: выдала система код — ошибка,
+переспросила, попросила фото или отказалась — попадание. И только в нём есть
+точка отсчёта: боевая система права в 128 заявках из 200.
 
 Прогон **возобновляемый**: результат каждой заявки сразу пишется на диск.
 Прервали на середине — запустите ту же команду, продолжит с места остановки.
@@ -37,9 +42,9 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 os.chdir(ROOT)
 sys.path.insert(0, ROOT)
 
-ETALON = os.path.join("data", "etalon_469.jsonl")
-ETALON_SRC = os.path.join("data", "reference", "AVTOZAP_ETALON_GOTOVYY.csv")
-OUT_DIR = os.path.join("out", "etalon469")
+ETALON = os.path.join("data", "etalon_200.jsonl")
+ETALON_SRC = os.path.join("data", "reference", "AVTOZAP_etalon_200.xlsx")
+OUT_DIR = os.path.join("out", "etalon200")
 RESULTS = os.path.join(OUT_DIR, "results.jsonl")
 
 LINE = "─" * 72
@@ -116,7 +121,7 @@ def count_done() -> int:
 
 def main() -> int:
     say(LINE)
-    say("AVTOZAP — прогон эталона 469")
+    say("AVTOZAP — прогон эталона 200")
     say(LINE)
 
     problem = check_dependencies()
@@ -135,7 +140,7 @@ def main() -> int:
     if already:
         say(f"Уже посчитано    : {already} — продолжу с этого места")
     else:
-        say("Займёт примерно 15–25 минут: на каждую заявку два обращения к "
+        say("Займёт примерно 7–12 минут: на каждую заявку два обращения к "
             "модели.")
     say(f"Результаты лягут : {OUT_DIR}/")
     say()
@@ -173,14 +178,9 @@ def main() -> int:
         if os.path.exists(path):
             say(f"    {path}")
     say()
-    say("Отдельно можно проверить правило отказов и переспроса — только в")
-    say("наборе 200 есть заявки, где верный ответ «кода быть не должно», и")
-    say("точка отсчёта «боевая система права в 128 из 200»:")
-    say()
-    say("    python3 run_test.py --input data/etalon_200.jsonl "
-        "--out-dir out/etalon200")
-    say("    python3 scripts/score_etalon.py --etalon data/etalon_200.jsonl \\")
-    say("            --results out/etalon200/results.jsonl")
+    say("Точка отсчёта для сравнения — боевая система права в 128 из 200.")
+    say("Разбивка по уверенности арбитра напечатана выше: по ней ставится")
+    say("порог, ниже которого не угадывать, а переспрашивать.")
     return 0
 
 

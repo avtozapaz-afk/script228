@@ -62,7 +62,7 @@ python run_test.py --max-requests 5
 
 | файл | что в нём на самом деле | используется |
 |---|---|---|
-| `AVTOZAP_slovar_v8_FINAL.xlsx` (поставка v8) | **571 деталь**, 4667 терминов, 5 правил `AMBIGUOUS_RULES` | **да — источник истины**, лежит как `data/AVTOZAP_slovar_FINAL_571.xlsx` |
+| `AVTOZAP_slovar_v8_FINAL.xlsx` (поставка v8 + согласованная правка MU-038) | **571 деталь**, 4666 терминов, 5 правил `AMBIGUOUS_RULES` | **да — источник истины**, лежит как `data/AVTOZAP_slovar_FINAL_571.xlsx` |
 | `02_DATA/SLOVAR_FINAL_541_REFERENCE.txt` | вопреки имени — **435 деталей**, без флагов side/position | нет |
 | `02_DATA/parts_synonyms_cleaned_v2.xlsx` | **537 деталей** — та самая «старая» версия | нет |
 | `01_PIPELINE/ARBITER_V3_PROMPT.txt` | настоящий V3 | **да, байт в байт** |
@@ -270,7 +270,7 @@ python scripts/build_fresh300_input.py
 python -m pytest tests/ -q
 ```
 
-379 тестов, сети не требуют.
+385 тестов, сети не требуют.
 
 | файл | что покрывает |
 |---|---|
@@ -419,7 +419,9 @@ python run_test.py --max-requests 5
 ## Состав
 
 ```
-PROGON_ETALON_469.py              прогон эталона 469 одной командой
+PROGON_ETALON_469.py              прогон эталона 469 одной командой (точность)
+PROGON_ETALON_200.py              прогон эталона 200 одной командой (поведение + порог)
+ЗАПУСК_WINDOWS.md                 инструкция для Windows по шагам
 run_test.py                       точка входа
 avtozap/
   dictionary.py                   словарь 571 — источник истины по external_code

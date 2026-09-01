@@ -122,6 +122,7 @@ def score_run(etalon: list[dict], by_rfq: dict[str, list[dict]]) -> dict:
     """Сколько заявок из 200 закрыты правильно."""
     correct: list[str] = []
     wrong: list[dict] = []
+    scored_ids: list[str] = []
     missing = 0
     by_confidence: dict[str, Counter] = defaultdict(Counter)
     by_action = Counter()
@@ -139,6 +140,7 @@ def score_run(etalon: list[dict], by_rfq: dict[str, list[dict]]) -> dict:
             missing += 1
             continue
 
+        scored_ids.append(rfq_id)
         want = row["expected_external_code"]
         produced = {i.get("final_external_code") for i in items
                     if i.get("final_external_code")}
@@ -177,25 +179,38 @@ def score_run(etalon: list[dict], by_rfq: dict[str, list[dict]]) -> dict:
         "unscorable": unscorable,
         "correct": len(correct),
         "wrong": wrong,
+        # Кого действительно посчитали. Нужно для сравнения с боевой системой:
+        # заявку, которой в результатах нет, нельзя записать себе в актив.
+        "scored_ids": scored_ids,
         "by_confidence": {k: dict(v) for k, v in by_confidence.items()},
         "by_action": dict(by_action),
     }
 
 
 def compare_with_production(etalon: list[dict], scored: dict) -> dict:
-    """Где мы лучше боевой системы, а где хуже — на одной выборке."""
+    """Где мы лучше боевой системы, а где хуже — на одной выборке.
+
+    Сравниваем **только по заявкам, которые реально посчитаны**. Иначе на
+    оборванном прогоне непосчитанные заявки молча записывались бы нам в актив:
+    «ошибок нет, значит прав» — и картина получалась бы тем красивее, чем
+    меньше успели прогнать.
+    """
+    considered = set(scored.get("scored_ids") or [])
+    if not considered:
+        considered = {r["rfq_id"] for r in etalon}
     wrong_ids = {w["rfq_id"] for w in scored["wrong"]}
     production_right = {r["rfq_id"] for r in etalon
-                        if str(r.get("reference_production_correct", "")).lower() == "да"}
-    ours_right = {r["rfq_id"] for r in etalon if r["rfq_id"] not in wrong_ids}
+                        if r["rfq_id"] in considered
+                        and str(r.get("reference_production_correct", "")).lower() == "да"}
+    ours_right = {rfq_id for rfq_id in considered if rfq_id not in wrong_ids}
     return {
+        "considered": len(considered),
         "production_correct": len(production_right),
         "ours_correct": len(ours_right),
         "both_correct": len(production_right & ours_right),
         "only_ours": sorted(ours_right - production_right),
         "only_production": sorted(production_right - ours_right),
-        "both_wrong": len(set(r["rfq_id"] for r in etalon)
-                          - production_right - ours_right),
+        "both_wrong": len(considered - production_right - ours_right),
     }
 
 
@@ -295,7 +310,11 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     comparison = compare_with_production(etalon, scored)
-    print("\n  Против боевой системы на той же выборке:")
+    print(f"\n  Против боевой системы — по {comparison['considered']} "
+          f"посчитанным заявкам:")
+    if comparison["considered"] < len(etalon):
+        print(f"    ⚠ прогон неполный: {len(etalon) - comparison['considered']} "
+              f"заявок не посчитаны и в сравнение не входят")
     print(f"    обе правы           : {comparison['both_correct']}")
     print(f"    только мы           : {len(comparison['only_ours'])}")
     print(f"    только боевая       : {len(comparison['only_production'])}")

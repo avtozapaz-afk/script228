@@ -26,9 +26,53 @@ VENDOR_DIR = os.path.join(
     "vendor", "retriever_v2")
 
 
+#: Согласованные контекстные правила, ещё не вошедшие в поставку словаря.
+LOCAL_CONTEXT_RULES_PATH = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "data", "context_rules_local.json")
+
+_local_rules_applied = False
+
+
 def _ensure_vendor_on_path() -> None:
     if VENDOR_DIR not in sys.path:
         sys.path.insert(0, VENDOR_DIR)
+    _apply_local_context_rules()
+
+
+def _apply_local_context_rules() -> int:
+    """Подать согласованные правила в ``CONTEXT_RULES`` проекта.
+
+    Почему так, а не правкой вендорного файла. ``CONTEXT_RULES`` — это данные
+    проекта, и добавить правило можно, ничего не переписывая: список
+    расширяется до того, как ``AmbiguityLayer`` построит из него свой индекс, а
+    файл проекта остаётся байт в байт. Тест целостности вендора продолжает
+    работать и продолжает что-то значить.
+
+    Момент вызова важен: движок создаёт ``AmbiguityLayer`` на импорте модуля,
+    поэтому расширять список надо ДО первого импорта движка — то есть здесь,
+    сразу после добавления пути.
+
+    Возвращает число добавленных правил; повторные вызовы ничего не делают.
+    """
+    global _local_rules_applied
+    if _local_rules_applied:
+        return 0
+    _local_rules_applied = True
+    if not os.path.exists(LOCAL_CONTEXT_RULES_PATH):
+        return 0
+    with open(LOCAL_CONTEXT_RULES_PATH, encoding="utf-8") as fh:
+        rules = json.load(fh).get("rules", [])
+    if not rules:
+        return 0
+    import avtozap_ambiguity_layer as vendor_layer
+    added = 0
+    for rule in rules:
+        entry = (rule["stem"], list(rule["qualifiers"]), rule["code"])
+        if entry not in vendor_layer.CONTEXT_RULES:
+            vendor_layer.CONTEXT_RULES.append(entry)
+            added += 1
+    return added
 
 
 @dataclass(frozen=True)
