@@ -200,6 +200,9 @@ class ItemRecord:
     action: str = ""
     action_reason: str = ""
     buyer_question: str | None = None
+    #: Сработавшее правило неоднозначности словаря: голый термин, по которому
+    #: проект запретил выбирать код без уточнения. Пусто — правило не сработало.
+    ambiguous_term: str | None = None
     search_phrases: list[str] = field(default_factory=list)
     is_part_request: bool = True
     encoding_warning: str | None = None

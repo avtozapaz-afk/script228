@@ -17,7 +17,8 @@ from .layer0 import Layer0
 from .llm import LlmClient
 from .oem import OemResolver
 from .photo import PhotoLayer
-from .policy import decide_action, question_for
+from .ambiguity import load as load_ambiguity_rules
+from .policy import ACTION_ASK_BUYER, decide_action, question_for
 from .retriever import RetrieverV2, content_tokens
 from .segmenter import Segmenter
 from .types import (
@@ -107,6 +108,9 @@ class Pipeline:
                                 enabled=config.enable_photo and client is not None)
         self.validator = Validator(self.retriever, config.accepted_confidence,
                                    layer0=self.fallback_layer0)
+        # Правила неоднозначности словаря: четыре термина, по которым проект
+        # запретил выбирать код без уточняющего контекста.
+        self.ambiguity = load_ambiguity_rules()
         if config.mock:
             self.arbiter: Any = MockArbiter()
         else:
@@ -225,10 +229,29 @@ class Pipeline:
 
         def record(oem, retrieved, arbiter, validated, final_id, final_status,
                    failure_layer, error=None) -> ItemRecord:
+            # Правило неоднозначности словаря идёт ПЕРЕД решением о действии:
+            # если покупатель написал голый неоднозначный термин, отвечать
+            # нельзя независимо от того, насколько уверен арбитр. Проверено,
+            # что уверен он бывает: движок отдаёт на «park radari» кандидата
+            # со score 1.0. Вопрос берём готовый, из листа AMBIGUOUS_RULES.
+            ambiguous = self.ambiguity.check(item.item_raw, content_tokens)
+            if ambiguous is not None and final_status != FINAL_ERROR:
+                final_id, final_status = None, FINAL_REVIEW
+
             action, action_reason = decide_action(
                 final_status, arbiter, validated, original_text,
                 attempt=self.config.attempt,
                 has_photo=photo.status == PHOTO_OK)
+            buyer_question = question_for(action, action_reason)
+            if ambiguous is not None and action == ACTION_ASK_BUYER:
+                # Правило заказчика не меняется — переспрашиваем, как и
+                # переспрашивали. Меняется только текст: вместо общего «опишите
+                # другими словами» покупатель получает вопрос, на который можно
+                # ответить одним словом.
+                action_reason = (f"неоднозначный термин «{ambiguous.term}»: "
+                                 f"{' или '.join(ambiguous.codes)} — "
+                                 f"{ambiguous.matcher_rule}")
+                buyer_question = ambiguous.question or buyer_question
             return ItemRecord(
                 source_index=source_index, rfq_id=rfq_id,
                 original_text=original_text, item_index=item.item_index,
@@ -239,7 +262,8 @@ class Pipeline:
                 validator=validated, final_external_code=final_id,
                 final_status=final_status, expected_external_code=expected,
                 action=action, action_reason=action_reason,
-                buyer_question=question_for(action, action_reason),
+                buyer_question=buyer_question,
+                ambiguous_term=ambiguous.term if ambiguous else None,
                 search_phrases=list(item.search_phrases),
                 is_part_request=item.is_part_request,
                 encoding_warning=item.encoding_warning,

@@ -62,7 +62,7 @@ python run_test.py --max-requests 5
 
 | файл | что в нём на самом деле | используется |
 |---|---|---|
-| `AVTOZAP_slovar_FINAL_31avg_v4.xlsx` (поставка 01.09.2026) | **571 деталь**, 4651 термин | **да — источник истины**, лежит как `data/AVTOZAP_slovar_FINAL_571.xlsx` |
+| `AVTOZAP_slovar_FINAL_v7.xlsx` (поставка v7) | **571 деталь**, 4644 термина, лист `AMBIGUOUS_RULES` | **да — источник истины**, лежит как `data/AVTOZAP_slovar_FINAL_571.xlsx` |
 | `02_DATA/SLOVAR_FINAL_541_REFERENCE.txt` | вопреки имени — **435 деталей**, без флагов side/position | нет |
 | `02_DATA/parts_synonyms_cleaned_v2.xlsx` | **537 деталей** — та самая «старая» версия | нет |
 | `01_PIPELINE/ARBITER_V3_PROMPT.txt` | настоящий V3 | **да, байт в байт** |
@@ -270,11 +270,11 @@ python scripts/build_fresh300_input.py
 python -m pytest tests/ -q
 ```
 
-347 тестов, сети не требуют.
+373 теста, сети не требуют.
 
 | файл | что покрывает |
 |---|---|
-| `test_dictionary.py` | 541 деталь, четыре недостающих кода, индекс терминов |
+| `test_dictionary.py` | 571 деталь, недостающие коды, индекс терминов |
 | `test_vendor_integrity.py` | код проекта в `vendor/` не переписан |
 | `test_retriever.py` | воспроизведение ссылочных shortlist, полнота ≥ 90%, реальность кандидатов |
 | `test_segmenter.py` | заморозка промпта Layer 0, разбор, запасной вариант |
@@ -288,6 +288,7 @@ python -m pytest tests/ -q
 | `test_live_run_fixes.py` | регрессии живого прогона: обрыв, кодировка, ложные multi-part, дорезка |
 | `test_ranking_and_lubricants.py` | правило вязкости и ранжирование по головному слову |
 | `test_etalon_policy.py` | правило подсчёта эталона, дубли кодов, политика порога |
+| `test_ambiguity.py` | неоднозначные термины v7: сверка с листом словаря, «голый» термин, вопрос вместо ответа |
 | `test_matcher.py`, `test_category.py`, `test_integrity.py` | прежний словарный матчер (в новом конвейере не участвует) |
 
 Дополнительно:
@@ -420,7 +421,7 @@ python run_test.py --max-requests 5
 PROGON_ETALON_469.py              прогон эталона 469 одной командой
 run_test.py                       точка входа
 avtozap/
-  dictionary.py                   словарь 541 — источник истины по external_code
+  dictionary.py                   словарь 571 — источник истины по external_code
   retriever.py                    адаптер над поставленным Retriever V2
   segmenter.py                    Layer 0, LLM PASS A по промпту проекта
   layer0.py                       детерминированный запасной сегментатор
@@ -428,6 +429,7 @@ avtozap/
   photo.py                        слой фото-доказательств
   arbiter.py                      Arbiter V3 (замороженный промпт)
   validator.py                    правила V1–V7
+  ambiguity.py                    неоднозначные термины словаря: вопрос вместо кода
   pipeline.py                     сборка конвейера и разбор слабого звена
   llm.py                          клиент OpenAI: ретраи, backoff, таймауты
   io_utils.py, report.py          ввод/вывод и отчёты
