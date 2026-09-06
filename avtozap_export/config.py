@@ -17,6 +17,8 @@ LOG_DIR = APP_DIR / "logs"
 
 USERNAME_KEY = "AVTOZAP_USERNAME"
 PASSWORD_KEY = "AVTOZAP_PASSWORD"
+OPENAI_KEY_NAME = "OPENAI_API_KEY"
+OPENAI_MODEL_NAME = "OPENAI_MODEL"
 
 BASE_URL = "https://api.avtozap.pro/admin"
 LOGIN_PATH = "/auth/login"
@@ -66,22 +68,40 @@ def get_credentials(path: Path | None = None) -> tuple[str, str] | None:
 
 def save_credentials(username: str, password: str, path: Path | None = None) -> None:
     """Сохранить логин и пароль в ``.env``, не трогая остальные строки."""
-    path = path or ENV_PATH
     values = read_env(path)
     values[USERNAME_KEY] = username
     values[PASSWORD_KEY] = password
+    write_env(values, path)  # на Windows прав может не быть — это не ошибка
+
+
+def write_env(values: dict[str, str], path: Path | None = None) -> None:
+    """Переписать ``.env`` целиком: логин и пароль сверху, остальное следом."""
+    path = path or ENV_PATH
+    values = dict(values)
     lines = [
-        "# Доступ в админку АвтоЗап. Этот файл никому не показывайте.",
-        f"{USERNAME_KEY}={values.pop(USERNAME_KEY)}",
-        f"{PASSWORD_KEY}={values.pop(PASSWORD_KEY)}",
+        "# Доступ в админку АвтоЗап и ключ OpenAI. Этот файл никому не показывайте.",
+        f"{USERNAME_KEY}={values.pop(USERNAME_KEY, '')}",
+        f"{PASSWORD_KEY}={values.pop(PASSWORD_KEY, '')}",
     ]
-    lines.extend(f"{key}={value}" for key, value in values.items())
+    lines.extend(f"{key}={item}" for key, item in values.items())
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     try:
         path.chmod(0o600)
     except OSError:
         pass  # на Windows прав может не быть — это не ошибка
+
+
+def save_value(name: str, value: str, path: Path | None = None) -> None:
+    """Записать одну строку в ``.env``, не трогая остальные."""
+    values = read_env(path)
+    values[name] = value
+    write_env(values, path)
+
+
+def get_model(path: Path | None = None) -> str:
+    """Какую модель OpenAI просить. Пусто — программа выберет сама."""
+    return read_env(path).get(OPENAI_MODEL_NAME, "").strip()
 
 
 def ensure_dirs() -> None:

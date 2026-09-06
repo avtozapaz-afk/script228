@@ -14,6 +14,7 @@ from typing import Callable, Sequence
 
 from . import config
 from .api import AdminClient, ApiError, NetworkError, Stopped
+from .qa import save_manifest
 from .core import (
     build_summary,
     count_stores,
@@ -113,6 +114,7 @@ def run_export(
 
     result = ExportResult(out_dir=out_dir)
     total_sections = max(1, len(options.sections))
+    manifest: list[dict] = []  # что и за какой период скачано — пригодится для вопросов
 
     def say(text: str, fraction: float | None) -> None:
         if progress:
@@ -187,6 +189,17 @@ def run_export(
         result.sections.append(
             SectionResult(key=key, label=label, count=len(rows), file=csv_path, extra=extra)
         )
+        if csv_path is not None:
+            manifest.append(
+                {
+                    "ключ": key,
+                    "файл": csv_path.name,
+                    "с": options.date_from.isoformat() if options.date_from else None,
+                    "по": options.date_to.isoformat() if options.date_to else None,
+                    "фильтр_цены": options.price_filter if key == "offers" else "all",
+                    "строк": len(rows),
+                }
+            )
         say(f"Готов раздел «{label}»", (base + step) * 100)
 
         if stopped_here:
@@ -213,6 +226,7 @@ def run_export(
         (out_dir / "сводка.txt").write_text(result.summary + "\n", encoding="utf-8-sig")
     except OSError:
         pass
+    save_manifest(out_dir, manifest)
 
     say("Готово", 100.0)
     return result

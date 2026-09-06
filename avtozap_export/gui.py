@@ -17,7 +17,8 @@ import tkinter.font as tkfont
 from pathlib import Path
 from tkinter import messagebox, ttk
 
-from . import config, discovery
+from . import ai, config, discovery, qa
+from .ai import AiClient, AiError, NoKey
 from .api import AdminClient, ApiError, AuthError, NetworkError, Stopped
 from .exporter import ExportOptions, ExportResult, period_bounds, run_export
 from .logging_setup import setup as setup_logging
@@ -126,8 +127,11 @@ class ClipboardHelper:
         elif code in self.codes["cut"] or key == "x":
             self.cut(event.widget)
         elif code in self.codes["all"] or key == "a":
-            event.widget.select_range(0, "end")
-            event.widget.icursor("end")
+            if isinstance(event.widget, tk.Text):
+                event.widget.tag_add("sel", "1.0", "end-1c")
+            else:
+                event.widget.select_range(0, "end")
+                event.widget.icursor("end")
         else:
             return None
         return "break"  # не даём системе вставить второй раз
@@ -141,28 +145,39 @@ class ClipboardHelper:
             self.menu.grab_release()
         return "break"
 
-    def paste(self, entry) -> None:
-        if entry is None:
+    @staticmethod
+    def _has_selection(widget) -> bool:
+        if isinstance(widget, tk.Text):
+            return bool(widget.tag_ranges("sel"))
+        return bool(widget.selection_present())
+
+    def paste(self, widget) -> None:
+        if widget is None:
             return
         try:
-            text = clean_pasted(entry.clipboard_get())
+            text = clean_pasted(widget.clipboard_get())
         except tk.TclError:
             return  # в буфере обмена пусто или лежит не текст
-        if entry.selection_present():
-            entry.delete("sel.first", "sel.last")
-        entry.insert("insert", text)
+        if self._has_selection(widget):
+            widget.delete("sel.first", "sel.last")
+        widget.insert("insert", text)
 
-    def copy(self, entry) -> None:
-        if entry is None or not entry.selection_present():
+    def copy(self, widget) -> None:
+        if widget is None or not self._has_selection(widget):
             return
-        entry.clipboard_clear()
-        entry.clipboard_append(entry.selection_get())
+        text = (
+            widget.get("sel.first", "sel.last")
+            if isinstance(widget, tk.Text)
+            else widget.selection_get()
+        )
+        widget.clipboard_clear()
+        widget.clipboard_append(text)
 
-    def cut(self, entry) -> None:
-        if entry is None or not entry.selection_present():
+    def cut(self, widget) -> None:
+        if widget is None or not self._has_selection(widget):
             return
-        self.copy(entry)
-        entry.delete("sel.first", "sel.last")
+        self.copy(widget)
+        widget.delete("sel.first", "sel.last")
 
 
 class CredentialsDialog(tk.Toplevel):
@@ -250,6 +265,75 @@ class CredentialsDialog(tk.Toplevel):
         self.destroy()
 
 
+
+class KeyDialog(tk.Toplevel):
+    """Окошко «вставьте ключ OpenAI»."""
+
+    def __init__(self, master, font) -> None:
+        super().__init__(master)
+        self.title("Ключ для разбора вопросов")
+        self.resizable(False, False)
+        self.result: str | None = None
+        self.transient(master)
+        self.grab_set()
+
+        frame = ttk.Frame(self, padding=24)
+        frame.pack(fill="both", expand=True)
+
+        ttk.Label(
+            frame,
+            text=(
+                "Чтобы отвечать на вопросы обычными словами,\n"
+                "программе нужен ключ OpenAI.\n"
+                "Вставьте его сюда — он сохранится на этом компьютере."
+            ),
+            font=font,
+            justify="left",
+        ).grid(row=0, column=0, sticky="w", pady=(0, 16))
+
+        self.key = ttk.Entry(frame, font=font, width=46, show=HIDDEN_CHAR)
+        self.key.grid(row=1, column=0, sticky="ew")
+
+        self.show_key = tk.BooleanVar(value=False)
+        ttk.Checkbutton(
+            frame, text="Показать ключ", variable=self.show_key, command=self._toggle
+        ).grid(row=2, column=0, sticky="w", pady=(8, 0))
+
+        ttk.Label(
+            frame,
+            text="Вставить: Ctrl+V или правой кнопкой мыши → «Вставить»",
+            foreground="#555555",
+        ).grid(row=3, column=0, sticky="w", pady=(6, 0))
+
+        self.clipboard = ClipboardHelper(self)
+        self.clipboard.attach(self.key)
+
+        buttons = ttk.Frame(frame)
+        buttons.grid(row=4, column=0, sticky="e", pady=(20, 0))
+        ttk.Button(buttons, text="Отмена", command=self._cancel).pack(side="right", padx=(8, 0))
+        ttk.Button(buttons, text="Сохранить", command=self._save).pack(side="right")
+
+        self.bind("<Return>", lambda _event: self._save())
+        self.bind("<Escape>", lambda _event: self._cancel())
+        self.key.focus_set()
+        self.update_idletasks()
+
+    def _toggle(self) -> None:
+        self.key.configure(show="" if self.show_key.get() else HIDDEN_CHAR)
+
+    def _save(self) -> None:
+        value = self.key.get().strip()
+        if not value:
+            messagebox.showwarning("Пусто", "Вставьте ключ.", parent=self)
+            return
+        self.result = value
+        self.destroy()
+
+    def _cancel(self) -> None:
+        self.result = None
+        self.destroy()
+
+
 class App(tk.Tk):
     """Главное окно."""
 
@@ -277,6 +361,9 @@ class App(tk.Tk):
         self.sections: list[dict] = []
         self.section_vars: dict[str, tk.BooleanVar] = {}
         self.last_result: ExportResult | None = None
+        self.last_folder: Path | None = None
+        self.qa_store: qa.DataStore | None = None
+        self.pending_question = ""
         self.busy = False
 
         self.period_var = tk.StringVar(value="today")
@@ -454,6 +541,33 @@ class App(tk.Tk):
         )
         self._show_result_buttons(False)
 
+        self._build_question(right)
+
+    def _build_question(self, right) -> None:
+        """Поле «спросите обычными словами» под областью результата."""
+        ask = ttk.Labelframe(right, text="Спросите обычными словами", padding=10)
+        ask.grid(row=3, column=0, sticky="ew", pady=(12, 0))
+        ask.columnconfigure(0, weight=1)
+
+        self.question = tk.Text(ask, height=2, wrap="word", font=self.font_base, relief="solid",
+                                borderwidth=1, padx=8, pady=6, highlightthickness=0)
+        self.question.grid(row=0, column=0, sticky="ew")
+        self.clipboard.attach(self.question)
+
+        self.ask_button = ttk.Button(ask, text="Спросить", command=self.start_question)
+        self.ask_button.grid(row=0, column=1, sticky="ns", padx=(10, 0))
+
+        ttk.Label(
+            ask,
+            text="Например: сколько откликов дал магазин «Автомир» за неделю. "
+                 "Enter — задать вопрос, Shift+Enter — новая строка.",
+            foreground="#555555",
+            wraplength=640,
+        ).grid(row=1, column=0, columnspan=2, sticky="w", pady=(8, 0))
+
+        self.question.bind("<Return>", self._on_question_enter)
+        self.question.bind("<KP_Enter>", self._on_question_enter)
+
     def _build_bottom(self) -> None:
         bottom = ttk.Frame(self, padding=(16, 6, 16, 16))
         bottom.grid(row=2, column=0, columnspan=2, sticky="ew")
@@ -513,6 +627,20 @@ class App(tk.Tk):
         self.summary_text.insert("1.0", text)
         self.summary_text.configure(state="disabled")
 
+    def _append_summary(self, text: str) -> None:
+        """Дописать в область результата, не стирая прошлое."""
+        self.summary_text.configure(state="normal")
+        if self.summary_text.get("1.0", "end").strip():
+            self.summary_text.insert("end", "\n\n" + "─" * 40 + "\n\n")
+        self.summary_text.insert("end", text)
+        self.summary_text.configure(state="disabled")
+        # Прокручиваем в самый низ: свежий ответ всегда должен быть виден.
+        # Повтор с задержкой — на случай, если высота области ещё меняется
+        # (например, только что появились кнопки под ней).
+        self.summary_text.yview_moveto(1.0)
+        self.summary_text.after_idle(lambda: self.summary_text.yview_moveto(1.0))
+        self.summary_text.after(60, lambda: self.summary_text.yview_moveto(1.0))
+
     def _show_result_buttons(self, visible: bool) -> None:
         if visible:
             self.open_button.pack(side="left")
@@ -521,24 +649,34 @@ class App(tk.Tk):
             self.open_button.pack_forget()
             self.again_button.pack_forget()
 
-    def _set_busy(self, busy: bool) -> None:
+    def _set_busy(self, busy: bool, *, running: bool = False) -> None:
+        """Переключить окно между «жду команды» и «работаю».
+
+        ``running`` — когда шагов не сосчитать (поиск ответа): полоса просто бежит.
+        """
         self.busy = busy
+        self.progress.stop()
         if busy:
             self.action_frame.grid_remove()
             self.progress_frame.grid(row=0, column=0, sticky="ew")
-            self.progress.configure(value=0)
+            self.progress.configure(mode="indeterminate" if running else "determinate", value=0)
+            if running:
+                self.progress.start(15)
             self.refresh_button.state(["disabled"])
+            self.ask_button.state(["disabled"])
         else:
+            self.progress.configure(mode="determinate", value=0)
             self.progress_frame.grid_remove()
             self.action_frame.grid(row=0, column=0, sticky="ew")
             self.refresh_button.state(["!disabled"])
+            self.ask_button.state(["!disabled"])
 
     def _set_all(self, value: bool) -> None:
         for var in self.section_vars.values():
             var.set(value)
 
     def _open_result_folder(self) -> None:
-        folder = self.last_result.out_dir if self.last_result else config.DATA_DIR
+        folder = self.last_folder or (self.last_result.out_dir if self.last_result else config.DATA_DIR)
         try:
             open_folder(folder)
         except Exception:  # разные системы — разные проводники
@@ -622,19 +760,19 @@ class App(tk.Tk):
         self.stop_event = threading.Event()
         return AdminClient(*credentials, logger=self.log, stop_event=self.stop_event)
 
-    def _start_worker(self, target, status: str) -> None:
+    def _start_worker(self, target, status: str, *, running: bool = False) -> None:
         if self.busy:
             return
         client = self._make_client()
         if client is None:
             return
-        self._set_busy(True)
+        self._set_busy(True, running=running)
         self.status_label.configure(text=status)
-        self._show_result_buttons(False)
         self.worker = threading.Thread(target=target, args=(client,), daemon=True)
         self.worker.start()
 
     def start_discovery(self) -> None:
+        self._show_result_buttons(False)
         self._set_summary("Ищу разделы админки…")
         self._start_worker(self._worker_discovery, "Проверяю адреса разделов…")
 
@@ -674,8 +812,78 @@ class App(tk.Tk):
             date_to=date_to,
             price_filter=self.price_var.get(),
         )
+        self._show_result_buttons(False)
         self._set_summary("Выгружаю…")
         self._start_worker(self._worker_export, "Захожу в админку…")
+
+    # ------------------------------------------------------------- вопросы
+
+    def _on_question_enter(self, event):
+        """Enter отправляет вопрос, Shift+Enter переводит строку."""
+        if event.state & 0x0001:  # зажат Shift
+            return None
+        self.start_question()
+        return "break"
+
+    def _ask_key(self) -> bool:
+        """Спросить ключ OpenAI и сохранить его в .env."""
+        dialog = KeyDialog(self, self.font_base)
+        self.wait_window(dialog)
+        if not dialog.result:
+            return False
+        ai.save_key(dialog.result)
+        self.log.info("Ключ для разбора вопросов сохранён")
+        return True
+
+    def start_question(self) -> None:
+        """Задать вопрос: проверить всё нужное и уйти считать в поток."""
+        if self.busy:
+            return
+        question = self.question.get("1.0", "end").strip()
+        if not question:
+            self.question.focus_set()
+            return
+        if not self.sections:
+            messagebox.showinfo(
+                "Нужен список разделов",
+                "Сначала нажмите «Обновить список разделов» — программе нужно знать,\n"
+                "где искать ответ.",
+                parent=self,
+            )
+            return
+        if ai.get_key() is None and not self._ask_key():
+            return
+
+        self.pending_question = question
+        self._append_summary(f"Вы спросили: {question}")
+        self.question.delete("1.0", "end")
+        self._start_worker(self._worker_question, "Ищу ответ…", running=True)
+
+    def _worker_question(self, client: AdminClient) -> None:
+        question = self.pending_question
+        try:
+            brain = AiClient(
+                ai.get_key() or "",
+                model=config.get_model(),
+                logger=self.log,
+                stop_event=self.stop_event,
+            )
+            if self.qa_store is None:
+                self.qa_store = qa.DataStore(client, self.sections, logger=self.log)
+            else:
+                self.qa_store.attach(client)
+                self.qa_store.sections = {item["key"]: item for item in self.sections}
+            answer = qa.answer_question(question, self.qa_store, brain, logger=self.log)
+            self.queue.put(("answer", answer, None))
+        except Stopped:
+            self.queue.put(("stopped_question", None, None))
+        except NoKey:
+            self.queue.put(("error", "Не сохранён ключ для разбора вопросов", False))
+        except (AiError, AuthError, NetworkError, ApiError) as error:
+            self.queue.put(("answer_error", str(error), isinstance(error, AuthError)))
+        except Exception as error:
+            self.log.exception("Сбой при ответе на вопрос")
+            self.queue.put(("answer_error", f"Не смог ответить: {error}", False))
 
     def _on_stop(self) -> None:
         self.stop_event.set()
@@ -750,6 +958,18 @@ class App(tk.Tk):
                 elif kind == "stopped_discovery":
                     self._set_busy(False)
                     self._set_summary("Остановлено. Всё, что успели скачать, сохранено.")
+                elif kind == "stopped_question":
+                    self._set_busy(False)
+                    self.stop_button.state(["!disabled"])
+                    self._append_summary("Поиск ответа остановлен.")
+                elif kind == "answer":
+                    self._finish_answer(payload)
+                elif kind == "answer_error":
+                    self._set_busy(False)
+                    self.stop_button.state(["!disabled"])
+                    self._append_summary(payload)
+                    if extra:
+                        self._ask_credentials()
                 elif kind == "error":
                     self._set_busy(False)
                     self._set_summary(payload)
@@ -761,8 +981,22 @@ class App(tk.Tk):
         finally:
             self.after(100, self._pump)
 
+    def _finish_answer(self, answer: qa.Answer) -> None:
+        """Показать ответ и, если он в виде таблицы, дать открыть папку."""
+        self._set_busy(False)
+        self.stop_button.state(["!disabled"])
+        # Кнопки показываем до текста: иначе они сдвинут область уже после прокрутки.
+        if answer.table_path is not None:
+            self.last_folder = answer.table_path.parent
+            self._show_result_buttons(True)
+        self._append_summary(answer.text)
+        self.question.focus_set()
+
     def _finish_export(self, result: ExportResult) -> None:
         self.last_result = result
+        self.last_folder = result.out_dir
+        if self.qa_store is not None:
+            self.qa_store.out_dir = result.out_dir
         self._set_busy(False)
         self.stop_button.state(["!disabled"])
         text = result.summary + f"\n\nФайлы лежат в папке:\n{result.out_dir}"

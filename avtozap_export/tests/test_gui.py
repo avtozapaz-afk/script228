@@ -15,7 +15,7 @@ if not (os.environ.get("DISPLAY") or sys.platform.startswith("win") or sys.platf
 
 import tkinter as tk  # noqa: E402
 
-from avtozap_export import config, discovery  # noqa: E402
+from avtozap_export import config, discovery, qa  # noqa: E402
 from avtozap_export.exporter import ExportResult, SectionResult  # noqa: E402
 from avtozap_export import gui  # noqa: E402
 from avtozap_export.gui import App, CredentialsDialog, parse_user_date  # noqa: E402
@@ -284,3 +284,140 @@ def test_date_fields_also_accept_paste(app):
     app.date_from_entry.delete(0, "end")
     app.clipboard.paste(app.date_from_entry)
     assert app.date_from_var.get() == "01.09.2026"
+
+
+# ── поле вопроса ─────────────────────────────────────────────────────────────
+class FakeKeyPress:
+    def __init__(self, state=0):
+        self.state = state
+
+
+def test_enter_sends_the_question_and_shift_enter_does_not(app, monkeypatch):
+    sent = []
+    monkeypatch.setattr(app, "start_question", lambda: sent.append(True))
+
+    assert app._on_question_enter(FakeKeyPress(state=0)) == "break"
+    assert sent == [True]
+
+    assert app._on_question_enter(FakeKeyPress(state=0x0001)) is None  # Shift+Enter
+    assert sent == [True]
+
+
+def test_empty_question_is_ignored(app, monkeypatch):
+    started = []
+    monkeypatch.setattr(app, "_start_worker", lambda *a, **k: started.append(True))
+    app.question.delete("1.0", "end")
+    app.start_question()
+    assert started == []
+
+
+def test_question_without_sections_explains_what_to_do(app, monkeypatch):
+    shown = {}
+    monkeypatch.setattr(
+        "avtozap_export.gui.messagebox.showinfo",
+        lambda title, message, **kwargs: shown.update(title=title),
+    )
+    monkeypatch.setattr(app, "_start_worker", lambda *a, **k: shown.update(started=True))
+    app.sections = []
+    app.question.insert("1.0", "сколько заявок за неделю")
+    app.start_question()
+
+    assert shown.get("title") == "Нужен список разделов"
+    assert "started" not in shown
+
+
+def test_asking_shows_the_question_and_clears_the_field(app, monkeypatch):
+    monkeypatch.setattr("avtozap_export.gui.ai.get_key", lambda: "sk-ключ")
+    monkeypatch.setattr(app, "_start_worker", lambda *a, **k: None)
+    app.question.insert("1.0", "сколько новых пользователей за вчера")
+    app.start_question()
+    pump(app)
+
+    assert "сколько новых пользователей за вчера" in app.summary_text.get("1.0", "end")
+    assert app.question.get("1.0", "end").strip() == ""
+    assert app.pending_question == "сколько новых пользователей за вчера"
+
+
+def test_answers_pile_up_as_history(app):
+    app._append_summary("Вы спросили: раз")
+    app._append_summary("Ответ один")
+    app._append_summary("Ответ два")
+    text = app.summary_text.get("1.0", "end")
+    assert "Ответ один" in text and "Ответ два" in text
+    assert text.index("Ответ один") < text.index("Ответ два")
+
+
+def test_answer_with_a_file_offers_to_open_the_folder(app, tmp_path):
+    table = tmp_path / "детали.csv"
+    table.write_text("id\n1\n", encoding="utf-8-sig")
+    answer = qa.Answer(text="Всего деталей: 3.", table_path=table, table_rows=3)
+
+    app._set_busy(True, running=True)
+    app.queue.put(("answer", answer, None))
+    app._pump()
+    pump(app)
+
+    assert "Всего деталей: 3." in app.summary_text.get("1.0", "end")
+    assert app.open_button.winfo_ismapped()
+    assert app.last_folder == tmp_path
+    assert not app.busy
+
+
+def test_answer_without_a_file_keeps_the_window_clean(app):
+    app._set_busy(True, running=True)
+    app.queue.put(("answer", qa.Answer(text="Вчера пришло 24 новых пользователя."), None))
+    app._pump()
+    pump(app)
+
+    assert "24" in app.summary_text.get("1.0", "end")
+    assert not app.open_button.winfo_ismapped()
+
+
+def test_failed_question_is_reported_in_the_same_area(app):
+    app._set_busy(True, running=True)
+    app.queue.put(("answer_error", "Ключ OpenAI не подошёл — проверьте его", False))
+    app._pump()
+    pump(app)
+
+    assert "Ключ OpenAI не подошёл" in app.summary_text.get("1.0", "end")
+    assert not app.busy
+
+
+def test_stopped_question_says_so(app):
+    app._set_busy(True, running=True)
+    app.queue.put(("stopped_question", None, None))
+    app._pump()
+    pump(app)
+    assert "остановлен" in app.summary_text.get("1.0", "end").lower()
+
+
+def test_key_dialog_hides_the_key_until_asked(app):
+    dialog = gui.KeyDialog(app, app.font_base)
+    pump(app)
+    assert dialog.key.cget("show") == "•"
+
+    dialog.show_key.set(True)
+    dialog._toggle()
+    assert dialog.key.cget("show") == ""
+
+    dialog.key.insert(0, "sk-ключ")
+    dialog._save()
+    assert dialog.result == "sk-ключ"
+
+
+def test_key_dialog_accepts_paste(app):
+    dialog = gui.KeyDialog(app, app.font_base)
+    pump(app)
+    app.clipboard_clear()
+    app.clipboard_append("sk-из-буфера\n")
+    dialog.clipboard.paste(dialog.key)
+    assert dialog.key.get() == "sk-из-буфера"
+    dialog.destroy()
+
+
+def test_question_field_accepts_paste(app):
+    app.clipboard_clear()
+    app.clipboard_append("сколько откликов у магазина «Автомир»")
+    app.question.delete("1.0", "end")
+    app.clipboard.paste(app.question)
+    assert "Автомир" in app.question.get("1.0", "end")
