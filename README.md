@@ -276,3 +276,20 @@ build_html.py     regenerates the offline interactive matcher_tool.html
 matcher_tool.html self-contained offline interactive funnel demo
 tests/            pytest regression suite
 ```
+
+---
+
+## Also in this repository: `avtozap_export/`
+
+A separate, self-contained desktop program (Python + tkinter) that logs into the
+AVTOZAP admin API, downloads the selected sections into CSV files and shows a
+short summary. Read-only — it never writes, changes or deletes anything.
+
+It shares nothing with the matcher above; see
+[`avtozap_export/README.md`](avtozap_export/README.md) (in Russian, written for
+a non-technical user).
+
+```bash
+python -m avtozap_export                  # open the window
+python -m pytest avtozap_export/tests -q  # its own tests (no network needed)
+```

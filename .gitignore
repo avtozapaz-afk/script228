@@ -3,3 +3,9 @@ __pycache__/
 .pytest_cache/
 .venv/
 venv/
+
+# Программа выгрузки: пароли, выгруженные файлы и служебные данные
+avtozap_export/.env
+avtozap_export/data/
+avtozap_export/logs/
+avtozap_export/endpoints.json
