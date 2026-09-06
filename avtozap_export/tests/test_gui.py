@@ -17,6 +17,7 @@ import tkinter as tk  # noqa: E402
 
 from avtozap_export import config, discovery  # noqa: E402
 from avtozap_export.exporter import ExportResult, SectionResult  # noqa: E402
+from avtozap_export import gui  # noqa: E402
 from avtozap_export.gui import App, CredentialsDialog, parse_user_date  # noqa: E402
 
 SECTIONS = [
@@ -176,3 +177,110 @@ def test_parse_user_date(text, expected):
 def test_parse_user_date_rejects_nonsense():
     assert parse_user_date("позавчера") is None
     assert parse_user_date("") is None
+
+
+# ── пароль: показать и вставить ──────────────────────────────────────────────
+@pytest.fixture
+def dialog(app):
+    window = CredentialsDialog(app, app.font_base)
+    pump(app)
+    yield window
+    if window.winfo_exists():
+        window.destroy()
+
+
+def test_password_is_hidden_until_the_checkbox_is_ticked(dialog):
+    assert dialog.password.cget("show") == "•"
+
+    dialog.show_password.set(True)
+    dialog._toggle_password()
+    assert dialog.password.cget("show") == ""
+
+    dialog.show_password.set(False)
+    dialog._toggle_password()
+    assert dialog.password.cget("show") == "•"
+
+
+def test_paste_puts_clipboard_text_into_the_field(app, dialog):
+    app.clipboard_clear()
+    app.clipboard_append("пароль-из-буфера")
+    dialog.clipboard.paste(dialog.password)
+    assert dialog.password.get() == "пароль-из-буфера"
+
+
+def test_paste_strips_line_breaks(app, dialog):
+    app.clipboard_clear()
+    app.clipboard_append("пароль\n")
+    dialog.clipboard.paste(dialog.password)
+    assert dialog.password.get() == "пароль"
+
+
+def test_paste_replaces_what_was_selected(app, dialog):
+    dialog.password.insert(0, "старое")
+    dialog.password.select_range(0, "end")
+    app.clipboard_clear()
+    app.clipboard_append("новое")
+    dialog.clipboard.paste(dialog.password)
+    assert dialog.password.get() == "новое"
+
+
+def test_paste_into_empty_clipboard_does_nothing(app, dialog):
+    app.clipboard_clear()
+    dialog.password.insert(0, "уже набрано")
+    dialog.clipboard.paste(dialog.password)
+    assert dialog.password.get() == "уже набрано"
+
+
+class FakeKey:
+    """Нажатие клавиши: код от неё не зависит от раскладки, а буква зависит."""
+
+    def __init__(self, widget, keycode, keysym):
+        self.widget = widget
+        self.keycode = keycode
+        self.keysym = keysym
+
+
+def test_ctrl_v_works_in_russian_layout(app, dialog):
+    """При русской раскладке Ctrl+V приходит как «Ctrl+м» — вставка обязана сработать."""
+    app.clipboard_clear()
+    app.clipboard_append("вставлено")
+    codes = next(iter(gui.clipboard_keycodes()["paste"]))
+    handled = dialog.clipboard._on_control_key(FakeKey(dialog.password, codes, "Cyrillic_em"))
+    assert handled == "break"  # системную вставку глушим, чтобы не было двойной
+    assert dialog.password.get() == "вставлено"
+
+
+def test_ctrl_v_works_in_latin_layout(app, dialog):
+    app.clipboard_clear()
+    app.clipboard_append("вставлено")
+    dialog.clipboard._on_control_key(FakeKey(dialog.password, 0, "v"))
+    assert dialog.password.get() == "вставлено"
+
+
+def test_ctrl_c_copies_selection(app, dialog):
+    app.clipboard_clear()
+    dialog.username.insert(0, "менеджер")
+    dialog.username.select_range(0, "end")
+    dialog.clipboard._on_control_key(FakeKey(dialog.username, 0, "c"))
+    assert app.clipboard_get() == "менеджер"
+
+
+def test_ctrl_a_selects_everything(dialog):
+    dialog.username.insert(0, "менеджер")
+    dialog.clipboard._on_control_key(FakeKey(dialog.username, 0, "a"))
+    assert dialog.username.selection_present()
+    assert dialog.username.selection_get() == "менеджер"
+
+
+def test_other_control_keys_are_left_alone(dialog):
+    assert dialog.clipboard._on_control_key(FakeKey(dialog.username, 0, "s")) is None
+
+
+def test_date_fields_also_accept_paste(app):
+    app.clipboard_clear()
+    app.clipboard_append("01.09.2026")
+    app.period_var.set("custom")
+    app._on_period_change()
+    app.date_from_entry.delete(0, "end")
+    app.clipboard.paste(app.date_from_entry)
+    assert app.date_from_var.get() == "01.09.2026"

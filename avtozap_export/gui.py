@@ -24,6 +24,9 @@ from .logging_setup import setup as setup_logging
 
 WINDOW_TITLE = "Выгрузка данных из админки АвтоЗап"
 
+# Чем закрыт пароль в поле ввода.
+HIDDEN_CHAR = "•"
+
 PERIODS = (
     ("today", "За сегодня"),
     ("yesterday", "За вчера"),
@@ -77,6 +80,91 @@ def parse_user_date(text: str) -> dt.date | None:
     return None
 
 
+def clipboard_keycodes() -> dict[str, set[int]]:
+    """Коды клавиш C, V, X, A — они не зависят от раскладки клавиатуры.
+
+    При русской раскладке Ctrl+V приходит в программу как «Ctrl+м», поэтому
+    по букве его не поймать: смотрим именно на код клавиши.
+    """
+    if sys.platform.startswith("win"):
+        return {"paste": {86}, "copy": {67}, "cut": {88}, "all": {65}}
+    return {"paste": {55}, "copy": {54}, "cut": {53}, "all": {38}}
+
+
+def clean_pasted(text: str) -> str:
+    """Убрать из вставленного текста переносы строк и табуляции."""
+    return "".join(char for char in text if char not in "\r\n\t")
+
+
+class ClipboardHelper:
+    """Ctrl+C / Ctrl+V / Ctrl+X и меню по правой кнопке — в любой раскладке."""
+
+    def __init__(self, widget: tk.Misc) -> None:
+        self.widget = widget
+        self.codes = clipboard_keycodes()
+        self.menu = tk.Menu(widget, tearoff=0)
+        self.menu.add_command(label="Вставить", command=lambda: self.paste(self.target))
+        self.menu.add_command(label="Копировать", command=lambda: self.copy(self.target))
+        self.menu.add_command(label="Вырезать", command=lambda: self.cut(self.target))
+        self.target: tk.Entry | None = None
+
+    def attach(self, entry) -> None:
+        """Включить горячие клавиши и меню для поля ввода."""
+        entry.bind("<Control-KeyPress>", self._on_control_key)
+        for button in ("<Button-3>", "<Button-2>"):  # правая кнопка в разных системах
+            entry.bind(button, self._on_right_click)
+        entry.bind("<Shift-Insert>", lambda event: self.paste(event.widget) or "break")
+        entry.bind("<Control-Insert>", lambda event: self.copy(event.widget) or "break")
+
+    def _on_control_key(self, event):
+        code = getattr(event, "keycode", 0)
+        key = (getattr(event, "keysym", "") or "").lower()
+        if code in self.codes["paste"] or key == "v":
+            self.paste(event.widget)
+        elif code in self.codes["copy"] or key == "c":
+            self.copy(event.widget)
+        elif code in self.codes["cut"] or key == "x":
+            self.cut(event.widget)
+        elif code in self.codes["all"] or key == "a":
+            event.widget.select_range(0, "end")
+            event.widget.icursor("end")
+        else:
+            return None
+        return "break"  # не даём системе вставить второй раз
+
+    def _on_right_click(self, event):
+        self.target = event.widget
+        event.widget.focus_set()
+        try:
+            self.menu.tk_popup(event.x_root, event.y_root)
+        finally:
+            self.menu.grab_release()
+        return "break"
+
+    def paste(self, entry) -> None:
+        if entry is None:
+            return
+        try:
+            text = clean_pasted(entry.clipboard_get())
+        except tk.TclError:
+            return  # в буфере обмена пусто или лежит не текст
+        if entry.selection_present():
+            entry.delete("sel.first", "sel.last")
+        entry.insert("insert", text)
+
+    def copy(self, entry) -> None:
+        if entry is None or not entry.selection_present():
+            return
+        entry.clipboard_clear()
+        entry.clipboard_append(entry.selection_get())
+
+    def cut(self, entry) -> None:
+        if entry is None or not entry.selection_present():
+            return
+        self.copy(entry)
+        entry.delete("sel.first", "sel.last")
+
+
 class CredentialsDialog(tk.Toplevel):
     """Окошко «введите логин и пароль от админки»."""
 
@@ -104,11 +192,29 @@ class CredentialsDialog(tk.Toplevel):
         self.username.insert(0, username)
 
         ttk.Label(frame, text="Пароль:", font=font).grid(row=2, column=0, sticky="w", pady=6)
-        self.password = ttk.Entry(frame, font=font, width=28, show="•")
+        self.password = ttk.Entry(frame, font=font, width=28, show=HIDDEN_CHAR)
         self.password.grid(row=2, column=1, sticky="ew", pady=6, padx=(12, 0))
 
+        self.show_password = tk.BooleanVar(value=False)
+        ttk.Checkbutton(
+            frame,
+            text="Показать пароль",
+            variable=self.show_password,
+            command=self._toggle_password,
+        ).grid(row=3, column=1, sticky="w", padx=(12, 0))
+
+        ttk.Label(
+            frame,
+            text="Вставить: Ctrl+V или правой кнопкой мыши → «Вставить»",
+            foreground="#555555",
+        ).grid(row=4, column=1, sticky="w", padx=(12, 0), pady=(6, 0))
+
+        self.clipboard = ClipboardHelper(self)
+        self.clipboard.attach(self.username)
+        self.clipboard.attach(self.password)
+
         buttons = ttk.Frame(frame)
-        buttons.grid(row=3, column=0, columnspan=2, sticky="e", pady=(20, 0))
+        buttons.grid(row=5, column=0, columnspan=2, sticky="e", pady=(20, 0))
         ttk.Button(buttons, text="Отмена", command=self._cancel).pack(side="right", padx=(8, 0))
         ttk.Button(buttons, text="Сохранить", command=self._save).pack(side="right")
 
@@ -117,6 +223,10 @@ class CredentialsDialog(tk.Toplevel):
         (self.username if not username else self.password).focus_set()
         self.update_idletasks()
         self._center(master)
+
+    def _toggle_password(self) -> None:
+        """Показать или снова спрятать пароль звёздочками."""
+        self.password.configure(show="" if self.show_password.get() else HIDDEN_CHAR)
 
     def _center(self, master) -> None:
         try:
@@ -239,6 +349,10 @@ class App(tk.Tk):
             self.custom_frame, textvariable=self.date_to_var, width=12, font=self.font_base
         )
         self.date_to_entry.pack(side="left")
+
+        self.clipboard = ClipboardHelper(self)
+        self.clipboard.attach(self.date_from_entry)
+        self.clipboard.attach(self.date_to_entry)
 
         price = ttk.Labelframe(top, text="Отклики: какие брать", padding=12)
         price.grid(row=1, column=0, sticky="w", pady=(10, 0))
